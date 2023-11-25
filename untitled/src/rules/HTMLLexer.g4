@@ -1,8 +1,28 @@
-lexer grammar ReactJSLexer;
-channels { ERROR }
-/*HTML*/
+lexer grammar  HTMLLexer;
+
 HTML_COMMENT
     : '<!--' .*? '-->'
+    ;
+
+HTML_CONDITIONAL_COMMENT
+    : '<![' .*? ']>'
+    ;
+
+XML
+    : '<?xml' .*? '>'
+    ;
+
+CDATA
+    : '<![CDATA[' .*? ']]>'
+    ;
+
+DTD
+    : '<!' .*? '>'
+    ;
+
+SCRIPTLET
+    : '<?' .*? '?>'
+    | '<%' .*? '%>'
     ;
 
 SEA_WS
@@ -168,9 +188,8 @@ fragment SINGLE_QUOTE_STRING
     : '\'' ~[<']* '\''
     ;
 
-
 /*JS*/
-MultiLineComment:               '/*' .*? '*/'             -> channel(HIDDEN);
+/*
 SingleLineComment:              '//' ~[\r\n\u2028\u2029]* -> channel(HIDDEN);
 
 OpenBracket:                    '[';
@@ -441,4 +460,4 @@ fragment RegularExpressionClassChar
 
 fragment RegularExpressionBackslashSequence
     : '\\' ~[\r\n\u2028\u2029]
-    ;
+    ;*/

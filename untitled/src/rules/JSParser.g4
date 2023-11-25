@@ -1,59 +1,14 @@
-parser grammar ReactJSParser;
+parser grammar JSParser;
 
-options { tokenVocab=ReactJSLexer; }
-/*HTML*/
-htmlDocument
-    : scriptletOrSeaWs* scriptletOrSeaWs* scriptletOrSeaWs* htmlElements*
-    ;
+// Insert here @header for C++ parser.
 
-scriptletOrSeaWs
-    : SEA_WS
-    ;
+options {
+    tokenVocab=JSLexer;
+    superClass=JSParserBase;
+}
 
-htmlElements
-    : htmlMisc* htmlElement htmlMisc*
-    ;
-
-htmlElement
-    : TAG_OPEN TAG_NAME htmlAttribute*
-      (TAG_CLOSE (htmlContent TAG_OPEN TAG_SLASH TAG_NAME TAG_CLOSE)? | TAG_SLASH_CLOSE)
-    | script
-    | style
-    ;
-
-htmlContent
-    : htmlChardata? ((htmlElement | htmlComment) htmlChardata?)*
-    ;
-
-htmlAttribute
-    : TAG_NAME (TAG_EQUALS ATTVALUE_VALUE)?
-    ;
-
-htmlChardata
-    : HTML_TEXT
-    | SEA_WS
-    ;
-
-htmlMisc
-    : htmlComment
-    | SEA_WS
-    ;
-
-htmlComment
-    : HTML_COMMENT
-    ;
-
-script
-    : SCRIPT_OPEN (SCRIPT_BODY | SCRIPT_SHORT_BODY)
-    ;
-
-style
-    : STYLE_OPEN (STYLE_BODY | STYLE_SHORT_BODY)
-    ;
-
-/*JS*/
 program
-    : sourceElements? EOF
+    : HashBangLine? sourceElements? EOF
     ;
 
 sourceElement
@@ -337,7 +292,9 @@ arrayElement
 propertyAssignment
     : propertyName ':' singleExpression                                             # PropertyExpressionAssignment
     | '[' singleExpression ']' ':' singleExpression                                 # ComputedPropertyExpressionAssignment
-    | propertyName '(' formalParameterList?  ')'  functionBody  # FunctionProperty
+    | Async? '*'? propertyName '(' formalParameterList?  ')'  functionBody  # FunctionProperty
+    | getter '(' ')' functionBody                                           # PropertyGetter
+    | setter '(' formalParameterArg ')' functionBody                        # PropertySetter
     | Ellipsis? singleExpression                                                    # PropertyShorthand
     ;
 
@@ -465,6 +422,7 @@ literal
     | BooleanLiteral
     | StringLiteral
     | templateStringLiteral
+    | RegularExpressionLiteral
     | numericLiteral
     | bigintLiteral
     ;
@@ -480,10 +438,17 @@ templateStringAtom
 
 numericLiteral
     : DecimalLiteral
+    | HexIntegerLiteral
+    | OctalIntegerLiteral
+    | OctalIntegerLiteral2
+    | BinaryIntegerLiteral
     ;
 
 bigintLiteral
     : BigDecimalIntegerLiteral
+    | BigHexIntegerLiteral
+    | BigOctalIntegerLiteral
+    | BigBinaryIntegerLiteral
     ;
 
 getter

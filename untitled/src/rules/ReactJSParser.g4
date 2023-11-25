@@ -1,31 +1,52 @@
-grammar ReactJSParser;
+parser grammar ReactJSParser;
 
-import ReactJSLexer;
+options { tokenVocab=ReactJSLexer; }
 
-/*
-<div>
-</div>
-
-<img/>
-*/
-prog: element EOF;
-
-body: element           #BodyElement
-    | TEXT              #Text
+htmlDocument
+    : scriptletOrSeaWs* scriptletOrSeaWs* scriptletOrSeaWs* htmlElements*
     ;
 
-element: OPEN_BRACKET ELEMENT_NAME listOfAttributes CLOSE_BRACKET body OPEN_SLASH_BRACKET ELEMENT_NAME CLOSE_BRACKET    #NormalElement
-        | OPEN_BRACKET ELEMENT_NAME attribute* CLOSE_SLASH_BRACKET                                                #SelfElement
-        ;
+scriptletOrSeaWs
+    : SEA_WS
+    ;
 
-listOfAttributes:
-                attribute*  #Attributes
-                ;
+htmlElements
+    : htmlMisc* htmlElement htmlMisc*
+    ;
 
-attribute: ATTRIBUTE_NAME '=' TEXT
-        | ATTRIBUTE_NAME '=' '\'' TEXT '\''
-        | ATTRIBUTE_NAME '=' '"' TEXT '"'
-        | attributeWithoutEqual
-        ;
+htmlElement
+    : TAG_OPEN TAG_NAME htmlAttribute*
+      (TAG_CLOSE (htmlContent TAG_OPEN TAG_SLASH TAG_NAME TAG_CLOSE)? | TAG_SLASH_CLOSE)
+    | script
+    | style
+    ;
 
-attributeWithoutEqual: ATTRIBUTE_NAME;
+htmlContent
+    : htmlChardata? ((htmlElement | htmlComment) htmlChardata?)*
+    ;
+
+htmlAttribute
+    : TAG_NAME (TAG_EQUALS ATTVALUE_VALUE)?
+    ;
+
+htmlChardata
+    : HTML_TEXT
+    | SEA_WS
+    ;
+
+htmlMisc
+    : htmlComment
+    | SEA_WS
+    ;
+
+htmlComment
+    : HTML_COMMENT
+    ;
+
+script
+    : SCRIPT_OPEN (SCRIPT_BODY | SCRIPT_SHORT_BODY)
+    ;
+
+style
+    : STYLE_OPEN (STYLE_BODY | STYLE_SHORT_BODY)
+    ;

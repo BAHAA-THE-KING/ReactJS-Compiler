@@ -1,4 +1,4 @@
-// Generated from D:/__git projects/ReactJS-Compiler/untitled/src/rules/JSParser.g4 by ANTLR 4.13.1
+// Generated from C:/Users/ASUS/Desktop/GitHub/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
 package antlrJS;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -17,17 +17,117 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(JSParser.ProgramContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#sourceElement}.
+	 * Visit a parse tree produced by the {@code BlockChunk}
+	 * labeled alternative in {@link JSParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSourceElement(JSParser.SourceElementContext ctx);
+	T visitBlockChunk(JSParser.BlockChunkContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#statement}.
+	 * Visit a parse tree produced by the {@code VariableDeclerationChunk}
+	 * labeled alternative in {@link JSParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStatement(JSParser.StatementContext ctx);
+	T visitVariableDeclerationChunk(JSParser.VariableDeclerationChunkContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ImportChunk}
+	 * labeled alternative in {@link JSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImportChunk(JSParser.ImportChunkContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExportChunk}
+	 * labeled alternative in {@link JSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExportChunk(JSParser.ExportChunkContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EmptyChunk}
+	 * labeled alternative in {@link JSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEmptyChunk(JSParser.EmptyChunkContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ClassDeclerationChunk}
+	 * labeled alternative in {@link JSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassDeclerationChunk(JSParser.ClassDeclerationChunkContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code FunctionDeclarationChunk}
+	 * labeled alternative in {@link JSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionDeclarationChunk(JSParser.FunctionDeclarationChunkContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExpressionChunk}
+	 * labeled alternative in {@link JSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressionChunk(JSParser.ExpressionChunkContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ConditionalChunk}
+	 * labeled alternative in {@link JSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConditionalChunk(JSParser.ConditionalChunkContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LoopChunk}
+	 * labeled alternative in {@link JSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLoopChunk(JSParser.LoopChunkContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ContinueChunk}
+	 * labeled alternative in {@link JSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitContinueChunk(JSParser.ContinueChunkContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BreakChunk}
+	 * labeled alternative in {@link JSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBreakChunk(JSParser.BreakChunkContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ReturnChunk}
+	 * labeled alternative in {@link JSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturnChunk(JSParser.ReturnChunkContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SwitchChunk}
+	 * labeled alternative in {@link JSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSwitchChunk(JSParser.SwitchChunkContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ThrowChunk}
+	 * labeled alternative in {@link JSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitThrowChunk(JSParser.ThrowChunkContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TryChunk}
+	 * labeled alternative in {@link JSParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTryChunk(JSParser.TryChunkContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#block}.
 	 * @param ctx the parse tree
@@ -47,11 +147,19 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitImportStatement(JSParser.ImportStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#importFromBlock}.
+	 * Visit a parse tree produced by the {@code ObjectImportBlock}
+	 * labeled alternative in {@link JSParser#importFromBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitImportFromBlock(JSParser.ImportFromBlockContext ctx);
+	T visitObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code FileImportBlock}
+	 * labeled alternative in {@link JSParser#importFromBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFileImportBlock(JSParser.FileImportBlockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#importModuleItems}.
 	 * @param ctx the parse tree
@@ -64,18 +172,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitImportAliasName(JSParser.ImportAliasNameContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#moduleExportName}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitModuleExportName(JSParser.ModuleExportNameContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#importedBinding}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitImportedBinding(JSParser.ImportedBindingContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#importDefault}.
 	 * @param ctx the parse tree
@@ -133,11 +229,26 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExportAliasName(JSParser.ExportAliasNameContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#declaration}.
+	 * Visit a parse tree produced by the {@code VariableDeclare}
+	 * labeled alternative in {@link JSParser#declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDeclaration(JSParser.DeclarationContext ctx);
+	T visitVariableDeclare(JSParser.VariableDeclareContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ClassDeclare}
+	 * labeled alternative in {@link JSParser#declaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassDeclare(JSParser.ClassDeclareContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code FunctionDeclare}
+	 * labeled alternative in {@link JSParser#declaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionDeclare(JSParser.FunctionDeclareContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#variableStatement}.
 	 * @param ctx the parse tree
@@ -157,12 +268,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariableDeclaration(JSParser.VariableDeclarationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#emptyStatement_}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEmptyStatement_(JSParser.EmptyStatement_Context ctx);
-	/**
 	 * Visit a parse tree produced by {@link JSParser#expressionStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -175,12 +280,12 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfStatement(JSParser.IfStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code DoStatement}
+	 * Visit a parse tree produced by the {@code DoWhileStatement}
 	 * labeled alternative in {@link JSParser#iterationStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDoStatement(JSParser.DoStatementContext ctx);
+	T visitDoWhileStatement(JSParser.DoWhileStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code WhileStatement}
 	 * labeled alternative in {@link JSParser#iterationStatement}.
@@ -210,11 +315,26 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitForOfStatement(JSParser.ForOfStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#varModifier}.
+	 * Visit a parse tree produced by the {@code VarKeyword}
+	 * labeled alternative in {@link JSParser#varModifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVarModifier(JSParser.VarModifierContext ctx);
+	T visitVarKeyword(JSParser.VarKeywordContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LetKeyword}
+	 * labeled alternative in {@link JSParser#varModifier}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLetKeyword(JSParser.LetKeywordContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ConstKeyword}
+	 * labeled alternative in {@link JSParser#varModifier}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstKeyword(JSParser.ConstKeywordContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#continueStatement}.
 	 * @param ctx the parse tree
@@ -233,18 +353,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitReturnStatement(JSParser.ReturnStatementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#yieldStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitYieldStatement(JSParser.YieldStatementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#withStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitWithStatement(JSParser.WithStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#switchStatement}.
 	 * @param ctx the parse tree
@@ -276,12 +384,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefaultClause(JSParser.DefaultClauseContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#labelledStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLabelledStatement(JSParser.LabelledStatementContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link JSParser#throwStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -306,12 +408,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFinallyProduction(JSParser.FinallyProductionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#debuggerStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDebuggerStatement(JSParser.DebuggerStatementContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link JSParser#functionDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -330,11 +426,26 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassTail(JSParser.ClassTailContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#classElement}.
+	 * Visit a parse tree produced by the {@code ClassMethodDefinition}
+	 * labeled alternative in {@link JSParser#classElement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitClassElement(JSParser.ClassElementContext ctx);
+	T visitClassMethodDefinition(JSParser.ClassMethodDefinitionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ClassFieldDefinition}
+	 * labeled alternative in {@link JSParser#classElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassFieldDefinition(JSParser.ClassFieldDefinitionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ClassEmptyStatement}
+	 * labeled alternative in {@link JSParser#classElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassEmptyStatement(JSParser.ClassEmptyStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#methodDefinition}.
 	 * @param ctx the parse tree
@@ -348,23 +459,19 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFieldDefinition(JSParser.FieldDefinitionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#classElementName}.
+	 * Visit a parse tree produced by the {@code NormalParameters}
+	 * labeled alternative in {@link JSParser#formalParameterList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitClassElementName(JSParser.ClassElementNameContext ctx);
+	T visitNormalParameters(JSParser.NormalParametersContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#privateIdentifier}.
+	 * Visit a parse tree produced by the {@code RestParameters}
+	 * labeled alternative in {@link JSParser#formalParameterList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPrivateIdentifier(JSParser.PrivateIdentifierContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#formalParameterList}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFormalParameterList(JSParser.FormalParameterListContext ctx);
+	T visitRestParameters(JSParser.RestParametersContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#formalParameterArg}.
 	 * @param ctx the parse tree
@@ -384,11 +491,11 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionBody(JSParser.FunctionBodyContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#sourceElements}.
+	 * Visit a parse tree produced by {@link JSParser#statements}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSourceElements(JSParser.SourceElementsContext ctx);
+	T visitStatements(JSParser.StatementsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#arrayLiteral}.
 	 * @param ctx the parse tree
@@ -429,20 +536,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionProperty(JSParser.FunctionPropertyContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code PropertyGetter}
-	 * labeled alternative in {@link JSParser#propertyAssignment}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPropertyGetter(JSParser.PropertyGetterContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code PropertySetter}
-	 * labeled alternative in {@link JSParser#propertyAssignment}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPropertySetter(JSParser.PropertySetterContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code PropertyShorthand}
 	 * labeled alternative in {@link JSParser#propertyAssignment}.
 	 * @param ctx the parse tree
@@ -450,11 +543,33 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPropertyShorthand(JSParser.PropertyShorthandContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#propertyName}.
+	 * Visit a parse tree produced by the {@code PropertyByName}
+	 * labeled alternative in {@link JSParser#propertyName}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPropertyName(JSParser.PropertyNameContext ctx);
+	T visitPropertyByName(JSParser.PropertyByNameContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code PropertyByString}
+	 * labeled alternative in {@link JSParser#propertyName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPropertyByString(JSParser.PropertyByStringContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code PropertyByNumber}
+	 * labeled alternative in {@link JSParser#propertyName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPropertyByNumber(JSParser.PropertyByNumberContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code PropertyByExpression}
+	 * labeled alternative in {@link JSParser#propertyName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPropertyByExpression(JSParser.PropertyByExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#arguments}.
 	 * @param ctx the parse tree
@@ -565,13 +680,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArgumentsExpression(JSParser.ArgumentsExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code AwaitExpression}
-	 * labeled alternative in {@link JSParser#singleExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAwaitExpression(JSParser.AwaitExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code ThisExpression}
 	 * labeled alternative in {@link JSParser#singleExpression}.
 	 * @param ctx the parse tree
@@ -614,13 +722,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTypeofExpression(JSParser.TypeofExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code InstanceofExpression}
-	 * labeled alternative in {@link JSParser#singleExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInstanceofExpression(JSParser.InstanceofExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code UnaryPlusExpression}
 	 * labeled alternative in {@link JSParser#singleExpression}.
 	 * @param ctx the parse tree
@@ -649,13 +750,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitEqualityExpression(JSParser.EqualityExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code BitXOrExpression}
-	 * labeled alternative in {@link JSParser#singleExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBitXOrExpression(JSParser.BitXOrExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code SuperExpression}
 	 * labeled alternative in {@link JSParser#singleExpression}.
 	 * @param ctx the parse tree
@@ -669,13 +763,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMultiplicativeExpression(JSParser.MultiplicativeExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code BitShiftExpression}
-	 * labeled alternative in {@link JSParser#singleExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBitShiftExpression(JSParser.BitShiftExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ParenthesizedExpression}
 	 * labeled alternative in {@link JSParser#singleExpression}.
@@ -704,20 +791,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPostIncrementExpression(JSParser.PostIncrementExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code YieldExpression}
-	 * labeled alternative in {@link JSParser#singleExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitYieldExpression(JSParser.YieldExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code BitNotExpression}
-	 * labeled alternative in {@link JSParser#singleExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBitNotExpression(JSParser.BitNotExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code NewExpression}
 	 * labeled alternative in {@link JSParser#singleExpression}.
@@ -768,33 +841,12 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIdentifierExpression(JSParser.IdentifierExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code BitAndExpression}
-	 * labeled alternative in {@link JSParser#singleExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBitAndExpression(JSParser.BitAndExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code BitOrExpression}
-	 * labeled alternative in {@link JSParser#singleExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBitOrExpression(JSParser.BitOrExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code AssignmentOperatorExpression}
 	 * labeled alternative in {@link JSParser#singleExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitAssignmentOperatorExpression(JSParser.AssignmentOperatorExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code VoidExpression}
-	 * labeled alternative in {@link JSParser#singleExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVoidExpression(JSParser.VoidExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code CoalesceExpression}
 	 * labeled alternative in {@link JSParser#singleExpression}.
@@ -809,11 +861,26 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInitializer(JSParser.InitializerContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#assignable}.
+	 * Visit a parse tree produced by the {@code VariableByName}
+	 * labeled alternative in {@link JSParser#assignable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAssignable(JSParser.AssignableContext ctx);
+	T visitVariableByName(JSParser.VariableByNameContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code VariableByArray}
+	 * labeled alternative in {@link JSParser#assignable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariableByArray(JSParser.VariableByArrayContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code VariableByObject}
+	 * labeled alternative in {@link JSParser#assignable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariableByObject(JSParser.VariableByObjectContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#objectLiteral}.
 	 * @param ctx the parse tree
@@ -835,29 +902,117 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArrowFunction(JSParser.ArrowFunctionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#arrowFunctionParameters}.
+	 * Visit a parse tree produced by the {@code OneParameter}
+	 * labeled alternative in {@link JSParser#arrowFunctionParameters}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitArrowFunctionParameters(JSParser.ArrowFunctionParametersContext ctx);
+	T visitOneParameter(JSParser.OneParameterContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#arrowFunctionBody}.
+	 * Visit a parse tree produced by the {@code ManyParameters}
+	 * labeled alternative in {@link JSParser#arrowFunctionParameters}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitArrowFunctionBody(JSParser.ArrowFunctionBodyContext ctx);
+	T visitManyParameters(JSParser.ManyParametersContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#assignmentOperator}.
+	 * Visit a parse tree produced by the {@code OneExpression}
+	 * labeled alternative in {@link JSParser#arrowFunctionBody}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAssignmentOperator(JSParser.AssignmentOperatorContext ctx);
+	T visitOneExpression(JSParser.OneExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#literal}.
+	 * Visit a parse tree produced by the {@code ManyExpressions}
+	 * labeled alternative in {@link JSParser#arrowFunctionBody}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLiteral(JSParser.LiteralContext ctx);
+	T visitManyExpressions(JSParser.ManyExpressionsContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MultiplyOperator}
+	 * labeled alternative in {@link JSParser#assignmentOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiplyOperator(JSParser.MultiplyOperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code DivideOperator}
+	 * labeled alternative in {@link JSParser#assignmentOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDivideOperator(JSParser.DivideOperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ModulusOperator}
+	 * labeled alternative in {@link JSParser#assignmentOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitModulusOperator(JSParser.ModulusOperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code PlusOperator}
+	 * labeled alternative in {@link JSParser#assignmentOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPlusOperator(JSParser.PlusOperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MinusOperator}
+	 * labeled alternative in {@link JSParser#assignmentOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMinusOperator(JSParser.MinusOperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code PowerOperator}
+	 * labeled alternative in {@link JSParser#assignmentOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPowerOperator(JSParser.PowerOperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code NullishOperator}
+	 * labeled alternative in {@link JSParser#assignmentOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNullishOperator(JSParser.NullishOperatorContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Null}
+	 * labeled alternative in {@link JSParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNull(JSParser.NullContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Boolean}
+	 * labeled alternative in {@link JSParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolean(JSParser.BooleanContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code String}
+	 * labeled alternative in {@link JSParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString(JSParser.StringContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code TemplateString}
+	 * labeled alternative in {@link JSParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTemplateString(JSParser.TemplateStringContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Number}
+	 * labeled alternative in {@link JSParser#literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumber(JSParser.NumberContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#templateStringLiteral}.
 	 * @param ctx the parse tree
@@ -865,65 +1020,19 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTemplateStringLiteral(JSParser.TemplateStringLiteralContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#templateStringAtom}.
+	 * Visit a parse tree produced by the {@code TemplateStringCharacter}
+	 * labeled alternative in {@link JSParser#templateStringAtom}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTemplateStringAtom(JSParser.TemplateStringAtomContext ctx);
+	T visitTemplateStringCharacter(JSParser.TemplateStringCharacterContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#numericLiteral}.
+	 * Visit a parse tree produced by the {@code TemplateStringJSExpression}
+	 * labeled alternative in {@link JSParser#templateStringAtom}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNumericLiteral(JSParser.NumericLiteralContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#bigintLiteral}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBigintLiteral(JSParser.BigintLiteralContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#getter}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGetter(JSParser.GetterContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#setter}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSetter(JSParser.SetterContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#identifierName}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIdentifierName(JSParser.IdentifierNameContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#identifier}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIdentifier(JSParser.IdentifierContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#reservedWord}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitReservedWord(JSParser.ReservedWordContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#keyword}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitKeyword(JSParser.KeywordContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#let_}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLet_(JSParser.Let_Context ctx);
+	T visitTemplateStringJSExpression(JSParser.TemplateStringJSExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#eos}.
 	 * @param ctx the parse tree

@@ -3,12 +3,8 @@ parser grammar HTMLParser;
 options { tokenVocab=HTMLLexer; }
 
 htmlDocument
-    : htmlElements*
+    : DOCTYPE? htmlMisc? (htmlElement htmlMisc?)*
     ;
-
-//htmlElements
-//    : htmlMisc* htmlElement htmlMisc*
-//    ;
 
 htmlElement
     : TAG_OPEN TAG_NAME htmlAttribute* TAG_CLOSE htmlContent TAG_OPEN TAG_SLASH TAG_NAME TAG_CLOSE #NormalElement

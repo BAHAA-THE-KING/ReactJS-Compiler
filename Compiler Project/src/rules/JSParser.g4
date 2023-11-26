@@ -13,7 +13,7 @@ statement
     | variableStatement         #VariableDeclerationChunk
     | importStatement           #ImportChunk
     | exportStatement           #ExportChunk
-    | emptyStatement            #EmptyChunk
+    | SemiColon                 #EmptyChunk
     | classDeclaration          #ClassDeclerationChunk
     | functionDeclaration       #FunctionDeclarationChunk
     | expressionStatement       #ExpressionChunk
@@ -49,16 +49,7 @@ importModuleItems
     ;
 
 importAliasName
-    : moduleExportName (As importedBinding)?
-    ;
-
-moduleExportName
-    : identifierName
-    | StringLiteral
-    ;
-
-importedBinding
-    : Identifier
+    : Identifier (As Identifier)?
     ;
 
 importDefault
@@ -66,7 +57,7 @@ importDefault
     ;
 
 importNamespace
-    : (Multiply | identifierName) (As identifierName)?
+    : (Multiply | Identifier) (As Identifier)?
     ;
 
 importFrom
@@ -74,7 +65,7 @@ importFrom
     ;
 
 aliasName
-    : identifierName (As identifierName)?
+    : Identifier (As Identifier)?
     ;
 
 exportStatement
@@ -91,13 +82,13 @@ exportModuleItems
     ;
 
 exportAliasName
-    : moduleExportName (As moduleExportName)?
+    : Identifier (As Identifier)?
     ;
 
 declaration
-    : variableStatement
-    | classDeclaration
-    | functionDeclaration
+    : variableStatement     #VariableDeclare
+    | classDeclaration      #ClassDeclare
+    | functionDeclaration   #FunctionDeclare
     ;
 
 variableStatement
@@ -112,10 +103,6 @@ variableDeclaration
     : assignable (Assign singleExpression)?
     ;
 
-emptyStatement
-    : SemiColon
-    ;
-
 expressionStatement
     : expressionSequence eos
     ;
@@ -123,7 +110,6 @@ expressionStatement
 ifStatement
     : If OpenParen expressionSequence CloseParen statement (Else statement)?
     ;
-
 
 iterationStatement
     : Do statement While OpenParen expressionSequence CloseParen eos                                                                                    # DoWhileStatement
@@ -134,9 +120,9 @@ iterationStatement
     ;
 
 varModifier
-    : Var
-    | Let
-    | Const
+    : Var       #VarKeyword
+    | Let       #LetKeyword
+    | Const     #ConstKeyword
     ;
 
 continueStatement
@@ -188,11 +174,11 @@ finallyProduction
     ;
 
 functionDeclaration
-    : Function identifier OpenParen formalParameterList? CloseParen functionBody
+    : Function Identifier OpenParen formalParameterList? CloseParen functionBody
     ;
 
 classDeclaration
-    : Class identifier classTail
+    : Class Identifier classTail
     ;
 
 classTail
@@ -200,28 +186,22 @@ classTail
     ;
 
 classElement
-    : (Static | identifier)? methodDefinition
-    | (Static | identifier)? fieldDefinition
-    | (Static | identifier) block
-    | emptyStatement
+    : (Static | Identifier)? methodDefinition   #ClassMethodDefinition
+    | (Static | Identifier)? fieldDefinition    #ClassFieldDefinition
+    | SemiColon                            #ClassEmptyStatement
     ;
 
 methodDefinition
-    : classElementName OpenParen formalParameterList? CloseParen functionBody
+    : propertyName OpenParen formalParameterList? CloseParen functionBody
     ;
 
 fieldDefinition
-    : classElementName initializer?
+    : propertyName initializer?
     ;
-
-classElementName
-    : propertyName
-    ;
-
 
 formalParameterList
-    : formalParameterArg (Comma formalParameterArg)* (Comma lastFormalParameterArg)?
-    | lastFormalParameterArg
+    : formalParameterArg (Comma formalParameterArg)* (Comma lastFormalParameterArg)?    #NormalParameters
+    | lastFormalParameterArg                                                            #RestParameters
     ;
 
 formalParameterArg
@@ -260,10 +240,10 @@ propertyAssignment
     ;
 
 propertyName
-    : identifierName
-    | StringLiteral
-    | numericLiteral
-    | OpenBracket singleExpression CloseBracket
+    : Identifier                                #PropertyByName
+    | StringLiteral                                 #PropertyByString
+    | DecimalLiteral                                #PropertyByNumber
+    | OpenBracket singleExpression CloseBracket     #PropertyByExpression
     ;
 
 arguments
@@ -271,7 +251,7 @@ arguments
     ;
 
 argument
-    : Ellipsis? (singleExpression | identifier)
+    : Ellipsis? (singleExpression | Identifier)
     ;
 
 expressionSequence
@@ -280,15 +260,15 @@ expressionSequence
 
 singleExpression
     : anonymousFunction                                                                                 # FunctionExpression
-    | Class identifier? classTail                                                                       # ClassExpression
+    | Class Identifier? classTail                                                                       # ClassExpression
     | singleExpression QuestionMarkDot singleExpression                                                 # OptionalChainExpression
     | singleExpression QuestionMarkDot? OpenBracket expressionSequence CloseBracket                     # MemberIndexExpression
-    | singleExpression QuestionMark? Dot identifierName                                                 # MemberDotExpression
-    | New identifier arguments                                                                          # NewExpression
+    | singleExpression QuestionMark? Dot Identifier                                                 # MemberDotExpression
+    | New Identifier arguments                                                                          # NewExpression
     | New singleExpression arguments                                                                    # NewExpression
     | New singleExpression                                                                              # NewExpression
     | singleExpression arguments                                                                        # ArgumentsExpression
-    | New Dot identifier                                                                                # MetaExpression // new.target
+    | New Dot Identifier                                                                                # MetaExpression // new.target
     | singleExpression PlusPlus                                                                         # PostIncrementExpression
     | singleExpression MinusMinus                                                                       # PostDecreaseExpression
     | Delete singleExpression                                                                           # DeleteExpression
@@ -313,7 +293,7 @@ singleExpression
     | Import OpenParen singleExpression CloseParen                                                      # ImportExpression
     | singleExpression templateStringLiteral                                                            # TemplateStringExpression
     | This                                                                                              # ThisExpression
-    | identifier                                                                                        # IdentifierExpression
+    | Identifier                                                                                        # IdentifierExpression
     | Super                                                                                             # SuperExpression
     | literal                                                                                           # LiteralExpression
     | arrayLiteral                                                                                      # ArrayLiteralExpression
@@ -326,9 +306,9 @@ initializer
     ;
 
 assignable
-    : identifier
-    | arrayLiteral
-    | objectLiteral
+    : Identifier        # VariableByName
+    | arrayLiteral      # VariableByArray
+    | objectLiteral     # VariableByObject
     ;
 
 objectLiteral
@@ -341,31 +321,31 @@ anonymousFunction
     ;
 
 arrowFunctionParameters
-    : identifier
-    | OpenParen formalParameterList? CloseParen
+    : Identifier                                    # OneParameter
+    | OpenParen formalParameterList? CloseParen     # ManyParameters
     ;
 
 arrowFunctionBody
-    : singleExpression
-    | functionBody
+    : singleExpression      # OneExpression
+    | functionBody          # ManyExpressions
     ;
 
 assignmentOperator
-    : MultiplyAssign
-    | DivideAssign
-    | ModulusAssign
-    | PlusAssign
-    | MinusAssign
-    | PowerAssign
-    | NullishCoalescingAssign
+    : MultiplyAssign            # MultiplyOperator
+    | DivideAssign              # DivideOperator
+    | ModulusAssign             # ModulusOperator
+    | PlusAssign                # PlusOperator
+    | MinusAssign               # MinusOperator
+    | PowerAssign               # PowerOperator
+    | NullishCoalescingAssign   # NullishOperator
     ;
 
 literal
-    : NullLiteral
-    | BooleanLiteral
-    | StringLiteral
-    | templateStringLiteral
-    | numericLiteral
+    : NullLiteral               # Null
+    | BooleanLiteral            # Boolean
+    | StringLiteral             # String
+    | templateStringLiteral     # TemplateString
+    | DecimalLiteral            # Number
     ;
 
 templateStringLiteral
@@ -373,71 +353,13 @@ templateStringLiteral
     ;
 
 templateStringAtom
-    : TemplateStringAtom
-    | TemplateStringStartExpression singleExpression CloseBrace
-    ;
-
-numericLiteral
-    : DecimalLiteral
-    ;
-
-identifierName
-    : identifier
-    | reservedWord
-    ;
-
-identifier
-    : Identifier
-    | As
-    | From
-    | Of
-    ;
-
-reservedWord
-    : keyword
-    | NullLiteral
-    | BooleanLiteral
-    ;
-
-keyword
-    : Break
-    | Do
-    | Typeof
-    | Case
-    | Else
-    | New
-    | Var
-    | Catch
-    | Finally
-    | Return
-    | Continue
-    | For
-    | Switch
-    | While
-    | Function
-    | This
-    | Default
-    | If
-    | Throw
-    | Delete
-    | In
-    | Try
-    | Class
-    | Extends
-    | Super
-    | Const
-    | Export
-    | Import
-    | Let
-    | Static
-    | From
-    | As
-    | Of
+    : TemplateStringAtom                                            # TemplateStringCharacter
+    | TemplateStringStartExpression singleExpression CloseBrace     # TemplateStringJSExpression
     ;
 
 eos
     : SemiColon
     | EOF
-    | {this.lineTerminatorAhead()}?
-    | {this.closeBrace()}?
+//    | {this.lineTerminatorAhead()}?
+//    | {this.closeBrace()}?
     ;

@@ -1,5 +1,9 @@
 lexer grammar  HTMLLexer;
 
+DOCTYPE:
+        '<!DOCTYPE html>'
+        ;
+
 HTML_COMMENT
     : '<!--' .*? '-->'
     ;

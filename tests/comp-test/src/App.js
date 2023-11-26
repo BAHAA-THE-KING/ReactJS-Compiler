@@ -4,6 +4,7 @@ import fruitImage from "./images/fruit.jpg";
 import vegetableImage from "./images/vegetable.webp";
 import chickenImage from "./images/chicken.webp";
 
+import { useState } from 'react';
 import ProductList from './components/ProductList';
 import ProductView from './components/ProductView';
 

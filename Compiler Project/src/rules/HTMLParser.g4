@@ -6,13 +6,13 @@ htmlDocument
     : htmlElements*
     ;
 
-htmlElements
-    : htmlMisc* htmlElement htmlMisc*
-    ;
+//htmlElements
+//    : htmlMisc* htmlElement htmlMisc*
+//    ;
 
 htmlElement
-    : TAG_OPEN TAG_NAME htmlAttribute*
-      (TAG_CLOSE (htmlContent TAG_OPEN TAG_SLASH TAG_NAME TAG_CLOSE)? | TAG_SLASH_CLOSE)
+    : TAG_OPEN TAG_NAME htmlAttribute* TAG_CLOSE htmlContent TAG_OPEN TAG_SLASH TAG_NAME TAG_CLOSE #NormalElement
+    | TAG_OPEN TAG_NAME htmlAttribute* TAG_SLASH_CLOSE                                             #SelfClosedElement
     ;
 
 htmlContent

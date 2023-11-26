@@ -16,9 +16,6 @@ HTML_TEXT
     : ~'<'+
     ;
 
-
-// tag declarations
-
 mode TAG;
 
 TAG_CLOSE
@@ -32,9 +29,6 @@ TAG_SLASH_CLOSE
 TAG_SLASH
     : '/'
     ;
-
-
-// lexing mode for attribute values
 
 TAG_EQUALS
     : '=' -> pushMode(ATTVALUE)
@@ -71,11 +65,8 @@ TAG_NameStartChar
     : [:a-zA-Z]
     ;
 
-// attribute values
-
 mode ATTVALUE;
 
-// an attribute value may have spaces b/t the '=' and the value
 ATTVALUE_VALUE
     : ' '* ATTRIBUTE -> popMode
     ;

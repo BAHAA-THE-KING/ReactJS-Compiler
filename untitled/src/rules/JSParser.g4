@@ -5,12 +5,9 @@ parser grammar JSParser;
 options {
     tokenVocab=JSLexer;
 }
-program
-    : sourceElements? EOF
-    ;
 
-sourceElement
-    : statement
+program
+    : statements? EOF
     ;
 
 statement
@@ -242,11 +239,11 @@ lastFormalParameterArg                        // ECMAScript 6: Rest Parameter
     ;
 
 functionBody
-    : OpenBrace sourceElements? CloseBrace
+    : OpenBrace statements? CloseBrace
     ;
 
-sourceElements
-    : sourceElement+
+statements
+    : statement+
     ;
 
 arrayLiteral

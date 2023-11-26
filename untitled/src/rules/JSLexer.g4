@@ -2,8 +2,6 @@ lexer grammar JSLexer;
 
 channels { ERROR }
 
-// Insert here @header for C++ lexer.
-
 MultiLineComment:               '/*' .*? '*/'             -> channel(HIDDEN);
 SingleLineComment:              '//' ~[\r\n]* -> channel(HIDDEN);
 

@@ -15,7 +15,7 @@ statement
     | variableStatement
     | importStatement
     | exportStatement
-    | emptyStatement_
+    | emptyStatement
     | classDeclaration
     | functionDeclaration
     | expressionStatement
@@ -113,15 +113,15 @@ variableDeclarationList
     ;
 
 variableDeclaration
-    : assignable ('=' singleExpression)? // ECMAScript 6: Array & Object Matching
+    : assignable ('=' singleExpression)?
     ;
 
-emptyStatement_
+emptyStatement
     : SemiColon
     ;
 
 expressionStatement
-    : {this.notOpenBraceAndNotFunction()}? expressionSequence eos
+    : expressionSequence eos
     ;
 
 ifStatement
@@ -176,7 +176,7 @@ defaultClause
     ;
 
 throwStatement
-    : Throw {this.notLineTerminator()}? expressionSequence eos
+    : Throw expressionSequence eos
     ;
 
 tryStatement
@@ -204,10 +204,10 @@ classTail
     ;
 
 classElement
-    : (Static | {this.n("static")}? identifier)? methodDefinition
-    | (Static | {this.n("static")}? identifier)? fieldDefinition
-    | (Static | {this.n("static")}? identifier) block
-    | emptyStatement_
+    : (Static | identifier)? methodDefinition
+    | (Static | identifier)? fieldDefinition
+    | (Static | identifier) block
+    | emptyStatement
     ;
 
 methodDefinition

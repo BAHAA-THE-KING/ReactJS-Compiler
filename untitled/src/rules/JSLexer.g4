@@ -5,9 +5,12 @@ channels { ERROR }
 MultiLineComment:               '/*' .*? '*/'             -> channel(HIDDEN);
 SingleLineComment:              '//' ~[\r\n]* -> channel(HIDDEN);
 
-OpenBracket:                    '[' -> pushMode(BLOCK);
-OpenParen:                      '(' -> pushMode(BLOCK);
-OpenBrace:                      '{' -> pushMode(BLOCK);
+OpenBracket:                    '[';
+CloseBracket:                   ']';
+OpenParen:                      '(';
+CloseParen:                     ')';
+OpenBrace:                      '{';
+CloseBrace:                     '}';
 SemiColon:                      ';';
 Comma:                          ',';
 Assign:                         '=';
@@ -30,7 +33,7 @@ LessThan:                       '<';
 MoreThan:                       '>';
 LessThanEquals:                 '<=';
 GreaterThanEquals:              '>=';
-Equals_:                        '==';
+Equals:                        '==';
 NotEquals:                      '!=';
 IdentityEquals:                 '===';
 IdentityNotEquals:              '!==';
@@ -60,10 +63,6 @@ DecimalLiteral:                 DecimalIntegerLiteral '.' [0-9] [0-9_]* Exponent
               |                 '.' [0-9] [0-9_]* ExponentPart?
               |                 DecimalIntegerLiteral ExponentPart?
               ;
-
-/// Numeric Literals
-
-BigDecimalIntegerLiteral:       DecimalIntegerLiteral 'n';
 
 /// Keywords
 
@@ -194,8 +193,3 @@ fragment IdentifierStart
     : [\p{L}]
     | [$_]
     ;
-
-mode BLOCK;
-CloseBracket:                   ']' -> popMode;
-CloseParen:                     ')' -> popMode;
-CloseBrace:                     '}' -> popMode;

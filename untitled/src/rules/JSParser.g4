@@ -69,7 +69,7 @@ importDefault
     ;
 
 importNamespace
-    : ('*' | identifierName) (As identifierName)?
+    : (Multiply | identifierName) (As identifierName)?
     ;
 
 importFrom
@@ -113,7 +113,7 @@ variableDeclarationList
     ;
 
 variableDeclaration
-    : assignable ('=' singleExpression)?
+    : assignable (Assign singleExpression)?
     ;
 
 emptyStatement
@@ -125,16 +125,16 @@ expressionStatement
     ;
 
 ifStatement
-    : If '(' expressionSequence ')' statement (Else statement)?
+    : If OpenParen expressionSequence CloseParen statement (Else statement)?
     ;
 
 
 iterationStatement
-    : Do statement While '(' expressionSequence ')' eos                                                                       # DoStatement
-    | While '(' expressionSequence ')' statement                                                                              # WhileStatement
-    | For '(' (expressionSequence | variableDeclarationList)? ';' expressionSequence? ';' expressionSequence? ')' statement   # ForStatement
-    | For '(' (singleExpression | variableDeclarationList) In expressionSequence ')' statement                                # ForInStatement
-    | For '(' (singleExpression | variableDeclarationList) Of expressionSequence ')' statement                         # ForOfStatement
+    : Do statement While OpenParen expressionSequence CloseParen eos                                                                       # DoStatement
+    | While OpenParen expressionSequence CloseParen statement                                                                              # WhileStatement
+    | For OpenParen (expressionSequence | variableDeclarationList)? SemiColon expressionSequence? SemiColon expressionSequence? CloseParen statement   # ForStatement
+    | For OpenParen (singleExpression | variableDeclarationList) In expressionSequence CloseParen statement                                # ForInStatement
+    | For OpenParen (singleExpression | variableDeclarationList) Of expressionSequence CloseParen statement                         # ForOfStatement
     ;
 
 varModifier
@@ -156,7 +156,7 @@ returnStatement
     ;
 
 switchStatement
-    : Switch '(' expressionSequence ')' caseBlock
+    : Switch OpenParen expressionSequence CloseParen caseBlock
     ;
 
 caseBlock
@@ -168,11 +168,11 @@ caseClauses
     ;
 
 caseClause
-    : Case expressionSequence ':' statementList?
+    : Case expressionSequence Colon statementList?
     ;
 
 defaultClause
-    : Default ':' statementList?
+    : Default Colon statementList?
     ;
 
 throwStatement
@@ -184,7 +184,7 @@ tryStatement
     ;
 
 catchProduction
-    : Catch ('(' assignable? ')')? block
+    : Catch (OpenParen assignable? CloseParen)? block
     ;
 
 finallyProduction
@@ -192,7 +192,7 @@ finallyProduction
     ;
 
 functionDeclaration
-    : Function identifier '(' formalParameterList? ')' functionBody
+    : Function identifier OpenParen formalParameterList? CloseParen functionBody
     ;
 
 classDeclaration
@@ -211,9 +211,9 @@ classElement
     ;
 
 methodDefinition
-    : classElementName '(' formalParameterList? ')' functionBody
-    | getter '(' ')' functionBody
-    | setter '(' formalParameterList? ')' functionBody
+    : classElementName OpenParen formalParameterList? CloseParen functionBody
+    | getter OpenParen CloseParen functionBody
+    | setter OpenParen formalParameterList? CloseParen functionBody
     ;
 
 fieldDefinition
@@ -231,7 +231,7 @@ formalParameterList
     ;
 
 formalParameterArg
-    : assignable ('=' singleExpression)?      // ECMAScript 6: Initialization
+    : assignable (Assign singleExpression)?      // ECMAScript 6: Initialization
     ;
 
 lastFormalParameterArg                        // ECMAScript 6: Rest Parameter
@@ -247,7 +247,7 @@ statements
     ;
 
 arrayLiteral
-    : ('[' elementList ']')
+    : (OpenBracket elementList CloseBracket)
     ;
 
 elementList
@@ -259,11 +259,11 @@ arrayElement
     ;
 
 propertyAssignment
-    : propertyName ':' singleExpression                                             # PropertyExpressionAssignment
-    | '[' singleExpression ']' ':' singleExpression                                 # ComputedPropertyExpressionAssignment
-    | propertyName '(' formalParameterList?  ')'  functionBody  # FunctionProperty
-    | getter '(' ')' functionBody                                           # PropertyGetter
-    | setter '(' formalParameterArg ')' functionBody                        # PropertySetter
+    : propertyName Colon singleExpression                                             # PropertyExpressionAssignment
+    | OpenBracket singleExpression CloseBracket Colon singleExpression                                 # ComputedPropertyExpressionAssignment
+    | propertyName OpenParen formalParameterList?  CloseParen  functionBody  # FunctionProperty
+    | getter OpenParen CloseParen functionBody                                           # PropertyGetter
+    | setter OpenParen formalParameterArg CloseParen functionBody                        # PropertySetter
     | Ellipsis? singleExpression                                                    # PropertyShorthand
     ;
 
@@ -271,11 +271,11 @@ propertyName
     : identifierName
     | StringLiteral
     | numericLiteral
-    | '[' singleExpression ']'
+    | OpenBracket singleExpression CloseBracket
     ;
 
 arguments
-    : '('(argument (Comma argument)* Comma?)?')'
+    : OpenParen(argument (Comma argument)* Comma?)?CloseParen
     ;
 
 argument
@@ -289,36 +289,36 @@ expressionSequence
 singleExpression
     : anonymousFunction                                                     # FunctionExpression
     | Class identifier? classTail                                           # ClassExpression
-    | singleExpression '?.' singleExpression                                # OptionalChainExpression
-    | singleExpression '?.'? '[' expressionSequence ']'                     # MemberIndexExpression
-    | singleExpression '?'? '.' identifierName                         # MemberDotExpression
+    | singleExpression QuestionMarkDot singleExpression                                # OptionalChainExpression
+    | singleExpression QuestionMarkDot? OpenBracket expressionSequence CloseBracket                     # MemberIndexExpression
+    | singleExpression QuestionMark? Dot identifierName                         # MemberDotExpression
     | New identifier arguments                                              # NewExpression
     | New singleExpression arguments                                        # NewExpression
     | New singleExpression                                                  # NewExpression
     | singleExpression arguments                                            # ArgumentsExpression
-    | New '.' identifier                                                    # MetaExpression // new.target
-    | singleExpression '++'                     # PostIncrementExpression
-    | singleExpression '--'                     # PostDecreaseExpression
+    | New Dot identifier                                                    # MetaExpression // new.target
+    | singleExpression PlusPlus                     # PostIncrementExpression
+    | singleExpression MinusMinus                     # PostDecreaseExpression
     | Delete singleExpression                                               # DeleteExpression
     | Typeof singleExpression                                               # TypeofExpression
-    | '++' singleExpression                                                 # PreIncrementExpression
-    | '--' singleExpression                                                 # PreDecreaseExpression
-    | '+' singleExpression                                                  # UnaryPlusExpression
-    | '-' singleExpression                                                  # UnaryMinusExpression
-    | '!' singleExpression                                                  # NotExpression
-    | <assoc=right> singleExpression '**' singleExpression                  # PowerExpression
-    | singleExpression ('*' | '/' | '%') singleExpression                   # MultiplicativeExpression
-    | singleExpression ('+' | '-') singleExpression                         # AdditiveExpression
-    | singleExpression '??' singleExpression                                # CoalesceExpression
-    | singleExpression ('<' | '>' | '<=' | '>=') singleExpression           # RelationalExpression
+    | PlusPlus singleExpression                                                 # PreIncrementExpression
+    | MinusMinus singleExpression                                                 # PreDecreaseExpression
+    | Plus singleExpression                                                  # UnaryPlusExpression
+    | Minus singleExpression                                                  # UnaryMinusExpression
+    | Not singleExpression                                                  # NotExpression
+    | <assoc=right> singleExpression Power singleExpression                  # PowerExpression
+    | singleExpression (Multiply | Divide | Modulus) singleExpression                   # MultiplicativeExpression
+    | singleExpression (Plus | Minus) singleExpression                         # AdditiveExpression
+    | singleExpression NullCoalesce singleExpression                                # CoalesceExpression
+    | singleExpression (LessThan | MoreThan | LessThanEquals | GreaterThanEquals) singleExpression           # RelationalExpression
     | singleExpression In singleExpression                                  # InExpression
-    | singleExpression ('==' | '!=' | '===' | '!==') singleExpression       # EqualityExpression
-    | singleExpression '&&' singleExpression                                # LogicalAndExpression
-    | singleExpression '||' singleExpression                                # LogicalOrExpression
-    | singleExpression '?' singleExpression ':' singleExpression            # TernaryExpression
-    | <assoc=right> singleExpression '=' singleExpression                   # AssignmentExpression
+    | singleExpression (Equals | NotEquals | IdentityEquals | IdentityNotEquals) singleExpression       # EqualityExpression
+    | singleExpression And singleExpression                                # LogicalAndExpression
+    | singleExpression Or singleExpression                                # LogicalOrExpression
+    | singleExpression QuestionMark singleExpression Colon singleExpression            # TernaryExpression
+    | <assoc=right> singleExpression Assign singleExpression                   # AssignmentExpression
     | <assoc=right> singleExpression assignmentOperator singleExpression    # AssignmentOperatorExpression
-    | Import '(' singleExpression ')'                                       # ImportExpression
+    | Import OpenParen singleExpression CloseParen                                       # ImportExpression
     | singleExpression templateStringLiteral                                # TemplateStringExpression  // ECMAScript 6
     | This                                                                  # ThisExpression
     | identifier                                                            # IdentifierExpression
@@ -326,11 +326,11 @@ singleExpression
     | literal                                                               # LiteralExpression
     | arrayLiteral                                                          # ArrayLiteralExpression
     | objectLiteral                                                         # ObjectLiteralExpression
-    | '(' expressionSequence ')'                                            # ParenthesizedExpression
+    | OpenParen expressionSequence CloseParen                                            # ParenthesizedExpression
     ;
 
 initializer
-    : '=' singleExpression
+    : Assign singleExpression
     ;
 
 assignable
@@ -344,13 +344,13 @@ objectLiteral
     ;
 
 anonymousFunction
-    : Function '(' formalParameterList? ')' functionBody    # AnonymousFunctionDecl
-    | arrowFunctionParameters '=>' arrowFunctionBody                     # ArrowFunction
+    : Function OpenParen formalParameterList? CloseParen functionBody    # AnonymousFunctionDecl
+    | arrowFunctionParameters ARROW arrowFunctionBody                     # ArrowFunction
     ;
 
 arrowFunctionParameters
     : identifier
-    | '(' formalParameterList? ')'
+    | OpenParen formalParameterList? CloseParen
     ;
 
 arrowFunctionBody
@@ -359,13 +359,13 @@ arrowFunctionBody
     ;
 
 assignmentOperator
-    : '*='
-    | '/='
-    | '%='
-    | '+='
-    | '-='
-    | '**='
-    | '??='
+    : MultiplyAssign
+    | DivideAssign
+    | ModulusAssign
+    | PlusAssign
+    | MinusAssign
+    | PowerAssign
+    | NullishCoalescingAssign
     ;
 
 literal
@@ -374,7 +374,6 @@ literal
     | StringLiteral
     | templateStringLiteral
     | numericLiteral
-    | bigintLiteral
     ;
 
 templateStringLiteral
@@ -388,10 +387,6 @@ templateStringAtom
 
 numericLiteral
     : DecimalLiteral
-    ;
-
-bigintLiteral
-    : BigDecimalIntegerLiteral
     ;
 
 getter

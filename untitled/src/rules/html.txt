@@ -1,4 +1,0 @@
-<asd koko="soso">
-    <asd koko="soso"></asd>
-    <img/>
-</asd>

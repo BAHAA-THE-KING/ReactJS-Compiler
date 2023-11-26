@@ -1,13 +1,14 @@
 grammar asd;
 
-html: '<'HtmlTagName attrib*'>'.*?'</'HtmlTagName'>';
+html: '<'HtmlTagName ' '* attrib* ' '*'>'.*?'</'HtmlTagName'>';
 attrib: AttributeName'="'.*?'"';
 
-HtmlTagName: HtmlTagNameFirstChar+ HtmlTagNameNumber?;
+HtmlTagName: HtmlTagNameFirstChar HtmlTagNameRest* HtmlTagNameNumber?;
 AttributeName: AttributeNameFirstChar AttributeNameRest*;
 
-HtmlTagNameFirstChar: [a-z];
-HtmlTagNameNumber: [1-6];
+fragment HtmlTagNameFirstChar: [a-z];
+fragment HtmlTagNameRest: HtmlTagNameFirstChar;
+fragment HtmlTagNameNumber: [1-6];
 
-AttributeNameFirstChar: [a-zA-Z];
-AttributeNameRest: AttributeNameFirstChar | [0-9] | '_' | '-';
+fragment AttributeNameFirstChar: [a-zA-Z];
+fragment AttributeNameRest: AttributeNameFirstChar | [0-9] | '_' |'-';

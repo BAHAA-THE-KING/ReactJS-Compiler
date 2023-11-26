@@ -1,33 +1,3 @@
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014 by Bart Kiers (original author) and Alexandre Vitorelli (contributor -> ported to CSharp)
- * Copyright (c) 2017-2020 by Ivan Kochurkin (Positive Technologies):
-    added ECMAScript 6 support, cleared and transformed to the universal grammar.
- * Copyright (c) 2018 by Juan Alvarez (contributor -> ported to Go)
- * Copyright (c) 2019 by Student Main (contributor -> ES2020)
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- */
 parser grammar JSParser;
 
 // Insert here @header for C++ parser.
@@ -63,7 +33,7 @@ statement
     ;
 
 block
-    : '{' statementList? '}'
+    : OpenBrace statementList? CloseBrace
     ;
 
 statementList
@@ -80,7 +50,7 @@ importFromBlock
     ;
 
 importModuleItems
-    : '{' (importAliasName ',')* (importAliasName ','?)? '}'
+    : OpenBrace (importAliasName Comma)* (importAliasName Comma?)? CloseBrace
     ;
 
 importAliasName
@@ -95,12 +65,10 @@ moduleExportName
 // yield and await are permitted as BindingIdentifier in the grammar
 importedBinding
     : Identifier
-    | Yield
-    | Await
     ;
 
 importDefault
-    : aliasName ','
+    : aliasName Comma
     ;
 
 importNamespace
@@ -126,7 +94,7 @@ exportFromBlock
     ;
 
 exportModuleItems
-    : '{' (exportAliasName ',')* (exportAliasName ','?)? '}'
+    : OpenBrace (exportAliasName Comma)* (exportAliasName Comma?)? CloseBrace
     ;
 
 exportAliasName
@@ -144,7 +112,7 @@ variableStatement
     ;
 
 variableDeclarationList
-    : varModifier variableDeclaration (',' variableDeclaration)*
+    : varModifier variableDeclaration (Comma variableDeclaration)*
     ;
 
 variableDeclaration
@@ -169,33 +137,25 @@ iterationStatement
     | While '(' expressionSequence ')' statement                                                                              # WhileStatement
     | For '(' (expressionSequence | variableDeclarationList)? ';' expressionSequence? ';' expressionSequence? ')' statement   # ForStatement
     | For '(' (singleExpression | variableDeclarationList) In expressionSequence ')' statement                                # ForInStatement
-    | For Await? '(' (singleExpression | variableDeclarationList) Of expressionSequence ')' statement                         # ForOfStatement
+    | For '(' (singleExpression | variableDeclarationList) Of expressionSequence ')' statement                         # ForOfStatement
     ;
 
-varModifier  // let, const - ECMAScript 6
+varModifier
     : Var
-    | let_
+    | Let
     | Const
     ;
 
 continueStatement
-    : Continue ({this.notLineTerminator()}? identifier)? eos
+    : Continue eos
     ;
 
 breakStatement
-    : Break ({this.notLineTerminator()}? identifier)? eos
+    : Break eos
     ;
 
 returnStatement
-    : Return ({this.notLineTerminator()}? expressionSequence)? eos
-    ;
-
-yieldStatement
-    : Yield ({this.notLineTerminator()}? expressionSequence)? eos
-    ;
-
-withStatement
-    : With '(' expressionSequence ')' statement
+    : Return expressionSequence? eos
     ;
 
 switchStatement
@@ -203,7 +163,7 @@ switchStatement
     ;
 
 caseBlock
-    : '{' caseClauses? (defaultClause caseClauses?)? '}'
+    : OpenBrace caseClauses? (defaultClause caseClauses?)? CloseBrace
     ;
 
 caseClauses
@@ -216,10 +176,6 @@ caseClause
 
 defaultClause
     : Default ':' statementList?
-    ;
-
-labelledStatement
-    : identifier ':' statement
     ;
 
 throwStatement
@@ -238,12 +194,8 @@ finallyProduction
     : Finally block
     ;
 
-debuggerStatement
-    : Debugger eos
-    ;
-
 functionDeclaration
-    : Async? Function_ '*'? identifier '(' formalParameterList? ')' functionBody
+    : Function identifier '(' formalParameterList? ')' functionBody
     ;
 
 classDeclaration
@@ -251,7 +203,7 @@ classDeclaration
     ;
 
 classTail
-    : (Extends singleExpression)? '{' classElement* '}'
+    : (Extends singleExpression)? OpenBrace classElement* CloseBrace
     ;
 
 classElement
@@ -262,9 +214,9 @@ classElement
     ;
 
 methodDefinition
-    : (Async {this.notLineTerminator()}?)? '*'? classElementName '(' formalParameterList? ')' functionBody
-    | '*'? getter '(' ')' functionBody
-    | '*'? setter '(' formalParameterList? ')' functionBody
+    : classElementName '(' formalParameterList? ')' functionBody
+    | getter '(' ')' functionBody
+    | setter '(' formalParameterList? ')' functionBody
     ;
 
 fieldDefinition
@@ -273,15 +225,11 @@ fieldDefinition
 
 classElementName
     : propertyName
-    | privateIdentifier
     ;
 
-privateIdentifier
-    : '#' identifierName
-    ;
 
 formalParameterList
-    : formalParameterArg (',' formalParameterArg)* (',' lastFormalParameterArg)?
+    : formalParameterArg (Comma formalParameterArg)* (Comma lastFormalParameterArg)?
     | lastFormalParameterArg
     ;
 
@@ -294,7 +242,7 @@ lastFormalParameterArg                        // ECMAScript 6: Rest Parameter
     ;
 
 functionBody
-    : '{' sourceElements? '}'
+    : OpenBrace sourceElements? CloseBrace
     ;
 
 sourceElements
@@ -306,7 +254,7 @@ arrayLiteral
     ;
 
 elementList
-    : ','* arrayElement? (','+ arrayElement)* ','* // Yes, everything is optional
+    : Comma* arrayElement? (Comma+ arrayElement)* Comma* // Yes, everything is optional
     ;
 
 arrayElement
@@ -316,7 +264,7 @@ arrayElement
 propertyAssignment
     : propertyName ':' singleExpression                                             # PropertyExpressionAssignment
     | '[' singleExpression ']' ':' singleExpression                                 # ComputedPropertyExpressionAssignment
-    | Async? '*'? propertyName '(' formalParameterList?  ')'  functionBody  # FunctionProperty
+    | propertyName '(' formalParameterList?  ')'  functionBody  # FunctionProperty
     | getter '(' ')' functionBody                                           # PropertyGetter
     | setter '(' formalParameterArg ')' functionBody                        # PropertySetter
     | Ellipsis? singleExpression                                                    # PropertyShorthand
@@ -330,7 +278,7 @@ propertyName
     ;
 
 arguments
-    : '('(argument (',' argument)* ','?)?')'
+    : '('(argument (Comma argument)* Comma?)?')'
     ;
 
 argument
@@ -338,7 +286,7 @@ argument
     ;
 
 expressionSequence
-    : singleExpression (',' singleExpression)*
+    : singleExpression (Comma singleExpression)*
     ;
 
 singleExpression
@@ -346,37 +294,28 @@ singleExpression
     | Class identifier? classTail                                           # ClassExpression
     | singleExpression '?.' singleExpression                                # OptionalChainExpression
     | singleExpression '?.'? '[' expressionSequence ']'                     # MemberIndexExpression
-    | singleExpression '?'? '.' '#'? identifierName                         # MemberDotExpression
-    // Split to try `new Date()` first, then `new Date`.
+    | singleExpression '?'? '.' identifierName                         # MemberDotExpression
     | New identifier arguments                                              # NewExpression
     | New singleExpression arguments                                        # NewExpression
     | New singleExpression                                                  # NewExpression
     | singleExpression arguments                                            # ArgumentsExpression
     | New '.' identifier                                                    # MetaExpression // new.target
-    | singleExpression {this.notLineTerminator()}? '++'                     # PostIncrementExpression
-    | singleExpression {this.notLineTerminator()}? '--'                     # PostDecreaseExpression
+    | singleExpression '++'                     # PostIncrementExpression
+    | singleExpression '--'                     # PostDecreaseExpression
     | Delete singleExpression                                               # DeleteExpression
-    | Void singleExpression                                                 # VoidExpression
     | Typeof singleExpression                                               # TypeofExpression
     | '++' singleExpression                                                 # PreIncrementExpression
     | '--' singleExpression                                                 # PreDecreaseExpression
     | '+' singleExpression                                                  # UnaryPlusExpression
     | '-' singleExpression                                                  # UnaryMinusExpression
-    | '~' singleExpression                                                  # BitNotExpression
     | '!' singleExpression                                                  # NotExpression
-    | Await singleExpression                                                # AwaitExpression
     | <assoc=right> singleExpression '**' singleExpression                  # PowerExpression
     | singleExpression ('*' | '/' | '%') singleExpression                   # MultiplicativeExpression
     | singleExpression ('+' | '-') singleExpression                         # AdditiveExpression
     | singleExpression '??' singleExpression                                # CoalesceExpression
-    | singleExpression ('<<' | '>>' | '>>>') singleExpression               # BitShiftExpression
     | singleExpression ('<' | '>' | '<=' | '>=') singleExpression           # RelationalExpression
-    | singleExpression Instanceof singleExpression                          # InstanceofExpression
     | singleExpression In singleExpression                                  # InExpression
     | singleExpression ('==' | '!=' | '===' | '!==') singleExpression       # EqualityExpression
-    | singleExpression '&' singleExpression                                 # BitAndExpression
-    | singleExpression '^' singleExpression                                 # BitXOrExpression
-    | singleExpression '|' singleExpression                                 # BitOrExpression
     | singleExpression '&&' singleExpression                                # LogicalAndExpression
     | singleExpression '||' singleExpression                                # LogicalOrExpression
     | singleExpression '?' singleExpression ':' singleExpression            # TernaryExpression
@@ -384,7 +323,6 @@ singleExpression
     | <assoc=right> singleExpression assignmentOperator singleExpression    # AssignmentOperatorExpression
     | Import '(' singleExpression ')'                                       # ImportExpression
     | singleExpression templateStringLiteral                                # TemplateStringExpression  // ECMAScript 6
-    | yieldStatement                                                        # YieldExpression // ECMAScript 6
     | This                                                                  # ThisExpression
     | identifier                                                            # IdentifierExpression
     | Super                                                                 # SuperExpression
@@ -395,8 +333,6 @@ singleExpression
     ;
 
 initializer
-// TODO: must be `= AssignmentExpression` and we have such label alredy but it doesn't respect the specification.
-//  See https://tc39.es/ecma262/multipage/ecmascript-language-expressions.html#prod-Initializer
     : '=' singleExpression
     ;
 
@@ -407,12 +343,12 @@ assignable
     ;
 
 objectLiteral
-    : '{' (propertyAssignment (',' propertyAssignment)* ','?)? '}'
+    : OpenBrace (propertyAssignment (Comma propertyAssignment)* Comma?)? CloseBrace
     ;
 
 anonymousFunction
-    : Async? Function_ '*'? '(' formalParameterList? ')' functionBody    # AnonymousFunctionDecl
-    | Async? arrowFunctionParameters '=>' arrowFunctionBody                     # ArrowFunction
+    : Function '(' formalParameterList? ')' functionBody    # AnonymousFunctionDecl
+    | arrowFunctionParameters '=>' arrowFunctionBody                     # ArrowFunction
     ;
 
 arrowFunctionParameters
@@ -431,12 +367,6 @@ assignmentOperator
     | '%='
     | '+='
     | '-='
-    | '<<='
-    | '>>='
-    | '>>>='
-    | '&='
-    | '^='
-    | '|='
     | '**='
     | '??='
     ;
@@ -446,7 +376,6 @@ literal
     | BooleanLiteral
     | StringLiteral
     | templateStringLiteral
-    | RegularExpressionLiteral
     | numericLiteral
     | bigintLiteral
     ;
@@ -457,30 +386,23 @@ templateStringLiteral
 
 templateStringAtom
     : TemplateStringAtom
-    | TemplateStringStartExpression singleExpression TemplateCloseBrace
+    | TemplateStringStartExpression singleExpression CloseBrace
     ;
 
 numericLiteral
     : DecimalLiteral
-    | HexIntegerLiteral
-    | OctalIntegerLiteral
-    | OctalIntegerLiteral2
-    | BinaryIntegerLiteral
     ;
 
 bigintLiteral
     : BigDecimalIntegerLiteral
-    | BigHexIntegerLiteral
-    | BigOctalIntegerLiteral
-    | BigBinaryIntegerLiteral
     ;
 
 getter
-    : {this.n("get")}? identifier classElementName
+    : identifier classElementName
     ;
 
 setter
-    : {this.n("set")}? identifier classElementName
+    : identifier classElementName
     ;
 
 identifierName
@@ -490,11 +412,8 @@ identifierName
 
 identifier
     : Identifier
-    | NonStrictLet
-    | Async
     | As
     | From
-    | Yield
     | Of
     ;
 
@@ -507,7 +426,6 @@ reservedWord
 keyword
     : Break
     | Do
-    | Instanceof
     | Typeof
     | Case
     | Else
@@ -516,48 +434,29 @@ keyword
     | Catch
     | Finally
     | Return
-    | Void
     | Continue
     | For
     | Switch
     | While
-    | Debugger
-    | Function_
+    | Function
     | This
-    | With
     | Default
     | If
     | Throw
     | Delete
     | In
     | Try
-
     | Class
-    | Enum
     | Extends
     | Super
     | Const
     | Export
     | Import
-    | Implements
-    | let_
-    | Private
-    | Public
-    | Interface
-    | Package
-    | Protected
+    | Let
     | Static
-    | Yield
-    | Async
-    | Await
     | From
     | As
     | Of
-    ;
-
-let_
-    : NonStrictLet
-    | StrictLet
     ;
 
 eos

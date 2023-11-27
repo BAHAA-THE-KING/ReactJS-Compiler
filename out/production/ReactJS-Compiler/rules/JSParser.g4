@@ -16,7 +16,7 @@ statement
     | SemiColon                 # EmptyChunk
     | classDeclaration          # ClassDeclerationChunk
     | functionDeclaration       # FunctionDeclarationChunk
-    | expressionStatement       # ExpressionChunk
+    | expressionStatement       # ExpressionChunkG
     | ifStatement               # ConditionalChunk
     | iterationStatement        # LoopChunk
     | continueStatement         # ContinueChunk
@@ -65,7 +65,8 @@ aliasName
     ;
 
 exportStatement
-    : Export Default? (exportFromBlock | declaration) eos    # ExportDeclaration
+    : Export Default?  declaration eos    # ExportDeclaration
+    | Export Default? exportFromBlock  eos    # ExportBlock
     | Export Default singleExpression eos                    # ExportDefaultDeclaration
     ;
 
@@ -178,12 +179,12 @@ classDeclaration
     ;
 
 classTail
-    : (Extends singleExpression)? OpenBrace classElement* CloseBrace
+    : (Extends Identifier)? OpenBrace classElement* CloseBrace
     ;
 
 classElement
-    : (Static | Identifier)? methodDefinition   #ClassMethodDefinition
-    | (Static | Identifier)? fieldDefinition    #ClassFieldDefinition
+    : Static? methodDefinition                  #ClassMethodDefinition
+    | Static? fieldDefinition                   #ClassFieldDefinition
     | SemiColon                                 #ClassEmptyStatement
     ;
 

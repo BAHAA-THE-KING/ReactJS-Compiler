@@ -230,36 +230,26 @@ public interface JSParserListener extends ParseTreeListener {
 	 */
 	void exitStatementList(JSParser.StatementListContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link JSParser#importStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterImportStatement(JSParser.ImportStatementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JSParser#importStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitImportStatement(JSParser.ImportStatementContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code ObjectImportBlock}
-	 * labeled alternative in {@link JSParser#importFromBlock}.
+	 * labeled alternative in {@link JSParser#importStatement}.
 	 * @param ctx the parse tree
 	 */
 	void enterObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code ObjectImportBlock}
-	 * labeled alternative in {@link JSParser#importFromBlock}.
+	 * labeled alternative in {@link JSParser#importStatement}.
 	 * @param ctx the parse tree
 	 */
 	void exitObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code FileImportBlock}
-	 * labeled alternative in {@link JSParser#importFromBlock}.
+	 * labeled alternative in {@link JSParser#importStatement}.
 	 * @param ctx the parse tree
 	 */
 	void enterFileImportBlock(JSParser.FileImportBlockContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code FileImportBlock}
-	 * labeled alternative in {@link JSParser#importFromBlock}.
+	 * labeled alternative in {@link JSParser#importStatement}.
 	 * @param ctx the parse tree
 	 */
 	void exitFileImportBlock(JSParser.FileImportBlockContext ctx);
@@ -819,16 +809,6 @@ public interface JSParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionBody(JSParser.FunctionBodyContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link JSParser#statements}.
-	 * @param ctx the parse tree
-	 */
-	void enterStatements(JSParser.StatementsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JSParser#statements}.
-	 * @param ctx the parse tree
-	 */
-	void exitStatements(JSParser.StatementsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link JSParser#arrayLiteral}.
 	 * @param ctx the parse tree

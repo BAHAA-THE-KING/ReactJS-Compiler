@@ -5,26 +5,26 @@ options {
 }
 
 program
-    : statements? EOF
+    : (statement+)? EOF
     ;
 
 statement
-    : block                     #BlockChunk
-    | variableStatement         #VariableDeclerationChunk
-    | importStatement           #ImportChunk
-    | exportStatement           #ExportChunk
-    | SemiColon                 #EmptyChunk
-    | classDeclaration          #ClassDeclerationChunk
-    | functionDeclaration       #FunctionDeclarationChunk
-    | expressionStatement       #ExpressionChunk
-    | ifStatement               #ConditionalChunk
-    | iterationStatement        #LoopChunk
-    | continueStatement         #ContinueChunk
-    | breakStatement            #BreakChunk
-    | returnStatement           #ReturnChunk
-    | switchStatement           #SwitchChunk
-    | throwStatement            #ThrowChunk
-    | tryStatement              #TryChunk
+    : block                     # BlockChunk
+    | variableStatement         # VariableDeclerationChunk
+    | importStatement           # ImportChunk
+    | exportStatement           # ExportChunk
+    | SemiColon                 # EmptyChunk
+    | classDeclaration          # ClassDeclerationChunk
+    | functionDeclaration       # FunctionDeclarationChunk
+    | expressionStatement       # ExpressionChunk
+    | ifStatement               # ConditionalChunk
+    | iterationStatement        # LoopChunk
+    | continueStatement         # ContinueChunk
+    | breakStatement            # BreakChunk
+    | returnStatement           # ReturnChunk
+    | switchStatement           # SwitchChunk
+    | throwStatement            # ThrowChunk
+    | tryStatement              # TryChunk
     ;
 
 block
@@ -36,12 +36,8 @@ statementList
     ;
 
 importStatement
-    : Import importFromBlock
-    ;
-
-importFromBlock
-    : importDefault? (importNamespace | importModuleItems) importFrom eos   #ObjectImportBlock
-    | StringLiteral eos                                                     #FileImportBlock
+    : Import importDefault? (importNamespace | importModuleItems) importFrom eos   # ObjectImportBlock
+    | Import StringLiteral eos                                                     # FileImportBlock
     ;
 
 importModuleItems
@@ -188,7 +184,7 @@ classTail
 classElement
     : (Static | Identifier)? methodDefinition   #ClassMethodDefinition
     | (Static | Identifier)? fieldDefinition    #ClassFieldDefinition
-    | SemiColon                            #ClassEmptyStatement
+    | SemiColon                                 #ClassEmptyStatement
     ;
 
 methodDefinition
@@ -213,11 +209,7 @@ lastFormalParameterArg
     ;
 
 functionBody
-    : OpenBrace statements? CloseBrace
-    ;
-
-statements
-    : statement+
+    : OpenBrace (statement+)? CloseBrace
     ;
 
 arrayLiteral
@@ -268,7 +260,7 @@ singleExpression
     | New singleExpression arguments                                                                    # NewExpression
     | New singleExpression                                                                              # NewExpression
     | singleExpression arguments                                                                        # ArgumentsExpression
-    | New Dot Identifier                                                                                # MetaExpression // new.target
+    | New Dot Identifier                                                                                # MetaExpression
     | singleExpression PlusPlus                                                                         # PostIncrementExpression
     | singleExpression MinusMinus                                                                       # PostDecreaseExpression
     | Delete singleExpression                                                                           # DeleteExpression

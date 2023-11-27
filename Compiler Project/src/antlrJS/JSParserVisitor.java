@@ -141,21 +141,15 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatementList(JSParser.StatementListContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#importStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitImportStatement(JSParser.ImportStatementContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code ObjectImportBlock}
-	 * labeled alternative in {@link JSParser#importFromBlock}.
+	 * labeled alternative in {@link JSParser#importStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code FileImportBlock}
-	 * labeled alternative in {@link JSParser#importFromBlock}.
+	 * labeled alternative in {@link JSParser#importStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
@@ -490,12 +484,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionBody(JSParser.FunctionBodyContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#statements}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStatements(JSParser.StatementsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#arrayLiteral}.
 	 * @param ctx the parse tree

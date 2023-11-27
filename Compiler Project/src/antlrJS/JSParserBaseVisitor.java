@@ -74,7 +74,7 @@ public class JSParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpressionChunk(JSParser.ExpressionChunkContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpressionChunkG(JSParser.ExpressionChunkGContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -158,14 +158,14 @@ public class JSParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitObjectImportBlock(JSParser.ObjectImportBlockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDeafultAsImportBlock(JSParser.DeafultAsImportBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDeafultAsImportBlock(JSParser.DeafultAsImportBlockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitObjectImportBlock(JSParser.ObjectImportBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -194,6 +194,13 @@ public class JSParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitExportDeclaration(JSParser.ExportDeclarationContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitExportBlock(JSParser.ExportBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

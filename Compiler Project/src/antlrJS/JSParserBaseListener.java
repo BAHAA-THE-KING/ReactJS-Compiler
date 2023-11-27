@@ -113,13 +113,13 @@ public class JSParserBaseListener implements JSParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpressionChunk(JSParser.ExpressionChunkContext ctx) { }
+	@Override public void enterExpressionChunkG(JSParser.ExpressionChunkGContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpressionChunk(JSParser.ExpressionChunkContext ctx) { }
+	@Override public void exitExpressionChunkG(JSParser.ExpressionChunkGContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -257,18 +257,6 @@ public class JSParserBaseListener implements JSParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterObjectImportBlock(JSParser.ObjectImportBlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitObjectImportBlock(JSParser.ObjectImportBlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterDeafultAsImportBlock(JSParser.DeafultAsImportBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -276,6 +264,18 @@ public class JSParserBaseListener implements JSParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDeafultAsImportBlock(JSParser.DeafultAsImportBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterObjectImportBlock(JSParser.ObjectImportBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitObjectImportBlock(JSParser.ObjectImportBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -324,6 +324,18 @@ public class JSParserBaseListener implements JSParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExportDeclaration(JSParser.ExportDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExportBlock(JSParser.ExportBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExportBlock(JSParser.ExportBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -66,12 +66,12 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionDeclarationChunk(JSParser.FunctionDeclarationChunkContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ExpressionChunk}
+	 * Visit a parse tree produced by the {@code ExpressionChunkG}
 	 * labeled alternative in {@link JSParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpressionChunk(JSParser.ExpressionChunkContext ctx);
+	T visitExpressionChunkG(JSParser.ExpressionChunkGContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ConditionalChunk}
 	 * labeled alternative in {@link JSParser#statement}.
@@ -148,19 +148,19 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFileImportBlock(JSParser.FileImportBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ObjectImportBlock}
-	 * labeled alternative in {@link JSParser#importStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code DeafultAsImportBlock}
 	 * labeled alternative in {@link JSParser#importStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDeafultAsImportBlock(JSParser.DeafultAsImportBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ObjectImportBlock}
+	 * labeled alternative in {@link JSParser#importStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#importModuleItems}.
 	 * @param ctx the parse tree
@@ -186,6 +186,13 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExportDeclaration(JSParser.ExportDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExportBlock}
+	 * labeled alternative in {@link JSParser#exportStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExportBlock(JSParser.ExportBlockContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ExportDefaultDeclaration}
 	 * labeled alternative in {@link JSParser#exportStatement}.

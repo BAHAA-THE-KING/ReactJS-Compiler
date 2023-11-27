@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ProgramHTML {
@@ -20,12 +21,20 @@ public class ProgramHTML {
         if (args.length != 1) {
             System.err.println("fuck you");
         } else {
+            System.out.println(args[0]);
             HTMLParser parser = getParser(args[0]);
             ParseTree antlrAST = parser.htmlDocument();
             AntlrToHtmlDocument docVisitor = new AntlrToHtmlDocument();
             HtmlDocument doc = docVisitor.visit(antlrAST);
-        }
+            if(errors.isEmpty()){
+                System.out.println(doc.elements.toString());
+            }else{
+                for (String err :errors) {
+                    System.err.println(err);
+                }
+            }
 
+        }
     }
 
     private static HTMLParser getParser(String filename) {

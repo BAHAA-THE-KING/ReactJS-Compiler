@@ -10,6 +10,6 @@ public class HtmlCharData implements HtmlContent {
 
     @Override
     public String toString() {
-        return "HtmlCharData{ " + text + " }";
+        return "{ \"class\": \"HtmlCharData\", \"text\": \"" + text + "\" }";
     }
 }

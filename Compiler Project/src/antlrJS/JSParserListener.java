@@ -102,17 +102,17 @@ public interface JSParserListener extends ParseTreeListener {
 	 */
 	void exitFunctionDeclarationChunk(JSParser.FunctionDeclarationChunkContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ExpressionChunk}
+	 * Enter a parse tree produced by the {@code ExpressionChunkG}
 	 * labeled alternative in {@link JSParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpressionChunk(JSParser.ExpressionChunkContext ctx);
+	void enterExpressionChunkG(JSParser.ExpressionChunkGContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ExpressionChunk}
+	 * Exit a parse tree produced by the {@code ExpressionChunkG}
 	 * labeled alternative in {@link JSParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpressionChunk(JSParser.ExpressionChunkContext ctx);
+	void exitExpressionChunkG(JSParser.ExpressionChunkGContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ConditionalChunk}
 	 * labeled alternative in {@link JSParser#statement}.
@@ -242,18 +242,6 @@ public interface JSParserListener extends ParseTreeListener {
 	 */
 	void exitFileImportBlock(JSParser.FileImportBlockContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ObjectImportBlock}
-	 * labeled alternative in {@link JSParser#importStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ObjectImportBlock}
-	 * labeled alternative in {@link JSParser#importStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code DeafultAsImportBlock}
 	 * labeled alternative in {@link JSParser#importStatement}.
 	 * @param ctx the parse tree
@@ -265,6 +253,18 @@ public interface JSParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDeafultAsImportBlock(JSParser.DeafultAsImportBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ObjectImportBlock}
+	 * labeled alternative in {@link JSParser#importStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ObjectImportBlock}
+	 * labeled alternative in {@link JSParser#importStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link JSParser#importModuleItems}.
 	 * @param ctx the parse tree
@@ -307,6 +307,18 @@ public interface JSParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExportDeclaration(JSParser.ExportDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ExportBlock}
+	 * labeled alternative in {@link JSParser#exportStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterExportBlock(JSParser.ExportBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ExportBlock}
+	 * labeled alternative in {@link JSParser#exportStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitExportBlock(JSParser.ExportBlockContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ExportDefaultDeclaration}
 	 * labeled alternative in {@link JSParser#exportStatement}.

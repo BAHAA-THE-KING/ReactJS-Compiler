@@ -10,6 +10,6 @@ public class HtmlComment implements HtmlContent {
 
     @Override
     public String toString() {
-        return "HtmlComment{ " + text + " }";
+        return "{ \"class\": \"HtmlComment\", \"text\": \"" + text + "\" }";
     }
 }

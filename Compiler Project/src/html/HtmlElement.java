@@ -26,6 +26,9 @@ public class HtmlElement implements HtmlContent {
         //TODO: add error detection in visitor
         attributes.put(at.id, at);
     }
+    public boolean hasAttribute(String id){
+        return attributes.containsKey(id);
+    }
 
     public void addContents(HtmlContent co) {
         contents.add(co);
@@ -33,6 +36,12 @@ public class HtmlElement implements HtmlContent {
 
     @Override
     public String toString() {
-        return "HtmlElement{" + "tagName='" + tagName + '\'' + ", type='" + type + '\'' + ", attributes=" + attributes + '}';
+        return "{ \"class\": \"HtmlElement\", " +
+                "\"tagName\": \"" + tagName + "\", " +
+                "\"type\": \"" + type + "\", " +
+                "\"attributes\": " + attributes.values() + ", " +
+                "\"contents\": " + contents + " }";
     }
+
+
 }

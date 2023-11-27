@@ -1,4 +1,4 @@
-package js;
+package js.ImportStatement;
 
 public class FileImportBlock extends ImportChunk {
     String fileName;

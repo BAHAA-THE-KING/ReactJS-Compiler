@@ -2,6 +2,7 @@ package js;
 
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
+import js.ImportStatement.FileImportBlock;
 
 public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override

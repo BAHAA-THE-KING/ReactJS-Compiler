@@ -1,4 +1,4 @@
-package js;
+package js.ImportStatement;
 
 import java.util.List;
 

@@ -1,4 +1,6 @@
-package js;
+package js.ImportStatement;
 
-public abstract class ImportChunk extends Statement{
+import js.Statement;
+
+public abstract class ImportChunk extends Statement {
 }

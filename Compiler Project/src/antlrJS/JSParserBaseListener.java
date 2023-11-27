@@ -1,4 +1,4 @@
-// Generated from C:/Users/ASUS/Desktop/GitHub/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
+// Generated from E:/Compiler/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
 package antlrJS;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -113,13 +113,13 @@ public class JSParserBaseListener implements JSParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpressionChunk(JSParser.ExpressionChunkContext ctx) { }
+	@Override public void enterExpressionChunkG(JSParser.ExpressionChunkGContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpressionChunk(JSParser.ExpressionChunkContext ctx) { }
+	@Override public void exitExpressionChunkG(JSParser.ExpressionChunkGContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

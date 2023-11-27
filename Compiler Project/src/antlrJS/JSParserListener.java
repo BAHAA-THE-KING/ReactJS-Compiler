@@ -1,4 +1,4 @@
-// Generated from C:/Users/ASUS/Desktop/GitHub/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
+// Generated from E:/Compiler/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
 package antlrJS;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -102,17 +102,17 @@ public interface JSParserListener extends ParseTreeListener {
 	 */
 	void exitFunctionDeclarationChunk(JSParser.FunctionDeclarationChunkContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ExpressionChunk}
+	 * Enter a parse tree produced by the {@code ExpressionChunkG}
 	 * labeled alternative in {@link JSParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpressionChunk(JSParser.ExpressionChunkContext ctx);
+	void enterExpressionChunkG(JSParser.ExpressionChunkGContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ExpressionChunk}
+	 * Exit a parse tree produced by the {@code ExpressionChunkG}
 	 * labeled alternative in {@link JSParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpressionChunk(JSParser.ExpressionChunkContext ctx);
+	void exitExpressionChunkG(JSParser.ExpressionChunkGContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ConditionalChunk}
 	 * labeled alternative in {@link JSParser#statement}.

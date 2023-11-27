@@ -16,7 +16,7 @@ statement
     | SemiColon                 # EmptyChunk
     | classDeclaration          # ClassDeclerationChunk
     | functionDeclaration       # FunctionDeclarationChunk
-    | expressionStatement       # ExpressionChunk
+    | expressionStatement       # ExpressionChunkG
     | ifStatement               # ConditionalChunk
     | iterationStatement        # LoopChunk
     | continueStatement         # ContinueChunk
@@ -178,12 +178,12 @@ classDeclaration
     ;
 
 classTail
-    : (Extends singleExpression)? OpenBrace classElement* CloseBrace
+    : (Extends Identifier)? OpenBrace classElement* CloseBrace
     ;
 
 classElement
-    : (Static | Identifier)? methodDefinition   #ClassMethodDefinition
-    | (Static | Identifier)? fieldDefinition    #ClassFieldDefinition
+    : Static? methodDefinition                  #ClassMethodDefinition
+    | Static? fieldDefinition                   #ClassFieldDefinition
     | SemiColon                                 #ClassEmptyStatement
     ;
 

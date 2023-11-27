@@ -1,4 +1,4 @@
-// Generated from C:/Users/ASUS/Desktop/GitHub/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
+// Generated from E:/Compiler/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
 package antlrJS;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -66,12 +66,12 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionDeclarationChunk(JSParser.FunctionDeclarationChunkContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ExpressionChunk}
+	 * Visit a parse tree produced by the {@code ExpressionChunkG}
 	 * labeled alternative in {@link JSParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpressionChunk(JSParser.ExpressionChunkContext ctx);
+	T visitExpressionChunkG(JSParser.ExpressionChunkGContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code ConditionalChunk}
 	 * labeled alternative in {@link JSParser#statement}.

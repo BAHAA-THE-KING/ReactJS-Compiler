@@ -245,6 +245,18 @@ public class JSParserBaseListener implements JSParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFileImportBlock(JSParser.FileImportBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFileImportBlock(JSParser.FileImportBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterObjectImportBlock(JSParser.ObjectImportBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -257,13 +269,13 @@ public class JSParserBaseListener implements JSParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFileImportBlock(JSParser.FileImportBlockContext ctx) { }
+	@Override public void enterDeafultAsImportBlock(JSParser.DeafultAsImportBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFileImportBlock(JSParser.FileImportBlockContext ctx) { }
+	@Override public void exitDeafultAsImportBlock(JSParser.DeafultAsImportBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -281,30 +293,6 @@ public class JSParserBaseListener implements JSParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterImportAliasName(JSParser.ImportAliasNameContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitImportAliasName(JSParser.ImportAliasNameContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterImportDefault(JSParser.ImportDefaultContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitImportDefault(JSParser.ImportDefaultContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterImportNamespace(JSParser.ImportNamespaceContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -312,18 +300,6 @@ public class JSParserBaseListener implements JSParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitImportNamespace(JSParser.ImportNamespaceContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterImportFrom(JSParser.ImportFromContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitImportFrom(JSParser.ImportFromContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

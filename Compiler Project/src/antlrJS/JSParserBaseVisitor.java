@@ -151,6 +151,13 @@ public class JSParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitFileImportBlock(JSParser.FileImportBlockContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitObjectImportBlock(JSParser.ObjectImportBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -158,7 +165,7 @@ public class JSParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFileImportBlock(JSParser.FileImportBlockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDeafultAsImportBlock(JSParser.DeafultAsImportBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -172,28 +179,7 @@ public class JSParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitImportAliasName(JSParser.ImportAliasNameContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitImportDefault(JSParser.ImportDefaultContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitImportNamespace(JSParser.ImportNamespaceContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitImportFrom(JSParser.ImportFromContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

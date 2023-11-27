@@ -6,7 +6,7 @@ import java.util.List;
 
 public class HtmlDocument {
 
-    List<HtmlElement> elements;
+    public List<HtmlElement> elements;
 
     public HtmlDocument() {
         this.elements = new ArrayList<>();

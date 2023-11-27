@@ -1,21 +1,26 @@
 package html;
 
+import antlrHTML.HTMLLexer;
 import antlrHTML.HTMLParser;
 import antlrHTML.HTMLParserBaseVisitor;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.TerminalNodeImpl;
 
 public class AntlrToHtmlContent extends HTMLParserBaseVisitor<HtmlContent> {
     @Override
-    public HtmlContent visitHtmlContent(HTMLParser.HtmlContentContext ctx) {
-        return super.visitHtmlContent(ctx);
-    }
-
-    @Override
     public HtmlContent visitHtmlChardata(HTMLParser.HtmlChardataContext ctx) {
-        return super.visitHtmlChardata(ctx);
+        String text = ctx.getChild(0).getText();
+        Token token = ((TerminalNodeImpl)ctx.getChild(0)).getSymbol();
+        int tokenType = token.getType();
+        if(tokenType == HTMLLexer.SEA_WS){
+            return null;
+        }
+        return new HtmlCharData(text);
     }
 
     @Override
     public HtmlContent visitHtmlComment(HTMLParser.HtmlCommentContext ctx) {
-        return super.visitHtmlComment(ctx);
+        String text = ctx.HTML_COMMENT().getText();
+        return new HtmlComment(text);
     }
 }

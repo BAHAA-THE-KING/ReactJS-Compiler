@@ -13,6 +13,6 @@ public class AntlrToHtmlDocument extends HTMLParserBaseVisitor<HtmlDocument> {
                 doc.addElement(visitor.visit(ctx.getChild(i)));
             }
         }
-        return super.visitHtmlDocument(ctx);
+        return doc;
     }
 }

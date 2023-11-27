@@ -12,6 +12,8 @@ public class HtmlAttribute {
 
     @Override
     public String toString() {
-        return "HtmlAttribute{" + "id='" + id + '\'' + ", value='" + value + '\'' + '}';
+        return "{ \"class\": \"HtmlAttribute\", " +
+                "\"id\": \"" + id + "\", " +
+                "\"value\": \"" + value + "\" }";
     }
 }

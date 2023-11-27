@@ -1,4 +1,4 @@
-// Generated from E:/Compiler/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
+// Generated from C:/Users/Aman/Documents/Projects/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
 package antlrJS;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -348,6 +348,18 @@ public class JSParserBaseListener implements JSParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExportDeclaration(JSParser.ExportDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExportBlock(JSParser.ExportBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExportBlock(JSParser.ExportBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

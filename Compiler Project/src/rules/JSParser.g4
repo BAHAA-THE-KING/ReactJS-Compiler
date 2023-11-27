@@ -65,7 +65,8 @@ aliasName
     ;
 
 exportStatement
-    : Export Default? (exportFromBlock | declaration) eos    # ExportDeclaration
+    : Export Default?  declaration eos    # ExportDeclaration
+    | Export Default? exportFromBlock  eos    # ExportBlock
     | Export Default singleExpression eos                    # ExportDefaultDeclaration
     ;
 

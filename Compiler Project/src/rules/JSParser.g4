@@ -36,28 +36,17 @@ statementList
     ;
 
 importStatement
-    : Import importDefault? (importNamespace | importModuleItems) importFrom eos   # ObjectImportBlock
-    | Import StringLiteral eos                                                     # FileImportBlock
+    : Import StringLiteral eos                                                      # FileImportBlock
+    | Import importNamespace From StringLiteral eos                                 # DeafultAsImportBlock
+    | Import (importNamespace Comma)? importModuleItems From StringLiteral eos      # ObjectImportBlock
     ;
 
 importModuleItems
-    : OpenBrace (importAliasName Comma)* (importAliasName Comma?)? CloseBrace
-    ;
-
-importAliasName
-    : Identifier (As Identifier)?
-    ;
-
-importDefault
-    : aliasName Comma
+    : OpenBrace (aliasName Comma)* (aliasName Comma?)? CloseBrace
     ;
 
 importNamespace
     : (Multiply | Identifier) (As Identifier)?
-    ;
-
-importFrom
-    : From StringLiteral
     ;
 
 aliasName
@@ -71,7 +60,7 @@ exportStatement
     ;
 
 exportFromBlock
-    : exportModuleItems importFrom? eos
+    : exportModuleItems (From StringLiteral)?
     ;
 
 exportModuleItems

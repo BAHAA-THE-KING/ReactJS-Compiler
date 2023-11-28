@@ -1,4 +1,4 @@
-// Generated from C:/Users/Aman/Documents/Projects/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
+// Generated from C:/Users/ASUS/Desktop/GitHub/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
 package antlrJS;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -230,18 +230,6 @@ public interface JSParserListener extends ParseTreeListener {
 	 */
 	void exitStatementList(JSParser.StatementListContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ObjectImportBlock}
-	 * labeled alternative in {@link JSParser#importStatement}.
-	 * @param ctx the parse tree
-	 */
-	void enterObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ObjectImportBlock}
-	 * labeled alternative in {@link JSParser#importStatement}.
-	 * @param ctx the parse tree
-	 */
-	void exitObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code FileImportBlock}
 	 * labeled alternative in {@link JSParser#importStatement}.
 	 * @param ctx the parse tree
@@ -254,6 +242,30 @@ public interface JSParserListener extends ParseTreeListener {
 	 */
 	void exitFileImportBlock(JSParser.FileImportBlockContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code DeafultAsImportBlock}
+	 * labeled alternative in {@link JSParser#importStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDeafultAsImportBlock(JSParser.DeafultAsImportBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code DeafultAsImportBlock}
+	 * labeled alternative in {@link JSParser#importStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDeafultAsImportBlock(JSParser.DeafultAsImportBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ObjectImportBlock}
+	 * labeled alternative in {@link JSParser#importStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ObjectImportBlock}
+	 * labeled alternative in {@link JSParser#importStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link JSParser#importModuleItems}.
 	 * @param ctx the parse tree
 	 */
@@ -264,26 +276,6 @@ public interface JSParserListener extends ParseTreeListener {
 	 */
 	void exitImportModuleItems(JSParser.ImportModuleItemsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link JSParser#importAliasName}.
-	 * @param ctx the parse tree
-	 */
-	void enterImportAliasName(JSParser.ImportAliasNameContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JSParser#importAliasName}.
-	 * @param ctx the parse tree
-	 */
-	void exitImportAliasName(JSParser.ImportAliasNameContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link JSParser#importDefault}.
-	 * @param ctx the parse tree
-	 */
-	void enterImportDefault(JSParser.ImportDefaultContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JSParser#importDefault}.
-	 * @param ctx the parse tree
-	 */
-	void exitImportDefault(JSParser.ImportDefaultContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link JSParser#importNamespace}.
 	 * @param ctx the parse tree
 	 */
@@ -293,16 +285,6 @@ public interface JSParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitImportNamespace(JSParser.ImportNamespaceContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link JSParser#importFrom}.
-	 * @param ctx the parse tree
-	 */
-	void enterImportFrom(JSParser.ImportFromContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JSParser#importFrom}.
-	 * @param ctx the parse tree
-	 */
-	void exitImportFrom(JSParser.ImportFromContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link JSParser#aliasName}.
 	 * @param ctx the parse tree

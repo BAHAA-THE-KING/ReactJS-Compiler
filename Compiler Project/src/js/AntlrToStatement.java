@@ -59,7 +59,9 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitExportDefaultDeclaration(JSParser.ExportDefaultDeclarationContext ctx) {
         String exportName = ctx.singleExpression().getChild(0).getText();
-        return new ExportDefaultDeclaration(exportName);
+        ExportDefaultDeclaration  e =new ExportDefaultDeclaration(exportName);
+        System.out.println( e.toString());
+        return e;
     }
 
     @Override
@@ -69,17 +71,18 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
         for (int i = 1; i < ctx.exportFromBlock().exportModuleItems().getChildCount(); i += 2) {
             items.add(ctx.exportFromBlock().exportModuleItems().getChild(i).getText());
         }
-        return new ExportBlock(items);
+        ExportBlock e = new ExportBlock(items);
+        System.out.println(e.toString());
+        return e;
     }
 
 
 
     @Override
     public Statement visitExportDeclaration(JSParser.ExportDeclarationContext ctx) {
-
-        String className = ctx.declaration().getChild(1).getText();
-
-
-        return new ExportDeclaration(className);
+        String className = ctx.declaration().getChild(0).getChild(1).getText();
+        ExportDeclaration e = new ExportDeclaration(className);
+        System.out.println( e.toString());
+        return e;
     }
 }

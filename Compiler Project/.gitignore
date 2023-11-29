@@ -4,6 +4,7 @@ out/
 !**/src/test/**/out/
 src/antlrHTML
 src/antlrJS
+.idea
 Compiler Project.iml
 
 ### Eclipse ###

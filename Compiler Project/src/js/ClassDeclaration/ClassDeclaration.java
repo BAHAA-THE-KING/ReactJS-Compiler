@@ -1,10 +1,8 @@
 package js.ClassDeclaration;
 
-import js.Statement;
-
 import java.util.ArrayList;
 import java.util.List;
-public class ClassDeclaration extends Statement {
+public class ClassDeclaration {
 
     String id;
     String parent;

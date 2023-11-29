@@ -1,4 +1,4 @@
-// Generated from C:/Users/ASUS/Desktop/GitHub/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
+// Generated from D:/__git projects/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
 package antlrJS;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -1116,18 +1116,6 @@ public class JSParserBaseListener implements JSParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitObjectLiteralExpression(JSParser.ObjectLiteralExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMetaExpression(JSParser.MetaExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMetaExpression(JSParser.MetaExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

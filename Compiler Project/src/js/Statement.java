@@ -1,4 +1,4 @@
 package js;
 
-public abstract class Statement {
+public interface Statement {
 }

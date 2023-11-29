@@ -1032,18 +1032,6 @@ public interface JSParserListener extends ParseTreeListener {
 	 */
 	void exitObjectLiteralExpression(JSParser.ObjectLiteralExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code MetaExpression}
-	 * labeled alternative in {@link JSParser#singleExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterMetaExpression(JSParser.MetaExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code MetaExpression}
-	 * labeled alternative in {@link JSParser#singleExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitMetaExpression(JSParser.MetaExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code InExpression}
 	 * labeled alternative in {@link JSParser#singleExpression}.
 	 * @param ctx the parse tree

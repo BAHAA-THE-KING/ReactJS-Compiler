@@ -615,13 +615,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitObjectLiteralExpression(JSParser.ObjectLiteralExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code MetaExpression}
-	 * labeled alternative in {@link JSParser#singleExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMetaExpression(JSParser.MetaExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code InExpression}
 	 * labeled alternative in {@link JSParser#singleExpression}.
 	 * @param ctx the parse tree

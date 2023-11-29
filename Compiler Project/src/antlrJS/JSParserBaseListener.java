@@ -1121,18 +1121,6 @@ public class JSParserBaseListener implements JSParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMetaExpression(JSParser.MetaExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMetaExpression(JSParser.MetaExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterInExpression(JSParser.InExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}

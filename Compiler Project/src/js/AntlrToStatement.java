@@ -4,6 +4,7 @@ import js.ClassDeclaration.ClassDeclaration;
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
 import js.Block.BlockModel;
+import js.ClassDeclaration.ClassElement;
 import js.ExportStatement.ExportBlock;
 import js.ExportStatement.ExportDefaultDeclaration;
 import js.ImportStatement.DeafultAsImportBlock;
@@ -12,8 +13,10 @@ import js.Function.FunctionDeclaration;
 import js.ImportStatement.FileImportBlock;
 import js.ImportStatement.ObjectImportBlock;
 import org.antlr.v4.runtime.misc.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
+
 public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitImportChunk(JSParser.ImportChunkContext ctx) {
@@ -82,8 +85,12 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
             parent = "null";
         }
         ClassDeclaration classDeclaration = new ClassDeclaration(id, parent);
-        System.out.println(classDeclaration.toString());
-        //TODO visit elements
+        var classElements = ctx.classTail().classElements();
+        AntlrToClassElement visitor = new AntlrToClassElement();
+        for (int i = 0; i < classElements.getChildCount(); i++) {
+            ClassElement classElement = visitor.visit(classElements.getChild(i));
+            classDeclaration.addElement(classElement);
+        }
         return classDeclaration;
     }
 
@@ -115,23 +122,8 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
     @Override
     public Statement visitExportDeclaration(JSParser.ExportDeclarationContext ctx) {
-
-
         return visit(ctx.declaration().getChild(0));
     }
-
-    @Override
-    public Statement visitNormalParameters(JSParser.NormalParametersContext ctx) {
-        List<String> parameters = new ArrayList<>();
-        if (ctx != null) {
-            for (int i = 0; i < ctx.getChildCount(); i += 2) {
-                parameters.add(ctx.getChild(i).getChild(0).getText());
-            }
-            return new FormalParameter(parameters);
-        }
-        return super.visitNormalParameters(ctx);
-    }
-
 
     @Override
     public Statement visitFunctionDeclaration(JSParser.FunctionDeclarationContext ctx) {

@@ -1,8 +1,10 @@
 package js.Function;
 
+import js.Statement;
+
 import java.util.List;
 
-public class FunctionDeclaration extends JSExpression {
+public class FunctionDeclaration implements Statement {
     private String Identifier;
 
     private List<String> parameters;

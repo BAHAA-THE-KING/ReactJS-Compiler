@@ -1,8 +1,10 @@
 package js.ExportStatement;
 
+import js.Statement;
+
 import java.util.List;
 
-public class ExportBlock {
+public class ExportBlock implements Statement {
     List<String> items;
 
     public ExportBlock(List<String> items) {

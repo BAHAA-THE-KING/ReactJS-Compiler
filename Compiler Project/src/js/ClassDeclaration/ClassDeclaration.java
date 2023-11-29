@@ -1,8 +1,14 @@
 package js.ClassDeclaration;
 
+import js.Expression;
+import js.PropertyName.PropertyName;
+import js.Statement;
+import org.antlr.v4.runtime.misc.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
-public class ClassDeclaration {
+
+public class ClassDeclaration implements Statement, Expression {
 
     String id;
     String parent;
@@ -14,8 +20,8 @@ public class ClassDeclaration {
         this.elements = new ArrayList<>();
     }
 
-    public void addElement(ClassElement element) {
-        this.elements.add(element);
+    public void addElement(ClassElement classElement) {
+        this.elements.add(classElement);
     }
 
     @Override

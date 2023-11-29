@@ -12,14 +12,8 @@ import js.Function.FunctionDeclaration;
 import js.ImportStatement.FileImportBlock;
 import js.ImportStatement.ObjectImportBlock;
 import org.antlr.v4.runtime.misc.Pair;
-import org.antlr.v4.runtime.tree.ParseTree;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitImportChunk(JSParser.ImportChunkContext ctx) {

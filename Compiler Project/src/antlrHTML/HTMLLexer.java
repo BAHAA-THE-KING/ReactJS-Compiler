@@ -1,4 +1,4 @@
-// Generated from C:/Users/ASUS/Desktop/GitHub/ReactJS-Compiler/Compiler Project/src/rules/HTMLLexer.g4 by ANTLR 4.13.1
+// Generated from C:/Users/Aman/Documents/Projects/ReactJS-Compiler/Compiler Project/src/rules/HTMLLexer.g4 by ANTLR 4.13.1
 package antlrHTML;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

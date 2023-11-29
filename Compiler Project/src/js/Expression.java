@@ -1,4 +1,4 @@
 package js;
 
-public abstract class Expression {
+public interface Expression {
 }

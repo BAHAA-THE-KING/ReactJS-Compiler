@@ -1,4 +1,4 @@
-// Generated from C:/Users/Aman/Documents/Projects/ReactJS-Compiler/Compiler Project/src/rules/HTMLParser.g4 by ANTLR 4.13.1
+// Generated from D:/__git projects/ReactJS-Compiler/Compiler Project/src/rules/HTMLParser.g4 by ANTLR 4.13.1
 package antlrHTML;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 

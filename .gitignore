@@ -35,3 +35,4 @@ bin/
 .idea/misc.xml
 .idea/misc.xml
 Compiler Project/src/antlrHTML/HTMLLexer.java
+Compiler Project/src/antlrHTML/HTMLLexer.java

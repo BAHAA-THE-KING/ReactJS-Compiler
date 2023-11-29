@@ -2,7 +2,6 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-.idea/
 
 ### Eclipse ###
 .apt_generated
@@ -29,10 +28,5 @@ bin/
 ### Mac OS ###
 .DS_Store
 /.idea/
-/.idea/
-/.idea/
-/.idea/
 .idea/misc.xml
-.idea/misc.xml
-Compiler Project/src/antlrHTML/HTMLLexer.java
 Compiler Project/src/antlrHTML/HTMLLexer.java

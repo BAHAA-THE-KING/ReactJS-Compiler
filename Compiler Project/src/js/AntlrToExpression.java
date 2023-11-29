@@ -8,6 +8,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     @Override
     public Expression visitClassExpression(JSParser.ClassExpressionContext ctx) {
         String name = ctx.Identifier() != null ? ctx.Identifier().getText() : "";
-        return
+        ClassDeclaration classDeclaration = new ClassDeclaration(name, "");
+        return classDeclaration;
     }
 }

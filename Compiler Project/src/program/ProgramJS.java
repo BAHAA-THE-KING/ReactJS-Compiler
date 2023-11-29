@@ -24,6 +24,7 @@ public class ProgramJS {
             ParseTree antlrAST = parser.program();
             AntlrToProgram progVisitor = new AntlrToProgram();
             JsProgram doc = progVisitor.visit(antlrAST);
+            System.out.println(doc);
         }
 
     }

@@ -1,14 +1,12 @@
 package js.ImportStatement;
 
-public class FileImportBlock extends ImportChunk {
-    String fileName;
-
-    public FileImportBlock(String fileName) {
-        this.fileName = fileName;
+public class FileImportBlock extends ImportStatement {
+    public FileImportBlock(String packageName) {
+        super(packageName);
     }
 
     @Override
     public String toString() {
-        return "FileImportBlock{" + "fileName='" + fileName + '\'' + '}';
+        return "FileImportBlock{" + "packageName='" + packageName + '\'' + '}';
     }
 }

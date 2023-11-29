@@ -1,4 +1,4 @@
-// Generated from C:/Users/Aman/Documents/Projects/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
+// Generated from C:/Users/ASUS/Desktop/GitHub/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
 package antlrJS;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -141,13 +141,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatementList(JSParser.StatementListContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ObjectImportBlock}
-	 * labeled alternative in {@link JSParser#importStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code FileImportBlock}
 	 * labeled alternative in {@link JSParser#importStatement}.
 	 * @param ctx the parse tree
@@ -155,35 +148,31 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFileImportBlock(JSParser.FileImportBlockContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code DeafultAsImportBlock}
+	 * labeled alternative in {@link JSParser#importStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDeafultAsImportBlock(JSParser.DeafultAsImportBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ObjectImportBlock}
+	 * labeled alternative in {@link JSParser#importStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitObjectImportBlock(JSParser.ObjectImportBlockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link JSParser#importModuleItems}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitImportModuleItems(JSParser.ImportModuleItemsContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link JSParser#importAliasName}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitImportAliasName(JSParser.ImportAliasNameContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#importDefault}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitImportDefault(JSParser.ImportDefaultContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link JSParser#importNamespace}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitImportNamespace(JSParser.ImportNamespaceContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#importFrom}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitImportFrom(JSParser.ImportFromContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JSParser#aliasName}.
 	 * @param ctx the parse tree

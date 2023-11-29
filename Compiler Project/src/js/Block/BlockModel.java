@@ -5,7 +5,7 @@ import js.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockModel extends Statement{
+public class BlockModel {
     List<Statement> statements;
 
     public BlockModel() {

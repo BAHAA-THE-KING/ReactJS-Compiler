@@ -5,7 +5,12 @@ import antlrJS.JSParserBaseVisitor;
 import js.ExpAbdulla.*;
 
 public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
-
+@Override
+    public Expression visitClassExpression(JSParser.ClassExpressionContext ctx) {
+        String name = ctx.Identifier() != null ? ctx.Identifier().getText() : "";
+        ClassDeclaration classDeclaration = new ClassDeclaration(name, "");
+        return classDeclaration;
+    }
     @Override
     public Expression visitMemberDotExpression(JSParser.MemberDotExpressionContext ctx) {
 

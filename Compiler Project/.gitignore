@@ -4,6 +4,7 @@ out/
 !**/src/test/**/out/
 src/antlrHTML
 src/antlrJS
+Compiler Project.iml
 
 ### Eclipse ###
 .apt_generated

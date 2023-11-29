@@ -245,12 +245,9 @@ singleExpression
     | Class Identifier? classTail                                                                       # ClassExpression
     | singleExpression QuestionMarkDot singleExpression                                                 # OptionalChainExpression
     | singleExpression QuestionMarkDot? OpenBracket expressionSequence CloseBracket                     # MemberIndexExpression
-    | singleExpression QuestionMark? Dot Identifier                                                 # MemberDotExpression
+    | singleExpression QuestionMark? Dot Identifier                                                     # MemberDotExpression
     | New Identifier arguments                                                                          # NewExpression
-    | New singleExpression arguments                                                                    # NewExpression
-    | New singleExpression                                                                              # NewExpression
     | singleExpression arguments                                                                        # ArgumentsExpression
-    | New Dot Identifier                                                                                # MetaExpression
     | singleExpression PlusPlus                                                                         # PostIncrementExpression
     | singleExpression MinusMinus                                                                       # PostDecreaseExpression
     | Delete singleExpression                                                                           # DeleteExpression

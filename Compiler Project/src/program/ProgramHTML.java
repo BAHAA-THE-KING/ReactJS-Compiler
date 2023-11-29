@@ -4,6 +4,7 @@ import antlrHTML.HTMLLexer;
 import antlrHTML.HTMLParser;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import html.AntlrToHtmlDocument;
 import html.HtmlDocument;
@@ -20,7 +21,7 @@ import java.util.List;
 public class ProgramHTML {
     public static List<String> errors = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, JsonMappingException {
         if (args.length != 1) {
             System.err.println("fuck you");
         } else {

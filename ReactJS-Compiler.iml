@@ -11,7 +11,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://E:/jackson-core-2.0.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/Compiler Project/lib/jackson-annotations-2.1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -20,7 +20,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://E:/jackson-databind-2.0.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/Compiler Project/lib/jackson-databind-2.0.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -29,7 +29,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://E:/New folder (2)/jackson-annotations-2.1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/Compiler Project/lib/jackson-core-2.0.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

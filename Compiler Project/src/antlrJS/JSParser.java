@@ -1,4 +1,4 @@
-// Generated from C:/Users/ASUS/Desktop/GitHub/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
+// Generated from D:/GitHub/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
 package antlrJS;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -385,26 +385,6 @@ public class JSParser extends Parser {
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
-	public static class ExpressionChunkGContext extends StatementContext {
-		public ExpressionStatementContext expressionStatement() {
-			return getRuleContext(ExpressionStatementContext.class,0);
-		}
-		public ExpressionChunkGContext(StatementContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof JSParserListener ) ((JSParserListener)listener).enterExpressionChunkG(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof JSParserListener ) ((JSParserListener)listener).exitExpressionChunkG(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof JSParserVisitor ) return ((JSParserVisitor<? extends T>)visitor).visitExpressionChunkG(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	@SuppressWarnings("CheckReturnValue")
 	public static class BlockChunkContext extends StatementContext {
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
@@ -421,6 +401,26 @@ public class JSParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof JSParserVisitor ) return ((JSParserVisitor<? extends T>)visitor).visitBlockChunk(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
+	public static class ExpressionChunkContext extends StatementContext {
+		public ExpressionStatementContext expressionStatement() {
+			return getRuleContext(ExpressionStatementContext.class,0);
+		}
+		public ExpressionChunkContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof JSParserListener ) ((JSParserListener)listener).enterExpressionChunk(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof JSParserListener ) ((JSParserListener)listener).exitExpressionChunk(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof JSParserVisitor ) return ((JSParserVisitor<? extends T>)visitor).visitExpressionChunk(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -629,7 +629,7 @@ public class JSParser extends Parser {
 				}
 				break;
 			case 8:
-				_localctx = new ExpressionChunkGContext(_localctx);
+				_localctx = new ExpressionChunkContext(_localctx);
 				enterOuterAlt(_localctx, 8);
 				{
 				setState(140);

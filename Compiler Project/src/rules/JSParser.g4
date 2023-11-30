@@ -16,7 +16,7 @@ statement
     | SemiColon                 # EmptyChunk
     | classDeclaration          # ClassDeclerationChunk
     | functionDeclaration       # FunctionDeclarationChunk
-    | expressionStatement       # ExpressionChunkG
+    | expressionStatement       # ExpressionChunk
     | ifStatement               # ConditionalChunk
     | iterationStatement        # LoopChunk
     | continueStatement         # ContinueChunk

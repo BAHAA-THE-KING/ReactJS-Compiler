@@ -1,4 +1,4 @@
-// Generated from D:/GitHub/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
+// Generated from C:/Users/ASUS/Desktop/GitHub/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
 package antlrJS;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -1041,6 +1041,18 @@ public interface JSParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitObjectLiteralExpression(JSParser.ObjectLiteralExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code InExpression}
+	 * labeled alternative in {@link JSParser#singleExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterInExpression(JSParser.InExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code InExpression}
+	 * labeled alternative in {@link JSParser#singleExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitInExpression(JSParser.InExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code LogicalOrExpression}
 	 * labeled alternative in {@link JSParser#singleExpression}.

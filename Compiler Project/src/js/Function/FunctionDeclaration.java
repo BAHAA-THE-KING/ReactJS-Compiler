@@ -1,14 +1,16 @@
 package js.Function;
 
+import js.Statement;
+
 import java.util.List;
 
-public class FunctionDeclaration extends JSExpression {
+public class FunctionDeclaration extends Function {
     private String Identifier;
 
     private List<String> parameters;
-    private JSExpression body;
+    private List<Statement> body;
 
-    public FunctionDeclaration(String identifier, List<String> parameters, JSExpression body) {
+    public FunctionDeclaration(String identifier, List<String> parameters, List<Statement> body) {
         Identifier = identifier;
         this.parameters = parameters;
         this.body = body;

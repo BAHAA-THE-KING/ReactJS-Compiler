@@ -1,4 +1,6 @@
 package js.ExportStatement;
 
-public abstract class ExportChunk {
+import js.Statement;
+
+public abstract class ExportChunk implements Statement {
 }

@@ -3,14 +3,14 @@ package js.ExpAbdulla;
 import js.Expression;
 
 public class UnaryPlusExpression implements Expression {
-    Expression objectName;
+    Expression identifier;
 
-    public UnaryPlusExpression(Expression objectName) {
-        this.objectName = objectName;
+    public UnaryPlusExpression(Expression identifier) {
+        this.identifier = identifier;
     }
 
     @Override
     public String toString() {
-        return "UnaryPlusExpression{" + "objectName=" + objectName + '}';
+        return "UnaryPlusExpression{" + "identifier=" + identifier + '}';
     }
 }

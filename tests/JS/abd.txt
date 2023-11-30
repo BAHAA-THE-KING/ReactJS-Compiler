@@ -1,1 +1,1 @@
-i++;
+delete a.b;

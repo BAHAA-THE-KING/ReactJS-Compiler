@@ -30,3 +30,5 @@ bin/
 /.idea/
 .idea/misc.xml
 Compiler Project/src/antlrHTML/HTMLLexer.java
+
+Compiler Project/src/antlrJS/

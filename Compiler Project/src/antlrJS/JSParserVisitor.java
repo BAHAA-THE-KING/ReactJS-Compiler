@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
 // Generated from D:/GitHub/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
-=======
-// Generated from C:/Users/Aman/Documents/Projects/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
->>>>>>> Stashed changes
 package antlrJS;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -624,13 +620,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitObjectLiteralExpression(JSParser.ObjectLiteralExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code InExpression}
-	 * labeled alternative in {@link JSParser#singleExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInExpression(JSParser.InExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code LogicalOrExpression}
 	 * labeled alternative in {@link JSParser#singleExpression}.

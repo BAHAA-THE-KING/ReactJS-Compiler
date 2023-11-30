@@ -128,8 +128,8 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
     @Override
     public Statement visitNormalParameters(JSParser.NormalParametersContext ctx) {
+        FormalParameter fp = new FormalParameter();
 
-       FormalParameter fp = new FormalParameter();
         if (ctx != null) {
             for (int i = 0; i < ctx.getChildCount(); i += 2) {
                 fp.addParameter(ctx.getChild(i).getChild(0).getText());

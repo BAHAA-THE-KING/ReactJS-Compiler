@@ -7,6 +7,8 @@ import js.Block.BlockModel;
 import js.ClassDeclaration.ClassElement;
 import js.ExportStatement.ExportBlock;
 import js.ExportStatement.ExportDefaultDeclaration;
+import js.ExpressionChunk.ExpressionChunk;
+import js.Function.AnonymousFunctionDecl;
 import js.Function.*;
 import js.ImportStatement.DeafultAsImportBlock;
 import js.ImportStatement.FileImportBlock;
@@ -20,6 +22,17 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitImportChunk(JSParser.ImportChunkContext ctx) {
         return visit(ctx.importStatement());
+    }
+
+    @Override
+    public Statement visitExpressionChunk(JSParser.ExpressionChunkContext ctx) {
+        ExpressionChunk chunk = new ExpressionChunk();
+        List<JSParser.SingleExpressionContext> exps = ctx.expressionStatement().expressionSequence().singleExpression();
+        AntlrToExpression visitor = new AntlrToExpression();
+        for (JSParser.SingleExpressionContext e : exps){
+            chunk.addExpression(visitor.visit(e));
+        }
+        return chunk;
     }
 
     @Override

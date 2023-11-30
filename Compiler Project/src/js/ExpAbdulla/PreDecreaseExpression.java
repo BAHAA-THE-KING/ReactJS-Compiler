@@ -4,14 +4,14 @@ import js.Expression;
 
 public class PreDecreaseExpression implements Expression {
 
-    Expression objectName;
+    Expression identifier;
 
-    public PreDecreaseExpression(Expression objectName) {
-        this.objectName = objectName;
+    public PreDecreaseExpression(Expression identifier) {
+        this.identifier = identifier;
     }
 
     @Override
     public String toString() {
-        return "PreDecreaseExpression{" + "objectName=" + objectName + '}';
+        return "PreDecreaseExpression{" + "identifier=" + identifier + '}';
     }
 }

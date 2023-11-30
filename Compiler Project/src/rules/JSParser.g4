@@ -266,7 +266,7 @@ singleExpression
     | singleExpression (Plus | Minus) singleExpression                                                  # AdditiveExpression
     | singleExpression NullCoalesce singleExpression                                                    # CoalesceExpression
     | singleExpression (LessThan | MoreThan | LessThanEquals | GreaterThanEquals) singleExpression      # RelationalExpression
-    | singleExpression In singleExpression                                                              # InExpression
+//    | singleExpression In singleExpression                                                              # InExpression
     | singleExpression (Equals | NotEquals | IdentityEquals | IdentityNotEquals) singleExpression       # EqualityExpression
     | singleExpression And singleExpression                                                             # LogicalAndExpression
     | singleExpression Or singleExpression                                                              # LogicalOrExpression

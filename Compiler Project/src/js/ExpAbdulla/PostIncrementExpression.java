@@ -4,14 +4,14 @@ import js.Expression;
 
 public class PostIncrementExpression implements Expression {
 
-    Expression objectName;
+    Expression identifier;
 
-    public PostIncrementExpression(Expression objectName) {
-        this.objectName = objectName;
+    public PostIncrementExpression(Expression identifier) {
+        this.identifier = identifier;
     }
 
     @Override
     public String toString() {
-        return "PostIncrementExpression{" + "objectName=" + objectName + '}';
+        return "PostIncrementExpression{" + "identifier=" + identifier + '}';
     }
 }

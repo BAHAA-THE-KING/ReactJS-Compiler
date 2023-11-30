@@ -4,14 +4,14 @@ import js.Expression;
 
 public class PostDecreaseExpression implements Expression {
 
-    Expression objectName;
+    Expression identifier;
 
-    public PostDecreaseExpression(Expression objectName) {
-        this.objectName = objectName;
+    public PostDecreaseExpression(Expression identifier) {
+        this.identifier = identifier;
     }
 
     @Override
     public String toString() {
-        return "PostDecreaseExpression{" + "objectName=" + objectName + '}';
+        return "PostDecreaseExpression{" + "identifier=" + identifier + '}';
     }
 }

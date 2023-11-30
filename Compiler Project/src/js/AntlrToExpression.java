@@ -5,7 +5,10 @@ import antlrJS.JSParserBaseVisitor;
 import js.ClassDeclaration.ClassDeclaration;
 import js.ClassDeclaration.ClassElement;
 import js.ExpAbdulla.*;
+import js.ExpressionChunk.ExpressionChunk;
 import js.ExpAbood.LogicalExpression;
+
+import java.util.List;
 
 public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
 
@@ -98,40 +101,5 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         Expression objectName = visit(ctx.singleExpression());
         UnaryMinusExpression unaryMinus = new UnaryMinusExpression(objectName);
         return unaryMinus;
-    }
-
-    @Override
-    public Expression visitMultiplicativeExpression(JSParser.MultiplicativeExpressionContext ctx) {
-
-
-        return super.visitMultiplicativeExpression(ctx);
-    }
-
-    @Override
-    public Expression visitLogicalAndExpression(JSParser.LogicalAndExpressionContext ctx) {
-        Expression left = visit(ctx.singleExpression(0));
-        Expression right = visit(ctx.singleExpression(2));
-        String operator = ctx.getChild(1).getText();
-        LogicalExpression logical =new LogicalExpression(left,right,operator);
-        return logical;
-    }
-
-    @Override
-    public Expression visitLogicalOrExpression(JSParser.LogicalOrExpressionContext ctx) {
-        Expression left = visit(ctx.singleExpression(0));
-        Expression right = visit(ctx.singleExpression(2));
-        String operator = ctx.getChild(1).getText();
-        LogicalExpression logical =new LogicalExpression(left,right,operator);
-        return logical;
-    }
-
-    @Override
-    public Expression visitEqualityExpression(JSParser.EqualityExpressionContext ctx) {
-
-        Expression left = visit(ctx.singleExpression(0));
-        Expression right = visit(ctx.singleExpression(2));
-        String operator = ctx.getChild(1).getText();
-        LogicalExpression logical =new LogicalExpression(left,right,operator);
-        return logical;
     }
 }

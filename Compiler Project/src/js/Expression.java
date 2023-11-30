@@ -1,4 +1,6 @@
 package js;
 
-public interface Expression {
+import js.Function.ArrowFunctionBody;
+
+public interface Expression extends ArrowFunctionBody {
 }

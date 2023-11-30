@@ -143,9 +143,9 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     public Statement visitAnonymousFunctionDecl(JSParser.AnonymousFunctionDeclContext ctx) {
         FormalParameter fp = (FormalParameter) visit(ctx.formalParameterList());
 
-AnonymousFunctionDecl a =  new AnonymousFunctionDecl(fp.getParameters(),null);
+        AnonymousFunctionDecl a =  new AnonymousFunctionDecl(fp.getParameters(),null);
         System.out.println(a.toString());
-       return a;
+        return a;
     }
 
 

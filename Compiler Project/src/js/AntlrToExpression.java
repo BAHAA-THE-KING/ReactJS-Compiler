@@ -5,6 +5,9 @@ import antlrJS.JSParserBaseVisitor;
 import js.ClassDeclaration.ClassDeclaration;
 import js.ClassDeclaration.ClassElement;
 import js.ExpAbdulla.*;
+import js.ExpressionChunk.ExpressionChunk;
+
+import java.util.List;
 
 public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
 
@@ -97,5 +100,10 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         Expression objectName = visit(ctx.singleExpression());
         UnaryMinusExpression unaryMinus = new UnaryMinusExpression(objectName);
         return unaryMinus;
+    }
+
+    @Override
+    public Expression visitIdentifierExpression(JSParser.IdentifierExpressionContext ctx) {
+        return new IdentifierExpression(ctx.Identifier().getText());
     }
 }

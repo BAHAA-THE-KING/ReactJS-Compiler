@@ -1,6 +1,6 @@
 package js;
 
-public class NewExpression extends Expression {
+public class NewExpression implements Expression {
     String id;
     Arguments arguments;
 

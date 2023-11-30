@@ -1,6 +1,6 @@
 package js;
 
-public class ArgumentsExpression extends Expression {
+public class ArgumentsExpression implements Expression {
     Expression singleExpression;
     Arguments arguments;
 

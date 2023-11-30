@@ -1,6 +1,6 @@
 package js;
 
-public class OptionalChainExpression extends Expression{
+public class OptionalChainExpression implements Expression{
     Expression objectName ;
     Expression objectProperty;
 

@@ -179,13 +179,6 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     }
 
     @Override
-    public Expression visitMultiplicativeExpression(JSParser.MultiplicativeExpressionContext ctx) {
-
-
-        return super.visitMultiplicativeExpression(ctx);
-    }
-
-    @Override
     public Expression visitLogicalAndExpression(JSParser.LogicalAndExpressionContext ctx) {
         Expression left = visit(ctx.singleExpression(0));
         Expression right = visit(ctx.singleExpression(2));

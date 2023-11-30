@@ -103,6 +103,20 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     }
 
     @Override
+    public Expression visitDeleteExpression(JSParser.DeleteExpressionContext ctx) {
+        Expression identifier = visit(ctx.singleExpression());
+        DeleteExpression delete = new DeleteExpression(identifier);
+        return delete;
+    }
+
+    @Override
+    public Expression visitTypeofExpression(JSParser.TypeofExpressionContext ctx) {
+        Expression identifier = visit(ctx.singleExpression());
+        DeleteExpression typeOf = new DeleteExpression(identifier);
+        return typeOf;
+    }
+
+    @Override
     public Expression visitIdentifierExpression(JSParser.IdentifierExpressionContext ctx) {
         return new IdentifierExpression(ctx.Identifier().getText());
     }

@@ -9,9 +9,8 @@ import js.ExportStatement.ExportBlock;
 import js.ExportStatement.ExportDefaultDeclaration;
 import js.ExpressionChunk.ExpressionChunk;
 import js.Function.AnonymousFunctionDecl;
+import js.Function.*;
 import js.ImportStatement.DeafultAsImportBlock;
-import js.Function.FormalParameter;
-import js.Function.FunctionDeclaration;
 import js.ImportStatement.FileImportBlock;
 import js.ImportStatement.ObjectImportBlock;
 import org.antlr.v4.runtime.misc.Pair;
@@ -156,7 +155,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
         FormalParameter fp = (FormalParameter) visit(ctx.formalParameterList());
 
         AnonymousFunctionDecl a =  new AnonymousFunctionDecl(fp.getParameters(),null);
-        System.out.println(a.toString());
+       // System.out.println(a.toString());
         return a;
     }
 
@@ -165,21 +164,9 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     public Statement visitFunctionDeclaration(JSParser.FunctionDeclarationContext ctx) {
         String functionName = ctx.Identifier().getText();
         FormalParameter fp = (FormalParameter) visit(ctx.formalParameterList());
+        FunctionBody body = (FunctionBody) visitFunctionBody(ctx.functionBody());
 
-
-//        List<String> parameters = new ArrayList<>();
-
-//        if (ctx.formalParameterList() != null) {
-//
-//            for (int i = 0; i < ctx.formalParameterList().getChildCount(); i += 2) {
-//
-//                parameters.add(ctx.formalParameterList().getChild(i).getText());
-//
-//            }
-//
-//        }
-        // TODO add function Body
-        FunctionDeclaration functionDeclaration = new FunctionDeclaration(functionName, fp.getParameters(), null);
+        FunctionDeclaration functionDeclaration = new FunctionDeclaration(functionName, fp.getParameters(), body);
 
         System.out.println(functionDeclaration.toString());
 
@@ -188,17 +175,39 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
     @Override
     public Statement visitFunctionBody(JSParser.FunctionBodyContext ctx) {
+        FunctionBody body = new FunctionBody();
+        if (ctx.statement()!=null){
+            for(int i=0 ; i< ctx.statement().size(); i++){
+                body.addStatement(visit(ctx.statement(i)));
+            }
+            return body;
+        }
+        return null;
 
-        return super.visitFunctionBody(ctx);
     }
 
     @Override
     public Statement visitArrowFunction(JSParser.ArrowFunctionContext ctx) {
         FormalParameter fp = (FormalParameter) visit(ctx.arrowFunctionParameters().getChild(1));
-        AnonymousFunctionDecl af = new AnonymousFunctionDecl(fp.getParameters(),null);
-        System.out.println(af.toString());
-        return af;
+        ArrowFunctionBody arrowFunctionBody = (ArrowFunctionBody) visit(ctx.arrowFunctionBody());
 
+        ArrowFunction arrowFunction = new ArrowFunction(fp.getParameters(),arrowFunctionBody);
+        System.out.println(arrowFunction.toString());
+
+        return arrowFunction;
+
+    }
+
+
+    @Override
+    public Statement visitOneExpression(JSParser.OneExpressionContext ctx) {
+
+       return visit(ctx.singleExpression());
+    }
+
+    @Override
+    public Statement visitManyExpressions(JSParser.ManyExpressionsContext ctx) {
+        return visit(ctx.functionBody());
     }
 
     @Override

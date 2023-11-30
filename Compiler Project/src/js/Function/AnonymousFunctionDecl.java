@@ -8,9 +8,9 @@ import java.util.List;
 public class AnonymousFunctionDecl extends Function {
 
     private List<String> parameters = new ArrayList<>();
-    private List<Statement> body;
+    private FunctionBody body;
 
-    public AnonymousFunctionDecl(List<String> parameters, List<Statement> body) {
+    public AnonymousFunctionDecl(List<String> parameters, FunctionBody body) {
         this.parameters = parameters;
         this.body = body;
     }

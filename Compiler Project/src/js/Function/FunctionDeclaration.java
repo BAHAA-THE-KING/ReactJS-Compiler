@@ -8,9 +8,9 @@ public class FunctionDeclaration implements Statement {
     private String Identifier;
 
     private List<String> parameters;
-    private List<Statement> body;
+    private FunctionBody body;
 
-    public FunctionDeclaration(String identifier, List<String> parameters, List<Statement> body) {
+    public FunctionDeclaration(String identifier, List<String> parameters, FunctionBody body) {
         Identifier = identifier;
         this.parameters = parameters;
         this.body = body;

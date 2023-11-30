@@ -11,12 +11,12 @@ public class AntlrToParameters extends JSParserBaseVisitor<FormalParameter> {
     //TODO
     @Override
     public FormalParameter visitNormalParameters(JSParser.NormalParametersContext ctx) {
-        List<String> parameters = new ArrayList<>();
+        FormalParameter formal = new FormalParameter();
         if (ctx != null) {
             for (int i = 0; i < ctx.getChildCount(); i += 2) {
-                parameters.add(ctx.getChild(i).getChild(0).getText());
+                formal.addParameter(ctx.getChild(i).getChild(0).getText());
             }
-            return new FormalParameter(parameters);
+            return formal;
         }
         return super.visitNormalParameters(ctx);
     }

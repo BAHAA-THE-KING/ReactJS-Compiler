@@ -13,4 +13,7 @@ public class ClassElement {
         this.propertyName = propertyName;
         this.propertyValue = propertyValue;
     }
+
+    public ClassElement() {
+    }
 }

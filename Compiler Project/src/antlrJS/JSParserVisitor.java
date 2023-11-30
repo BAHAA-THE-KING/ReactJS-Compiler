@@ -1,4 +1,4 @@
-// Generated from D:/__git projects/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
+// Generated from C:/Users/ASUS/Desktop/GitHub/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
 package antlrJS;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -416,6 +416,12 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassTail(JSParser.ClassTailContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link JSParser#classElements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassElements(JSParser.ClassElementsContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ClassMethodDefinition}
 	 * labeled alternative in {@link JSParser#classElement}.
 	 * @param ctx the parse tree
@@ -831,12 +837,6 @@ public interface JSParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCoalesceExpression(JSParser.CoalesceExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link JSParser#initializer}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInitializer(JSParser.InitializerContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code VariableByName}
 	 * labeled alternative in {@link JSParser#assignable}.

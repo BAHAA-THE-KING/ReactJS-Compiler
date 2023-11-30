@@ -4,7 +4,7 @@ import js.Statement;
 
 import java.util.List;
 
-public class FunctionDeclaration extends Function {
+public class FunctionDeclaration implements Statement {
     private String Identifier;
 
     private List<String> parameters;

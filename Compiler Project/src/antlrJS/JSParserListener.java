@@ -1,4 +1,4 @@
-// Generated from D:/__git projects/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
+// Generated from C:/Users/ASUS/Desktop/GitHub/ReactJS-Compiler/Compiler Project/src/rules/JSParser.g4 by ANTLR 4.13.1
 package antlrJS;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -693,6 +693,16 @@ public interface JSParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitClassTail(JSParser.ClassTailContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link JSParser#classElements}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassElements(JSParser.ClassElementsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JSParser#classElements}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassElements(JSParser.ClassElementsContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ClassMethodDefinition}
 	 * labeled alternative in {@link JSParser#classElement}.
@@ -1403,16 +1413,6 @@ public interface JSParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCoalesceExpression(JSParser.CoalesceExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link JSParser#initializer}.
-	 * @param ctx the parse tree
-	 */
-	void enterInitializer(JSParser.InitializerContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JSParser#initializer}.
-	 * @param ctx the parse tree
-	 */
-	void exitInitializer(JSParser.InitializerContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code VariableByName}
 	 * labeled alternative in {@link JSParser#assignable}.

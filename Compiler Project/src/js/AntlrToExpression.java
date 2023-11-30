@@ -5,7 +5,9 @@ import antlrJS.JSParserBaseVisitor;
 import js.ClassDeclaration.ClassDeclaration;
 import js.ClassDeclaration.ClassElement;
 import js.ExpAbdulla.*;
+import js.ExpAbood.AssignmentOperatorExpression;
 import js.ExpressionChunk.ExpressionChunk;
+import js.ExpAbood.LogicalExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +106,20 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     }
 
     @Override
+    public Expression visitDeleteExpression(JSParser.DeleteExpressionContext ctx) {
+        Expression identifier = visit(ctx.singleExpression());
+        DeleteExpression delete = new DeleteExpression(identifier);
+        return delete;
+    }
+
+    @Override
+    public Expression visitTypeofExpression(JSParser.TypeofExpressionContext ctx) {
+        Expression identifier = visit(ctx.singleExpression());
+        DeleteExpression typeOf = new DeleteExpression(identifier);
+        return typeOf;
+    }
+
+    @Override
     public Expression visitIdentifierExpression(JSParser.IdentifierExpressionContext ctx) {
         return new IdentifierExpression(ctx.Identifier().getText());
     }
@@ -160,5 +176,50 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         TemplateStringLiteral templateStringLiteral = new TemplateStringLiteral(atoms);
         TemplateStringExpression templateStringExpression = new TemplateStringExpression(singleExpression, templateStringLiteral);
         return templateStringExpression;
+    }
+
+    @Override
+    public Expression visitMultiplicativeExpression(JSParser.MultiplicativeExpressionContext ctx) {
+
+
+        return super.visitMultiplicativeExpression(ctx);
+    }
+
+    @Override
+    public Expression visitLogicalAndExpression(JSParser.LogicalAndExpressionContext ctx) {
+        Expression left = visit(ctx.singleExpression(0));
+        Expression right = visit(ctx.singleExpression(2));
+        String operator = ctx.getChild(1).getText();
+        LogicalExpression logical =new LogicalExpression(left,right,operator);
+        return logical;
+    }
+
+    @Override
+    public Expression visitLogicalOrExpression(JSParser.LogicalOrExpressionContext ctx) {
+        Expression left = visit(ctx.singleExpression(0));
+        Expression right = visit(ctx.singleExpression(2));
+        String operator = ctx.getChild(1).getText();
+        LogicalExpression logical =new LogicalExpression(left,right,operator);
+        return logical;
+    }
+
+    @Override
+    public Expression visitEqualityExpression(JSParser.EqualityExpressionContext ctx) {
+
+        Expression left = visit(ctx.singleExpression(0));
+        Expression right = visit(ctx.singleExpression(2));
+        String operator = ctx.getChild(1).getText();
+        LogicalExpression logical =new LogicalExpression(left,right,operator);
+        return logical;
+    }
+
+    @Override
+    public Expression visitAssignmentOperatorExpression(JSParser.AssignmentOperatorExpressionContext ctx) {
+        Expression left = visit(ctx.singleExpression(0));
+        Expression right = visit(ctx.singleExpression(3));
+        String operator = ctx.getChild(1).getText();
+        AssignmentOperatorExpression assignmentOperatorExpression = new AssignmentOperatorExpression(left,right,operator);
+        return assignmentOperatorExpression;
+
     }
 }

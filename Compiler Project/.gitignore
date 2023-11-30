@@ -3,6 +3,8 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 /Compiler Project.iml
+/src/antlrHTML/
+/src/antlrJS/
 
 ### Eclipse ###
 .apt_generated

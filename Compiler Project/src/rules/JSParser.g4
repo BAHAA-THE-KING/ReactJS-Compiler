@@ -54,9 +54,9 @@ aliasName
     ;
 
 exportStatement
-    : Export Default?  declaration eos    # ExportDeclaration
-    | Export Default? exportFromBlock  eos    # ExportBlock
-    | Export Default singleExpression eos                    # ExportDefaultDeclaration
+    : Export Default?  declaration eos          # ExportDeclaration
+    | Export Default? exportFromBlock  eos      # ExportBlock
+    | Export Default singleExpression eos       # ExportDefaultDeclaration
     ;
 
 exportFromBlock
@@ -190,8 +190,8 @@ fieldDefinition
     ;
 
 formalParameterList
-    : formalParameterArg (Comma formalParameterArg)* (Comma lastFormalParameterArg)?    #NormalParameters
-    | lastFormalParameterArg                                                            #RestParameters
+    : formalParameterArg (Comma formalParameterArg)* (Comma lastFormalParameterArg)?
+    | lastFormalParameterArg
     ;
 
 formalParameterArg
@@ -266,14 +266,12 @@ singleExpression
     | singleExpression (Plus | Minus) singleExpression                                                  # AdditiveExpression
     | singleExpression NullCoalesce singleExpression                                                    # CoalesceExpression
     | singleExpression (LessThan | MoreThan | LessThanEquals | GreaterThanEquals) singleExpression      # RelationalExpression
-//    | singleExpression In singleExpression                                                              # InExpression
     | singleExpression (Equals | NotEquals | IdentityEquals | IdentityNotEquals) singleExpression       # EqualityExpression
     | singleExpression And singleExpression                                                             # LogicalAndExpression
     | singleExpression Or singleExpression                                                              # LogicalOrExpression
     | singleExpression QuestionMark singleExpression Colon singleExpression                             # TernaryExpression
     | <assoc=right> singleExpression Assign singleExpression                                            # AssignmentExpression
     | <assoc=right> singleExpression assignmentOperator singleExpression                                # AssignmentOperatorExpression
-    | Import OpenParen singleExpression CloseParen                                                      # ImportExpression
     | singleExpression templateStringLiteral                                                            # TemplateStringExpression
     | This                                                                                              # ThisExpression
     | Identifier                                                                                        # IdentifierExpression
@@ -300,13 +298,13 @@ anonymousFunction
     ;
 
 arrowFunctionParameters
-    : Identifier                                    # OneParameter
-    | OpenParen formalParameterList? CloseParen     # ManyParameters
+    : Identifier
+    | OpenParen formalParameterList? CloseParen
     ;
 
 arrowFunctionBody
-    : singleExpression      # OneExpression
-    | functionBody          # ManyExpressions
+    : singleExpression
+    | functionBody
     ;
 
 assignmentOperator

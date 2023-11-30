@@ -2,8 +2,8 @@ package program;
 
 import antlrJS.JSLexer;
 import antlrJS.JSParser;
-import js.AntlrToProgram;
-import js.JsProgram;
+import js.visitors.AntlrToProgram;
+import js.visitors.models.JsProgram;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;

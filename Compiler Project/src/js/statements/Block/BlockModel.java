@@ -18,6 +18,6 @@ public class BlockModel implements Statement {
 
     @Override
     public String toString() {
-        return "block{" + "statements=" + statements + '}';
+        return "{statements=" + statements + '}';
     }
 }

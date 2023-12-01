@@ -16,7 +16,7 @@ statement
     | SemiColon                 # EmptyChunk
     | classDeclaration          # ClassDeclerationChunk
     | functionDeclaration       # FunctionDeclarationChunk
-    | expressionStatement       # ExpressionChunkG
+    | expressionStatement       # ExpressionChunk
     | ifStatement               # ConditionalChunk
     | iterationStatement        # LoopChunk
     | continueStatement         # ContinueChunk
@@ -168,13 +168,17 @@ classDeclaration
     ;
 
 classTail
-    : (Extends Identifier)? OpenBrace classElement* CloseBrace
+    : (Extends Identifier)? OpenBrace classElements CloseBrace
+    ;
+
+classElements:
+    classElement*
     ;
 
 classElement
-    : Static? methodDefinition                  #ClassMethodDefinition
-    | Static? fieldDefinition                   #ClassFieldDefinition
-    | SemiColon                                 #ClassEmptyStatement
+    : Static? methodDefinition                  # ClassMethodDefinition
+    | Static? fieldDefinition                   # ClassFieldDefinition
+    | SemiColon                                 # ClassEmptyStatement
     ;
 
 methodDefinition
@@ -182,7 +186,7 @@ methodDefinition
     ;
 
 fieldDefinition
-    : propertyName initializer?
+    : propertyName (Assign singleExpression)?
     ;
 
 formalParameterList
@@ -222,7 +226,7 @@ propertyAssignment
     ;
 
 propertyName
-    : Identifier                                #PropertyByName
+    : Identifier                                    #PropertyByName
     | StringLiteral                                 #PropertyByString
     | DecimalLiteral                                #PropertyByNumber
     | OpenBracket singleExpression CloseBracket     #PropertyByExpression
@@ -262,7 +266,7 @@ singleExpression
     | singleExpression (Plus | Minus) singleExpression                                                  # AdditiveExpression
     | singleExpression NullCoalesce singleExpression                                                    # CoalesceExpression
     | singleExpression (LessThan | MoreThan | LessThanEquals | GreaterThanEquals) singleExpression      # RelationalExpression
-    | singleExpression In singleExpression                                                              # InExpression
+//    | singleExpression In singleExpression                                                              # InExpression
     | singleExpression (Equals | NotEquals | IdentityEquals | IdentityNotEquals) singleExpression       # EqualityExpression
     | singleExpression And singleExpression                                                             # LogicalAndExpression
     | singleExpression Or singleExpression                                                              # LogicalOrExpression
@@ -278,10 +282,6 @@ singleExpression
     | arrayLiteral                                                                                      # ArrayLiteralExpression
     | objectLiteral                                                                                     # ObjectLiteralExpression
     | OpenParen expressionSequence CloseParen                                                           # ParenthesizedExpression
-    ;
-
-initializer
-    : Assign singleExpression
     ;
 
 assignable

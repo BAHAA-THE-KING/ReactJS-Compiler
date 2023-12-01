@@ -4,20 +4,35 @@ import js.ClassDeclaration.ClassDeclaration;
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
 import js.Block.BlockModel;
+import js.ClassDeclaration.ClassElement;
 import js.ExportStatement.ExportBlock;
 import js.ExportStatement.ExportDefaultDeclaration;
+import js.ExpressionChunk.ExpressionChunk;
+import js.Function.AnonymousFunctionDecl;
+import js.Function.*;
 import js.ImportStatement.DeafultAsImportBlock;
-import js.Function.FormalParameter;
-import js.Function.FunctionDeclaration;
 import js.ImportStatement.FileImportBlock;
 import js.ImportStatement.ObjectImportBlock;
 import org.antlr.v4.runtime.misc.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
+
 public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitImportChunk(JSParser.ImportChunkContext ctx) {
         return visit(ctx.importStatement());
+    }
+
+    @Override
+    public Statement visitExpressionChunk(JSParser.ExpressionChunkContext ctx) {
+        ExpressionChunk chunk = new ExpressionChunk();
+        List<JSParser.SingleExpressionContext> exps = ctx.expressionStatement().expressionSequence().singleExpression();
+        AntlrToExpression visitor = new AntlrToExpression();
+        for (JSParser.SingleExpressionContext e : exps){
+            chunk.addExpression(visitor.visit(e));
+        }
+        return chunk;
     }
 
     @Override
@@ -82,8 +97,12 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
             parent = "null";
         }
         ClassDeclaration classDeclaration = new ClassDeclaration(id, parent);
-        System.out.println(classDeclaration.toString());
-        //TODO visit elements
+        var classElements = ctx.classTail().classElements();
+        AntlrToClassElement visitor = new AntlrToClassElement();
+        for (int i = 0; i < classElements.getChildCount(); i++) {
+            ClassElement classElement = visitor.visit(classElements.getChild(i));
+            classDeclaration.addElement(classElement);
+        }
         return classDeclaration;
     }
 
@@ -115,43 +134,39 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
     @Override
     public Statement visitExportDeclaration(JSParser.ExportDeclarationContext ctx) {
-
-
         return visit(ctx.declaration().getChild(0));
     }
 
     @Override
     public Statement visitNormalParameters(JSParser.NormalParametersContext ctx) {
-        List<String> parameters = new ArrayList<>();
+        FormalParameter fp = new FormalParameter();
+
         if (ctx != null) {
             for (int i = 0; i < ctx.getChildCount(); i += 2) {
-                parameters.add(ctx.getChild(i).getChild(0).getText());
+                fp.addParameter(ctx.getChild(i).getChild(0).getText());
             }
-            return new FormalParameter(parameters);
+            return fp;
         }
         return super.visitNormalParameters(ctx);
+    }
+
+    @Override
+    public Statement visitAnonymousFunctionDecl(JSParser.AnonymousFunctionDeclContext ctx) {
+        FormalParameter fp = (FormalParameter) visit(ctx.formalParameterList());
+
+        AnonymousFunctionDecl a =  new AnonymousFunctionDecl(fp.getParameters(),null);
+       // System.out.println(a.toString());
+        return a;
     }
 
 
     @Override
     public Statement visitFunctionDeclaration(JSParser.FunctionDeclarationContext ctx) {
         String functionName = ctx.Identifier().getText();
-        // FormalParameter p = new FormalParameter(parameters);
+        FormalParameter fp = (FormalParameter) visit(ctx.formalParameterList());
+        FunctionBody body = (FunctionBody) visitFunctionBody(ctx.functionBody());
 
-
-        List<String> parameters = new ArrayList<>();
-
-        if (ctx.formalParameterList() != null) {
-
-            for (int i = 0; i < ctx.formalParameterList().getChildCount(); i += 2) {
-
-                parameters.add(ctx.formalParameterList().getChild(i).getText());
-
-            }
-
-        }
-        // TODO add function Body
-        FunctionDeclaration functionDeclaration = new FunctionDeclaration(functionName, parameters, null);
+        FunctionDeclaration functionDeclaration = new FunctionDeclaration(functionName, fp.getParameters(), body);
 
         System.out.println(functionDeclaration.toString());
 
@@ -159,7 +174,49 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     }
 
     @Override
+    public Statement visitFunctionBody(JSParser.FunctionBodyContext ctx) {
+        FunctionBody body = new FunctionBody();
+        if (ctx.statement()!=null){
+            for(int i=0 ; i< ctx.statement().size(); i++){
+                body.addStatement(visit(ctx.statement(i)));
+            }
+            return body;
+        }
+        return null;
+
+    }
+
+    @Override
     public Statement visitArrowFunction(JSParser.ArrowFunctionContext ctx) {
-        return super.visitArrowFunction(ctx);
+        FormalParameter fp = (FormalParameter) visit(ctx.arrowFunctionParameters().getChild(1));
+        ArrowFunctionBody arrowFunctionBody = (ArrowFunctionBody) visit(ctx.arrowFunctionBody());
+
+        ArrowFunction arrowFunction = new ArrowFunction(fp.getParameters(),arrowFunctionBody);
+        System.out.println(arrowFunction.toString());
+
+        return arrowFunction;
+
+    }
+
+
+    @Override
+    public Statement visitOneExpression(JSParser.OneExpressionContext ctx) {
+
+       return visit(ctx.singleExpression());
+    }
+
+    @Override
+    public Statement visitManyExpressions(JSParser.ManyExpressionsContext ctx) {
+        return visit(ctx.functionBody());
+    }
+
+    @Override
+    public Statement visitManyParameters(JSParser.ManyParametersContext ctx) {
+        return visit(ctx.formalParameterList());
+    }
+
+    @Override
+    public Statement visitIdentifierExpression(JSParser.IdentifierExpressionContext ctx) {
+        return super.visitIdentifierExpression(ctx);
     }
 }

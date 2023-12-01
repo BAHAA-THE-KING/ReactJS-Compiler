@@ -1,17 +1,22 @@
 package js.Function;
 
+import js.Statement;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class AnonymousFunctionDecl extends JSExpression {
+public class AnonymousFunctionDecl extends Function {
 
-    private List<FormalParameter> parameters;
-    private JSExpression body;
+    private List<String> parameters = new ArrayList<>();
+    private FunctionBody body;
 
-    public AnonymousFunctionDecl(List<FormalParameter> parameters, JSExpression body) {
+    public AnonymousFunctionDecl(List<String> parameters, FunctionBody body) {
         this.parameters = parameters;
         this.body = body;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "AnonymousFunctionDecl{" + "parameters=" + parameters + ", body=" + body + '}';
+    }
 }

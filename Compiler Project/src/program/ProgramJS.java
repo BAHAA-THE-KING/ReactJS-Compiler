@@ -2,6 +2,9 @@ package program;
 
 import antlrJS.JSLexer;
 import antlrJS.JSParser;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import js.visitors.AntlrToProgram;
 import js.visitors.models.JsProgram;
 import org.antlr.v4.runtime.CharStream;
@@ -16,7 +19,7 @@ import java.util.List;
 public class ProgramJS {
     public static List<String> errors = new ArrayList<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         if (args.length != 1) {
             System.err.println("fuck you");
         } else {
@@ -24,7 +27,10 @@ public class ProgramJS {
             ParseTree antlrAST = parser.program();
             AntlrToProgram progVisitor = new AntlrToProgram();
             JsProgram doc = progVisitor.visit(antlrAST);
-            System.out.println(doc);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+            String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(doc);
+            System.out.println(result);
         }
 
     }

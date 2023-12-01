@@ -324,7 +324,6 @@ literal
     | templateStringLiteral     # TemplateString
     | DecimalLiteral            # Number
     ;
-
 templateStringLiteral
     : BackTick templateStringAtom* BackTick
     ;

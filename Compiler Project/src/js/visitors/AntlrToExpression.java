@@ -2,6 +2,8 @@ package js.visitors;
 
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
+import js.expressions.ArrayLiteral.ArrayLiteral;
+import js.expressions.SimpleExpression;
 import js.expressions.*;
 import js.expressions.ArgumentsExpression.Arguments;
 import js.expressions.ArgumentsExpression.ArgumentsExpression;
@@ -221,10 +223,14 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         return assignmentOperatorExpression;
 
     }
-
     @Override
     public Expression visitThisExpression(JSParser.ThisExpressionContext ctx) {
-        return new This();
+        return new SimpleExpression().This();
+    }
+
+    @Override
+    public Expression visitSuperExpression(JSParser.SuperExpressionContext ctx) {
+        return new SimpleExpression().Super();
     }
 
     @Override
@@ -239,5 +245,21 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     public Expression visitAnonymousFunctionDecl(JSParser.AnonymousFunctionDeclContext ctx) {
         AntlrToAnonymousFunction visitor = new AntlrToAnonymousFunction();
         return visitor.visit(ctx);
+    }
+
+    @Override
+    public Expression visitParenthesizedExpression(JSParser.ParenthesizedExpressionContext ctx) {
+         return new ParenthesizedExpression(ctx.expressionSequence());
+    }
+
+    @Override
+    public Expression visitLiteralExpression(JSParser.LiteralExpressionContext ctx) {
+        AntlrToLiteral visitor = new AntlrToLiteral();
+        return visitor.visit(ctx.literal());
+    }
+
+    @Override
+    public Expression visitArrayLiteralExpression(JSParser.ArrayLiteralExpressionContext ctx) {
+        return new ArrayLiteral(ctx.arrayLiteral());
     }
 }

@@ -2,7 +2,6 @@ package js.visitors;
 
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
-import js.statements.ConditionalStatement.ConditionalStatement;
 import js.statements.Loops.*;
 import js.visitors.models.Expression;
 import js.visitors.models.IterationStatement;

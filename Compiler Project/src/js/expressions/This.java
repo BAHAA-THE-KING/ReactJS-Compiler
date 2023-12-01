@@ -1,6 +1,6 @@
-package js.ExpAbood;
+package js.expressions;
 
-import js.Expression;
+import js.visitors.models.Expression;
 
 public class This implements Expression {
     @Override

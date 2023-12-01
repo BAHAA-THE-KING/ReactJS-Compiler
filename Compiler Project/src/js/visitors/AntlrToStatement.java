@@ -20,8 +20,6 @@ import js.visitors.models.ClassElement;
 import js.visitors.models.Expression;
 import js.visitors.models.Statement;
 import org.antlr.v4.runtime.misc.Pair;
-
-import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 import java.util.List;
 

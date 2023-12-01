@@ -13,8 +13,6 @@ import js.expressions.AssignmentOperatorExpression;
 import js.expressions.LogicalExpression;
 import js.visitors.models.ClassElement;
 import js.visitors.models.Expression;
-import js.ImportStatement.MemberIndex;
-import js.ExpAbood.This;
 import java.util.ArrayList;
 import java.util.List;
 

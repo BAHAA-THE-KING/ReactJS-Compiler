@@ -1,5 +1,6 @@
 package js.visitors;
 
+import js.expressions.ExpressionSequence;
 import js.statements.BreakStatement.Break;
 import js.statements.ClassDeclaration.ClassDeclaration;
 import antlrJS.JSParser;
@@ -34,12 +35,9 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
     @Override
     public Statement visitExpressionChunk(JSParser.ExpressionChunkContext ctx) {
-        ExpressionChunk chunk = new ExpressionChunk();
-        List<JSParser.SingleExpressionContext> exps = ctx.expressionStatement().expressionSequence().singleExpression();
-        AntlrToExpression visitor = new AntlrToExpression();
-        for (JSParser.SingleExpressionContext e : exps) {
-            chunk.addExpression(visitor.visit(e));
-        }
+        ExpressionSequence exps = new ExpressionSequence(ctx.expressionStatement().expressionSequence());
+        ExpressionChunk chunk = new ExpressionChunk(exps);
+
         return chunk;
     }
 
@@ -172,22 +170,14 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
     @Override
     public Statement visitReturnChunk(JSParser.ReturnChunkContext ctx) {
-        AntlrToExpression visitor = new AntlrToExpression();
-        List<Expression> expressions = new ArrayList<>();
-        var expressionSequence = ctx.returnStatement().expressionSequence();
-        for (int i = 0; i < expressionSequence.singleExpression().size(); i++) {
-            expressions.add(visitor.visit(expressionSequence.singleExpression(i)));
-        }
+        ExpressionSequence expressions = new ExpressionSequence(ctx.returnStatement().expressionSequence());
+
         return new ReturnStatement(expressions);
     }
 
     @Override
     public Statement visitIfStatement(JSParser.IfStatementContext ctx) {
-        List<Expression> expressions = new ArrayList<>();
-        AntlrToExpression visitor = new AntlrToExpression();
-        for (var expression : ctx.expressionSequence().singleExpression()) {
-            expressions.add(visitor.visit(expression));
-        }
+        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence());
 
         Statement statement = visit(ctx.statement(0));
 

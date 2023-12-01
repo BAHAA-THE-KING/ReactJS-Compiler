@@ -13,7 +13,8 @@ import js.expressions.AssignmentOperatorExpression;
 import js.expressions.LogicalExpression;
 import js.visitors.models.ClassElement;
 import js.visitors.models.Expression;
-
+import js.ImportStatement.MemberIndex;
+import js.ExpAbood.This;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -220,6 +221,19 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         String operator = ctx.getChild(1).getText();
         AssignmentOperatorExpression assignmentOperatorExpression = new AssignmentOperatorExpression(left, right, operator);
         return assignmentOperatorExpression;
+
+    }
+
+    @Override
+    public Expression visitThisExpression(JSParser.ThisExpressionContext ctx) {
+        return new This();
+    }
+
+    @Override
+    public Expression visitMemberIndexExpression(JSParser.MemberIndexExpressionContext ctx) {
+        Expression accessedExpression = this.visit(ctx.singleExpression());
+        ExpressionSequence accessedAt = new ExpressionSequence(ctx.expressionSequence());
+        return new MemberIndex(accessedExpression,accessedAt);
 
     }
 

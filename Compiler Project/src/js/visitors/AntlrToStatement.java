@@ -15,11 +15,14 @@ import js.statements.ImportStatement.DeafultAsImportBlock;
 import js.statements.ImportStatement.FileImportBlock;
 import js.statements.ImportStatement.ObjectImportBlock;
 import js.statements.ReturnStatement.ReturnStatement;
+import js.statements.VariableDeclarationStatement.VariableDeclaration;
+import js.statements.VariableDeclarationStatement.VariableDeclarationStatement;
 import js.visitors.models.Assignable;
 import js.visitors.models.ClassElement;
 import js.visitors.models.Expression;
 import js.visitors.models.Statement;
 import org.antlr.v4.runtime.misc.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +92,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
         for (int i = 0; i < ctx.block().statementList().getChildCount(); i++) {
             blockModel.addStatement(visit(ctx.block().statementList().getChild(i)));
         }
-        return super.visitBlockChunk(ctx);
+        return blockModel;
     }
 
     @Override
@@ -207,5 +210,21 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitBreakChunk(JSParser.BreakChunkContext ctx) {
         return new Break();
+    }
+
+    @Override
+    public Statement visitVariableDeclerationChunk(JSParser.VariableDeclerationChunkContext ctx) {
+        var variableDeclarationList = ctx.variableStatement().variableDeclarationList();
+        String modifier = variableDeclarationList.varModifier().getText();
+
+        List<VariableDeclaration> vars = new ArrayList<>();
+        AntlrToAssignable assignableVisitor = new AntlrToAssignable();
+        AntlrToExpression expressionVisitor = new AntlrToExpression();
+        for (var decl : variableDeclarationList.variableDeclaration()) {
+            Assignable name = assignableVisitor.visit(decl.assignable());
+            Expression value = decl.singleExpression() != null ? expressionVisitor.visit(decl.singleExpression()) : null;
+            vars.add(new VariableDeclaration(name, value));
+        }
+        return new VariableDeclarationStatement(modifier, vars);
     }
 }

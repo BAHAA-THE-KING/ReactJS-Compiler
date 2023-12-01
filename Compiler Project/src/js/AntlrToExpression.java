@@ -6,6 +6,7 @@ import js.ClassDeclaration.ClassDeclaration;
 import js.ClassDeclaration.ClassElement;
 import js.ExpAbdulla.*;
 import js.ExpAbood.AssignmentOperatorExpression;
+import js.ExpAbood.This;
 import js.ExpressionChunk.ExpressionChunk;
 import js.ExpAbood.LogicalExpression;
 
@@ -166,5 +167,10 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         AssignmentOperatorExpression assignmentOperatorExpression = new AssignmentOperatorExpression(left,right,operator);
         return assignmentOperatorExpression;
 
+    }
+
+    @Override
+    public Expression visitThisExpression(JSParser.ThisExpressionContext ctx) {
+        return new This();
     }
 }

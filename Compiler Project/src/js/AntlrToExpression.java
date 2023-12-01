@@ -3,6 +3,7 @@ package js;
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
 import js.ClassDeclaration.ClassDeclaration;
+import js.ImportStatement.MemberIndex;
 import js.ClassDeclaration.ClassElement;
 import js.ExpAbdulla.*;
 import js.ExpAbood.AssignmentOperatorExpression;
@@ -10,6 +11,7 @@ import js.ExpAbood.This;
 import js.ExpressionChunk.ExpressionChunk;
 import js.ExpAbood.LogicalExpression;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
@@ -126,6 +128,60 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
 
     @Override
     public Expression visitMultiplicativeExpression(JSParser.MultiplicativeExpressionContext ctx) {
+        Expression firstExpression = visit(ctx.singleExpression(0));
+        Expression secondExpression = visit(ctx.singleExpression(1));
+        String process = ctx.getChild(1).getText();
+        MathmaticalExpression mathmaticalExpression = new MathmaticalExpression(firstExpression , secondExpression , process);
+        return mathmaticalExpression;
+    }
+
+    @Override
+    public Expression visitAdditiveExpression(JSParser.AdditiveExpressionContext ctx) {
+        Expression firstExpression = visit(ctx.singleExpression(0));
+        Expression secondExpression = visit(ctx.singleExpression(1));
+        String process = ctx.getChild(1).getText();
+        MathmaticalExpression mathmaticalExpression = new MathmaticalExpression(firstExpression , secondExpression , process);
+        return mathmaticalExpression;
+    }
+
+    @Override
+    public Expression visitCoalesceExpression(JSParser.CoalesceExpressionContext ctx) {
+        Expression firstExpression = visit(ctx.singleExpression(0));
+        Expression secondExpression = visit(ctx.singleExpression(1));
+        String nullString = ctx.getChild(1).getText();
+        CoalesceExpression coalesceExpression = new CoalesceExpression(firstExpression , secondExpression , nullString);
+        return coalesceExpression;
+    }
+
+    @Override
+    public Expression visitTernaryExpression(JSParser.TernaryExpressionContext ctx) {
+        Expression condition = visit(ctx.singleExpression(0));
+        Expression firstStatement = visit(ctx.singleExpression(1));
+        Expression secondStatement = visit(ctx.singleExpression(2));
+        TernaryExpression ternaryExpression = new TernaryExpression(condition , firstStatement , secondStatement);
+        return ternaryExpression;
+    }
+
+    @Override
+    public Expression visitAssignmentExpression(JSParser.AssignmentExpressionContext ctx) {
+        Expression leftExpression = visit(ctx.singleExpression(0));
+        Expression rightExpression = visit(ctx.singleExpression(1));
+        AssignmentExpression assignmentExpression = new AssignmentExpression(leftExpression , rightExpression);
+        return assignmentExpression;
+    }
+
+    @Override
+    public Expression visitTemplateStringExpression(JSParser.TemplateStringExpressionContext ctx) {
+        Expression singleExpression = visit(ctx.singleExpression());
+        List<TemplateStringAtom> atoms = new ArrayList<>();
+        //TODO make antlrToAtom and visit it
+        TemplateStringLiteral templateStringLiteral = new TemplateStringLiteral(atoms);
+        TemplateStringExpression templateStringExpression = new TemplateStringExpression(singleExpression, templateStringLiteral);
+        return templateStringExpression;
+    }
+
+    @Override
+    public Expression visitMultiplicativeExpression(JSParser.MultiplicativeExpressionContext ctx) {
 
 
         return super.visitMultiplicativeExpression(ctx);
@@ -172,5 +228,13 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     @Override
     public Expression visitThisExpression(JSParser.ThisExpressionContext ctx) {
         return new This();
+    }
+
+    @Override
+    public Expression visitMemberIndexExpression(JSParser.MemberIndexExpressionContext ctx) {
+        Expression accessedExpression = this.visit(ctx.singleExpression());
+        ExpressionSequence accessedAt = new ExpressionSequence(ctx.expressionSequence());
+        return new MemberIndex(accessedExpression,accessedAt);
+
     }
 }

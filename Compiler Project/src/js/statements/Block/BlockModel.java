@@ -5,7 +5,7 @@ import js.visitors.models.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockModel implements Statement{
+public class BlockModel implements Statement {
     List<Statement> statements;
 
     public BlockModel() {

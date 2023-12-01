@@ -14,7 +14,7 @@ statement
     | importStatement           # ImportChunk
     | exportStatement           # ExportChunk
     | SemiColon                 # EmptyChunk
-    | classDeclaration          # ClassDeclerationChunk
+    | classDeclaration          # ClassDeclarationChunk
     | functionDeclaration       # FunctionDeclarationChunk
     | expressionStatement       # ExpressionChunk
     | ifStatement               # ConditionalChunk
@@ -106,9 +106,9 @@ iterationStatement
     ;
 
 varModifier
-    : Var       #VarKeyword
-    | Let       #LetKeyword
-    | Const     #ConstKeyword
+    : Var
+    | Let
+    | Const
     ;
 
 continueStatement
@@ -324,6 +324,7 @@ literal
     | templateStringLiteral     # TemplateString
     | DecimalLiteral            # Number
     ;
+
 templateStringLiteral
     : BackTick templateStringAtom* BackTick
     ;

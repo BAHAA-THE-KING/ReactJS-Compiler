@@ -15,6 +15,9 @@ import js.statements.ImportStatement.DeafultAsImportBlock;
 import js.statements.ImportStatement.FileImportBlock;
 import js.statements.ImportStatement.ObjectImportBlock;
 import js.statements.ReturnStatement.ReturnStatement;
+import js.statements.TryStatement.CatchProduction;
+import js.statements.TryStatement.FinallyProduction;
+import js.statements.TryStatement.TryStatement;
 import js.visitors.models.Assignable;
 import js.visitors.models.ClassElement;
 import js.visitors.models.Expression;
@@ -85,11 +88,19 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
     @Override
     public Statement visitBlockChunk(JSParser.BlockChunkContext ctx) {
-        BlockModel blockModel = new BlockModel();
-        for (int i = 0; i < ctx.block().statementList().getChildCount(); i++) {
-            blockModel.addStatement(visit(ctx.block().statementList().getChild(i)));
+        return visit(ctx.block());
+    }
+
+    @Override
+    public Statement visitBlock(JSParser.BlockContext ctx) {
+
+        if(ctx.statementList() == null)
+            return new BlockModel();
+        BlockModel block = new BlockModel();
+        for (int i = 0; i < ctx.statementList().getChildCount(); i++) {
+            block.addStatement(visit(ctx.statementList().getChild(i)));
         }
-        return super.visitBlockChunk(ctx);
+        return block;
     }
 
     @Override
@@ -207,5 +218,47 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitBreakChunk(JSParser.BreakChunkContext ctx) {
         return new Break();
+    }
+
+    @Override
+    public Statement visitTryChunk(JSParser.TryChunkContext ctx) {
+        return visitTryStatement(ctx.tryStatement());
+    }
+
+    @Override
+    public Statement visitTryStatement(JSParser.TryStatementContext ctx) {
+
+        BlockModel block = (BlockModel) visit(ctx.block());
+        CatchProduction catchPro = ctx.catchProduction() != null ?
+                (CatchProduction) visit(ctx.catchProduction()) :
+                null;
+
+        FinallyProduction finallyPro = ctx.finallyProduction() != null ?
+                (FinallyProduction) visit(ctx.finallyProduction()) :
+                null;
+
+        TryStatement tryState = new TryStatement(block,catchPro,finallyPro);
+        return tryState;
+    }
+
+    @Override
+    public Statement visitCatchProduction(JSParser.CatchProductionContext ctx) {
+
+        AntlrToAssignable visitor = new AntlrToAssignable();
+
+        Assignable exception = visitor.visit(ctx.assignable());
+        BlockModel block = (BlockModel) visit(ctx.block());
+
+        CatchProduction catchPro = new CatchProduction(exception, block);
+        return catchPro;
+    }
+
+    @Override
+    public Statement visitFinallyProduction(JSParser.FinallyProductionContext ctx) {
+        BlockModel block = (BlockModel) visit(ctx.block());
+
+        FinallyProduction finallyPro = new FinallyProduction(block);
+
+        return finallyPro;
     }
 }

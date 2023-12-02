@@ -16,7 +16,7 @@ import js.statements.ImportStatement.DeafultAsImportBlock;
 import js.statements.ImportStatement.FileImportBlock;
 import js.statements.ImportStatement.ObjectImportBlock;
 import js.statements.ReturnStatement.ReturnStatement;
-import js.statements.SwitchStatement.CaseClause;
+//import js.statements.SwitchStatement.CaseClause;
 import js.statements.SwitchStatement.CaseClauses;
 import js.statements.SwitchStatement.DefaultClause;
 import js.statements.SwitchStatement.SwitchStatement;
@@ -117,7 +117,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     public Statement visitClassDeclaration(JSParser.ClassDeclarationContext ctx) {
         String id = ctx.Identifier().getText();
         String parent;
-        if (ctx.classTail().Identifier().getText() != null) {
+        if (ctx.classTail().Identifier() != null) {
             parent = ctx.classTail().Identifier().getText();
         } else {
             parent = "null";
@@ -283,8 +283,8 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
         CaseClauses cases = new CaseClauses();
         AntlrToCaseClause vis = new AntlrToCaseClause(filePath);
         var caseClauses = ctx.switchStatement().caseBlock().caseClauses();
-        for (int i = 0; i < caseClauses.size(); i++) {
-            cases.addCase(vis.visitCaseClauses(caseClauses.get(i)));
+        for (int i = 0; i < ctx.getChild(0).getChild(4).getChild(1).getChildCount(); i++) {
+            cases.addCase(vis.visit(ctx.getChild(0).getChild(4).getChild(1).getChild(i)));
         }
         DefaultClause defaultClause = new DefaultClause(new ArrayList<>());
         if (ctx.switchStatement().caseBlock().defaultClause() != null) {

@@ -2,6 +2,8 @@ package html;
 
 import antlrHTML.HTMLParser;
 import antlrHTML.HTMLParserBaseVisitor;
+import org.antlr.v4.runtime.ParserRuleContext;
+import program.Error;
 import program.ProgramHTML;
 
 import java.util.ArrayList;
@@ -39,10 +41,10 @@ public class AntlrToHtmlElement extends HTMLParserBaseVisitor<HtmlElement> {
         if(!startingTag.equals(endingTag)){
             int line = ctx.TAG_NAME(1).getSymbol().getLine();
             int column = ctx.TAG_NAME(1).getSymbol().getCharPositionInLine()+1;
-            String message = "HTML ERROR (%d:%d) : Closing tag </%s> doesn't match the opening tag <%s> ".formatted(
-                    line,column,endingTag,startingTag
+            String message = "Closing tag </%s> doesn't match the opening tag <%s> ".formatted(
+                    endingTag,startingTag
             );
-            ProgramHTML.errors.add(message);
+            ProgramHTML.errors.add(Error.htmlError((ParserRuleContext) ctx.TAG_NAME(1),"must send",message));
         }
         return element;
     }
@@ -67,7 +69,7 @@ public class AntlrToHtmlElement extends HTMLParserBaseVisitor<HtmlElement> {
     private void declareRepeatedAttributeError(HTMLParser.HtmlAttributeContext ctx){
         int line = ctx.getStart().getLine();
         int column = ctx.getStart().getCharPositionInLine()+1;
-        String message = "HTML ERROR (%d:%d) : Attribute ( %s ) is already defined.".formatted(line,column,ctx.TAG_NAME().getText());
-        ProgramHTML.errors.add(message);
+        String message = "Attribute ( %s ) is already defined.".formatted(ctx.TAG_NAME().getText());
+        ProgramHTML.errors.add(Error.htmlError(ctx,"should send it",message));
     }
 }

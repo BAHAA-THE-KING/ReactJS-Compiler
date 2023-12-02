@@ -16,7 +16,7 @@ import js.statements.ImportStatement.DeafultAsImportBlock;
 import js.statements.ImportStatement.FileImportBlock;
 import js.statements.ImportStatement.ObjectImportBlock;
 import js.statements.ReturnStatement.ReturnStatement;
-import js.statements.SwitchStatement.CaseClause;
+//import js.statements.SwitchStatement.CaseClause;
 import js.statements.SwitchStatement.CaseClauses;
 import js.statements.SwitchStatement.DefaultClause;
 import js.statements.SwitchStatement.SwitchStatement;

@@ -174,6 +174,8 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     }
 
     @Override
+
+    @Override
     public Expression visitLogicalAndExpression(JSParser.LogicalAndExpressionContext ctx) {
         Expression left = visit(ctx.singleExpression(0));
         Expression right = visit(ctx.singleExpression(2));
@@ -249,4 +251,5 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     public Expression visitArrayLiteralExpression(JSParser.ArrayLiteralExpressionContext ctx) {
         return new ArrayLiteral(ctx.arrayLiteral());
     }
+
 }

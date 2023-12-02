@@ -1,2 +1,6 @@
-package js.statements.SwitchStatement;public class SwitchChunk {
+package js.statements.SwitchStatement;
+
+import js.visitors.models.Statement;
+
+public abstract class SwitchChunk implements Statement {
 }

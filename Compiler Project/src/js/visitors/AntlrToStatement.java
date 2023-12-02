@@ -16,6 +16,10 @@ import js.statements.ImportStatement.DeafultAsImportBlock;
 import js.statements.ImportStatement.FileImportBlock;
 import js.statements.ImportStatement.ObjectImportBlock;
 import js.statements.ReturnStatement.ReturnStatement;
+import js.statements.SwitchStatement.CaseClause;
+import js.statements.SwitchStatement.CaseClauses;
+import js.statements.SwitchStatement.DefaultClause;
+import js.statements.SwitchStatement.SwitchStatement;
 import js.statements.TryStatement.CatchProduction;
 import js.statements.TryStatement.FinallyProduction;
 import js.statements.TryStatement.TryStatement;
@@ -270,4 +274,32 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
         return finallyPro;
     }
+
+
+
+    @Override
+    public Statement visitSwitchChunk(JSParser.SwitchChunkContext ctx) {
+        AntlrToExpression vistor = new AntlrToExpression();
+        ExpressionSequence expressionSequence = new ExpressionSequence(ctx.switchStatement().expressionSequence());
+        CaseClauses cases = new CaseClauses();
+        AntlrToCaseClause vis = new AntlrToCaseClause();
+        var caseClauses =ctx.switchStatement().caseBlock().caseClauses();
+        for (int i = 0; i < caseClauses.size(); i++) {
+           cases.addCase(vis.visitCaseClauses(caseClauses.get(i)));
+        }
+        DefaultClause defaultClause = new DefaultClause(new ArrayList<>());
+        if(ctx.switchStatement().caseBlock().defaultClause() != null) {
+            List<Statement> statements = new ArrayList<>();
+            for (int i = 0; i < ctx.switchStatement().caseBlock().defaultClause().statementList().getChildCount(); i++) {
+                statements.add(visit(ctx.switchStatement().caseBlock().defaultClause().statementList().getChild(i)));
+            }
+             defaultClause = new DefaultClause(statements);
+        }
+        SwitchStatement s=    new SwitchStatement(expressionSequence,cases,defaultClause);
+        System.out.println(s.toString());
+        return s;
+//        return new SwitchStatement(expressionSequence,cases,defaultClause);
+    }
+
+
 }

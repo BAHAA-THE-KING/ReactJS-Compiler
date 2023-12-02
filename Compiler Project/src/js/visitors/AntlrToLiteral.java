@@ -37,7 +37,7 @@ public class AntlrToLiteral extends JSParserBaseVisitor<Literal> {
                 exp = visitor.visit(castedChild.singleExpression());
                 builder.append(castedChild.TemplateStringStartExpression().getText())
                         .append(exp.toString())
-                        .append(castedChild.CloseBrace().getText());
+                        .append(castedChild.TemplateCloseBrace().getText());
             }
         }
         builder.append("`");

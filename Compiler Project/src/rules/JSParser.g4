@@ -1,7 +1,8 @@
 parser grammar JSParser;
 
 options {
-    tokenVocab=JSLexer;
+    tokenVocab = JSLexer;
+    superClass = JavaScriptParserBase;
 }
 
 program
@@ -90,7 +91,7 @@ variableDeclaration
     ;
 
 expressionStatement
-    : expressionSequence eos
+    : {this.notOpenBraceAndNotFunction()}? expressionSequence eos
     ;
 
 ifStatement
@@ -107,20 +108,20 @@ iterationStatement
 
 varModifier
     : Var
-    | Let
+    | let_
     | Const
     ;
 
 continueStatement
-    : Continue eos
+    : Continue ({this.notLineTerminator()}? Identifier)? eos
     ;
 
 breakStatement
-    : Break eos
+    : Break ({this.notLineTerminator()}? Identifier)? eos
     ;
 
 returnStatement
-    : Return expressionSequence? eos
+    : Return ({this.notLineTerminator()}? expressionSequence)? eos
     ;
 
 switchStatement
@@ -144,7 +145,7 @@ defaultClause
     ;
 
 throwStatement
-    : Throw expressionSequence eos
+    : Throw {this.notLineTerminator()}? expressionSequence eos
     ;
 
 tryStatement
@@ -160,7 +161,7 @@ finallyProduction
     ;
 
 functionDeclaration
-    : Function Identifier OpenParen formalParameterList? CloseParen functionBody
+    : Function_ Identifier OpenParen formalParameterList? CloseParen functionBody
     ;
 
 classDeclaration
@@ -266,7 +267,7 @@ singleExpression
     | singleExpression (Plus | Minus) singleExpression                                                  # AdditiveExpression
     | singleExpression NullCoalesce singleExpression                                                    # CoalesceExpression
     | singleExpression (LessThan | MoreThan | LessThanEquals | GreaterThanEquals) singleExpression      # RelationalExpression
-    | singleExpression (Equals | NotEquals | IdentityEquals | IdentityNotEquals) singleExpression       # EqualityExpression
+    | singleExpression (Equals_ | NotEquals | IdentityEquals | IdentityNotEquals) singleExpression      # EqualityExpression
     | singleExpression And singleExpression                                                             # LogicalAndExpression
     | singleExpression Or singleExpression                                                              # LogicalOrExpression
     | singleExpression QuestionMark singleExpression Colon singleExpression                             # TernaryExpression
@@ -293,7 +294,7 @@ objectLiteral
     ;
 
 anonymousFunction
-    : Function OpenParen formalParameterList? CloseParen functionBody       # AnonymousFunctionDecl
+    : Function_ OpenParen formalParameterList? CloseParen functionBody       # AnonymousFunctionDecl
     | arrowFunctionParameters ARROW arrowFunctionBody                       # ArrowFunction
     ;
 
@@ -331,12 +332,17 @@ templateStringLiteral
 
 templateStringAtom
     : TemplateStringAtom                                            # TemplateStringCharacter
-    | TemplateStringStartExpression singleExpression CloseBrace     # TemplateStringJSExpression
+    | TemplateStringStartExpression singleExpression TemplateCloseBrace     # TemplateStringJSExpression
+    ;
+
+let_
+    : NonStrictLet
+    | StrictLet
     ;
 
 eos
     : SemiColon
     | EOF
-//    | {this.lineTerminatorAhead()}?
-//    | {this.closeBrace()}?
+    | {this.lineTerminatorAhead()}?
+    | {this.closeBrace()}?
     ;

@@ -112,7 +112,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     public Statement visitClassDeclaration(JSParser.ClassDeclarationContext ctx) {
         String id = ctx.Identifier().getText();
         String parent;
-        if (ctx.classTail().Identifier().getText() != null) {
+        if (ctx.classTail().Identifier() != null) {
             parent = ctx.classTail().Identifier().getText();
         } else {
             parent = "null";

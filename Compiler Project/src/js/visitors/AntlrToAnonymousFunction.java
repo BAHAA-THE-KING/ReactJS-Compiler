@@ -16,10 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AntlrToAnonymousFunction extends JSParserBaseVisitor<Function> {
+    public String filePath ;
+
+    public AntlrToAnonymousFunction(String filePath) {
+        this.filePath = filePath;
+    }
+
     @Override
     public Function visitAnonymousFunctionDecl(JSParser.AnonymousFunctionDeclContext ctx) {
-        AntlrToExpression expressionVisitor = new AntlrToExpression();
-        AntlrToAssignable assignableVisitor = new AntlrToAssignable();
+        AntlrToExpression expressionVisitor = new AntlrToExpression(filePath);
+        AntlrToAssignable assignableVisitor = new AntlrToAssignable(filePath);
         var allParameters = ctx.formalParameterList();
         List<Pair<Assignable, Expression>> parameters = new ArrayList<>();
         for (int i = 0; i < allParameters.formalParameterArg().size(); i++) {
@@ -31,7 +37,7 @@ public class AntlrToAnonymousFunction extends JSParserBaseVisitor<Function> {
         Expression spreadParameter = allParameters.lastFormalParameterArg() != null ? expressionVisitor.visit(allParameters.lastFormalParameterArg()) : null;
 
         List<Statement> body = new ArrayList<>();
-        AntlrToStatement statementVisitor = new AntlrToStatement();
+        AntlrToStatement statementVisitor = new AntlrToStatement(filePath);
         var functionBody = ctx.functionBody();
         for (int i = 0; i < functionBody.statement().size(); i++) {
             body.add(statementVisitor.visit(functionBody.statement(i)));
@@ -41,8 +47,8 @@ public class AntlrToAnonymousFunction extends JSParserBaseVisitor<Function> {
 
     @Override
     public Function visitArrowFunction(JSParser.ArrowFunctionContext ctx) {
-        AntlrToExpression expressionVisitor = new AntlrToExpression();
-        AntlrToAssignable assignableVisitor = new AntlrToAssignable();
+        AntlrToExpression expressionVisitor = new AntlrToExpression(filePath);
+        AntlrToAssignable assignableVisitor = new AntlrToAssignable(filePath);
         var allParameters = ctx.arrowFunctionParameters();
         List<Pair<Assignable, Expression>> parameters = new ArrayList<>();
         Expression spreadParameter = null;
@@ -59,7 +65,7 @@ public class AntlrToAnonymousFunction extends JSParserBaseVisitor<Function> {
         }
 
         List<Statement> body = new ArrayList<>();
-        AntlrToStatement statementVisitor = new AntlrToStatement();
+        AntlrToStatement statementVisitor = new AntlrToStatement(filePath);
         var arrowFunctionBody = ctx.arrowFunctionBody();
         if (arrowFunctionBody.functionBody() != null) {
             for (int i = 0; i < arrowFunctionBody.functionBody().statement().size(); i++) {
@@ -68,7 +74,7 @@ public class AntlrToAnonymousFunction extends JSParserBaseVisitor<Function> {
         }
         if (arrowFunctionBody.singleExpression() != null) {
             Expression expression = expressionVisitor.visit(arrowFunctionBody.singleExpression());
-            ExpressionSequence expressions = new ExpressionSequence(expression);
+            ExpressionSequence expressions = new ExpressionSequence(expression,filePath);
             body.add(new ReturnStatement(expressions));
         }
         return new ArrowFunction(parameters, spreadParameter, body);

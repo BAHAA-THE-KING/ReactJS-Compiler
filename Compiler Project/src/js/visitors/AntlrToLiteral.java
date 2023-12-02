@@ -8,6 +8,12 @@ import js.visitors.models.Literal;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 public class AntlrToLiteral extends JSParserBaseVisitor<Literal> {
+    public String filePath ;
+
+    public AntlrToLiteral(String filePath) {
+        this.filePath = filePath;
+    }
+
     @Override
     public Literal visitBoolean(JSParser.BooleanContext ctx) {
         return new BooleanLiteral(ctx.BooleanLiteral().getText());
@@ -33,7 +39,7 @@ public class AntlrToLiteral extends JSParserBaseVisitor<Literal> {
                 builder.append(((JSParser.TemplateStringCharacterContext) child).TemplateStringAtom().getText());
             }else if (child instanceof JSParser.TemplateStringJSExpressionContext) {
                 JSParser.TemplateStringJSExpressionContext castedChild = (JSParser.TemplateStringJSExpressionContext) child;
-                AntlrToExpression visitor = new AntlrToExpression();
+                AntlrToExpression visitor = new AntlrToExpression(filePath);
                 exp = visitor.visit(castedChild.singleExpression());
                 builder.append(castedChild.TemplateStringStartExpression().getText())
                         .append(exp.toString())

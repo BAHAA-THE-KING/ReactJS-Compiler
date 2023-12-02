@@ -32,13 +32,13 @@ public class ProgramJS {
         } else {
             JSParser parser = getParser(args[0]);
             ParseTree antlrAST = parser.program();
-            AntlrToProgram progVisitor = new AntlrToProgram();
+            AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
             JsProgram doc = progVisitor.visit(antlrAST);
             ObjectMapper mapper = new ObjectMapper();
             mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
             String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(doc);
             System.out.println(result);
-            new visualizeJSON(doc.toString());
+            new visualizeJSON(result);
         }
     }
 

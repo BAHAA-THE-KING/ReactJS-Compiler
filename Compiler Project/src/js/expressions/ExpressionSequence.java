@@ -10,13 +10,14 @@ import java.util.List;
 public class ExpressionSequence implements Expression {
     List<Expression> list;
 
-    public ExpressionSequence(JSParser.ExpressionSequenceContext ctx) {
-        AntlrToExpressionList visitor = new AntlrToExpressionList();
+
+    public ExpressionSequence(JSParser.ExpressionSequenceContext ctx,String filePath) {
+        AntlrToExpressionList visitor = new AntlrToExpressionList(filePath);
         this.list = visitor.visit(ctx);
     }
 
-    public ExpressionSequence(Expression exp) {
-        AntlrToExpressionList visitor = new AntlrToExpressionList();
+    public ExpressionSequence(Expression exp,String filePath) {
+        AntlrToExpressionList visitor = new AntlrToExpressionList(filePath);
         this.list = new ArrayList<>();
         this.list.add(exp);
     }

@@ -28,7 +28,7 @@ public class ProgramHTML {
             System.out.println(args[0]);
             HTMLParser parser = getParser(args[0]);
             ParseTree antlrAST = parser.htmlDocument();
-            AntlrToHtmlDocument docVisitor = new AntlrToHtmlDocument();
+            AntlrToHtmlDocument docVisitor = new AntlrToHtmlDocument(args[0]);
 
             HtmlDocument doc = docVisitor.visit(antlrAST);
             if(errors.isEmpty()){

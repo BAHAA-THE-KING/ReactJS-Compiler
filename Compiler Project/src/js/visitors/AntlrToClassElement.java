@@ -11,14 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AntlrToClassElement extends JSParserBaseVisitor<ClassElement> {
+    public String filePath ;
+
+    public AntlrToClassElement(String filePath) {
+        this.filePath = filePath;
+    }
+
     @Override
     public ClassElement visitClassFieldDefinition(JSParser.ClassFieldDefinitionContext ctx) {
         boolean isStatic = ctx.Static() != null;
 
-        AntlrToPropertyName propertyNamevisitor = new AntlrToPropertyName();
+        AntlrToPropertyName propertyNamevisitor = new AntlrToPropertyName(filePath);
         PropertyName propertyName = propertyNamevisitor.visit(ctx.fieldDefinition().propertyName());
 
-        AntlrToExpression expressionVisitor = new AntlrToExpression();
+        AntlrToExpression expressionVisitor = new AntlrToExpression(filePath);
         Expression expression = ctx.fieldDefinition().singleExpression() != null ? expressionVisitor.visit(ctx.fieldDefinition().singleExpression()) : null;
 
         return new ClassFieldDefinition(isStatic, propertyName, expression);
@@ -28,11 +34,11 @@ public class AntlrToClassElement extends JSParserBaseVisitor<ClassElement> {
     public ClassElement visitClassMethodDefinition(JSParser.ClassMethodDefinitionContext ctx) {
         boolean isStatic = ctx.Static() != null;
 
-        AntlrToPropertyName propertyNameVisitor = new AntlrToPropertyName();
+        AntlrToPropertyName propertyNameVisitor = new AntlrToPropertyName(filePath);
         PropertyName funcName = propertyNameVisitor.visit(ctx.methodDefinition().propertyName());
 
-        AntlrToExpression expressionVisitor = new AntlrToExpression();
-        AntlrToAssignable assignableVisitor = new AntlrToAssignable();
+        AntlrToExpression expressionVisitor = new AntlrToExpression(filePath);
+        AntlrToAssignable assignableVisitor = new AntlrToAssignable(filePath);
         var allParameters = ctx.methodDefinition().formalParameterList();
         List<Pair<Assignable, Expression>> parameters = new ArrayList<>();
         for (int i = 0; i < allParameters.formalParameterArg().size(); i++) {
@@ -44,7 +50,7 @@ public class AntlrToClassElement extends JSParserBaseVisitor<ClassElement> {
         Expression spreadParameter = allParameters.lastFormalParameterArg() != null ? expressionVisitor.visit(allParameters.lastFormalParameterArg()) : null;
 
         List<Statement> body = new ArrayList<>();
-        AntlrToStatement statementVisitor = new AntlrToStatement();
+        AntlrToStatement statementVisitor = new AntlrToStatement(filePath);
         var functionBody = ctx.methodDefinition().functionBody();
         for (int i = 0; i < functionBody.statement().size(); i++) {
             body.add(statementVisitor.visit(functionBody.statement(i)));

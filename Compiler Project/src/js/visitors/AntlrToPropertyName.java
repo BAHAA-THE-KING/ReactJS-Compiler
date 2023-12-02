@@ -7,6 +7,12 @@ import js.visitors.models.Expression;
 import js.visitors.models.PropertyName;
 
 public class AntlrToPropertyName extends JSParserBaseVisitor<PropertyName> {
+    public String filePath ;
+
+    public AntlrToPropertyName(String filePath) {
+        this.filePath = filePath;
+    }
+
     @Override
     public PropertyName visitPropertyByName(JSParser.PropertyByNameContext ctx) {
         String id = ctx.Identifier().getText();
@@ -27,7 +33,7 @@ public class AntlrToPropertyName extends JSParserBaseVisitor<PropertyName> {
 
     @Override
     public PropertyName visitPropertyByExpression(JSParser.PropertyByExpressionContext ctx) {
-        AntlrToExpression visitor = new AntlrToExpression();
+        AntlrToExpression visitor = new AntlrToExpression(filePath);
         Expression exp = visitor.visit(ctx.singleExpression());
         return new PropertyByExpression(exp);
     }

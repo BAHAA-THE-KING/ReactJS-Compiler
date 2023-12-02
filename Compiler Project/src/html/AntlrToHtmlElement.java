@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AntlrToHtmlElement extends HTMLParserBaseVisitor<HtmlElement> {
-
+    public String filePath;
+    AntlrToHtmlElement(String filePath){
+        this.filePath=filePath;
+    }
     @Override
     public HtmlElement visitNormalElement(HTMLParser.NormalElementContext ctx) {
         String tagName = ctx.TAG_NAME(0).getText();
@@ -39,12 +42,8 @@ public class AntlrToHtmlElement extends HTMLParserBaseVisitor<HtmlElement> {
         String startingTag = ctx.TAG_NAME(0).getText();
         String endingTag = ctx.TAG_NAME(1).getText();
         if(!startingTag.equals(endingTag)){
-            int line = ctx.TAG_NAME(1).getSymbol().getLine();
-            int column = ctx.TAG_NAME(1).getSymbol().getCharPositionInLine()+1;
-            String message = "Closing tag </%s> doesn't match the opening tag <%s> ".formatted(
-                    endingTag,startingTag
-            );
-            ProgramHTML.errors.add(Error.htmlError((ParserRuleContext) ctx.TAG_NAME(1),"must send",message));
+            String message = "Closing tag </%s> doesn't match the opening tag <%s> ".formatted(endingTag,startingTag);
+            ProgramHTML.errors.add(Error.htmlError(ctx.TAG_NAME(1),filePath,message));
         }
         return element;
     }
@@ -70,6 +69,6 @@ public class AntlrToHtmlElement extends HTMLParserBaseVisitor<HtmlElement> {
         int line = ctx.getStart().getLine();
         int column = ctx.getStart().getCharPositionInLine()+1;
         String message = "Attribute ( %s ) is already defined.".formatted(ctx.TAG_NAME().getText());
-        ProgramHTML.errors.add(Error.htmlError(ctx,"should send it",message));
+        ProgramHTML.errors.add(Error.htmlError(ctx,filePath,message));
     }
 }

@@ -12,11 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AntlrToIterationStatement extends JSParserBaseVisitor<IterationStatement> {
+    public String filePath ;
+
+    public AntlrToIterationStatement(String filePath) {
+        this.filePath = filePath;
+    }
+
     @Override
     public IterationStatement visitDoWhileStatement(JSParser.DoWhileStatementContext ctx) {
-        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence());
+        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence(),filePath);
 
-        AntlrToStatement statementVisitor = new AntlrToStatement();
+        AntlrToStatement statementVisitor = new AntlrToStatement(filePath);
         Statement statement = statementVisitor.visit(ctx.statement());
 
         return new DoWhileLoop(statement, expressions);
@@ -24,9 +30,9 @@ public class AntlrToIterationStatement extends JSParserBaseVisitor<IterationStat
 
     @Override
     public IterationStatement visitWhileStatement(JSParser.WhileStatementContext ctx) {
-        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence());
+        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence(),filePath);
 
-        AntlrToStatement statementVisitor = new AntlrToStatement();
+        AntlrToStatement statementVisitor = new AntlrToStatement(filePath);
         Statement statement = statementVisitor.visit(ctx.statement());
 
         return new WhileLoop(statement, expressions);
@@ -34,7 +40,7 @@ public class AntlrToIterationStatement extends JSParserBaseVisitor<IterationStat
 
     @Override
     public IterationStatement visitForStatement(JSParser.ForStatementContext ctx) {
-        AntlrToStatement visitor = new AntlrToStatement();
+        AntlrToStatement visitor = new AntlrToStatement(filePath);
         int i = 2;
         Statement firstPart = null;
         if (!ctx.getChild(i++).getText().equals(";")) {
@@ -55,10 +61,10 @@ public class AntlrToIterationStatement extends JSParserBaseVisitor<IterationStat
 
     @Override
     public IterationStatement visitForInStatement(JSParser.ForInStatementContext ctx) {
-        AntlrToStatement statementVisitor = new AntlrToStatement();
+        AntlrToStatement statementVisitor = new AntlrToStatement(filePath);
         Statement firstPart = statementVisitor.visit(ctx.getChild(2));
 
-        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence());
+        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence(),filePath);
 
         Statement statement = statementVisitor.visit(ctx.statement());
 
@@ -67,10 +73,10 @@ public class AntlrToIterationStatement extends JSParserBaseVisitor<IterationStat
 
     @Override
     public IterationStatement visitForOfStatement(JSParser.ForOfStatementContext ctx) {
-        AntlrToStatement statementVisitor = new AntlrToStatement();
+        AntlrToStatement statementVisitor = new AntlrToStatement(filePath);
         Statement firstPart = statementVisitor.visit(ctx.getChild(2));
 
-        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence());
+        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence(),filePath);
 
         Statement statement = statementVisitor.visit(ctx.statement());
 

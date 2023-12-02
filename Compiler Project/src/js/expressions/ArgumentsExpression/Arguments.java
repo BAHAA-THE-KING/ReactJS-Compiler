@@ -8,8 +8,8 @@ import java.util.List;
 public class Arguments {
     List<Argument> argumentsList;
 
-    public Arguments(JSParser.ArgumentsContext ctx) {
-        AntlrToArguments visitor = new AntlrToArguments();
+    public Arguments(JSParser.ArgumentsContext ctx,String filePath) {
+        AntlrToArguments visitor = new AntlrToArguments(filePath);
         this.argumentsList = visitor.visit(ctx);
     }
 

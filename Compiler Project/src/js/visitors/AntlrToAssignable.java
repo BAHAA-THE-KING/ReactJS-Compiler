@@ -7,6 +7,12 @@ import js.expressions.IdentifierExpression;
 import js.visitors.models.Assignable;
 
 public class AntlrToAssignable extends JSParserBaseVisitor<Assignable> {
+    public String filePath ;
+
+    public AntlrToAssignable(String filePath) {
+        this.filePath = filePath;
+    }
+
     @Override
     public Assignable visitVariableByName(JSParser.VariableByNameContext ctx) {
         String name = ctx.Identifier().getText();
@@ -15,7 +21,7 @@ public class AntlrToAssignable extends JSParserBaseVisitor<Assignable> {
 
     @Override
     public Assignable visitVariableByArray(JSParser.VariableByArrayContext ctx) {
-        return new ArrayLiteral(ctx.arrayLiteral());
+        return new ArrayLiteral(ctx.arrayLiteral(),filePath);
     }
 
     @Override

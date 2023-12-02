@@ -2,6 +2,7 @@ package js.visitors;
 
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
+import js.expressions.ExpressionSequence;
 import js.statements.Loops.*;
 import js.visitors.models.Expression;
 import js.visitors.models.IterationStatement;
@@ -13,11 +14,7 @@ import java.util.List;
 public class AntlrToIterationStatement extends JSParserBaseVisitor<IterationStatement> {
     @Override
     public IterationStatement visitDoWhileStatement(JSParser.DoWhileStatementContext ctx) {
-        List<Expression> expressions = new ArrayList<>();
-        AntlrToExpression expressionVisitor = new AntlrToExpression();
-        for (var expression : ctx.expressionSequence().singleExpression()) {
-            expressions.add(expressionVisitor.visit(expression));
-        }
+        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence());
 
         AntlrToStatement statementVisitor = new AntlrToStatement();
         Statement statement = statementVisitor.visit(ctx.statement());
@@ -27,11 +24,7 @@ public class AntlrToIterationStatement extends JSParserBaseVisitor<IterationStat
 
     @Override
     public IterationStatement visitWhileStatement(JSParser.WhileStatementContext ctx) {
-        List<Expression> expressions = new ArrayList<>();
-        AntlrToExpression expressionVisitor = new AntlrToExpression();
-        for (var expression : ctx.expressionSequence().singleExpression()) {
-            expressions.add(expressionVisitor.visit(expression));
-        }
+        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence());
 
         AntlrToStatement statementVisitor = new AntlrToStatement();
         Statement statement = statementVisitor.visit(ctx.statement());
@@ -65,11 +58,7 @@ public class AntlrToIterationStatement extends JSParserBaseVisitor<IterationStat
         AntlrToStatement statementVisitor = new AntlrToStatement();
         Statement firstPart = statementVisitor.visit(ctx.getChild(2));
 
-        List<Expression> expressions = new ArrayList<>();
-        AntlrToExpression expressionVisitor = new AntlrToExpression();
-        for (var expression : ctx.expressionSequence().singleExpression()) {
-            expressions.add(expressionVisitor.visit(expression));
-        }
+        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence());
 
         Statement statement = statementVisitor.visit(ctx.statement());
 
@@ -81,11 +70,7 @@ public class AntlrToIterationStatement extends JSParserBaseVisitor<IterationStat
         AntlrToStatement statementVisitor = new AntlrToStatement();
         Statement firstPart = statementVisitor.visit(ctx.getChild(2));
 
-        List<Expression> expressions = new ArrayList<>();
-        AntlrToExpression expressionVisitor = new AntlrToExpression();
-        for (var expression : ctx.expressionSequence().singleExpression()) {
-            expressions.add(expressionVisitor.visit(expression));
-        }
+        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence());
 
         Statement statement = statementVisitor.visit(ctx.statement());
 

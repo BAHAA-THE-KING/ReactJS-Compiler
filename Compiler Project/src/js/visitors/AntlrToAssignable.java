@@ -2,6 +2,7 @@ package js.visitors;
 
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
+import js.expressions.ArrayLiteral.ArrayLiteral;
 import js.expressions.IdentifierExpression;
 import js.visitors.models.Assignable;
 
@@ -14,13 +15,12 @@ public class AntlrToAssignable extends JSParserBaseVisitor<Assignable> {
 
     @Override
     public Assignable visitVariableByArray(JSParser.VariableByArrayContext ctx) {
-        //TODO
-        return super.visitVariableByArray(ctx);
+        return new ArrayLiteral(ctx.arrayLiteral());
     }
 
     @Override
     public Assignable visitVariableByObject(JSParser.VariableByObjectContext ctx) {
-        //TODO
+        //TODO Wait Object Literal And Use It Like The Array Literal
         return super.visitVariableByObject(ctx);
     }
 }

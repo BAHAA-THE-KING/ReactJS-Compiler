@@ -16,6 +16,6 @@ public class JsProgram {
 
     @Override
     public String toString() {
-        return "JsProgram{" + "statements=" + statements + '}';
+        return "{" + "\"name\":\"JsProgram\"," + "\"statements\":[" + "\"statements\"" + "]}";
     }
 }

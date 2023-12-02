@@ -3,20 +3,17 @@ package js.visitors;
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
 import js.expressions.ArrayLiteral.ArrayLiteral;
+import js.expressions.Literals.TemplateStringLiteral;
 import js.expressions.SimpleExpression;
 import js.expressions.*;
 import js.expressions.ArgumentsExpression.Arguments;
 import js.expressions.ArgumentsExpression.ArgumentsExpression;
 import js.expressions.ClassExpression;
-import js.expressions.TemplateString.TemplateStringAtom;
-import js.expressions.TemplateString.TemplateStringExpression;
-import js.expressions.TemplateString.TemplateStringLiteral;
 import js.expressions.AssignmentOperatorExpression;
 import js.expressions.LogicalExpression;
 import js.visitors.models.ClassElement;
 import js.visitors.models.Expression;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
 
@@ -177,14 +174,6 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     }
 
     @Override
-    public Expression visitTemplateStringExpression(JSParser.TemplateStringExpressionContext ctx) {
-        Expression singleExpression = visit(ctx.singleExpression());
-        List<TemplateStringAtom> atoms = new ArrayList<>();
-        //TODO make antlrToAtom and visit it
-        TemplateStringLiteral templateStringLiteral = new TemplateStringLiteral(atoms);
-        TemplateStringExpression templateStringExpression = new TemplateStringExpression(singleExpression, templateStringLiteral);
-        return templateStringExpression;
-    }
 
     @Override
     public Expression visitLogicalAndExpression(JSParser.LogicalAndExpressionContext ctx) {
@@ -262,4 +251,5 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     public Expression visitArrayLiteralExpression(JSParser.ArrayLiteralExpressionContext ctx) {
         return new ArrayLiteral(ctx.arrayLiteral());
     }
+
 }

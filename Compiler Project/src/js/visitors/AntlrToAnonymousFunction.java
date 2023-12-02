@@ -2,6 +2,7 @@ package js.visitors;
 
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
+import js.expressions.ExpressionSequence;
 import js.expressions.Function.AnonymousFunction;
 import js.expressions.Function.ArrowFunction;
 import js.statements.ReturnStatement.ReturnStatement;
@@ -66,8 +67,8 @@ public class AntlrToAnonymousFunction extends JSParserBaseVisitor<Function> {
             }
         }
         if (arrowFunctionBody.singleExpression() != null) {
-            List<Expression> expressions = new ArrayList<>();
-            expressions.add(expressionVisitor.visit(arrowFunctionBody.singleExpression()));
+            Expression expression = expressionVisitor.visit(arrowFunctionBody.singleExpression());
+            ExpressionSequence expressions = new ExpressionSequence(expression);
             body.add(new ReturnStatement(expressions));
         }
         return new ArrowFunction(parameters, spreadParameter, body);

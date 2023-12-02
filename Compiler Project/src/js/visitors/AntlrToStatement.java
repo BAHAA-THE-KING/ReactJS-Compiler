@@ -1,5 +1,6 @@
 package js.visitors;
 
+import js.expressions.ExpressionSequence;
 import js.statements.BreakStatement.Break;
 import js.statements.ClassDeclaration.ClassDeclaration;
 import antlrJS.JSParser;
@@ -15,11 +16,22 @@ import js.statements.ImportStatement.DeafultAsImportBlock;
 import js.statements.ImportStatement.FileImportBlock;
 import js.statements.ImportStatement.ObjectImportBlock;
 import js.statements.ReturnStatement.ReturnStatement;
+import js.statements.SwitchStatement.CaseClause;
+import js.statements.SwitchStatement.CaseClauses;
+import js.statements.SwitchStatement.DefaultClause;
+import js.statements.SwitchStatement.SwitchStatement;
+import js.statements.ThrowStatement.Throw;
+import js.statements.TryStatement.CatchProduction;
+import js.statements.TryStatement.FinallyProduction;
+import js.statements.TryStatement.TryStatement;
+import js.statements.VariableDeclarationStatement.VariableDeclaration;
+import js.statements.VariableDeclarationStatement.VariableDeclarationStatement;
 import js.visitors.models.Assignable;
 import js.visitors.models.ClassElement;
 import js.visitors.models.Expression;
 import js.visitors.models.Statement;
 import org.antlr.v4.runtime.misc.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +43,9 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
     @Override
     public Statement visitExpressionChunk(JSParser.ExpressionChunkContext ctx) {
-        ExpressionChunk chunk = new ExpressionChunk();
-        List<JSParser.SingleExpressionContext> exps = ctx.expressionStatement().expressionSequence().singleExpression();
-        AntlrToExpression visitor = new AntlrToExpression();
-        for (JSParser.SingleExpressionContext e : exps) {
-            chunk.addExpression(visitor.visit(e));
-        }
+        ExpressionSequence exps = new ExpressionSequence(ctx.expressionStatement().expressionSequence());
+        ExpressionChunk chunk = new ExpressionChunk(exps);
+
         return chunk;
     }
 
@@ -85,11 +94,18 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
     @Override
     public Statement visitBlockChunk(JSParser.BlockChunkContext ctx) {
-        BlockModel blockModel = new BlockModel();
-        for (int i = 0; i < ctx.block().statementList().getChildCount(); i++) {
-            blockModel.addStatement(visit(ctx.block().statementList().getChild(i)));
+        return visit(ctx.block());
+    }
+
+    @Override
+    public Statement visitBlock(JSParser.BlockContext ctx) {
+
+        if (ctx.statementList() == null) return new BlockModel();
+        BlockModel block = new BlockModel();
+        for (int i = 0; i < ctx.statementList().getChildCount(); i++) {
+            block.addStatement(visit(ctx.statementList().getChild(i)));
         }
-        return super.visitBlockChunk(ctx);
+        return block;
     }
 
     @Override
@@ -169,22 +185,14 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
     @Override
     public Statement visitReturnChunk(JSParser.ReturnChunkContext ctx) {
-        AntlrToExpression visitor = new AntlrToExpression();
-        List<Expression> expressions = new ArrayList<>();
-        var expressionSequence = ctx.returnStatement().expressionSequence();
-        for (int i = 0; i < expressionSequence.singleExpression().size(); i++) {
-            expressions.add(visitor.visit(expressionSequence.singleExpression(i)));
-        }
+        ExpressionSequence expressions = new ExpressionSequence(ctx.returnStatement().expressionSequence());
+
         return new ReturnStatement(expressions);
     }
 
     @Override
     public Statement visitIfStatement(JSParser.IfStatementContext ctx) {
-        List<Expression> expressions = new ArrayList<>();
-        AntlrToExpression visitor = new AntlrToExpression();
-        for (var expression : ctx.expressionSequence().singleExpression()) {
-            expressions.add(visitor.visit(expression));
-        }
+        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence());
 
         Statement statement = visit(ctx.statement(0));
 
@@ -207,5 +215,91 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitBreakChunk(JSParser.BreakChunkContext ctx) {
         return new Break();
+    }
+
+    @Override
+    public Statement visitVariableDeclerationChunk(JSParser.VariableDeclerationChunkContext ctx) {
+        var variableDeclarationList = ctx.variableStatement().variableDeclarationList();
+        String modifier = variableDeclarationList.varModifier().getText();
+
+        List<VariableDeclaration> vars = new ArrayList<>();
+        AntlrToAssignable assignableVisitor = new AntlrToAssignable();
+        AntlrToExpression expressionVisitor = new AntlrToExpression();
+        for (var decl : variableDeclarationList.variableDeclaration()) {
+            Assignable name = assignableVisitor.visit(decl.assignable());
+            Expression value = decl.singleExpression() != null ? expressionVisitor.visit(decl.singleExpression()) : null;
+            vars.add(new VariableDeclaration(name, value));
+        }
+        return new VariableDeclarationStatement(modifier, vars);
+    }
+
+    @Override
+    public Statement visitTryChunk(JSParser.TryChunkContext ctx) {
+        return visitTryStatement(ctx.tryStatement());
+    }
+
+    @Override
+    public Statement visitTryStatement(JSParser.TryStatementContext ctx) {
+
+        BlockModel block = (BlockModel) visit(ctx.block());
+        CatchProduction catchPro = ctx.catchProduction() != null ? (CatchProduction) visit(ctx.catchProduction()) : null;
+
+        FinallyProduction finallyPro = ctx.finallyProduction() != null ? (FinallyProduction) visit(ctx.finallyProduction()) : null;
+
+        TryStatement tryState = new TryStatement(block, catchPro, finallyPro);
+        return tryState;
+    }
+
+    @Override
+    public Statement visitCatchProduction(JSParser.CatchProductionContext ctx) {
+
+        AntlrToAssignable visitor = new AntlrToAssignable();
+
+        Assignable exception = visitor.visit(ctx.assignable());
+        BlockModel block = (BlockModel) visit(ctx.block());
+
+        CatchProduction catchPro = new CatchProduction(exception, block);
+        return catchPro;
+    }
+
+    @Override
+    public Statement visitFinallyProduction(JSParser.FinallyProductionContext ctx) {
+        BlockModel block = (BlockModel) visit(ctx.block());
+
+        FinallyProduction finallyPro = new FinallyProduction(block);
+
+        return finallyPro;
+    }
+
+
+    @Override
+    public Statement visitSwitchChunk(JSParser.SwitchChunkContext ctx) {
+        AntlrToExpression vistor = new AntlrToExpression();
+        ExpressionSequence expressionSequence = new ExpressionSequence(ctx.switchStatement().expressionSequence());
+        CaseClauses cases = new CaseClauses();
+        AntlrToCaseClause vis = new AntlrToCaseClause();
+        var caseClauses = ctx.switchStatement().caseBlock().caseClauses();
+        for (int i = 0; i < caseClauses.size(); i++) {
+            cases.addCase(vis.visitCaseClauses(caseClauses.get(i)));
+        }
+        DefaultClause defaultClause = new DefaultClause(new ArrayList<>());
+        if (ctx.switchStatement().caseBlock().defaultClause() != null) {
+            List<Statement> statements = new ArrayList<>();
+            for (int i = 0; i < ctx.switchStatement().caseBlock().defaultClause().statementList().getChildCount(); i++) {
+                statements.add(visit(ctx.switchStatement().caseBlock().defaultClause().statementList().getChild(i)));
+            }
+            defaultClause = new DefaultClause(statements);
+        }
+        SwitchStatement s = new SwitchStatement(expressionSequence, cases, defaultClause);
+        System.out.println(s.toString());
+        return s;
+//        return new SwitchStatement(expressionSequence,cases,defaultClause);
+    }
+
+    @Override
+    public Statement visitThrowChunk(JSParser.ThrowChunkContext ctx) {
+        ExpressionSequence expressions = new ExpressionSequence(ctx.throwStatement().expressionSequence());
+
+        return new Throw(expressions);
     }
 }

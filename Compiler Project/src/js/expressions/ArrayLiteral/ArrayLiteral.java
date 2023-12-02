@@ -2,12 +2,13 @@ package js.expressions.ArrayLiteral;
 
 import antlrJS.JSParser;
 import js.visitors.AntlrToExpression;
+import js.visitors.models.Assignable;
 import js.visitors.models.Expression;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrayLiteral implements Expression{
+public class ArrayLiteral implements Expression, Assignable {
 
     private final String className = this.getClass().getSimpleName();
     List<ArrayElement> elements ;

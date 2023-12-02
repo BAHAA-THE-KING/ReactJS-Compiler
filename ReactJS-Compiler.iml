@@ -7,7 +7,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="antlr-4.13.1-complete" level="project" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
@@ -30,6 +29,15 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/Compiler Project/lib/jackson-core-2.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/Compiler Project/lib/antlr-4.13.1-complete.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

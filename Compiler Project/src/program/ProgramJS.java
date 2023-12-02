@@ -36,6 +36,9 @@ public class ProgramJS {
             JsProgram doc = progVisitor.visit(antlrAST);
             ObjectMapper mapper = new ObjectMapper();
             mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+            for (String err :errors) {
+                System.err.println(err);
+            }
             String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(doc);
             System.out.println(result);
             new visualizeJSON(result);

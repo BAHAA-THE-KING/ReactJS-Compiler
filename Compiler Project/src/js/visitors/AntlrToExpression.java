@@ -3,7 +3,6 @@ package js.visitors;
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
 import js.expressions.ArrayLiteral.ArrayLiteral;
-import js.expressions.Literals.TemplateStringLiteral;
 import js.expressions.SimpleExpression;
 import js.expressions.*;
 import js.expressions.ArgumentsExpression.Arguments;
@@ -13,7 +12,7 @@ import js.expressions.AssignmentOperatorExpression;
 import js.expressions.LogicalExpression;
 import js.visitors.models.ClassElement;
 import js.visitors.models.Expression;
-import java.util.ArrayList;
+import js.visitors.models.ObjectLiteral;
 
 public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
 
@@ -257,4 +256,13 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         return new ArrayLiteral(ctx.arrayLiteral(),filePath);
     }
 
+    @Override
+    public Expression visitObjectLiteralExpression(JSParser.ObjectLiteralExpressionContext ctx) {
+        ObjectLiteral literal = new ObjectLiteral();
+        AntlrToProperty attributeVisitor = new AntlrToProperty(filePath);
+        for (JSParser.PropertyAssignmentContext child:ctx.objectLiteral().propertyAssignment()) {
+            literal.addAttribute(attributeVisitor.visit(child));
+        }
+        return literal;
+    }
 }

@@ -166,7 +166,6 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitFunctionDeclaration(JSParser.FunctionDeclarationContext ctx) {
         String functionName = ctx.Identifier().getText();
-
         AntlrToExpression expressionVisitor = new AntlrToExpression(filePath);
         AntlrToAssignable assignableVisitor = new AntlrToAssignable(filePath);
         var allParameters = ctx.formalParameterList();

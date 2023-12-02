@@ -43,7 +43,7 @@ public class AntlrToHtmlElement extends HTMLParserBaseVisitor<HtmlElement> {
         String endingTag = ctx.TAG_NAME(1).getText();
         if(!startingTag.equals(endingTag)){
             String message = "Closing tag </%s> doesn't match the opening tag <%s> ".formatted(endingTag,startingTag);
-            ProgramHTML.errors.add(Error.htmlError(ctx.TAG_NAME(1),filePath,message));
+            Error.htmlError(ctx.TAG_NAME(1),filePath,message);
         }
         return element;
     }
@@ -69,6 +69,6 @@ public class AntlrToHtmlElement extends HTMLParserBaseVisitor<HtmlElement> {
         int line = ctx.getStart().getLine();
         int column = ctx.getStart().getCharPositionInLine()+1;
         String message = "Attribute ( %s ) is already defined.".formatted(ctx.TAG_NAME().getText());
-        ProgramHTML.errors.add(Error.htmlError(ctx,filePath,message));
+        Error.htmlError(ctx,filePath,message);
     }
 }

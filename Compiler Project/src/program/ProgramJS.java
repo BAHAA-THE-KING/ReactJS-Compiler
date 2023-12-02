@@ -38,7 +38,7 @@ public class ProgramJS {
             mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
             String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(doc);
             System.out.println(result);
-            new visualizeJSON(result);
+            new visualizeJSON(doc.toString());
         }
     }
 

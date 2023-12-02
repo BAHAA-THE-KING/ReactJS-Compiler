@@ -20,6 +20,7 @@ import js.statements.SwitchStatement.CaseClause;
 import js.statements.SwitchStatement.CaseClauses;
 import js.statements.SwitchStatement.DefaultClause;
 import js.statements.SwitchStatement.SwitchStatement;
+import js.statements.ThrowStatement.Throw;
 import js.statements.TryStatement.CatchProduction;
 import js.statements.TryStatement.FinallyProduction;
 import js.statements.TryStatement.TryStatement;
@@ -99,8 +100,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitBlock(JSParser.BlockContext ctx) {
 
-        if(ctx.statementList() == null)
-            return new BlockModel();
+        if (ctx.statementList() == null) return new BlockModel();
         BlockModel block = new BlockModel();
         for (int i = 0; i < ctx.statementList().getChildCount(); i++) {
             block.addStatement(visit(ctx.statementList().getChild(i)));
@@ -242,15 +242,11 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     public Statement visitTryStatement(JSParser.TryStatementContext ctx) {
 
         BlockModel block = (BlockModel) visit(ctx.block());
-        CatchProduction catchPro = ctx.catchProduction() != null ?
-                (CatchProduction) visit(ctx.catchProduction()) :
-                null;
+        CatchProduction catchPro = ctx.catchProduction() != null ? (CatchProduction) visit(ctx.catchProduction()) : null;
 
-        FinallyProduction finallyPro = ctx.finallyProduction() != null ?
-                (FinallyProduction) visit(ctx.finallyProduction()) :
-                null;
+        FinallyProduction finallyPro = ctx.finallyProduction() != null ? (FinallyProduction) visit(ctx.finallyProduction()) : null;
 
-        TryStatement tryState = new TryStatement(block,catchPro,finallyPro);
+        TryStatement tryState = new TryStatement(block, catchPro, finallyPro);
         return tryState;
     }
 
@@ -276,30 +272,34 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     }
 
 
-
     @Override
     public Statement visitSwitchChunk(JSParser.SwitchChunkContext ctx) {
         AntlrToExpression vistor = new AntlrToExpression();
         ExpressionSequence expressionSequence = new ExpressionSequence(ctx.switchStatement().expressionSequence());
         CaseClauses cases = new CaseClauses();
         AntlrToCaseClause vis = new AntlrToCaseClause();
-        var caseClauses =ctx.switchStatement().caseBlock().caseClauses();
+        var caseClauses = ctx.switchStatement().caseBlock().caseClauses();
         for (int i = 0; i < caseClauses.size(); i++) {
-           cases.addCase(vis.visitCaseClauses(caseClauses.get(i)));
+            cases.addCase(vis.visitCaseClauses(caseClauses.get(i)));
         }
         DefaultClause defaultClause = new DefaultClause(new ArrayList<>());
-        if(ctx.switchStatement().caseBlock().defaultClause() != null) {
+        if (ctx.switchStatement().caseBlock().defaultClause() != null) {
             List<Statement> statements = new ArrayList<>();
             for (int i = 0; i < ctx.switchStatement().caseBlock().defaultClause().statementList().getChildCount(); i++) {
                 statements.add(visit(ctx.switchStatement().caseBlock().defaultClause().statementList().getChild(i)));
             }
-             defaultClause = new DefaultClause(statements);
+            defaultClause = new DefaultClause(statements);
         }
-        SwitchStatement s=    new SwitchStatement(expressionSequence,cases,defaultClause);
+        SwitchStatement s = new SwitchStatement(expressionSequence, cases, defaultClause);
         System.out.println(s.toString());
         return s;
 //        return new SwitchStatement(expressionSequence,cases,defaultClause);
     }
 
+    @Override
+    public Statement visitThrowChunk(JSParser.ThrowChunkContext ctx) {
+        ExpressionSequence expressions = new ExpressionSequence(ctx.throwStatement().expressionSequence());
 
+        return new Throw(expressions);
+    }
 }

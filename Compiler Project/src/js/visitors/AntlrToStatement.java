@@ -284,8 +284,8 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
         CaseClauses cases = new CaseClauses();
         AntlrToCaseClause vis = new AntlrToCaseClause(filePath);
         var caseClauses = ctx.switchStatement().caseBlock().caseClauses();
-        for (int i = 0; i < caseClauses.size(); i++) {
-            cases.addCase(vis.visitCaseClauses(caseClauses.get(i)));
+        for (int i = 0; i < ctx.getChild(0).getChild(4).getChild(1).getChildCount(); i++) {
+            cases.addCase(vis.visit(ctx.getChild(0).getChild(4).getChild(1).getChild(i)));
         }
         DefaultClause defaultClause = new DefaultClause(new ArrayList<>());
         if (ctx.switchStatement().caseBlock().defaultClause() != null) {

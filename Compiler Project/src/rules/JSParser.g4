@@ -223,7 +223,8 @@ propertyAssignment
     : propertyName Colon singleExpression                                       # PropertyExpressionAssignment
     | OpenBracket singleExpression CloseBracket Colon singleExpression          # ComputedPropertyExpressionAssignment
     | propertyName OpenParen formalParameterList?  CloseParen  functionBody     # FunctionProperty
-    | Ellipsis? singleExpression                                                # PropertyShorthand
+    | Identifier                                                                # PropertyIdentifierShorthand
+    | Ellipsis singleExpression                                                 # PropertyShorthand
     ;
 
 propertyName

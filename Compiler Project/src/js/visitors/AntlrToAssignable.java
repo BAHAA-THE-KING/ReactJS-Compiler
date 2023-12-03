@@ -5,6 +5,7 @@ import antlrJS.JSParserBaseVisitor;
 import js.expressions.ArrayLiteral.ArrayLiteral;
 import js.expressions.IdentifierExpression;
 import js.visitors.models.Assignable;
+import js.visitors.models.ObjectLiteral;
 
 public class AntlrToAssignable extends JSParserBaseVisitor<Assignable> {
     public String filePath ;
@@ -26,7 +27,11 @@ public class AntlrToAssignable extends JSParserBaseVisitor<Assignable> {
 
     @Override
     public Assignable visitVariableByObject(JSParser.VariableByObjectContext ctx) {
-        //TODO Wait Object Literal And Use It Like The Array Literal
-        return super.visitVariableByObject(ctx);
+        ObjectLiteral literal = new ObjectLiteral();
+        AntlrToProperty attributeVisitor = new AntlrToProperty(filePath);
+        for (JSParser.PropertyAssignmentContext child:ctx.objectLiteral().propertyAssignment()) {
+            literal.addAttribute(attributeVisitor.visit(child));
+        }
+        return literal;
     }
 }

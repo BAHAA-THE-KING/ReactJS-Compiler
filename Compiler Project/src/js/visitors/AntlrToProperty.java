@@ -2,10 +2,12 @@ package js.visitors;
 
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
+import js.expressions.IdentifierExpression;
 import js.expressions.Properties.ComputedProperty;
 import js.expressions.Properties.EllipsisProperty;
 import js.expressions.Properties.FunctionProperty;
 import js.expressions.Properties.NormalProperty;
+import js.statements.ClassDeclaration.PropertyName.PropertyByName;
 import js.statements.Function.FunctionDeclaration;
 import js.visitors.models.*;
 import org.antlr.v4.runtime.misc.Pair;
@@ -26,9 +28,16 @@ public class AntlrToProperty extends JSParserBaseVisitor<Property> {
     public Property visitPropertyExpressionAssignment(JSParser.PropertyExpressionAssignmentContext ctx) {
         AntlrToPropertyName nameVisitor = new AntlrToPropertyName(filePath);
         AntlrToExpression valueVisitor = new AntlrToExpression(filePath);
-        PropertyName key =nameVisitor.visit(ctx.propertyName());
-        Expression value=valueVisitor.visit(ctx.singleExpression());
-        return new NormalProperty(key,value);
+        PropertyName key = nameVisitor.visit(ctx.propertyName());
+        Expression value = valueVisitor.visit(ctx.singleExpression());
+        return new NormalProperty(key, value);
+    }
+
+    @Override
+    public Property visitPropertyIdentifierShorthand(JSParser.PropertyIdentifierShorthandContext ctx) {
+        PropertyName key = new PropertyByName(ctx.Identifier().getText());
+        Expression value = new IdentifierExpression(ctx.Identifier().getText());
+        return new NormalProperty(key, value);
     }
 
     @Override
@@ -36,7 +45,7 @@ public class AntlrToProperty extends JSParserBaseVisitor<Property> {
         AntlrToExpression visitor = new AntlrToExpression(filePath);
         Expression key = visitor.visit(ctx.singleExpression(0));
         Expression value = visitor.visit(ctx.singleExpression(1));
-        return new ComputedProperty(key,value);
+        return new ComputedProperty(key, value);
     }
 
     @Override
@@ -48,11 +57,11 @@ public class AntlrToProperty extends JSParserBaseVisitor<Property> {
         for (int i = 0; i < allParameters.formalParameterArg().size(); i++) {
             Assignable name = assignableVisitor.visit(allParameters.formalParameterArg(i).assignable());
             Expression value = allParameters.formalParameterArg(i).singleExpression() != null ? expressionVisitor.visit(allParameters.formalParameterArg(i).singleExpression()) : null;
-            boolean success=property.addParameter(name, value);
+            boolean success = property.addParameter(name, value);
 
-            if(!success){
+            if (!success) {
                 String msg = "Parameter %s is already defined.".formatted(name);
-                Error.jsError(allParameters.formalParameterArg(i).assignable(),filePath,msg);
+                Error.jsError(allParameters.formalParameterArg(i).assignable(), filePath, msg);
             }
         }
         Expression spreadParameter = allParameters.lastFormalParameterArg() != null ? expressionVisitor.visit(allParameters.lastFormalParameterArg()) : null;
@@ -70,14 +79,14 @@ public class AntlrToProperty extends JSParserBaseVisitor<Property> {
     public Property visitPropertyShorthand(JSParser.PropertyShorthandContext ctx) {
         AntlrToExpression valueVisitor = new AntlrToExpression(filePath);
         Expression value = valueVisitor.visit(ctx.singleExpression());
-        if(!(value instanceof ObjectLiteral)){
+        if (!(value instanceof ObjectLiteral)) {
             Error.jsError(
                     ctx.singleExpression(),
                     filePath,
                     "You can only spread objects inside an object."
             );
             return null;
-        }else{
+        } else {
             return new EllipsisProperty((ObjectLiteral) value);
         }
     }

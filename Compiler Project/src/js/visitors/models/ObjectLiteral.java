@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ObjectLiteral implements Expression {
+public class ObjectLiteral implements Expression, Assignable {
     public List<Property> objectProperties = new ArrayList<>();
 
     public ObjectLiteral addAttribute(Property property) {

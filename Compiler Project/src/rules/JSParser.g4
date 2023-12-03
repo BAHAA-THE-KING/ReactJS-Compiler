@@ -6,14 +6,12 @@ options {
 }
 
 program
-    : (statement+)? EOF
+    : importStatement* statement* exportStatement* EOF
     ;
 
 statement
     : block                     # BlockChunk
     | variableStatement         # VariableDeclerationChunk
-    | importStatement           # ImportChunk
-    | exportStatement           # ExportChunk
     | SemiColon                 # EmptyChunk
     | classDeclaration          # ClassDeclarationChunk
     | functionDeclaration       # FunctionDeclarationChunk

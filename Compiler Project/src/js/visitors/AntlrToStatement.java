@@ -42,11 +42,6 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     }
 
     @Override
-    public Statement visitImportChunk(JSParser.ImportChunkContext ctx) {
-        return visit(ctx.importStatement());
-    }
-
-    @Override
     public Statement visitExpressionChunk(JSParser.ExpressionChunkContext ctx) {
         ExpressionSequence exps = new ExpressionSequence(ctx.expressionStatement().expressionSequence(),filePath);
         ExpressionChunk chunk = new ExpressionChunk(exps);
@@ -130,11 +125,6 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
             classDeclaration.addElement(classElement);
         }
         return classDeclaration;
-    }
-
-    @Override
-    public Statement visitExportChunk(JSParser.ExportChunkContext ctx) {
-        return visit(ctx.exportStatement());
     }
 
     @Override

@@ -279,6 +279,7 @@ singleExpression
     | literal                                                                                           # LiteralExpression
     | arrayLiteral                                                                                      # ArrayLiteralExpression
     | objectLiteral                                                                                     # ObjectLiteralExpression
+    | jsxElement                                                                                        # JSXExpression
     | OpenParen expressionSequence CloseParen                                                           # ParenthesizedExpression
     ;
 
@@ -332,6 +333,32 @@ templateStringLiteral
 templateStringAtom
     : TemplateStringAtom                                            # TemplateStringCharacter
     | TemplateStringStartExpression singleExpression TemplateCloseBrace     # TemplateStringJSExpression
+    ;
+
+jsxElement
+    : LessThan tagName attribute* MoreThan (jsxElement | JsxText | expressionInjection)* LessThan Divide tagName MoreThan
+    | LessThan tagName attribute* Divide MoreThan
+    ;
+
+tagName
+    : Identifier (Dot Identifier)*
+    ;
+
+attribute
+    : attributeName (Assign attributeValue)?
+    ;
+
+attributeName
+    : Identifier (Minus Identifier)*
+    ;
+
+attributeValue
+    : StringLiteral
+    | expressionInjection
+    ;
+
+expressionInjection
+    : OpenBrace singleExpression CloseBrace
     ;
 
 let_

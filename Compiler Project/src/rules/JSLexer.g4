@@ -118,6 +118,7 @@ Static       : 'static'     {this.IsStrictMode()}?;
 /// Identifier Names and Identifiers
 
 Identifier: IdentifierStart IdentifierPart*;
+
 /// String Literals
 StringLiteral:
     ('"' DoubleStringCharacter* '"' | '\'' SingleStringCharacter* '\'') {this.ProcessStringLiteral();}
@@ -140,6 +141,8 @@ TemplateStringStartExpression : '${' -> pushMode(DEFAULT_MODE);
 TemplateStringAtom            : ~[`];
 
 // Fragment rules
+
+JsxText: ~[{<];
 
 fragment DoubleStringCharacter: ~["\\\r\n] | '\\' EscapeSequence | LineContinuation;
 

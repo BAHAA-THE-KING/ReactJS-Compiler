@@ -142,8 +142,6 @@ TemplateStringAtom            : ~[`];
 
 // Fragment rules
 
-JsxText: ~[{<];
-
 fragment DoubleStringCharacter: ~["\\\r\n] | '\\' EscapeSequence | LineContinuation;
 
 fragment SingleStringCharacter: ~['\\\r\n] | '\\' EscapeSequence | LineContinuation;

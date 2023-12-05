@@ -88,7 +88,6 @@ LineTerminator=87
 UnexpectedCharacter=88
 TemplateStringStartExpression=89
 TemplateStringAtom=90
-JsxText=91
 '['=3
 ']'=4
 '('=5

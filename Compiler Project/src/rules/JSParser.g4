@@ -331,14 +331,16 @@ templateStringLiteral
     ;
 
 templateStringAtom
-    : TemplateStringAtom                                            # TemplateStringCharacter
+    : TemplateStringAtom                                                    # TemplateStringCharacter
     | TemplateStringStartExpression singleExpression TemplateCloseBrace     # TemplateStringJSExpression
     ;
 
 jsxElement
-    : LessThan tagName attribute* MoreThan (jsxElement | JsxText | expressionInjection)* LessThan Divide tagName MoreThan
+    : LessThan tagName attribute* MoreThan (jsxElement | jsxText | expressionInjection)* LessThan Divide tagName MoreThan
     | LessThan tagName attribute* Divide MoreThan
     ;
+
+jsxText: ~('{' | '<')+;
 
 tagName
     : Identifier (Dot Identifier)*

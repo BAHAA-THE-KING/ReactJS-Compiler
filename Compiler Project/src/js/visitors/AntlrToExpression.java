@@ -178,17 +178,6 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         return assignmentExpression;
     }
 
-
-    @Override
-    public Expression visitTemplateStringExpression(JSParser.TemplateStringExpressionContext ctx) {
-        Expression singleExpression = visit(ctx.singleExpression());
-        List<TemplateStringAtom> atoms = new ArrayList<>();
-        //TODO make antlrToAtom and visit it
-        TemplateStringLiteral templateStringLiteral = new TemplateStringLiteral(atoms);
-        TemplateStringExpression templateStringExpression = new TemplateStringExpression(singleExpression, templateStringLiteral);
-        return templateStringExpression;
-    }
-
     @Override
     public Expression visitLogicalAndExpression(JSParser.LogicalAndExpressionContext ctx) {
         Expression left = visit(ctx.singleExpression(0));

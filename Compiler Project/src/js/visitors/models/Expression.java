@@ -1,4 +1,4 @@
 package js.visitors.models;
 
-public interface Expression {
+public interface Expression extends JSXContent {
 }

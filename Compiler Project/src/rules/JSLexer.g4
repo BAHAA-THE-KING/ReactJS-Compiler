@@ -59,6 +59,10 @@ ARROW:                          '=>';
 
 NullLiteral:                    'null';
 
+/// Undefined Literals
+
+UndefinedLiteral:               'undefined';
+
 /// Boolean Literals
 
 BooleanLiteral:                 'true'

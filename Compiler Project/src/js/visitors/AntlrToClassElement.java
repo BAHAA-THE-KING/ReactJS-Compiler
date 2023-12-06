@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AntlrToClassElement extends JSParserBaseVisitor<ClassElement> {
-    public String filePath ;
+    public String filePath;
 
     public AntlrToClassElement(String filePath) {
         this.filePath = filePath;
@@ -37,17 +37,7 @@ public class AntlrToClassElement extends JSParserBaseVisitor<ClassElement> {
         AntlrToPropertyName propertyNameVisitor = new AntlrToPropertyName(filePath);
         PropertyName funcName = propertyNameVisitor.visit(ctx.methodDefinition().propertyName());
 
-        AntlrToExpression expressionVisitor = new AntlrToExpression(filePath);
-        AntlrToAssignable assignableVisitor = new AntlrToAssignable(filePath);
-        var allParameters = ctx.methodDefinition().formalParameterList();
-        List<Pair<Assignable, Expression>> parameters = new ArrayList<>();
-        for (int i = 0; i < allParameters.formalParameterArg().size(); i++) {
-            Assignable name = assignableVisitor.visit(allParameters.formalParameterArg(i).assignable());
-            Expression value = allParameters.formalParameterArg(i).singleExpression() != null ? expressionVisitor.visit(allParameters.formalParameterArg(i).singleExpression()) : null;
-            parameters.add(new Pair<>(name, value));
-        }
-
-        Expression spreadParameter = allParameters.lastFormalParameterArg() != null ? expressionVisitor.visit(allParameters.lastFormalParameterArg()) : null;
+        Parameters parameters = new AntlrToParameters(filePath).visitFormalParameterList(ctx.methodDefinition().formalParameterList());
 
         List<Statement> body = new ArrayList<>();
         AntlrToStatement statementVisitor = new AntlrToStatement(filePath);
@@ -55,7 +45,7 @@ public class AntlrToClassElement extends JSParserBaseVisitor<ClassElement> {
         for (int i = 0; i < functionBody.statement().size(); i++) {
             body.add(statementVisitor.visit(functionBody.statement(i)));
         }
-        return new ClassMethodDefinition(isStatic, funcName, parameters, spreadParameter, body);
+        return new ClassMethodDefinition(isStatic, funcName, parameters, body);
     }
 
     @Override

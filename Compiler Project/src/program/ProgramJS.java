@@ -12,6 +12,8 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +38,16 @@ public class ProgramJS {
             JsProgram doc = progVisitor.visit(antlrAST);
             ObjectMapper mapper = new ObjectMapper();
             mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-            for (String err :errors) {
+            for (String err : errors) {
                 System.err.println(err);
             }
             String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(doc);
             System.out.println(result);
             new visualizeJSON(result);
+            File file = new File("ast.json");
+            FileWriter fw = new FileWriter(file);
+            fw.write(result);
+            fw.close();
         }
     }
 

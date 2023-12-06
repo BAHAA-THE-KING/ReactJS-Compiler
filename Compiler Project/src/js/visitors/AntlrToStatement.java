@@ -16,7 +16,6 @@ import js.statements.ImportStatement.DeafultAsImportBlock;
 import js.statements.ImportStatement.FileImportBlock;
 import js.statements.ImportStatement.ObjectImportBlock;
 import js.statements.ReturnStatement.ReturnStatement;
-//import js.statements.SwitchStatement.CaseClause;
 import js.statements.SwitchStatement.CaseClauses;
 import js.statements.SwitchStatement.DefaultClause;
 import js.statements.SwitchStatement.SwitchStatement;
@@ -26,24 +25,26 @@ import js.statements.TryStatement.FinallyProduction;
 import js.statements.TryStatement.TryStatement;
 import js.statements.VariableDeclarationStatement.VariableDeclaration;
 import js.statements.VariableDeclarationStatement.VariableDeclarationStatement;
-import js.visitors.models.Assignable;
-import js.visitors.models.ClassElement;
-import js.visitors.models.Expression;
-import js.visitors.models.Statement;
+import js.types.*;
+import js.types.Boolean_;
+import js.types.Number_;
+import js.types.Object_;
+import js.visitors.models.*;
 import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
-    public String filePath ;
+    public String filePath;
+
     public AntlrToStatement(String filePath) {
         this.filePath = filePath;
     }
 
     @Override
     public Statement visitExpressionChunk(JSParser.ExpressionChunkContext ctx) {
-        ExpressionSequence exps = new ExpressionSequence(ctx.expressionStatement().expressionSequence(),filePath);
+        ExpressionSequence exps = new ExpressionSequence(ctx.expressionStatement().expressionSequence(), filePath);
         ExpressionChunk chunk = new ExpressionChunk(exps);
 
         return chunk;
@@ -156,17 +157,8 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitFunctionDeclaration(JSParser.FunctionDeclarationContext ctx) {
         String functionName = ctx.Identifier().getText();
-        AntlrToExpression expressionVisitor = new AntlrToExpression(filePath);
-        AntlrToAssignable assignableVisitor = new AntlrToAssignable(filePath);
-        var allParameters = ctx.formalParameterList();
-        List<Pair<Assignable, Expression>> parameters = new ArrayList<>();
-        for (int i = 0; i < allParameters.formalParameterArg().size(); i++) {
-            Assignable name = assignableVisitor.visit(allParameters.formalParameterArg(i).assignable());
-            Expression value = allParameters.formalParameterArg(i).singleExpression() != null ? expressionVisitor.visit(allParameters.formalParameterArg(i).singleExpression()) : null;
-            parameters.add(new Pair<>(name, value));
-        }
 
-        Expression spreadParameter = allParameters.lastFormalParameterArg() != null ? expressionVisitor.visit(allParameters.lastFormalParameterArg()) : null;
+        Parameters parameters = new AntlrToParameters(filePath).visitFormalParameterList(ctx.formalParameterList());
 
         List<Statement> body = new ArrayList<>();
         AntlrToStatement statementVisitor = new AntlrToStatement(filePath);
@@ -174,19 +166,19 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
         for (int i = 0; i < functionBody.statement().size(); i++) {
             body.add(statementVisitor.visit(functionBody.statement(i)));
         }
-        return new FunctionDeclaration(functionName, parameters, spreadParameter, body);
+        return new FunctionDeclaration(functionName, parameters, body);
     }
 
     @Override
     public Statement visitReturnChunk(JSParser.ReturnChunkContext ctx) {
-        ExpressionSequence expressions = new ExpressionSequence(ctx.returnStatement().expressionSequence(),filePath);
+        ExpressionSequence expressions = new ExpressionSequence(ctx.returnStatement().expressionSequence(), filePath);
 
         return new ReturnStatement(expressions);
     }
 
     @Override
     public Statement visitIfStatement(JSParser.IfStatementContext ctx) {
-        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence(),filePath);
+        ExpressionSequence expressions = new ExpressionSequence(ctx.expressionSequence(), filePath);
 
         Statement statement = visit(ctx.statement(0));
 
@@ -219,10 +211,18 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
         List<VariableDeclaration> vars = new ArrayList<>();
         AntlrToAssignable assignableVisitor = new AntlrToAssignable(filePath);
         AntlrToExpression expressionVisitor = new AntlrToExpression(filePath);
+        AntlrToType typeVisitor = new AntlrToType();
         for (var decl : variableDeclarationList.variableDeclaration()) {
             Assignable name = assignableVisitor.visit(decl.assignable());
             Expression value = decl.singleExpression() != null ? expressionVisitor.visit(decl.singleExpression()) : null;
-            vars.add(new VariableDeclaration(name, value));
+            Type varType = decl.singleExpression() != null ? typeVisitor.visit(decl.singleExpression()) : null;
+            String type = "IDK";
+            if (varType instanceof Boolean_) type = "boolean";
+            if (varType instanceof Number_) type = "number";
+            if (varType instanceof Object_) type = "object";
+            if (varType instanceof String_) type = "string";
+            if (varType instanceof Undefined_) type = "undefined";
+            vars.add(new VariableDeclaration(name, value, type));
         }
         return new VariableDeclarationStatement(modifier, vars);
     }
@@ -269,7 +269,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitSwitchChunk(JSParser.SwitchChunkContext ctx) {
         AntlrToExpression vistor = new AntlrToExpression(filePath);
-        ExpressionSequence expressionSequence = new ExpressionSequence(ctx.switchStatement().expressionSequence(),filePath);
+        ExpressionSequence expressionSequence = new ExpressionSequence(ctx.switchStatement().expressionSequence(), filePath);
         CaseClauses cases = new CaseClauses();
         AntlrToCaseClause vis = new AntlrToCaseClause(filePath);
         var caseClauses = ctx.switchStatement().caseBlock().caseClauses();
@@ -292,7 +292,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
     @Override
     public Statement visitThrowChunk(JSParser.ThrowChunkContext ctx) {
-        ExpressionSequence expressions = new ExpressionSequence(ctx.throwStatement().expressionSequence(),filePath);
+        ExpressionSequence expressions = new ExpressionSequence(ctx.throwStatement().expressionSequence(), filePath);
 
         return new Throw(expressions);
     }

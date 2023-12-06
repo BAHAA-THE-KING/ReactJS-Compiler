@@ -159,7 +159,7 @@ finallyProduction
     ;
 
 functionDeclaration
-    : Function_ Identifier OpenParen formalParameterList? CloseParen functionBody
+    : Function_ Identifier formalParameterList functionBody
     ;
 
 classDeclaration
@@ -181,7 +181,7 @@ classElement
     ;
 
 methodDefinition
-    : propertyName OpenParen formalParameterList? CloseParen functionBody
+    : propertyName formalParameterList functionBody
     ;
 
 fieldDefinition
@@ -189,8 +189,8 @@ fieldDefinition
     ;
 
 formalParameterList
-    : formalParameterArg (Comma formalParameterArg)* (Comma lastFormalParameterArg)?
-    | lastFormalParameterArg
+    : OpenParen (formalParameterArg (Comma formalParameterArg)* (Comma lastFormalParameterArg)?)? CloseParen
+    | OpenParen lastFormalParameterArg? CloseParen
     ;
 
 formalParameterArg
@@ -220,7 +220,7 @@ arrayElement
 propertyAssignment
     : propertyName Colon singleExpression                                       # PropertyExpressionAssignment
     | OpenBracket singleExpression CloseBracket Colon singleExpression          # ComputedPropertyExpressionAssignment
-    | propertyName OpenParen formalParameterList?  CloseParen  functionBody     # FunctionProperty
+    | propertyName formalParameterList  functionBody     # FunctionProperty
     | Identifier                                                                # PropertyIdentifierShorthand
     | Ellipsis singleExpression                                                 # PropertyShorthand
     ;
@@ -247,9 +247,8 @@ expressionSequence
 singleExpression
     : anonymousFunction                                                                                 # FunctionExpression
     | Class Identifier? classTail                                                                       # ClassExpression
-    | singleExpression QuestionMarkDot singleExpression                                                 # OptionalChainExpression
+    | singleExpression QuestionMark? Dot singleExpression                                               # OptionalChainExpression
     | singleExpression QuestionMarkDot? OpenBracket expressionSequence CloseBracket                     # MemberIndexExpression
-    | singleExpression QuestionMark? Dot Identifier                                                     # MemberDotExpression
     | New Identifier arguments                                                                          # NewExpression
     | singleExpression arguments                                                                        # ArgumentsExpression
     | singleExpression PlusPlus                                                                         # PostIncrementExpression
@@ -294,13 +293,13 @@ objectLiteral
     ;
 
 anonymousFunction
-    : Function_ OpenParen formalParameterList? CloseParen functionBody       # AnonymousFunctionDecl
-    | arrowFunctionParameters ARROW arrowFunctionBody                       # ArrowFunction
+    : Function_ formalParameterList functionBody                                # AnonymousFunctionDecl
+    | arrowFunctionParameters ARROW arrowFunctionBody                           # ArrowFunction
     ;
 
 arrowFunctionParameters
     : Identifier
-    | OpenParen formalParameterList? CloseParen
+    | formalParameterList
     ;
 
 arrowFunctionBody
@@ -320,6 +319,7 @@ assignmentOperator
 
 literal
     : NullLiteral               # Null
+    | UndefinedLiteral          # Undefined
     | BooleanLiteral            # Boolean
     | StringLiteral             # String
     | templateStringLiteral     # TemplateString
@@ -336,8 +336,14 @@ templateStringAtom
     ;
 
 jsxElement
-    : LessThan tagName attribute* MoreThan (jsxElement | jsxText | expressionInjection)* LessThan Divide tagName MoreThan
-    | LessThan tagName attribute* Divide MoreThan
+    : LessThan tagName? attribute* MoreThan jsxContent* LessThan Divide tagName? MoreThan   # Normal
+    | LessThan tagName attribute* Divide MoreThan                                                                           # SelfClosing
+    ;
+
+jsxContent
+    : jsxElement            # JSXContentElement
+    | jsxText               # JSXContentText
+    | expressionInjection   # JSXContentExpression
     ;
 
 jsxText: ~('{' | '<')+;
@@ -355,8 +361,8 @@ attributeName
     ;
 
 attributeValue
-    : StringLiteral
-    | expressionInjection
+    : StringLiteral         # AttributeString
+    | expressionInjection   # AttributeInjection
     ;
 
 expressionInjection

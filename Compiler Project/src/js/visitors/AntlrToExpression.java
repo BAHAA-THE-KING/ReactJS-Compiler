@@ -60,16 +60,6 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     }
 
     @Override
-    public Expression visitMemberDotExpression(JSParser.MemberDotExpressionContext ctx) {
-
-        Expression objectName = visit(ctx.singleExpression());
-        String id = ctx.Identifier().getText();
-
-        MemberDotExpression membDotExp = new MemberDotExpression(objectName, id);
-        return membDotExp;
-    }
-
-    @Override
     public Expression visitPostIncrementExpression(JSParser.PostIncrementExpressionContext ctx) {
         Expression objectName = visit(ctx.singleExpression());
         PostIncrementExpression incrementExp = new PostIncrementExpression(objectName);
@@ -264,5 +254,10 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
             literal.addAttribute(attributeVisitor.visit(child));
         }
         return literal;
+    }
+
+    @Override
+    public Expression visitJSXExpression(JSParser.JSXExpressionContext ctx) {
+        return new AntlrToJSXElement(filePath).visit(ctx.jsxElement());
     }
 }

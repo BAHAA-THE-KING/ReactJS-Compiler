@@ -1,20 +1,19 @@
 parser grammar JSParser;
 
 options {
-    tokenVocab=JSLexer;
+    tokenVocab = JSLexer;
+    superClass = JavaScriptParserBase;
 }
 
 program
-    : (statement+)? EOF
+    : importStatement* statement* exportStatement* EOF
     ;
 
 statement
     : block                     # BlockChunk
     | variableStatement         # VariableDeclerationChunk
-    | importStatement           # ImportChunk
-    | exportStatement           # ExportChunk
     | SemiColon                 # EmptyChunk
-    | classDeclaration          # ClassDeclerationChunk
+    | classDeclaration          # ClassDeclarationChunk
     | functionDeclaration       # FunctionDeclarationChunk
     | expressionStatement       # ExpressionChunk
     | ifStatement               # ConditionalChunk
@@ -54,9 +53,9 @@ aliasName
     ;
 
 exportStatement
-    : Export Default?  declaration eos    # ExportDeclaration
-    | Export Default? exportFromBlock  eos    # ExportBlock
-    | Export Default singleExpression eos                    # ExportDefaultDeclaration
+    : Export Default?  declaration eos          # ExportDeclaration
+    | Export Default? exportFromBlock  eos      # ExportBlock
+    | Export Default singleExpression eos       # ExportDefaultDeclaration
     ;
 
 exportFromBlock
@@ -90,7 +89,7 @@ variableDeclaration
     ;
 
 expressionStatement
-    : expressionSequence eos
+    : {this.notOpenBraceAndNotFunction()}? expressionSequence eos
     ;
 
 ifStatement
@@ -106,21 +105,21 @@ iterationStatement
     ;
 
 varModifier
-    : Var       #VarKeyword
-    | Let       #LetKeyword
-    | Const     #ConstKeyword
+    : Var
+    | let_
+    | Const
     ;
 
 continueStatement
-    : Continue eos
+    : Continue ({this.notLineTerminator()}? Identifier)? eos
     ;
 
 breakStatement
-    : Break eos
+    : Break ({this.notLineTerminator()}? Identifier)? eos
     ;
 
 returnStatement
-    : Return expressionSequence? eos
+    : Return ({this.notLineTerminator()}? expressionSequence)? eos
     ;
 
 switchStatement
@@ -144,7 +143,7 @@ defaultClause
     ;
 
 throwStatement
-    : Throw expressionSequence eos
+    : Throw {this.notLineTerminator()}? expressionSequence eos
     ;
 
 tryStatement
@@ -160,7 +159,7 @@ finallyProduction
     ;
 
 functionDeclaration
-    : Function Identifier OpenParen formalParameterList? CloseParen functionBody
+    : Function_ Identifier OpenParen formalParameterList? CloseParen functionBody
     ;
 
 classDeclaration
@@ -190,8 +189,8 @@ fieldDefinition
     ;
 
 formalParameterList
-    : formalParameterArg (Comma formalParameterArg)* (Comma lastFormalParameterArg)?    #NormalParameters
-    | lastFormalParameterArg                                                            #RestParameters
+    : formalParameterArg (Comma formalParameterArg)* (Comma lastFormalParameterArg)?
+    | lastFormalParameterArg
     ;
 
 formalParameterArg
@@ -222,7 +221,8 @@ propertyAssignment
     : propertyName Colon singleExpression                                       # PropertyExpressionAssignment
     | OpenBracket singleExpression CloseBracket Colon singleExpression          # ComputedPropertyExpressionAssignment
     | propertyName OpenParen formalParameterList?  CloseParen  functionBody     # FunctionProperty
-    | Ellipsis? singleExpression                                                # PropertyShorthand
+    | Identifier                                                                # PropertyIdentifierShorthand
+    | Ellipsis singleExpression                                                 # PropertyShorthand
     ;
 
 propertyName
@@ -266,14 +266,12 @@ singleExpression
     | singleExpression (Plus | Minus) singleExpression                                                  # AdditiveExpression
     | singleExpression NullCoalesce singleExpression                                                    # CoalesceExpression
     | singleExpression (LessThan | MoreThan | LessThanEquals | GreaterThanEquals) singleExpression      # RelationalExpression
-//    | singleExpression In singleExpression                                                              # InExpression
-    | singleExpression (Equals | NotEquals | IdentityEquals | IdentityNotEquals) singleExpression       # EqualityExpression
+    | singleExpression (Equals_ | NotEquals | IdentityEquals | IdentityNotEquals) singleExpression      # EqualityExpression
     | singleExpression And singleExpression                                                             # LogicalAndExpression
     | singleExpression Or singleExpression                                                              # LogicalOrExpression
     | singleExpression QuestionMark singleExpression Colon singleExpression                             # TernaryExpression
     | <assoc=right> singleExpression Assign singleExpression                                            # AssignmentExpression
     | <assoc=right> singleExpression assignmentOperator singleExpression                                # AssignmentOperatorExpression
-    | Import OpenParen singleExpression CloseParen                                                      # ImportExpression
     | singleExpression templateStringLiteral                                                            # TemplateStringExpression
     | This                                                                                              # ThisExpression
     | Identifier                                                                                        # IdentifierExpression
@@ -281,6 +279,7 @@ singleExpression
     | literal                                                                                           # LiteralExpression
     | arrayLiteral                                                                                      # ArrayLiteralExpression
     | objectLiteral                                                                                     # ObjectLiteralExpression
+    | jsxElement                                                                                        # JSXExpression
     | OpenParen expressionSequence CloseParen                                                           # ParenthesizedExpression
     ;
 
@@ -295,18 +294,18 @@ objectLiteral
     ;
 
 anonymousFunction
-    : Function OpenParen formalParameterList? CloseParen functionBody       # AnonymousFunctionDecl
+    : Function_ OpenParen formalParameterList? CloseParen functionBody       # AnonymousFunctionDecl
     | arrowFunctionParameters ARROW arrowFunctionBody                       # ArrowFunction
     ;
 
 arrowFunctionParameters
-    : Identifier                                    # OneParameter
-    | OpenParen formalParameterList? CloseParen     # ManyParameters
+    : Identifier
+    | OpenParen formalParameterList? CloseParen
     ;
 
 arrowFunctionBody
-    : singleExpression      # OneExpression
-    | functionBody          # ManyExpressions
+    : singleExpression
+    | functionBody
     ;
 
 assignmentOperator
@@ -332,13 +331,46 @@ templateStringLiteral
     ;
 
 templateStringAtom
-    : TemplateStringAtom                                            # TemplateStringCharacter
-    | TemplateStringStartExpression singleExpression CloseBrace     # TemplateStringJSExpression
+    : TemplateStringAtom                                                    # TemplateStringCharacter
+    | TemplateStringStartExpression singleExpression TemplateCloseBrace     # TemplateStringJSExpression
+    ;
+
+jsxElement
+    : LessThan tagName attribute* MoreThan (jsxElement | jsxText | expressionInjection)* LessThan Divide tagName MoreThan
+    | LessThan tagName attribute* Divide MoreThan
+    ;
+
+jsxText: ~('{' | '<')+;
+
+tagName
+    : Identifier (Dot Identifier)*
+    ;
+
+attribute
+    : attributeName (Assign attributeValue)?
+    ;
+
+attributeName
+    : Identifier (Minus Identifier)*
+    ;
+
+attributeValue
+    : StringLiteral
+    | expressionInjection
+    ;
+
+expressionInjection
+    : OpenBrace singleExpression CloseBrace
+    ;
+
+let_
+    : NonStrictLet
+    | StrictLet
     ;
 
 eos
     : SemiColon
     | EOF
-//    | {this.lineTerminatorAhead()}?
-//    | {this.closeBrace()}?
+    | {this.lineTerminatorAhead()}?
+    | {this.closeBrace()}?
     ;

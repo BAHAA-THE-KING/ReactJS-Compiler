@@ -2,13 +2,18 @@ package html;
 
 import antlrHTML.HTMLParser;
 import antlrHTML.HTMLParserBaseVisitor;
+import org.antlr.v4.runtime.ParserRuleContext;
+import program.Error;
 import program.ProgramHTML;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AntlrToHtmlElement extends HTMLParserBaseVisitor<HtmlElement> {
-
+    public String filePath;
+    AntlrToHtmlElement(String filePath){
+        this.filePath=filePath;
+    }
     @Override
     public HtmlElement visitNormalElement(HTMLParser.NormalElementContext ctx) {
         String tagName = ctx.TAG_NAME(0).getText();
@@ -37,12 +42,8 @@ public class AntlrToHtmlElement extends HTMLParserBaseVisitor<HtmlElement> {
         String startingTag = ctx.TAG_NAME(0).getText();
         String endingTag = ctx.TAG_NAME(1).getText();
         if(!startingTag.equals(endingTag)){
-            int line = ctx.TAG_NAME(1).getSymbol().getLine();
-            int column = ctx.TAG_NAME(1).getSymbol().getCharPositionInLine()+1;
-            String message = "HTML ERROR (%d:%d) : Closing tag </%s> doesn't match the opening tag <%s> ".formatted(
-                    line,column,endingTag,startingTag
-            );
-            ProgramHTML.errors.add(message);
+            String message = "Closing tag </%s> doesn't match the opening tag <%s> ".formatted(endingTag,startingTag);
+            Error.htmlError(ctx.TAG_NAME(1),filePath,message);
         }
         return element;
     }
@@ -67,7 +68,7 @@ public class AntlrToHtmlElement extends HTMLParserBaseVisitor<HtmlElement> {
     private void declareRepeatedAttributeError(HTMLParser.HtmlAttributeContext ctx){
         int line = ctx.getStart().getLine();
         int column = ctx.getStart().getCharPositionInLine()+1;
-        String message = "HTML ERROR (%d:%d) : Attribute ( %s ) is already defined.".formatted(line,column,ctx.TAG_NAME().getText());
-        ProgramHTML.errors.add(message);
+        String message = "Attribute ( %s ) is already defined.".formatted(ctx.TAG_NAME().getText());
+        Error.htmlError(ctx,filePath,message);
     }
 }

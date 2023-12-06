@@ -1,11 +1,13 @@
 package js.expressions;
 
+import js.SymbolTable.Scope;
+import js.SymbolTable.Symbol;
 import js.visitors.models.Assignable;
 import js.visitors.models.Expression;
 
 import java.util.Objects;
 
-public class IdentifierExpression implements Expression, Assignable {
+public class IdentifierExpression implements Expression, Assignable  {
 
     String name;
 

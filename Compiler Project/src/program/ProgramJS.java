@@ -5,6 +5,7 @@ import antlrJS.JSParser;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import js.statements.Block.BlockModel;
 import js.visitors.AntlrToProgram;
 import js.visitors.models.JsProgram;
 import org.antlr.v4.runtime.CharStream;
@@ -29,26 +30,27 @@ public class ProgramJS {
     public static List<String> errors = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.err.println("fuck you");
-        } else {
-            JSParser parser = getParser(args[0]);
-            ParseTree antlrAST = parser.program();
-            AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
-            JsProgram doc = progVisitor.visit(antlrAST);
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-            for (String err : errors) {
-                System.err.println(err);
-            }
-            String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(doc);
-            System.out.println(result);
-            new visualizeJSON(result);
-            File file = new File("ast.json");
-            FileWriter fw = new FileWriter(file);
-            fw.write(result);
-            fw.close();
-        }
+//        if (args.length != 1) {
+//            System.err.println("fuck you");
+//        } else {
+//            JSParser parser = getParser(args[0]);
+//            ParseTree antlrAST = parser.program();
+//            AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
+//            JsProgram doc = progVisitor.visit(antlrAST);
+//            ObjectMapper mapper = new ObjectMapper();
+//            mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+//            for (String err : errors) {
+//                System.err.println(err);
+//            }
+//            String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(doc);
+//            System.out.println(result);
+//            new visualizeJSON(result);
+//            File file = new File("ast.json");
+//            FileWriter fw = new FileWriter(file);
+//            fw.write(result);
+//            fw.close();
+//        }
+        SymbolTableVisitor.visit(new BlockModel());
     }
 
     private static JSParser getParser(String filename) {

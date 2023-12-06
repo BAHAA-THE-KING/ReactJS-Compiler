@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockModel implements Statement {
-    List<Statement> statements;
+    public List<Statement> statements;
 
     public BlockModel() {
         this.statements = new ArrayList<>();

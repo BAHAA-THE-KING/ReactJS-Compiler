@@ -1,7 +1,5 @@
 package js.expressions;
 
-import js.SymbolTable.Scope;
-import js.SymbolTable.Symbol;
 import js.visitors.models.Assignable;
 import js.visitors.models.Expression;
 

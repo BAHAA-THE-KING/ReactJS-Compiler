@@ -3,11 +3,15 @@ package program;
 import js.SymbolTable.Scope;
 import js.SymbolTable.Symbol;
 import js.statements.Block.BlockModel;
+import js.statements.ClassDeclaration.ClassDeclaration;
+import js.statements.ClassDeclaration.ClassFieldDefinition;
+import js.statements.ClassDeclaration.ClassMethodDefinition;
 import js.statements.TryStatement.CatchProduction;
 import js.statements.TryStatement.FinallyProduction;
 import js.statements.TryStatement.TryStatement;
 import js.statements.VariableDeclarationStatement.VariableDeclarationStatement;
 import js.visitors.models.Assignable;
+import js.visitors.models.ClassElement;
 import js.visitors.models.JsProgram;
 import js.visitors.models.Statement;
 
@@ -83,7 +87,6 @@ public class SymbolTableVisitor {
     }
 
     public static List<Symbol> visit(FinallyProduction fp){
-
         Scope block = (Scope) visit(fp.block).get(0);
         block.type = "finallyBlock";
         return listify(block);
@@ -94,4 +97,24 @@ public class SymbolTableVisitor {
         symbArray.add(s);
         return symbArray;
     }
+
+    public static List<Symbol> visit(ClassDeclaration classDeclaration){
+        ArrayList <Symbol> symbArray =new ArrayList();
+        Scope classBlock ;
+        for(ClassElement element : classDeclaration.elements){
+            symbArray.addAll(visit(element));
+        }
+        classBlock = new Scope("class" , classDeclaration.id , symbArray);
+        return listify(classBlock);
+    }
+    public static List<Symbol> visit(ClassElement classElement){
+        if (classElement instanceof ClassFieldDefinition){
+            return visit((ClassFieldDefinition) classElement);
+        }else {
+            return visit((ClassMethodDefinition) classElement);
+        }
+    }
+
+
+
 }

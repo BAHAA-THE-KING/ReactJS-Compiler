@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClassDeclaration implements Statement{
-    String id;
+    public String id;
     String parent;
-    List<ClassElement> elements;
+    public List<ClassElement> elements;
 
     public ClassDeclaration(String id, String parent) {
         this.id = id;

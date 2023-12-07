@@ -44,7 +44,7 @@ public class ProgramJS {
             System.out.println(result);
             File file = new File("ast.json");
             FileWriter fw = new FileWriter(file);
-            fw.write("{" + print(SymbolTableVisitor.visit(doc)) + "}");
+            fw.write("{" + print(doc) + "}");
             fw.close();
             System.out.println("{" + print(doc) + "}");
         }

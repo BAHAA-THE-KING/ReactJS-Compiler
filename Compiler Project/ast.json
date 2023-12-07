@@ -1,1 +1,189 @@
-{"Scope":{"type":"JsProgram","name":"","symbolables":[{"Symbol":{"type":"Variable","name":"js.expressions.IdentifierExpression@17a91","value":"js.expressions.Literals.StringLiteral@6ed3ccb2","VAR":"Variable","ATRIB":"Attribute","PARAM":"Parameter"}},{"Symbol":{"type":"Variable","name":"js.expressions.IdentifierExpression@185d1","value":{},"VAR":"Variable","ATRIB":"Attribute","PARAM":"Parameter"}},{"Symbol":{"type":"Variable","name":"js.expressions.IdentifierExpression@1bbf5","value":"js.expressions.Literals.TemplateStringLiteral@1a677343","VAR":"Variable","ATRIB":"Attribute","PARAM":"Parameter"}},{"Symbol":{"type":"Variable","name":"js.expressions.ArrayLiteral.ArrayLiteral@15de0b3c","value":"js.expressions.ArrayLiteral.ArrayLiteral@489115ef","VAR":"Variable","ATRIB":"Attribute","PARAM":"Parameter"}},{"Symbol":{"type":"Variable","name":"js.expressions.ArrayLiteral.ArrayLiteral@3857f613","value":"js.expressions.ArrayLiteral.ArrayLiteral@198b6731","VAR":"Variable","ATRIB":"Attribute","PARAM":"Parameter"}},{"Symbol":{"type":"Variable","name":"js.visitors.models.ObjectLiteral@7c6908d7","value":"js.visitors.models.ObjectLiteral@3c9754d8","VAR":"Variable","ATRIB":"Attribute","PARAM":"Parameter"}},{"Symbol":{"type":"Variable","name":"js.expressions.IdentifierExpression@1d578","value":"js.expressions.ArgumentsExpression.ArgumentsExpression@3bf7ca37","VAR":"Variable","ATRIB":"Attribute","PARAM":"Parameter"}}],"MTHD":"Method"}}
+{
+  "JsProgram" : {
+    "statements" : [ {
+      "vars" : [ {
+        "modifier" : "let",
+        "name" : {
+          "name" : "asd"
+        },
+        "value" : {
+          "value" : "\"\""
+        },
+        "type" : "string"
+      } ]
+    }, {
+      "vars" : [ {
+        "modifier" : "var",
+        "name" : {
+          "name" : "dsa"
+        },
+        "type" : "IDK"
+      } ]
+    }, {
+      "vars" : [ {
+        "modifier" : "const",
+        "name" : {
+          "name" : "sad"
+        },
+        "value" : {
+          "value" : "`1`"
+        },
+        "type" : "string"
+      } ]
+    }, {
+      "vars" : [ {
+        "modifier" : "let",
+        "name" : {
+          "elements" : [ {
+            "element" : {
+              "name" : "a"
+            },
+            "withEllipsis" : false
+          }, {
+            "element" : {
+              "name" : "b"
+            },
+            "withEllipsis" : false
+          }, {
+            "element" : {
+              "name" : "c"
+            },
+            "withEllipsis" : false
+          } ]
+        },
+        "value" : {
+          "elements" : [ {
+            "element" : {
+              "value" : 10.0,
+              "decimalType" : "Integer"
+            },
+            "withEllipsis" : false
+          }, {
+            "element" : {
+              "value" : 20.0,
+              "decimalType" : "Integer"
+            },
+            "withEllipsis" : false
+          }, {
+            "element" : {
+              "value" : 30.0,
+              "decimalType" : "Integer"
+            },
+            "withEllipsis" : false
+          }, {
+            "element" : {
+              "value" : 40.0,
+              "decimalType" : "Integer"
+            },
+            "withEllipsis" : false
+          }, {
+            "element" : {
+              "value" : 50.0,
+              "decimalType" : "Integer"
+            },
+            "withEllipsis" : false
+          } ]
+        },
+        "type" : "object"
+      } ]
+    }, {
+      "vars" : [ {
+        "modifier" : "var",
+        "name" : {
+          "elements" : [ {
+            "element" : {
+              "name" : "aa"
+            },
+            "withEllipsis" : false
+          }, {
+            "element" : {
+              "name" : "bb"
+            },
+            "withEllipsis" : false
+          }, {
+            "element" : {
+              "name" : "cc"
+            },
+            "withEllipsis" : false
+          } ]
+        },
+        "value" : {
+          "elements" : [ ]
+        },
+        "type" : "object"
+      } ]
+    }, {
+      "vars" : [ {
+        "modifier" : "const",
+        "name" : {
+          "objectProperties" : [ {
+            "key" : {
+              "id" : "x"
+            },
+            "value" : {
+              "name" : "xx"
+            }
+          }, {
+            "key" : {
+              "id" : "y"
+            },
+            "value" : {
+              "name" : "zz"
+            }
+          }, {
+            "key" : {
+              "id" : "ff"
+            },
+            "value" : {
+              "name" : "ff"
+            }
+          } ]
+        },
+        "value" : {
+          "objectProperties" : [ {
+            "key" : {
+              "id" : "x"
+            },
+            "value" : {
+              "value" : 15.0,
+              "decimalType" : "Integer"
+            }
+          }, {
+            "key" : {
+              "id" : "y"
+            },
+            "value" : {
+              "value" : 26.0,
+              "decimalType" : "Integer"
+            }
+          }, {
+            "key" : {
+              "id" : "z"
+            },
+            "value" : {
+              "value" : 37.0,
+              "decimalType" : "Integer"
+            }
+          } ]
+        },
+        "type" : "object"
+      } ]
+    }, {
+      "vars" : [ {
+        "modifier" : "let",
+        "name" : {
+          "name" : "yyy"
+        },
+        "value" : {
+          "singleExpression" : {
+            "name" : "asd"
+          },
+          "arguments" : {
+            "argumentsList" : [ ]
+          }
+        },
+        "type" : "IDK"
+      } ]
+    }, null ]
+  }
+}

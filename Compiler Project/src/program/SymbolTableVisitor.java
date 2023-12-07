@@ -12,6 +12,7 @@ import js.statements.Loops.ForInLoop;
 import js.statements.Loops.ForOfLoop;
 import js.statements.Loops.WhileLoop;
 import js.statements.Loops.ForLoop;
+import js.statements.ConditionalStatement.ConditionalStatement;
 import js.statements.TryStatement.CatchProduction;
 import js.statements.TryStatement.FinallyProduction;
 import js.statements.TryStatement.TryStatement;
@@ -110,6 +111,19 @@ public class SymbolTableVisitor {
         ArrayList symbArray = new ArrayList<>();
         symbArray.add(s);
         return symbArray;
+    }
+    public static List<Symbolable> visit(ConditionalStatement ConditionalStatement){
+        ArrayList<Symbolable> symArray = new ArrayList<>();
+
+        List<Symbolable>f = visit(ConditionalStatement.statement);
+        Scope ifBlock = new Scope("if","",f);
+        List<Symbolable>e = visit(ConditionalStatement.elseStatement);
+        Scope elseBlock = new Scope("else","",e);
+        List<Symbolable> condition = new ArrayList<>();
+        condition.add(ifBlock);
+        condition.add(elseBlock);
+        Scope ConditionalBlock = new Scope("ConditionalStatement","",condition);
+        return listify(ConditionalBlock);
     }
 
     public static List<Symbolable> visit(ClassDeclaration classDeclaration){

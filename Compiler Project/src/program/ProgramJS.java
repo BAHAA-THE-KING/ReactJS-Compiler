@@ -2,12 +2,6 @@ package program;
 
 import antlrJS.JSLexer;
 import antlrJS.JSParser;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import js.statements.Block.BlockModel;
 import js.visitors.AntlrToProgram;
 import js.visitors.models.JsProgram;
 import org.antlr.v4.runtime.CharStream;
@@ -18,8 +12,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -128,6 +120,4 @@ public class ProgramJS {
         str.append("}");
         return str.toString();
     }
-
-
 }

@@ -1,4 +1,6 @@
 package js.visitors.models;
 
-public interface Expression extends JSXContent {
+import js.SymbolTable.Symbolable;
+
+public interface Expression extends JSXContent, Symbolable {
 }

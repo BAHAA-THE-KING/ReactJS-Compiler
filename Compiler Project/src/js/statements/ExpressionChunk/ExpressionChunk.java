@@ -9,14 +9,9 @@ import java.util.List;
 
 public class ExpressionChunk implements Statement {
 
-    ExpressionSequence expressions;
+    public ExpressionSequence expressions;
 
     public ExpressionChunk(ExpressionSequence expressions) {
         this.expressions = expressions;
-    }
-
-    @Override
-    public String toString() {
-        return "ExpressionChunk{" + "expressions=" + expressions + '}';
     }
 }

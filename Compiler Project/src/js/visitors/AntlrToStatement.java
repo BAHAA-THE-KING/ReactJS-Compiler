@@ -8,11 +8,12 @@ import antlrJS.JSParserBaseVisitor;
 import js.statements.Block.BlockModel;
 import js.statements.ConditionalStatement.ConditionalStatement;
 import js.statements.ContinueStatement.Continue;
+import js.statements.EOFStatement;
 import js.statements.ExportStatement.ExportBlock;
 import js.statements.ExportStatement.ExportDefaultDeclaration;
 import js.statements.ExpressionChunk.ExpressionChunk;
 import js.statements.Function.FunctionDeclaration;
-import js.statements.ImportStatement.DeafultAsImportBlock;
+import js.statements.ImportStatement.DefaultAsImportBlock;
 import js.statements.ImportStatement.FileImportBlock;
 import js.statements.ImportStatement.ObjectImportBlock;
 import js.statements.ReturnStatement.ReturnStatement;
@@ -90,7 +91,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
         String defaultImportValue = importNamespace.getChildCount() == 3 ? importNamespace.getChild(2).getText() : defaultImportName;
         Pair<String, String> defaultImport = new Pair<>(defaultImportName, defaultImportValue);
 
-        return new DeafultAsImportBlock(packageName, defaultImport);
+        return new DefaultAsImportBlock(packageName, defaultImport);
     }
 
     @Override
@@ -222,9 +223,9 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
             if (varType instanceof Object_) type = "object";
             if (varType instanceof String_) type = "string";
             if (varType instanceof Undefined_) type = "undefined";
-            vars.add(new VariableDeclaration(name, value, type));
+            vars.add(new VariableDeclaration(modifier, name, value, type));
         }
-        return new VariableDeclarationStatement(modifier, vars);
+        return new VariableDeclarationStatement(vars);
     }
 
     @Override
@@ -295,5 +296,10 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
         ExpressionSequence expressions = new ExpressionSequence(ctx.throwStatement().expressionSequence(), filePath);
 
         return new Throw(expressions);
+    }
+
+    @Override
+    public Statement visitFormalParameterList(JSParser.FormalParameterListContext ctx) {
+        return new EOFStatement();
     }
 }

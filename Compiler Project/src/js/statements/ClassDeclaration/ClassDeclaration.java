@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClassDeclaration implements Statement{
-    String id;
-    String parent;
-    List<ClassElement> elements;
+    public String id;
+    public String parent;
+    public List<ClassElement> elements;
 
     public ClassDeclaration(String id, String parent) {
         this.id = id;
@@ -19,10 +19,5 @@ public class ClassDeclaration implements Statement{
 
     public void addElement(ClassElement classElement) {
         this.elements.add(classElement);
-    }
-
-    @Override
-    public String toString() {
-        return "js.statements.ClassDeclaration{" + "id='" + id + '\'' + ", parent='" + parent + '\'' + ", elements=" + elements + '}';
     }
 }

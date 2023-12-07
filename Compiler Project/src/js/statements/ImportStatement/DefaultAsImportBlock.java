@@ -2,16 +2,12 @@ package js.statements.ImportStatement;
 
 import org.antlr.v4.runtime.misc.Pair;
 
-public class DeafultAsImportBlock extends ImportStatement {
-    Pair<String, String> defaultImport;
+public class DefaultAsImportBlock extends ImportStatement {
+    public String packageName;
+    public Pair<String, String> defaultImport;
 
-    public DeafultAsImportBlock(String packageName, Pair<String, String> defaultImport) {
-        super(packageName);
+    public DefaultAsImportBlock(String packageName, Pair<String, String> defaultImport) {
+        this.packageName = packageName;
         this.defaultImport = defaultImport;
-    }
-
-    @Override
-    public String toString() {
-        return "DeafultAsImportBlock{" + "defaultImport=" + defaultImport + ", packageName='" + packageName + '\'' + '}';
     }
 }

@@ -13,9 +13,4 @@ public class JsProgram {
     public void addStatement(Statement statement) {
         this.statements.add(statement);
     }
-
-    @Override
-    public String toString() {
-        return "{" + "\"name\":\"JsProgram\"," + "\"statements\":[" + "\"statements\"" + "]}";
-    }
 }

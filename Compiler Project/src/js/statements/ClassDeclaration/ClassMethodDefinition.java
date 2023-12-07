@@ -1,7 +1,6 @@
 package js.statements.ClassDeclaration;
 
 import js.visitors.models.*;
-import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.List;
 

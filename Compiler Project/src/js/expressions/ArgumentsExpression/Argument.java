@@ -1,16 +1,12 @@
 package js.expressions.ArgumentsExpression;
 
+import js.visitors.models.Expression;
+
 public class Argument {
-    Object value;
-    String type;
+    public Expression value;
+    public String type;
 
-    public Argument(Object value) {
+    public Argument(Expression value) {
         this.value = value;
-        this.type = value instanceof String ? "ID" : "SingleExpression";
-    }
-
-    @Override
-    public String toString() {
-        return "Argument{" + "value=" + value + ", type='" + type + '\'' + '}';
     }
 }

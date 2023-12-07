@@ -3,8 +3,10 @@ package program;
 import antlrJS.JSLexer;
 import antlrJS.JSParser;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import js.statements.Block.BlockModel;
 import js.visitors.AntlrToProgram;
 import js.visitors.models.JsProgram;
@@ -16,40 +18,36 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
-import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-
 
 public class ProgramJS {
     public static List<String> errors = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException {
-//        if (args.length != 1) {
-//            System.err.println("fuck you");
-//        } else {
-//            JSParser parser = getParser(args[0]);
-//            ParseTree antlrAST = parser.program();
-//            AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
-//            JsProgram doc = progVisitor.visit(antlrAST);
-//            ObjectMapper mapper = new ObjectMapper();
-//            mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-//            for (String err : errors) {
-//                System.err.println(err);
-//            }
-//            String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(doc);
-//            System.out.println(result);
-//            new visualizeJSON(result);
-//            File file = new File("ast.json");
-//            FileWriter fw = new FileWriter(file);
-//            fw.write(result);
-//            fw.close();
-//        }
+    public static void main(String[] args) throws IOException, IllegalAccessException {
+        if (args.length != 1) {
+            System.err.println("fuck you");
+        } else {
+            JSParser parser = getParser(args[0]);
+            ParseTree antlrAST = parser.program();
+            AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
+            JsProgram doc = progVisitor.visit(antlrAST);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
+            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+            mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+            for (String err : errors) {
+                System.err.println(err);
+            }
+            String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(doc);
+            System.out.println(result);
+            File file = new File("ast.json");
+            FileWriter fw = new FileWriter(file);
+            fw.write(result);
+            fw.close();
+            System.out.println("{" + print(doc) + "}");
+        }
         SymbolTableVisitor.visit(new BlockModel());
     }
 
@@ -66,44 +64,51 @@ public class ProgramJS {
         return parser;
     }
 
-}
-
-
-class visualizeJSON extends JFrame {
-
-    public visualizeJSON(String jsonString) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            JsonNode jsonNode = mapper.readTree(jsonString);
-            DefaultMutableTreeNode rootNode = createTreeNode("JSON", jsonNode);
-            JTree jsonTree = new JTree();
-            jsonTree.setModel(new DefaultTreeModel(rootNode));
-
-            JFrame treeFrame = new JFrame("JSON Tree");
-            treeFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            treeFrame.setSize(400, 300);
-            treeFrame.setLocationRelativeTo(null);
-            treeFrame.add(new JScrollPane(jsonTree));
-            treeFrame.setVisible(true);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Invalid JSON format", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private DefaultMutableTreeNode createTreeNode(String nodeName, JsonNode node) {
-        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(nodeName + ": " + node.toString());
-
-        if (node.isObject()) {
-            node.fields().forEachRemaining(entry -> treeNode.add(createTreeNode(entry.getKey(), entry.getValue())));
-        } else if (node.isArray()) {
-            int i = 0;
-            for (JsonNode element : node) {
-                treeNode.add(createTreeNode("[" + i + "]", element));
-                i++;
+    public static String print(Object obj) throws IllegalAccessException {
+        if (obj == null) return "";
+        StringBuilder str = new StringBuilder();
+        str.append("\"").append(obj.getClass().getSimpleName()).append("\"").append(":{");
+        Field[] fields = obj.getClass().getDeclaredFields();
+        for (Field f : fields) {
+            String propName = f.getName();
+            if (propName.equals("filePath")) continue;
+            Object value = f.get(obj);
+            if (!(value instanceof Boolean) && !(value instanceof String) && !(value instanceof Integer) && !(value instanceof Double) && !(value instanceof Character)) {
+                if (value instanceof List) {
+                    StringBuilder listString = new StringBuilder();
+                    List<Object> list = (List<Object>) value;
+                    for (Object item : list) {
+                        String stringVal = print(item);
+                        if (stringVal.equals("")) continue;
+                        listString.append("{");
+                        listString.append(stringVal);
+                        listString.append("}");
+                        if (item != null && !item.equals(list.getLast())) listString.append(",");
+                    }
+                    value = "[";
+                    value += listString.toString();
+                    value += "]";
+                } else {
+                    String string = print(value);
+                    value = "{";
+                    value += string;
+                    value += "}";
+                }
+            } else if (value instanceof String) {
+                if (((String) value).startsWith("'") || ((String) value).startsWith("\"")) {
+                    value = ((String) value).substring(1);
+                }
+                if (((String) value).endsWith("'") || ((String) value).endsWith("\"")) {
+                    value = ((String) value).substring(0, ((String) value).length() - 1);
+                }
+                value = "\"" + value + "\"";
+            } else {
+                value = value.toString();
             }
+            str.append("\"").append(propName).append("\"").append(":").append(value);
+            if (!f.equals(fields[fields.length - 1])) str.append(",");
         }
-
-        return treeNode;
+        str.append("}");
+        return str.toString();
     }
 }

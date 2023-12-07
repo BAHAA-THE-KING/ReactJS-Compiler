@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExpressionSequence implements Expression {
-    List<Expression> list;
+    public List<Expression> list;
 
 
     public ExpressionSequence(JSParser.ExpressionSequenceContext ctx,String filePath) {

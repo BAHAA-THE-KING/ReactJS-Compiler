@@ -1,7 +1,6 @@
 package js.expressions.Function;
 
 import js.visitors.models.*;
-import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.List;
 

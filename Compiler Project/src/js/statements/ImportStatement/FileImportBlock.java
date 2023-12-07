@@ -1,12 +1,9 @@
 package js.statements.ImportStatement;
 
 public class FileImportBlock extends ImportStatement {
-    public FileImportBlock(String packageName) {
-        super(packageName);
-    }
+    public String packageName;
 
-    @Override
-    public String toString() {
-        return "FileImportBlock{" + "packageName='" + packageName + '\'' + '}';
+    public FileImportBlock(String packageName) {
+        this.packageName = packageName;
     }
 }

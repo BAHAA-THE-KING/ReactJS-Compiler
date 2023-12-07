@@ -5,7 +5,6 @@ import antlrJS.JSParserBaseVisitor;
 import js.statements.ClassDeclaration.ClassFieldDefinition;
 import js.statements.ClassDeclaration.ClassMethodDefinition;
 import js.visitors.models.*;
-import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.ArrayList;
 import java.util.List;

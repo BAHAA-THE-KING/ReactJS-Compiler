@@ -8,18 +8,13 @@ import js.visitors.models.Statement;
 import java.util.List;
 
 public class ForOfLoop implements IterationStatement {
-    Statement firstPart;
-    ExpressionSequence expressions;
-    Statement statement;
+    public Statement firstPart;
+    public ExpressionSequence expressions;
+    public Statement statement;
 
     public ForOfLoop(Statement firstPart, ExpressionSequence expressions, Statement statement) {
         this.firstPart = firstPart;
         this.expressions = expressions;
         this.statement = statement;
-    }
-
-    @Override
-    public String toString() {
-        return "ForInLoop{" + "firstPart=" + firstPart + ", expressions=" + expressions + ", statement=" + statement + '}';
     }
 }

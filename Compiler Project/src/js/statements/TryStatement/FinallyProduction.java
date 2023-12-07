@@ -5,15 +5,9 @@ import js.visitors.models.Statement;
 
 public class FinallyProduction implements Statement {
 
-    BlockModel block;
+    public BlockModel block;
 
     public FinallyProduction(BlockModel block) {
         this.block = block;
-    }
-
-    @Override
-    public String toString() {
-        return "{block=" + block +
-                '}';
     }
 }

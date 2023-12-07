@@ -8,9 +8,4 @@ public class PropertyByName implements PropertyName {
     public PropertyByName(String id) {
         this.id = id;
     }
-
-    @Override
-    public String toString() {
-        return "PropertyByName{" + "id='" + id + '\'' + '}';
-    }
 }

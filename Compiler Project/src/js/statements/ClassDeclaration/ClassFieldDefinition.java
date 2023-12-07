@@ -14,9 +14,4 @@ public class ClassFieldDefinition extends ClassElement {
         this.propertyName = propertyName;
         this.propertyValue = propertyValue;
     }
-
-    @Override
-    public String toString() {
-        return "ClassFieldDefinition{" + "isStatic=" + isStatic + ", propertyName=" + propertyName + ", propertyValue=" + propertyValue + '}';
-    }
 }

@@ -7,6 +7,7 @@ import js.statements.Block.BlockModel;
 import js.statements.ClassDeclaration.ClassDeclaration;
 import js.statements.ClassDeclaration.ClassFieldDefinition;
 import js.statements.ClassDeclaration.ClassMethodDefinition;
+import js.statements.ConditionalStatement.ConditionalStatement;
 import js.statements.TryStatement.CatchProduction;
 import js.statements.TryStatement.FinallyProduction;
 import js.statements.TryStatement.TryStatement;
@@ -17,6 +18,7 @@ import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class SymbolTableVisitor {
     public static List<Symbolable> visit(Statement model){
@@ -105,6 +107,19 @@ public class SymbolTableVisitor {
         ArrayList symbArray = new ArrayList<>();
         symbArray.add(s);
         return symbArray;
+    }
+    public static List<Symbolable> visit(ConditionalStatement ConditionalStatement){
+        ArrayList<Symbolable> symArray = new ArrayList<>();
+
+        List<Symbolable>f = visit(ConditionalStatement.statement);
+        Scope ifBlock = new Scope("if","",f);
+        List<Symbolable>e = visit(ConditionalStatement.elseStatement);
+        Scope elseBlock = new Scope("else","",e);
+        List<Symbolable> condition = new ArrayList<>();
+        condition.add(ifBlock);
+        condition.add(elseBlock);
+        Scope ConditionalBlock = new Scope("ConditionalStatement","",condition);
+        return listify(ConditionalBlock);
     }
 
     public static List<Symbolable> visit(ClassDeclaration classDeclaration){

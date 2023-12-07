@@ -1,4 +1,6 @@
 package js.visitors.models;
 
-public interface Assignable {
+import js.SymbolTable.Symbol;
+
+public interface Assignable extends Symbol {
 }

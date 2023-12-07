@@ -5,9 +5,9 @@ import js.visitors.models.Statement;
 
 public class TryStatement implements Statement {
 
-    BlockModel block;
-    CatchProduction catchProduction;
-    FinallyProduction finallyProduction;
+    public BlockModel block;
+    public CatchProduction catchProduction;
+    public FinallyProduction finallyProduction;
 
     public TryStatement(BlockModel block, CatchProduction catchProduction, FinallyProduction finallyProduction) {
         this.block = block;

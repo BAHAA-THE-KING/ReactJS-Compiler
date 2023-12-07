@@ -1,9 +1,10 @@
 package js.statements.VariableDeclarationStatement;
 
+import js.SymbolTable.Symbol;
 import js.visitors.models.Assignable;
 import js.visitors.models.Expression;
 
-public class VariableDeclaration {
+public class VariableDeclaration implements Symbol {
     Assignable name;
     Expression value;
     String type;

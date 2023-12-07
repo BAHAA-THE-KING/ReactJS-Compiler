@@ -12,7 +12,7 @@ public class VsCode {
 
     private static void openFile(boolean ast){
         String root = Paths.get(System.getProperty("user.dir")).toString();
-        String command = "cd %s & code %s".formatted(root,ast?ProgramJS.AST_FILE_NAME:ProgramJS.SYMB_FILE_NAME);
+        String command = "cd %s & code --new-window -r  %s".formatted(root,ast?ProgramJS.AST_FILE_NAME:ProgramJS.SYMB_FILE_NAME);
         System.out.printf("Opening %s in VsCode...%n",ast?"AST Tree":"Symbol Table");
         try {
             executeCommand(command);

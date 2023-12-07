@@ -16,4 +16,9 @@ public class ObjectLiteral implements Expression, Assignable {
         objectProperties = properties;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "ObjectLiteral";
+    }
 }

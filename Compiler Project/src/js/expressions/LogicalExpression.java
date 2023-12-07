@@ -12,4 +12,9 @@ public class LogicalExpression implements Expression {
         this.right = right;
         this.operator = operator;
     }
+
+    @Override
+    public String toString() {
+        return  left+" "+operator+" "+right;
+    }
 }

@@ -11,4 +11,8 @@ public class NewExpression implements Expression {
         this.id = id;
         this.arguments = arguments;
     }
+    @Override
+    public String toString() {
+        return "new "+id+"("+arguments+")";
+    }
 }

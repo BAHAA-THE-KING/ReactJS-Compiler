@@ -7,4 +7,9 @@ public class BooleanLiteral implements Literal {
     public BooleanLiteral(String value) {
         this.value = Boolean.parseBoolean(value);
     }
+
+    @Override
+    public String toString() {
+        return value?"true":"false";
+    }
 }

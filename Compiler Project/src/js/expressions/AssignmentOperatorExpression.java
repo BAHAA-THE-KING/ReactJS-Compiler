@@ -12,4 +12,9 @@ public class AssignmentOperatorExpression implements Expression {
         this.right = right;
         this.operator = operator;
     }
+
+    @Override
+    public String toString() {
+        return left+" += "+right;
+    }
 }

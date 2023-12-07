@@ -12,4 +12,9 @@ public class SimpleExpression implements Expression {
         keyWord="super";
         return this;
     }
+
+    @Override
+    public String toString() {
+        return keyWord;
+    }
 }

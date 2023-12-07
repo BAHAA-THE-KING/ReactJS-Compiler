@@ -18,4 +18,10 @@ public class ClassExpression implements Expression {
     public void addElement(ClassElement element) {
         this.elements.add(element);
     }
+
+    @Override
+    public String toString() {
+        //TODO: return good string
+        return "TODO";
+    }
 }

@@ -10,4 +10,9 @@ public class AttributeInjectValue extends AttributeValue {
     public AttributeInjectValue(Expression exp) {
         this.exp = exp;
     }
+
+    @Override
+    public String toString() {
+        return "AttributeInjectValue: "+exp;
+    }
 }

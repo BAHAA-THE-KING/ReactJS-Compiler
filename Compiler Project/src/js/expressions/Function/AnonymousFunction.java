@@ -12,4 +12,9 @@ public class AnonymousFunction extends Function {
         this.parameters = parameters;
         this.body = body;
     }
+
+    @Override
+    public String toString() {
+        return "AnonymousFunction::TODO";
+    }
 }

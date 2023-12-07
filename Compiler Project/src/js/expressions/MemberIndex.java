@@ -10,4 +10,9 @@ public class MemberIndex implements Expression {
         this.accessedExpression = accessedExpression;
         this.accessedAt = accessedAt;
     }
+
+    @Override
+    public String toString() {
+        return accessedExpression+"["+accessedAt+"]";
+    }
 }

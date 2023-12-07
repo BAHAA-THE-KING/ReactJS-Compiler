@@ -11,4 +11,10 @@ public class TemplateStringLiteral implements Literal {
         this.value = value;
         this.placeholder = placeholder;
     }
+
+    @Override
+    public String toString() {
+        //TODO:make sure this is the best way
+        return value;
+    }
 }

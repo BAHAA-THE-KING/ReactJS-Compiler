@@ -8,4 +8,9 @@ public class TypeofExpression implements Expression {
     public TypeofExpression(Expression identifier) {
         this.identifier = identifier;
     }
+
+    @Override
+    public String toString() {
+        return "typeof"+identifier;
+    }
 }

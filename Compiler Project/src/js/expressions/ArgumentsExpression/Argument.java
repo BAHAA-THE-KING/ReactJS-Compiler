@@ -9,4 +9,10 @@ public class Argument {
     public Argument(Expression value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        //TODO: should i return the type?
+        return value.toString();
+    }
 }

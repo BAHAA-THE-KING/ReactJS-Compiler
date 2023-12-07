@@ -7,6 +7,7 @@ import js.statements.Block.BlockModel;
 import js.statements.ClassDeclaration.ClassDeclaration;
 import js.statements.ClassDeclaration.ClassFieldDefinition;
 import js.statements.ClassDeclaration.ClassMethodDefinition;
+import js.statements.Loops.ForLoop;
 import js.statements.TryStatement.CatchProduction;
 import js.statements.TryStatement.FinallyProduction;
 import js.statements.TryStatement.TryStatement;
@@ -26,7 +27,7 @@ public class SymbolTableVisitor {
         if(model instanceof TryStatement){
             return visit((TryStatement) model);
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public static Symbolable visit(JsProgram prog){
@@ -55,7 +56,7 @@ public class SymbolTableVisitor {
             syms.add(new Symbol(
                     Symbol.VAR,
                     var.name.toString(),
-                    var.value.toString()
+                    var.value!=null?var.value.toString():null
             ));
         }
         return syms;
@@ -145,4 +146,10 @@ public class SymbolTableVisitor {
         return listify(methodScope);
     }
 
+    public static List<Symbolable> visit (ForLoop loop){
+        List<Symbolable> symbolables = new ArrayList<>();
+        symbolables.addAll(visit(loop.firstPart));
+        symbolables.addAll(visit(loop.statement));
+        return listify(new Scope("ForLoop","",symbolables));
+    }
 }

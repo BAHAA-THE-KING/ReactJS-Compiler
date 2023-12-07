@@ -1,15 +1,96 @@
 {
-  "type" : "JsProgram",
-  "name" : "",
-  "symbols" : [ {
-    "type" : "tryBlock",
-    "name" : "",
-    "symbols" : [ ]
-  }, {
-    "type" : "catchBlock",
-    "name" : "",
-    "symbols" : [ {
-      "name" : "e"
+  "statements" : [ {
+    "Identifier" : "ProductView",
+    "parameters" : {
+      "values" : [ {
+        "a" : {
+          "objectProperties" : [ {
+            "key" : {
+              "id" : "product"
+            },
+            "value" : {
+              "objectProperties" : [ {
+                "key" : {
+                  "id" : "name"
+                },
+                "value" : {
+                  "name" : "name"
+                }
+              }, {
+                "key" : {
+                  "id" : "url"
+                },
+                "value" : {
+                  "name" : "url"
+                }
+              }, {
+                "key" : {
+                  "id" : "details"
+                },
+                "value" : {
+                  "name" : "details"
+                }
+              } ]
+            }
+          } ]
+        },
+        "b" : null
+      } ],
+      "spreadParameter" : null
+    },
+    "body" : [ {
+      "expr" : {
+        "list" : [ {
+          "className" : "ParenthesizedExpression",
+          "sequence" : {
+            "list" : [ {
+              "tagName" : "",
+              "attributes" : [ ],
+              "body" : [ {
+                "tagName" : "h1",
+                "attributes" : [ ],
+                "body" : [ {
+                  "name" : "name"
+                } ]
+              }, {
+                "tagName" : "img",
+                "attributes" : [ {
+                  "a" : "src",
+                  "b" : {
+                    "exp" : {
+                      "name" : "url"
+                    }
+                  }
+                }, {
+                  "a" : "style",
+                  "b" : {
+                    "exp" : {
+                      "objectProperties" : [ {
+                        "key" : {
+                          "id" : "width"
+                        },
+                        "value" : {
+                          "className" : "StringLiteral",
+                          "value" : "\"500px\""
+                        }
+                      } ]
+                    }
+                  }
+                } ],
+                "body" : null
+              }, {
+                "tagName" : "p",
+                "attributes" : [ ],
+                "body" : [ {
+                  "name" : "details"
+                } ]
+              } ]
+            } ]
+          }
+        } ]
+      }
     } ]
-  } ]
+  }, {
+    "exportName" : "ProductView"
+  }, null ]
 }

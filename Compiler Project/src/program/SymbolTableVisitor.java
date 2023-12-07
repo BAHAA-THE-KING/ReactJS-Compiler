@@ -7,6 +7,10 @@ import js.statements.Block.BlockModel;
 import js.statements.ClassDeclaration.ClassDeclaration;
 import js.statements.ClassDeclaration.ClassFieldDefinition;
 import js.statements.ClassDeclaration.ClassMethodDefinition;
+import js.statements.Loops.DoWhileLoop;
+import js.statements.Loops.ForInLoop;
+import js.statements.Loops.ForOfLoop;
+import js.statements.Loops.WhileLoop;
 import js.statements.TryStatement.CatchProduction;
 import js.statements.TryStatement.FinallyProduction;
 import js.statements.TryStatement.TryStatement;
@@ -143,6 +147,32 @@ public class SymbolTableVisitor {
          }
         Scope methodScope = new Scope( Scope.MTHD, classMethodDefinition.propertyName.toString() ,  symbolables);
         return listify(methodScope);
+    }
+
+    public static List<Symbolable> visit (ForInLoop forInLoop){
+        List<Symbolable> symbolables = new ArrayList<>();
+        symbolables.addAll(visit(forInLoop.firstPart));
+        symbolables.addAll(visit(forInLoop.statement));
+        return listify(new Scope("ForInLoop" , "" , symbolables));
+    }
+
+    public static List<Symbolable> visit (ForOfLoop forInLoop){
+        List<Symbolable> symbolables = new ArrayList<>();
+        symbolables.addAll(visit(forInLoop.firstPart));
+        symbolables.addAll(visit(forInLoop.statement));
+        return listify(new Scope("ForOfLoop" , "" , symbolables));
+    }
+
+    public static List<Symbolable> visit (WhileLoop forInLoop){
+        List<Symbolable> symbolables = new ArrayList<>();
+        symbolables.addAll(visit(forInLoop.statement));
+        return listify(new Scope("WhileLoop" , "" , symbolables));
+    }
+
+    public static List<Symbolable> visit (DoWhileLoop forInLoop){
+        List<Symbolable> symbolables = new ArrayList<>();
+        symbolables.addAll(visit(forInLoop.statement));
+        return listify(new Scope("DoWhileLoop" , "" , symbolables));
     }
 
 }

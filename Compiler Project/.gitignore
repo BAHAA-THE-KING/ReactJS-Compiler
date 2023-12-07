@@ -5,7 +5,8 @@ out/
 /Compiler Project.iml
 /src/antlrHTML/
 /src/antlrJS/
-
+ast.json
+symbolTable.json
 ### Eclipse ###
 .apt_generated
 .classpath

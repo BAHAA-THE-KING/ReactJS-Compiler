@@ -3,10 +3,14 @@ package program;
 import js.SymbolTable.Scope;
 import js.SymbolTable.Symbol;
 import js.SymbolTable.Symbolable;
+import js.expressions.ExpressionSequence;
+import js.expressions.Function.AnonymousFunction;
+import js.expressions.Function.ArrowFunction;
 import js.statements.Block.BlockModel;
 import js.statements.ClassDeclaration.ClassDeclaration;
 import js.statements.ClassDeclaration.ClassFieldDefinition;
 import js.statements.ClassDeclaration.ClassMethodDefinition;
+import js.statements.Function.FunctionDeclaration;
 import js.statements.Loops.DoWhileLoop;
 import js.statements.Loops.ForInLoop;
 import js.statements.Loops.ForOfLoop;
@@ -103,20 +107,18 @@ public class SymbolTableVisitor {
         return listify(block);
     }
 
-//    public static List<Symbol> visit(ForLoop loop){
-//
-//
-//    }
     public static List<Symbolable> listify(Symbolable s){
         ArrayList symbArray = new ArrayList<>();
         symbArray.add(s);
         return symbArray;
     }
+
     public static List<Symbolable> visit(ConditionalStatement ConditionalStatement){
         ArrayList<Symbolable> symArray = new ArrayList<>();
-
+        //Todo: ExpressionSequence visit
         List<Symbolable>f = visit(ConditionalStatement.statement);
         Scope ifBlock = new Scope("if","",f);
+
         List<Symbolable>e = visit(ConditionalStatement.elseStatement);
         Scope elseBlock = new Scope("else","",e);
         List<Symbolable> condition = new ArrayList<>();
@@ -195,5 +197,52 @@ public class SymbolTableVisitor {
         symbolables.addAll(visit(forInLoop.statement));
         return listify(new Scope("DoWhileLoop" , "" , symbolables));
     }
+    public static List<Symbolable> visit (FunctionDeclaration functionDeclaration) {
+        List<Symbolable> symbolables = new ArrayList<>();
+        for (Pair<Assignable, Expression> parameter : functionDeclaration.parameters.values) {
+            symbolables.add(new Symbol(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b.toString() : null));
+        }
+        Expression spreadParameter=functionDeclaration.parameters.spreadParameter;
+        symbolables.add(new Symbol(Symbol.PARAM,"spreadParameter",spreadParameter != null ? spreadParameter.toString():null));
 
+        for (Statement statement : functionDeclaration.body) {
+            symbolables.addAll(visit(statement));
+        }
+        Scope funcScope = new Scope(Scope.MTHD, functionDeclaration.Identifier.toString(), symbolables);
+
+        return listify(funcScope);
+
+    }
+    public static List<Symbolable> visit (AnonymousFunction functionDeclaration) {
+        List<Symbolable> symbolables = new ArrayList<>();
+        for (Pair<Assignable, Expression> parameter : functionDeclaration.parameters.values) {
+            symbolables.add(new Symbol(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b.toString() : null));
+        }
+        Expression spreadParameter=functionDeclaration.parameters.spreadParameter;
+        symbolables.add(new Symbol(Symbol.PARAM,"spreadParameter",spreadParameter != null ? spreadParameter.toString():null));
+
+        for (Statement statement : functionDeclaration.body) {
+            symbolables.addAll(visit(statement));
+        }
+        Scope funcScope = new Scope(Scope.MTHD, "", symbolables);
+
+        return listify(funcScope);
+
+    }
+    public static List<Symbolable> visit (ArrowFunction functionDeclaration) {
+        List<Symbolable> symbolables = new ArrayList<>();
+        for (Pair<Assignable, Expression> parameter : functionDeclaration.parameters.values) {
+            symbolables.add(new Symbol(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b.toString() : null));
+        }
+      Expression spreadParameter=functionDeclaration.parameters.spreadParameter;
+        symbolables.add(new Symbol(Symbol.PARAM,"spreadParameter",spreadParameter != null ? spreadParameter.toString():null));
+
+        for (Statement statement : functionDeclaration.body) {
+            symbolables.addAll(visit(statement));
+        }
+        Scope funcScope = new Scope(Scope.MTHD, "", symbolables);
+
+        return listify(funcScope);
+
+    }
 }

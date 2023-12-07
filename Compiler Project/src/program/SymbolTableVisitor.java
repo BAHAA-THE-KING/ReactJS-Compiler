@@ -36,6 +36,14 @@ public class SymbolTableVisitor {
         if(model instanceof TryStatement){
             return visit((TryStatement) model);
         }
+        if (model instanceof ConditionalStatement)
+            return visit((ConditionalStatement) model);
+        if (model instanceof FunctionDeclaration)
+            return visit((FunctionDeclaration) model);
+        if (model instanceof ArrowFunction)
+            return visit((ArrowFunction) model);
+        if (model instanceof AnonymousFunction)
+            return visit((AnonymousFunction) model);
         return new ArrayList<>();
     }
 
@@ -203,7 +211,10 @@ public class SymbolTableVisitor {
             symbolables.add(new Symbol(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b.toString() : null));
         }
         Expression spreadParameter=functionDeclaration.parameters.spreadParameter;
-        symbolables.add(new Symbol(Symbol.PARAM,"spreadParameter",spreadParameter != null ? spreadParameter.toString():null));
+        if (spreadParameter != null){
+            symbolables.add(new Symbol(Symbol.PARAM,"spreadParameter",spreadParameter.toString()));
+        }
+
 
         for (Statement statement : functionDeclaration.body) {
             symbolables.addAll(visit(statement));
@@ -219,7 +230,9 @@ public class SymbolTableVisitor {
             symbolables.add(new Symbol(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b.toString() : null));
         }
         Expression spreadParameter=functionDeclaration.parameters.spreadParameter;
-        symbolables.add(new Symbol(Symbol.PARAM,"spreadParameter",spreadParameter != null ? spreadParameter.toString():null));
+        if (spreadParameter != null){
+            symbolables.add(new Symbol(Symbol.PARAM,"spreadParameter",spreadParameter.toString()));
+        }
 
         for (Statement statement : functionDeclaration.body) {
             symbolables.addAll(visit(statement));
@@ -235,7 +248,9 @@ public class SymbolTableVisitor {
             symbolables.add(new Symbol(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b.toString() : null));
         }
       Expression spreadParameter=functionDeclaration.parameters.spreadParameter;
-        symbolables.add(new Symbol(Symbol.PARAM,"spreadParameter",spreadParameter != null ? spreadParameter.toString():null));
+        if (spreadParameter != null){
+            symbolables.add(new Symbol(Symbol.PARAM,"spreadParameter",spreadParameter.toString()));
+        }
 
         for (Statement statement : functionDeclaration.body) {
             symbolables.addAll(visit(statement));

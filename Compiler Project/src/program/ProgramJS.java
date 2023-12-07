@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import js.SymbolTable.Symbolable;
 import js.statements.Block.BlockModel;
 import js.visitors.AntlrToProgram;
 import js.visitors.models.JsProgram;
@@ -33,6 +34,7 @@ public class ProgramJS {
             ParseTree antlrAST = parser.program();
             AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
             JsProgram doc = progVisitor.visit(antlrAST);
+            Symbolable s = SymbolTableVisitor.visit(doc);
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
             mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -40,7 +42,7 @@ public class ProgramJS {
             for (String err : errors) {
                 System.err.println(err);
             }
-            String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(doc);
+            String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(s);
             System.out.println(result);
             File file = new File("ast.json");
             FileWriter fw = new FileWriter(file);

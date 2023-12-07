@@ -15,3 +15,4 @@ public class ClassFieldDefinition extends ClassElement {
         this.propertyValue = propertyValue;
     }
 }
+// i = 5

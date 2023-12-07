@@ -4,13 +4,16 @@ import js.SymbolTable.Scope;
 import js.SymbolTable.Symbol;
 import js.SymbolTable.Symbolable;
 import js.statements.Block.BlockModel;
+import js.statements.ClassDeclaration.ClassDeclaration;
+import js.statements.ClassDeclaration.ClassFieldDefinition;
+import js.statements.ClassDeclaration.ClassMethodDefinition;
 import js.statements.TryStatement.CatchProduction;
 import js.statements.TryStatement.FinallyProduction;
 import js.statements.TryStatement.TryStatement;
 import js.statements.VariableDeclarationStatement.VariableDeclaration;
 import js.statements.VariableDeclarationStatement.VariableDeclarationStatement;
-import js.visitors.models.JsProgram;
-import js.visitors.models.Statement;
+import js.visitors.models.*;
+import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,5 +107,42 @@ public class SymbolTableVisitor {
         return symbArray;
     }
 
+    public static List<Symbolable> visit(ClassDeclaration classDeclaration){
+        ArrayList <Symbolable> symbArray =new ArrayList();
+        Scope classBlock ;
+        for(ClassElement element : classDeclaration.elements){
+            symbArray.addAll(visit(element));
+        }
+        classBlock = new Scope("class" , classDeclaration.id , symbArray);
+        return listify(classBlock);
+    }
+    public static List<Symbolable> visit(ClassElement classElement){
+        if (classElement instanceof ClassFieldDefinition){
+            return visit((ClassFieldDefinition) classElement);
+        }else {
+            return visit((ClassMethodDefinition) classElement);
+        }
+    }
+
+    public static List<Symbolable> visit(ClassFieldDefinition classFieldDefinition){
+        Symbol field = new Symbol(Symbol.ATRIB ,
+                classFieldDefinition.propertyName.toString() ,
+                classFieldDefinition.propertyValue!=null?classFieldDefinition.propertyValue.toString():null
+        );
+        return listify(field);
+    }
+
+    public static List<Symbolable> visit (ClassMethodDefinition classMethodDefinition){
+        List<Symbolable> symbolables = new ArrayList<>();
+        for (Pair<Assignable, Expression> parameter: classMethodDefinition.parameters.values ){
+            symbolables.add(new Symbol(Symbol.PARAM , parameter.a.toString() , parameter.b != null ? parameter.b.toString(): null));
+        }
+        //Todo:visit Ellipsis parameter
+        for (Statement statement : classMethodDefinition.body){
+            symbolables.addAll(visit(statement));
+         }
+        Scope methodScope = new Scope( Scope.MTHD, classMethodDefinition.propertyName.toString() ,  symbolables);
+        return listify(methodScope);
+    }
 
 }

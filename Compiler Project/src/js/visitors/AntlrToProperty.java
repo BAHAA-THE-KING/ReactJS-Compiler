@@ -8,11 +8,8 @@ import js.expressions.Properties.EllipsisProperty;
 import js.expressions.Properties.FunctionProperty;
 import js.expressions.Properties.NormalProperty;
 import js.statements.ClassDeclaration.PropertyName.PropertyByName;
-import js.statements.Function.FunctionDeclaration;
 import js.visitors.models.*;
-import org.antlr.v4.runtime.misc.Pair;
 import program.Error;
-import program.ProgramJS;
 
 import java.util.ArrayList;
 import java.util.List;

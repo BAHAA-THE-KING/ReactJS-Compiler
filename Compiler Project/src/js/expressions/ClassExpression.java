@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClassExpression implements Expression {
-    String name;
-    List<ClassElement> elements;
+    public String name;
+    public List<ClassElement> elements;
 
     public ClassExpression(String name) {
         this.name = name;
@@ -17,10 +17,5 @@ public class ClassExpression implements Expression {
 
     public void addElement(ClassElement element) {
         this.elements.add(element);
-    }
-
-    @Override
-    public String toString() {
-        return "ClassExpression{" + "name='" + name + '\'' + ", elements=" + elements + '}';
     }
 }

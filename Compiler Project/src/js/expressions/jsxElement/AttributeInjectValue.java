@@ -5,7 +5,7 @@ import js.visitors.models.Expression;
 
 public class AttributeInjectValue extends AttributeValue {
 
-    Expression exp;
+    public Expression exp;
 
     public AttributeInjectValue(Expression exp) {
         this.exp = exp;

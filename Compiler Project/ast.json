@@ -1,96 +1,790 @@
 {
-  "statements" : [ {
-    "Identifier" : "ProductView",
-    "parameters" : {
-      "values" : [ {
-        "a" : {
-          "objectProperties" : [ {
-            "key" : {
-              "id" : "product"
-            },
-            "value" : {
-              "objectProperties" : [ {
-                "key" : {
-                  "id" : "name"
-                },
-                "value" : {
-                  "name" : "name"
-                }
-              }, {
-                "key" : {
-                  "id" : "url"
-                },
-                "value" : {
-                  "name" : "url"
-                }
-              }, {
-                "key" : {
-                  "id" : "details"
-                },
-                "value" : {
-                  "name" : "details"
-                }
-              } ]
+  "JsProgram": {
+    "statements": [
+      {
+        "FileImportBlock": {
+          "packageName": "./App.css"
+        }
+      },
+      {
+        "DefaultAsImportBlock": {
+          "packageName": "./images/meat.jpg",
+          "defaultImport": {
+            "Pair": {
+              "a": "meatImage",
+              "b": "meatImage"
             }
-          } ]
-        },
-        "b" : null
-      } ],
-      "spreadParameter" : null
-    },
-    "body" : [ {
-      "expr" : {
-        "list" : [ {
-          "className" : "ParenthesizedExpression",
-          "sequence" : {
-            "list" : [ {
-              "tagName" : "",
-              "attributes" : [ ],
-              "body" : [ {
-                "tagName" : "h1",
-                "attributes" : [ ],
-                "body" : [ {
-                  "name" : "name"
-                } ]
-              }, {
-                "tagName" : "img",
-                "attributes" : [ {
-                  "a" : "src",
-                  "b" : {
-                    "exp" : {
-                      "name" : "url"
-                    }
-                  }
-                }, {
-                  "a" : "style",
-                  "b" : {
-                    "exp" : {
-                      "objectProperties" : [ {
-                        "key" : {
-                          "id" : "width"
-                        },
-                        "value" : {
-                          "className" : "StringLiteral",
-                          "value" : "\"500px\""
-                        }
-                      } ]
-                    }
-                  }
-                } ],
-                "body" : null
-              }, {
-                "tagName" : "p",
-                "attributes" : [ ],
-                "body" : [ {
-                  "name" : "details"
-                } ]
-              } ]
-            } ]
           }
-        } ]
+        }
+      },
+      {
+        "DefaultAsImportBlock": {
+          "packageName": "./images/fruit.jpg",
+          "defaultImport": {
+            "Pair": {
+              "a": "fruitImage",
+              "b": "fruitImage"
+            }
+          }
+        }
+      },
+      {
+        "DefaultAsImportBlock": {
+          "packageName": "./images/vegetable.webp",
+          "defaultImport": {
+            "Pair": {
+              "a": "vegetableImage",
+              "b": "vegetableImage"
+            }
+          }
+        }
+      },
+      {
+        "DefaultAsImportBlock": {
+          "packageName": "./images/chicken.webp",
+          "defaultImport": {
+            "Pair": {
+              "a": "chickenImage",
+              "b": "chickenImage"
+            }
+          }
+        }
+      },
+      {
+        "ObjectImportBlock": {
+          "packageName": "react",
+          "defaultImport": {
+            "Pair": {
+              "a": {},
+              "b": {}
+            }
+          },
+          "items": [
+            {
+              "Pair": {
+                "a": "useState",
+                "b": "useState"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "DefaultAsImportBlock": {
+          "packageName": "./components/ProductList",
+          "defaultImport": {
+            "Pair": {
+              "a": "ProductList",
+              "b": "ProductList"
+            }
+          }
+        }
+      },
+      {
+        "DefaultAsImportBlock": {
+          "packageName": "./components/ProductView",
+          "defaultImport": {
+            "Pair": {
+              "a": "ProductView",
+              "b": "ProductView"
+            }
+          }
+        }
+      },
+      {
+        "VariableDeclarationStatement": {
+          "vars": [
+            {
+              "VariableDeclaration": {
+                "modifier": "const",
+                "name": {
+                  "IdentifierExpression": {
+                    "name": "products"
+                  }
+                },
+                "value": {
+                  "ArrayLiteral": {
+                    "elements": [
+                      {
+                        "ArrayElement": {
+                          "element": {
+                            "ObjectLiteral": {
+                              "objectProperties": [
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "id"
+                                      }
+                                    },
+                                    "value": {
+                                      "DecimalLiteral": {
+                                        "value": 1.0,
+                                        "decimalType": "Integer"
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "name"
+                                      }
+                                    },
+                                    "value": {
+                                      "StringLiteral": {
+                                        "value": "meat"
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "details"
+                                      }
+                                    },
+                                    "value": {
+                                      "StringLiteral": {
+                                        "value": "Meat is a vital source of protein for many people, providing essential nutrients for muscle growth and repair. It is also a rich source of vitamins and minerals, including B vitamins, iron, and zinc. However, it's important to consume meat in moderation due to its high saturated fat content. Additionally, the production of meat can have significant environmental impacts, including deforestation and greenhouse gas emissions."
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "url"
+                                      }
+                                    },
+                                    "value": {
+                                      "IdentifierExpression": {
+                                        "name": "meatImage"
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "withEllipsis": false
+                        }
+                      },
+                      {
+                        "ArrayElement": {
+                          "element": {
+                            "ObjectLiteral": {
+                              "objectProperties": [
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "id"
+                                      }
+                                    },
+                                    "value": {
+                                      "DecimalLiteral": {
+                                        "value": 2.0,
+                                        "decimalType": "Integer"
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "name"
+                                      }
+                                    },
+                                    "value": {
+                                      "StringLiteral": {
+                                        "value": "fruit"
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "details"
+                                      }
+                                    },
+                                    "value": {
+                                      "StringLiteral": {
+                                        "value": "Fruits are a vital part of our diet, providing essential nutrients and a source of natural sweetness. They come in a variety of colors and flavors, each with its own unique health benefits. From the tart taste of citrus fruits to the sweetness of berries, fruits offer a range of flavors that can complement any meal. They are also a great source of fiber, vitamins, and minerals, making them a healthy choice for anyone's diet."
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "url"
+                                      }
+                                    },
+                                    "value": {
+                                      "IdentifierExpression": {
+                                        "name": "fruitImage"
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "withEllipsis": false
+                        }
+                      },
+                      {
+                        "ArrayElement": {
+                          "element": {
+                            "ObjectLiteral": {
+                              "objectProperties": [
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "id"
+                                      }
+                                    },
+                                    "value": {
+                                      "DecimalLiteral": {
+                                        "value": 3.0,
+                                        "decimalType": "Integer"
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "name"
+                                      }
+                                    },
+                                    "value": {
+                                      "StringLiteral": {
+                                        "value": "vegetable"
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "details"
+                                      }
+                                    },
+                                    "value": {
+                                      "StringLiteral": {
+                                        "value": "Vegetables are a vital part of a healthy diet, providing a wide range of nutrients. They are low in calories but high in vitamins, minerals, and fiber. They also offer a variety of flavors and textures, making them a versatile addition to any meal. Some of the most common vegetables include carrots, broccoli, and spinach, but there are many more to explore."
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "url"
+                                      }
+                                    },
+                                    "value": {
+                                      "IdentifierExpression": {
+                                        "name": "vegetableImage"
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "withEllipsis": false
+                        }
+                      },
+                      {
+                        "ArrayElement": {
+                          "element": {
+                            "ObjectLiteral": {
+                              "objectProperties": [
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "id"
+                                      }
+                                    },
+                                    "value": {
+                                      "DecimalLiteral": {
+                                        "value": 4.0,
+                                        "decimalType": "Integer"
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "name"
+                                      }
+                                    },
+                                    "value": {
+                                      "StringLiteral": {
+                                        "value": "chicken"
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "details"
+                                      }
+                                    },
+                                    "value": {
+                                      "StringLiteral": {
+                                        "value": "Chicken is a versatile and widely consumed type of meat. It is known for its tender and flavorful meat, which is often used in a variety of dishes. Chicken is also a good source of protein and is low in fat. It is commonly raised for its meat, but also for its eggs. Chicken is a popular choice for many people due to its affordability and ease of preparation."
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "NormalProperty": {
+                                    "key": {
+                                      "PropertyByName": {
+                                        "id": "url"
+                                      }
+                                    },
+                                    "value": {
+                                      "IdentifierExpression": {
+                                        "name": "chickenImage"
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          "withEllipsis": false
+                        }
+                      }
+                    ]
+                  }
+                },
+                "type": "object"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "FunctionDeclaration": {
+          "Identifier": "App",
+          "parameters": {
+            "Parameters": {
+              "values": [],
+              "spreadParameter": {}
+            }
+          },
+          "body": [
+            {
+              "VariableDeclarationStatement": {
+                "vars": [
+                  {
+                    "VariableDeclaration": {
+                      "modifier": "const",
+                      "name": {
+                        "ArrayLiteral": {
+                          "elements": [
+                            {
+                              "ArrayElement": {
+                                "element": {
+                                  "IdentifierExpression": {
+                                    "name": "index"
+                                  }
+                                },
+                                "withEllipsis": false
+                              }
+                            },
+                            {
+                              "ArrayElement": {
+                                "element": {
+                                  "IdentifierExpression": {
+                                    "name": "setIndex"
+                                  }
+                                },
+                                "withEllipsis": false
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "value": {
+                        "ArgumentsExpression": {
+                          "singleExpression": {
+                            "IdentifierExpression": {
+                              "name": "useState"
+                            }
+                          },
+                          "arguments": {
+                            "Arguments": {
+                              "argumentsList": [
+                                {
+                                  "Argument": {
+                                    "value": {
+                                      "DecimalLiteral": {
+                                        "value": 0.0,
+                                        "decimalType": "Integer"
+                                      }
+                                    },
+                                    "type": {}
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      },
+                      "type": "IDK"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "ReturnStatement": {
+                "expr": {
+                  "ExpressionSequence": {
+                    "list": [
+                      {
+                        "ParenthesizedExpression": {
+                          "sequence": {
+                            "ExpressionSequence": {
+                              "list": [
+                                {
+                                  "JSXElement": {
+                                    "tagName": "div",
+                                    "attributes": [
+                                      {
+                                        "Pair": {
+                                          "a": "className",
+                                          "b": {
+                                            "AttributStringValue": {
+                                              "value": "App"
+                                            }
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "Pair": {
+                                          "a": "style",
+                                          "b": {
+                                            "AttributeInjectValue": {
+                                              "exp": {
+                                                "ObjectLiteral": {
+                                                  "objectProperties": [
+                                                    {
+                                                      "NormalProperty": {
+                                                        "key": {
+                                                          "PropertyByName": {
+                                                            "id": "display"
+                                                          }
+                                                        },
+                                                        "value": {
+                                                          "StringLiteral": {
+                                                            "value": "flex"
+                                                          }
+                                                        }
+                                                      }
+                                                    },
+                                                    {
+                                                      "NormalProperty": {
+                                                        "key": {
+                                                          "PropertyByName": {
+                                                            "id": "flexFlow"
+                                                          }
+                                                        },
+                                                        "value": {
+                                                          "StringLiteral": {
+                                                            "value": "row nowrap"
+                                                          }
+                                                        }
+                                                      }
+                                                    },
+                                                    {
+                                                      "NormalProperty": {
+                                                        "key": {
+                                                          "PropertyByName": {
+                                                            "id": "justifyContent"
+                                                          }
+                                                        },
+                                                        "value": {
+                                                          "StringLiteral": {
+                                                            "value": "flex-start"
+                                                          }
+                                                        }
+                                                      }
+                                                    },
+                                                    {
+                                                      "NormalProperty": {
+                                                        "key": {
+                                                          "PropertyByName": {
+                                                            "id": "alignContent"
+                                                          }
+                                                        },
+                                                        "value": {
+                                                          "StringLiteral": {
+                                                            "value": "center"
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ],
+                                    "body": [
+                                      {
+                                        "JSXElement": {
+                                          "tagName": "div",
+                                          "attributes": [
+                                            {
+                                              "Pair": {
+                                                "a": "style",
+                                                "b": {
+                                                  "AttributeInjectValue": {
+                                                    "exp": {
+                                                      "ObjectLiteral": {
+                                                        "objectProperties": [
+                                                          {
+                                                            "NormalProperty": {
+                                                              "key": {
+                                                                "PropertyByName": {
+                                                                  "id": "flex"
+                                                                }
+                                                              },
+                                                              "value": {
+                                                                "DecimalLiteral": {
+                                                                  "value": 1.0,
+                                                                  "decimalType": "Integer"
+                                                                }
+                                                              }
+                                                            }
+                                                          },
+                                                          {
+                                                            "NormalProperty": {
+                                                              "key": {
+                                                                "PropertyByName": {
+                                                                  "id": "maxHeight"
+                                                                }
+                                                              },
+                                                              "value": {
+                                                                "StringLiteral": {
+                                                                  "value": "100vh"
+                                                                }
+                                                              }
+                                                            }
+                                                          },
+                                                          {
+                                                            "NormalProperty": {
+                                                              "key": {
+                                                                "PropertyByName": {
+                                                                  "id": "overflowY"
+                                                                }
+                                                              },
+                                                              "value": {
+                                                                "StringLiteral": {
+                                                                  "value": "auto"
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        ]
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          ],
+                                          "body": [
+                                            {
+                                              "JSXElement": {
+                                                "tagName": "ProductList",
+                                                "attributes": [
+                                                  {
+                                                    "Pair": {
+                                                      "a": "products",
+                                                      "b": {
+                                                        "AttributeInjectValue": {
+                                                          "exp": {
+                                                            "IdentifierExpression": {
+                                                              "name": "products"
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  },
+                                                  {
+                                                    "Pair": {
+                                                      "a": "setActiveProduct",
+                                                      "b": {
+                                                        "AttributeInjectValue": {
+                                                          "exp": {
+                                                            "IdentifierExpression": {
+                                                              "name": "setIndex"
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                ],
+                                                "body": {}
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      {
+                                        "JSXElement": {
+                                          "tagName": "div",
+                                          "attributes": [
+                                            {
+                                              "Pair": {
+                                                "a": "style",
+                                                "b": {
+                                                  "AttributeInjectValue": {
+                                                    "exp": {
+                                                      "ObjectLiteral": {
+                                                        "objectProperties": [
+                                                          {
+                                                            "NormalProperty": {
+                                                              "key": {
+                                                                "PropertyByName": {
+                                                                  "id": "flex"
+                                                                }
+                                                              },
+                                                              "value": {
+                                                                "DecimalLiteral": {
+                                                                  "value": 3.0,
+                                                                  "decimalType": "Integer"
+                                                                }
+                                                              }
+                                                            }
+                                                          },
+                                                          {
+                                                            "NormalProperty": {
+                                                              "key": {
+                                                                "PropertyByName": {
+                                                                  "id": "maxHeight"
+                                                                }
+                                                              },
+                                                              "value": {
+                                                                "StringLiteral": {
+                                                                  "value": "100vh"
+                                                                }
+                                                              }
+                                                            }
+                                                          },
+                                                          {
+                                                            "NormalProperty": {
+                                                              "key": {
+                                                                "PropertyByName": {
+                                                                  "id": "overflowY"
+                                                                }
+                                                              },
+                                                              "value": {
+                                                                "StringLiteral": {
+                                                                  "value": "auto"
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        ]
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          ],
+                                          "body": [
+                                            {
+                                              "JSXElement": {
+                                                "tagName": "ProductView",
+                                                "attributes": [
+                                                  {
+                                                    "Pair": {
+                                                      "a": "product",
+                                                      "b": {
+                                                        "AttributeInjectValue": {
+                                                          "exp": {
+                                                            "MemberIndex": {
+                                                              "accessedExpression": {
+                                                                "IdentifierExpression": {
+                                                                  "name": "products"
+                                                                }
+                                                              },
+                                                              "accessedAt": {
+                                                                "ExpressionSequence": {
+                                                                  "list": [
+                                                                    {
+                                                                      "IdentifierExpression": {
+                                                                        "name": "index"
+                                                                      }
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                ],
+                                                "body": {}
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "ExportDefaultDeclaration": {
+          "exportName": "App"
+        }
       }
-    } ]
-  }, {
-    "exportName" : "ProductView"
-  }, null ]
+    ]
+  }
 }

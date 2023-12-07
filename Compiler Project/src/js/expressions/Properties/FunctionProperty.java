@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 public class FunctionProperty implements Property {
-    Map<Assignable, Expression> parameters = new HashMap<>();
-    Expression spreadParameter ;
-    List<Statement> bodyStatements = new ArrayList<>();
+    public Map<Assignable, Expression> parameters = new HashMap<>();
+    public Expression spreadParameter ;
+    public List<Statement> bodyStatements = new ArrayList<>();
 
     public boolean addParameter(Assignable key , Expression value){
         if(parameters.containsKey(key))return false;

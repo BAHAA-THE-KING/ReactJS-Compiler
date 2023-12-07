@@ -8,16 +8,11 @@ import js.visitors.models.Statement;
 import java.util.List;
 
 public class DoWhileLoop implements IterationStatement {
-    Statement statement;
-    ExpressionSequence expressions;
+    public Statement statement;
+    public ExpressionSequence expressions;
 
     public DoWhileLoop(Statement statement, ExpressionSequence expressions) {
         this.statement = statement;
         this.expressions = expressions;
-    }
-
-    @Override
-    public String toString() {
-        return "DoWhileLoop{" + "statements=" + statement + ", expressions=" + expressions + '}';
     }
 }

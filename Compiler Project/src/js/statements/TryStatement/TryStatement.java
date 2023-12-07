@@ -14,13 +14,4 @@ public class TryStatement implements Statement {
         this.catchProduction = catchProduction;
         this.finallyProduction = finallyProduction;
     }
-
-    @Override
-    public String toString() {
-        return "TryStatement{" +
-                "block=" + block +
-                ", catchProduction=" + catchProduction +
-                ", finallyProduction=" + finallyProduction +
-                '}';
-    }
 }

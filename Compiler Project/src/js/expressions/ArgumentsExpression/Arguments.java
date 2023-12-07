@@ -6,7 +6,7 @@ import js.visitors.AntlrToArguments;
 import java.util.List;
 
 public class Arguments {
-    List<Argument> argumentsList;
+    public List<Argument> argumentsList;
 
     public Arguments(JSParser.ArgumentsContext ctx,String filePath) {
         AntlrToArguments visitor = new AntlrToArguments(filePath);

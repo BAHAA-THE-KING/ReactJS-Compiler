@@ -13,11 +13,4 @@ public class CatchProduction implements Statement {
         this.exception = exception;
         this.block = block;
     }
-
-    @Override
-    public String toString() {
-        return "{exception=" + exception +
-                ", block=" + block +
-                '}';
-    }
 }

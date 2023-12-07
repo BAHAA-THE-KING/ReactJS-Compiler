@@ -9,9 +9,4 @@ public class PropertyByExpression implements PropertyName {
     public PropertyByExpression(Expression value) {
         this.value = value;
     }
-
-    @Override
-    public String toString() {
-        return "PropertyByExpression{" + "value=" + value + '}';
-    }
 }

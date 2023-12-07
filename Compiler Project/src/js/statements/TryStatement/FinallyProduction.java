@@ -10,10 +10,4 @@ public class FinallyProduction implements Statement {
     public FinallyProduction(BlockModel block) {
         this.block = block;
     }
-
-    @Override
-    public String toString() {
-        return "{block=" + block +
-                '}';
-    }
 }

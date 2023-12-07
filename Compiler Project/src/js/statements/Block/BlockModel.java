@@ -15,9 +15,4 @@ public class BlockModel implements Statement {
     public void addStatement(Statement statement) {
         statements.add(statement);
     }
-
-    @Override
-    public String toString() {
-        return "{statements=" + statements + '}';
-    }
 }

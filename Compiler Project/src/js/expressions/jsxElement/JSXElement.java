@@ -8,9 +8,9 @@ import org.antlr.v4.runtime.misc.Pair;
 import java.util.List;
 
 public class JSXElement implements Expression, JSXContent {
-    String tagName;
-    List<Pair<String, AttributeValue>> attributes;
-    List<JSXContent> body;
+    public String tagName;
+    public List<Pair<String, AttributeValue>> attributes;
+    public List<JSXContent> body;
 
     public JSXElement(String tagName, List<Pair<String, AttributeValue>> attributes, List<JSXContent> body) {
         this.tagName = tagName;

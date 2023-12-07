@@ -4,16 +4,11 @@ import js.expressions.ArgumentsExpression.Arguments;
 import js.visitors.models.Expression;
 
 public class NewExpression implements Expression {
-    String id;
-    Arguments arguments;
+    public String id;
+    public Arguments arguments;
 
     public NewExpression(String id, Arguments arguments) {
         this.id = id;
         this.arguments = arguments;
-    }
-
-    @Override
-    public String toString() {
-        return "NewExpression{" + "id='" + id + '\'' + ", arguments=" + arguments + '}';
     }
 }

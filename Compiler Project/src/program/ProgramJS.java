@@ -2,12 +2,6 @@ package program;
 
 import antlrJS.JSLexer;
 import antlrJS.JSParser;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import js.statements.Block.BlockModel;
 import js.visitors.AntlrToProgram;
 import js.visitors.models.JsProgram;
 import org.antlr.v4.runtime.CharStream;
@@ -15,14 +9,15 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class ProgramJS {
+    public static final String AST_FILE_NAME="ast.json",SYMB_FILE_NAME="symbolTable.json";
     public static List<String> errors = new ArrayList<>();
 
     public static void main(String[] args) throws IOException, IllegalAccessException {
@@ -33,24 +28,35 @@ public class ProgramJS {
             ParseTree antlrAST = parser.program();
             AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
             JsProgram doc = progVisitor.visit(antlrAST);
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
-            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-            mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-            for (String err : errors) {
-                System.err.println(err);
+            if(!errors.isEmpty()){
+                for (String err : errors) {
+                    System.err.println(err);
+                }
+                System.out.println("Do you want to view ast and symbol table anyway? (Default:yes)");
+                Scanner sc = new Scanner(System.in);
+                String userInput = sc.nextLine().trim();
+                boolean wantToContinue = userInput.isEmpty() ? false : Boolean.parseBoolean(userInput);
+                if(!wantToContinue)return;
             }
-            String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(doc);
-            System.out.println(result);
-            File file = new File("ast.json");
-            FileWriter fw = new FileWriter(file);
-            fw.write("{" + print(doc) + "}");
-            fw.close();
-            System.out.println("{" + print(doc) + "}");
+            saveAstInFile(doc);
+            saveSymbolTableInFile(doc);
+            VsCode.openAstTree();
+            VsCode.openSymbolTree();
         }
-        SymbolTableVisitor.visit(new BlockModel());
     }
 
+    private static void saveAstInFile(JsProgram doc) throws IOException, IllegalAccessException {
+        File file = new File(AST_FILE_NAME);
+        FileWriter fw = new FileWriter(file);
+        fw.write("{" + print(doc) + "}");
+        fw.close();
+    }
+    private static void saveSymbolTableInFile(JsProgram doc) throws IOException, IllegalAccessException {
+        File file = new File(SYMB_FILE_NAME);
+        FileWriter fw = new FileWriter(file);
+        fw.write("{" + print(SymbolTableVisitor.visit(doc)) + "}");
+        fw.close();
+    }
     private static JSParser getParser(String filename) {
         JSParser parser = null;
         try {
@@ -72,6 +78,9 @@ public class ProgramJS {
         for (Field f : fields) {
             String propName = f.getName();
             if (propName.equals("filePath")) continue;
+            if (Modifier.isFinal(f.getModifiers())) {
+                continue;
+            }
             Object value = f.get(obj);
             if (!(value instanceof Boolean) && !(value instanceof String) && !(value instanceof Integer) && !(value instanceof Double) && !(value instanceof Character)) {
                 if (value instanceof List) {

@@ -10,4 +10,9 @@ public class AssignmentExpression implements Expression {
         this.leftExpression = leftExpression;
         this.rightExpression = rightExpression;
     }
+
+    @Override
+    public String toString() {
+        return leftExpression+" = "+rightExpression;
+    }
 }

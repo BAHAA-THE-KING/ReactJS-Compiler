@@ -9,4 +9,9 @@ public class PreIncrementExpression implements Expression {
     public PreIncrementExpression(Expression identifier) {
         this.identifier = identifier;
     }
+
+    @Override
+    public String toString() {
+        return "++"+identifier;
+    }
 }

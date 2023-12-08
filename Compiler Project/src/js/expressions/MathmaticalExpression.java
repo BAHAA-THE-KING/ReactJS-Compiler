@@ -12,4 +12,9 @@ public class MathmaticalExpression implements Expression {
         this.secondExpression = secondExpression;
         this.process = process;
     }
+
+    @Override
+    public String toString() {
+        return firstExpression+" "+process+" "+secondExpression;
+    }
 }

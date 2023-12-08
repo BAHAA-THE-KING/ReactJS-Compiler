@@ -12,4 +12,9 @@ public class CoalesceExpression implements Expression {
         this.secondExpression = secondExpression;
         this.nullString = nullString;
     }
+
+    @Override
+    public String toString() {
+        return firstExpression+" ?? "+secondExpression;
+    }
 }

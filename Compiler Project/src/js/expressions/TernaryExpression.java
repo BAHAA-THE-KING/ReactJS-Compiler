@@ -12,4 +12,9 @@ public class TernaryExpression implements Expression {
         this.firstStatement = firstStatement;
         this.secondStatement = secondStatement;
     }
+
+    @Override
+    public String toString() {
+        return condition+"?"+firstStatement+secondStatement;
+    }
 }

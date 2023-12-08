@@ -8,4 +8,9 @@ public class AttributStringValue extends AttributeValue {
     public AttributStringValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

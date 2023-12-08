@@ -12,4 +12,9 @@ public class DecimalLiteral implements Literal {
         this.value = Double.parseDouble(value);
         this.decimalType= (Math.floor(this.value) == this.value)?"Integer":"float";
     }
+
+    @Override
+    public String toString() {
+        return value+"";
+    }
 }

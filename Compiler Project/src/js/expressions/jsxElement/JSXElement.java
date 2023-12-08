@@ -17,4 +17,9 @@ public class JSXElement implements Expression, JSXContent {
         this.attributes = attributes;
         this.body = body;
     }
+
+    @Override
+    public String toString() {
+        return "JSXElement: <"+tagName+">";
+    }
 }

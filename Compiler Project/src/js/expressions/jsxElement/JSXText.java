@@ -8,4 +8,9 @@ public class JSXText implements JSXContent {
     public JSXText(String value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

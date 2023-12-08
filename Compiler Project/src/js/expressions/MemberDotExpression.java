@@ -11,4 +11,9 @@ public class MemberDotExpression implements Expression {
         this.objectName = objectName;
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return objectName+"."+id;
+    }
 }

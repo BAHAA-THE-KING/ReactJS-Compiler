@@ -12,4 +12,9 @@ public class ArrayElement {
         this.withEllipsis=b;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return (withEllipsis?"...":"")+element;
+    }
 }

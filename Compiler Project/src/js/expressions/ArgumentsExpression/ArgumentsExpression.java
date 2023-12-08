@@ -10,4 +10,9 @@ public class ArgumentsExpression implements Expression {
         this.singleExpression = singleExpression;
         this.arguments = arguments;
     }
+
+    @Override
+    public String toString() {
+        return "( "+arguments+" )";
+    }
 }

@@ -92,7 +92,7 @@ public class ProgramJS {
                         listString.append("{");
                         listString.append(stringVal);
                         listString.append("}");
-                        if (item != null && !item.equals(list.getLast())) listString.append(",");
+                        if (item != null && !item.equals(list.get(list.size()-1))) listString.append(",");
                     }
                     value = "[";
                     value += listString.toString();

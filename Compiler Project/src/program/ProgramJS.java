@@ -15,9 +15,10 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.StringJoiner;
 
 public class ProgramJS {
-    public static final String AST_FILE_NAME="ast.json",SYMB_FILE_NAME="symbolTable.json";
+    public static final String AST_FILE_NAME = "ast.json", SYMB_FILE_NAME = "symbolTable.json";
     public static List<String> errors = new ArrayList<>();
 
     public static void main(String[] args) throws IOException, IllegalAccessException {
@@ -28,7 +29,7 @@ public class ProgramJS {
             ParseTree antlrAST = parser.program();
             AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
             JsProgram doc = progVisitor.visit(antlrAST);
-            if(!errors.isEmpty()){
+            if (!errors.isEmpty()) {
                 for (String err : errors) {
                     System.err.println(err);
                 }
@@ -36,9 +37,9 @@ public class ProgramJS {
                 Scanner sc = new Scanner(System.in);
                 String userInput = sc.nextLine().trim();
                 boolean wantToContinue = userInput.isEmpty() ? false : Boolean.parseBoolean(userInput);
-                if(!wantToContinue)return;
+                if (!wantToContinue) return;
             }
-            saveAstInFile(doc);
+//            saveAstInFile(doc);
             saveSymbolTableInFile(doc);
             VsCode.openAstTree();
             VsCode.openSymbolTree();
@@ -51,12 +52,14 @@ public class ProgramJS {
         fw.write("{" + print(doc) + "}");
         fw.close();
     }
+
     private static void saveSymbolTableInFile(JsProgram doc) throws IOException, IllegalAccessException {
         File file = new File(SYMB_FILE_NAME);
         FileWriter fw = new FileWriter(file);
         fw.write("{" + print(SymbolTableVisitor.visit(doc)) + "}");
         fw.close();
     }
+
     private static JSParser getParser(String filename) {
         JSParser parser = null;
         try {
@@ -75,12 +78,17 @@ public class ProgramJS {
         StringBuilder str = new StringBuilder();
         str.append("\"").append(obj.getClass().getSimpleName()).append("\"").append(":{");
         Field[] fields = obj.getClass().getDeclaredFields();
+        StringJoiner strjoi=new StringJoiner(",");
+        //TODO
         for (Field f : fields) {
-            String propName = f.getName();
-            if (propName.equals("filePath")) continue;
             if (Modifier.isFinal(f.getModifiers())) {
+                if (str.charAt(str.length()-1)==',') {
+                    str=str.deleteCharAt(str.length() - 1);
+                }
                 continue;
             }
+            String propName = f.getName();
+            if (propName.equals("filePath")) continue;
             Object value = f.get(obj);
             if (!(value instanceof Boolean) && !(value instanceof String) && !(value instanceof Integer) && !(value instanceof Double) && !(value instanceof Character)) {
                 if (value instanceof List) {

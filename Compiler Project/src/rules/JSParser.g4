@@ -6,8 +6,10 @@ options {
 }
 
 program
-    : importStatement* statement* exportStatement* EOF
+    : importStatement* statement* exportStatement* endOfFile
     ;
+
+endOfFile: EOF;
 
 statement
     : block                     # BlockChunk

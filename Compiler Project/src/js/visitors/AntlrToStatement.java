@@ -294,12 +294,11 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitThrowChunk(JSParser.ThrowChunkContext ctx) {
         ExpressionSequence expressions = new ExpressionSequence(ctx.throwStatement().expressionSequence(), filePath);
-
         return new Throw(expressions);
     }
 
     @Override
-    public Statement visitFormalParameterList(JSParser.FormalParameterListContext ctx) {
+    public Statement visitEndOfFile(JSParser.EndOfFileContext ctx) {
         return new EOFStatement();
     }
 }

@@ -333,13 +333,17 @@ templateStringLiteral
     ;
 
 templateStringAtom
-    : TemplateStringAtom                                                    # TemplateStringCharacter
-    | TemplateStringStartExpression singleExpression TemplateCloseBrace     # TemplateStringJSExpression
+    : templateStringText                                                    # TemplateStringCharacter
+    | DollarSign OpenBrace singleExpression CloseBrace     # TemplateStringJSExpression
+    ;
+
+templateStringText
+    : ~(BackTick | DollarSign)+
     ;
 
 jsxElement
     : LessThan tagName? attribute* MoreThan jsxContent* LessThan Divide tagName? MoreThan   # Normal
-    | LessThan tagName attribute* Divide MoreThan                                                                           # SelfClosing
+    | LessThan tagName attribute* Divide MoreThan                                           # SelfClosing
     ;
 
 jsxContent

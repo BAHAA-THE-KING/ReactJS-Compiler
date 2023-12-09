@@ -11,13 +11,14 @@ options {
 MultiLineComment:               '/*' .*? '*/'             -> channel(HIDDEN);
 SingleLineComment:              '//' ~[\r\n]* -> channel(HIDDEN);
 
+BackTick:                   '`';
+DollarSign:                     '$';
 OpenBracket:                    '[';
 CloseBracket:                   ']';
 OpenParen:                      '(';
 CloseParen:                     ')';
 OpenBrace:                      '{' {this.ProcessOpenBrace();};
 CloseBrace:                     '}' {this.ProcessCloseBrace();};
-TemplateCloseBrace:             {this.IsInTemplateString()}? '}' -> popMode;
 SemiColon:                      ';';
 Comma:                          ',';
 Assign:                         '=';
@@ -128,8 +129,6 @@ StringLiteral:
     ('"' DoubleStringCharacter* '"' | '\'' SingleStringCharacter* '\'') {this.ProcessStringLiteral();}
 ;
 
-BackTick: '`' {this.IncreaseTemplateDepth();} -> pushMode(TEMPLATE);
-
 WhiteSpaces:                    [\t]+ -> channel(HIDDEN);
 
 LineTerminator:                 [\r\n] -> channel(HIDDEN);
@@ -137,12 +136,6 @@ LineTerminator:                 [\r\n] -> channel(HIDDEN);
 /// Comments
 
 UnexpectedCharacter : .                     -> channel(ERROR);
-
-mode TEMPLATE;
-
-BackTickInside                : '`'  {this.DecreaseTemplateDepth();} -> type(BackTick), popMode;
-TemplateStringStartExpression : '${' -> pushMode(DEFAULT_MODE);
-TemplateStringAtom            : ~[`];
 
 // Fragment rules
 

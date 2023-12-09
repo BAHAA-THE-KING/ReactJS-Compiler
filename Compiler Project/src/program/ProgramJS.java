@@ -23,7 +23,7 @@ public class ProgramJS {
 
     public static void main(String[] args) throws IOException, IllegalAccessException {
         if (args.length != 1) {
-            System.err.println("fuck you");
+            System.err.println("Please Select A File.");
         } else {
             JSParser parser = getParser(args[0]);
             ParseTree antlrAST = parser.program();
@@ -39,7 +39,7 @@ public class ProgramJS {
                 boolean wantToContinue = userInput.isEmpty() ? false : Boolean.parseBoolean(userInput);
                 if (!wantToContinue) return;
             }
-//            saveAstInFile(doc);
+            saveAstInFile(doc);
             saveSymbolTableInFile(doc);
             VsCode.openAstTree();
             VsCode.openSymbolTree();
@@ -75,41 +75,28 @@ public class ProgramJS {
 
     public static String print(Object obj) throws IllegalAccessException {
         if (obj == null) return "";
-        StringBuilder str = new StringBuilder();
-        str.append("\"").append(obj.getClass().getSimpleName()).append("\"").append(":{");
+        String str = new String();
         Field[] fields = obj.getClass().getDeclaredFields();
-        StringJoiner strjoi=new StringJoiner(",");
-        //TODO
+        StringJoiner strjoi = new StringJoiner(",");
         for (Field f : fields) {
-            if (Modifier.isFinal(f.getModifiers())) {
-                if (str.charAt(str.length()-1)==',') {
-                    str=str.deleteCharAt(str.length() - 1);
-                }
-                continue;
-            }
+            if (Modifier.isFinal(f.getModifiers())) continue;
+            if (Modifier.isPrivate(f.getModifiers())) continue;
             String propName = f.getName();
             if (propName.equals("filePath")) continue;
             Object value = f.get(obj);
             if (!(value instanceof Boolean) && !(value instanceof String) && !(value instanceof Integer) && !(value instanceof Double) && !(value instanceof Character)) {
                 if (value instanceof List) {
-                    StringBuilder listString = new StringBuilder();
                     List<Object> list = (List<Object>) value;
+                    StringJoiner stj2 = new StringJoiner(",");
                     for (Object item : list) {
                         String stringVal = print(item);
                         if (stringVal.equals("")) continue;
-                        listString.append("{");
-                        listString.append(stringVal);
-                        listString.append("}");
-                        if (item != null && !item.equals(list.get(list.size()-1))) listString.append(",");
+                        stj2.add("{" + stringVal + "}");
                     }
-                    value = "[";
-                    value += listString.toString();
-                    value += "]";
+                    value = "[" + stj2 + "]";
                 } else {
                     String string = print(value);
-                    value = "{";
-                    value += string;
-                    value += "}";
+                    value = "{" + string + "}";
                 }
             } else if (value instanceof String) {
                 if (((String) value).startsWith("'") || ((String) value).startsWith("\"")) {
@@ -122,10 +109,9 @@ public class ProgramJS {
             } else {
                 value = value.toString();
             }
-            str.append("\"").append(propName).append("\"").append(":").append(value);
-            if (!f.equals(fields[fields.length - 1])) str.append(",");
+            strjoi.add("\"" + propName + "\"" + ":" + value);
         }
-        str.append("}");
-        return str.toString();
+        str+="\"" + obj.getClass().getSimpleName() + "\":{" + strjoi + "}";
+        return str;
     }
 }

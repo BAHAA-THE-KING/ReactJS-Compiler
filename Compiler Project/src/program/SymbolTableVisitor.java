@@ -6,10 +6,17 @@ import js.SymbolTable.Symbolable;
 import js.expressions.ExpressionSequence;
 import js.expressions.Function.AnonymousFunction;
 import js.expressions.Function.ArrowFunction;
+import js.expressions.Properties.ComputedProperty;
+import js.expressions.Properties.EllipsisProperty;
+import js.expressions.Properties.FunctionProperty;
+import js.expressions.Properties.NormalProperty;
 import js.statements.Block.BlockModel;
 import js.statements.ClassDeclaration.ClassDeclaration;
 import js.statements.ClassDeclaration.ClassFieldDefinition;
 import js.statements.ClassDeclaration.ClassMethodDefinition;
+import js.statements.ClassDeclaration.PropertyName.PropertyByExpression;
+import js.statements.ClassDeclaration.PropertyName.PropertyByName;
+import js.statements.ClassDeclaration.PropertyName.PropertyByString;
 import js.statements.Function.FunctionDeclaration;
 import js.statements.Loops.DoWhileLoop;
 import js.statements.Loops.ForInLoop;
@@ -159,6 +166,57 @@ public class SymbolTableVisitor {
                 classFieldDefinition.propertyValue!=null?classFieldDefinition.propertyValue.toString():null
         );
         return listify(field);
+    }
+
+    public static List<Symbolable> visit(ObjectLiteral ol){
+
+        List<Symbolable> symbArray = new ArrayList<>();
+
+        for(Property p : ol.objectProperties){
+
+            symbArray.addAll(visit(p));
+        }
+        return symbArray;
+    }
+
+    public static List<Symbolable> visit(Property p){
+
+        if(p instanceof NormalProperty)
+            return visit((NormalProperty) p);
+
+        if(p instanceof ComputedProperty)
+            return visit((ComputedProperty) p);
+
+        if(p instanceof FunctionProperty)
+            return visit((FunctionProperty) p);
+
+        return visit((EllipsisProperty) p);
+    }
+
+    public static List<Symbolable> visit(NormalProperty np){
+        Symbolable symb;
+        PropertyName prop = np.key;
+        if(prop instanceof PropertyByName){
+            symb = new Symbol(Symbol.VAR, ((PropertyByName) prop).id, np.value.toString());
+        }
+        else if(prop instanceof PropertyByExpression){
+            symb = new Symbol(Symbol.VAR, ((PropertyByExpression) prop).value.toString(), np.value.toString());
+        }
+        else//propertyByString
+        {
+            symb = new Symbol(Symbol.VAR,
+                    "\"" + ((PropertyByString)prop).value + "\"",
+                    np.value.toString());
+        }
+
+        return listify(symb);
+    }
+
+    public static List<Symbolable> visit(ComputedProperty np){
+
+        Symbolable symb = new Symbol(Symbol.VAR, np.key.toString(), np.value.toString());
+
+        return listify(symb);
     }
 
     public static List<Symbolable> visit (ClassMethodDefinition classMethodDefinition){

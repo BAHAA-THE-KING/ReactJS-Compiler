@@ -2,6 +2,7 @@ package program;
 
 import antlrJS.JSLexer;
 import antlrJS.JSParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import js.visitors.AntlrToProgram;
 import js.visitors.models.JsProgram;
 import org.antlr.v4.runtime.CharStream;
@@ -49,14 +50,36 @@ public class ProgramJS {
     private static void saveAstInFile(JsProgram doc) throws IOException, IllegalAccessException {
         File file = new File(AST_FILE_NAME);
         FileWriter fw = new FileWriter(file);
-        fw.write("{" + print(doc) + "}");
+
+        String json = "{" + print(doc) + "}";
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Object jsonObject = objectMapper.readValue(json, Object.class);
+        json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject);
+
+        System.out.println("AST :");
+        System.out.println(json);
+        System.out.println();
+
+        fw.write(json);
         fw.close();
     }
 
     private static void saveSymbolTableInFile(JsProgram doc) throws IOException, IllegalAccessException {
         File file = new File(SYMB_FILE_NAME);
         FileWriter fw = new FileWriter(file);
-        fw.write("{" + print(SymbolTableVisitor.visit(doc)) + "}");
+
+        String json = "{" + print(SymbolTableVisitor.visit(doc)) + "}";
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Object jsonObject = objectMapper.readValue(json, Object.class);
+        json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject);
+
+        System.out.println("Symbol Table :");
+        System.out.println(json);
+        System.out.println();
+
+        fw.write(json);
         fw.close();
     }
 
@@ -111,7 +134,7 @@ public class ProgramJS {
             }
             strjoi.add("\"" + propName + "\"" + ":" + value);
         }
-        str+="\"" + obj.getClass().getSimpleName() + "\":{" + strjoi + "}";
+        str += "\"" + obj.getClass().getSimpleName() + "\":{" + strjoi + "}";
         return str;
     }
 }

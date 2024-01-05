@@ -252,6 +252,9 @@ singleExpression
     | singleExpression QuestionMark? Dot singleExpression                                               # OptionalChainExpression
     | singleExpression QuestionMarkDot? OpenBracket expressionSequence CloseBracket                     # MemberIndexExpression
     | New Identifier arguments                                                                          # NewExpression
+    | UseState OpenParen argument CloseParen                                                            # UseStateExpression
+    | UseEffect OpenParen anonymousFunction Comma argument? CloseParen                                                           # UseEffectExpression
+    | UseRef OpenParen argument CloseParen                                                              # UseRefExpression
     | singleExpression arguments                                                                        # ArgumentsExpression
     | singleExpression PlusPlus                                                                         # PostIncrementExpression
     | singleExpression MinusMinus                                                                       # PostDecreaseExpression

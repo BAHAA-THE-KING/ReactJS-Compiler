@@ -8,6 +8,7 @@ import js.visitors.models.JsProgram;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.misc.Pair;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.*;
@@ -98,15 +99,17 @@ public class ProgramJS {
 
     public static String print(Object obj) throws IllegalAccessException {
         if (obj == null) return "";
-        String str = new String();
         Field[] fields = obj.getClass().getDeclaredFields();
         StringJoiner strjoi = new StringJoiner(",");
         for (Field f : fields) {
-            if (Modifier.isFinal(f.getModifiers())) continue;
+            if (Modifier.isFinal(f.getModifiers()) && !(obj instanceof Pair)) continue;
             if (Modifier.isPrivate(f.getModifiers())) continue;
             String propName = f.getName();
             if (propName.equals("filePath")) continue;
+            if (propName.equals("a")) propName = "key";
+            if (propName.equals("b")) propName = "value";
             Object value = f.get(obj);
+            if (value == null) continue;
             if (!(value instanceof Boolean) && !(value instanceof String) && !(value instanceof Integer) && !(value instanceof Double) && !(value instanceof Character)) {
                 if (value instanceof List) {
                     List<Object> list = (List<Object>) value;
@@ -119,6 +122,7 @@ public class ProgramJS {
                     value = "[" + stj2 + "]";
                 } else {
                     String string = print(value);
+                    if (string.equals("")) continue;
                     value = "{" + string + "}";
                 }
             } else if (value instanceof String) {
@@ -134,7 +138,8 @@ public class ProgramJS {
             }
             strjoi.add("\"" + propName + "\"" + ":" + value);
         }
-        str += "\"" + obj.getClass().getSimpleName() + "\":{" + strjoi + "}";
-        return str;
+        if (obj instanceof Pair && strjoi.length() == 0) return "";
+        if (obj instanceof Pair) return String.valueOf(strjoi);
+        return "\"" + obj.getClass().getSimpleName() + "\":{" + strjoi + "}";
     }
 }

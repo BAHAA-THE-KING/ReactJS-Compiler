@@ -8,60 +8,56 @@
       "DefaultAsImportBlock" : {
         "packageName" : "./images/meat.jpg",
         "defaultImport" : {
-          "Pair" : {
-          }
+          "key" : "meatImage",
+          "value" : "meatImage"
         }
       }
     }, {
       "DefaultAsImportBlock" : {
         "packageName" : "./images/fruit.jpg",
         "defaultImport" : {
-          "Pair" : {
-          }
+          "key" : "fruitImage",
+          "value" : "fruitImage"
         }
       }
     }, {
       "DefaultAsImportBlock" : {
         "packageName" : "./images/vegetable.webp",
         "defaultImport" : {
-          "Pair" : {
-          }
+          "key" : "vegetableImage",
+          "value" : "vegetableImage"
         }
       }
     }, {
       "DefaultAsImportBlock" : {
         "packageName" : "./images/chicken.webp",
         "defaultImport" : {
-          "Pair" : {
-          }
+          "key" : "chickenImage",
+          "value" : "chickenImage"
         }
       }
     }, {
       "ObjectImportBlock" : {
         "packageName" : "react",
-        "defaultImport" : {
-          "Pair" : {
-          }
-        },
         "items" : [ {
-          "Pair" : {
-          }
+          "key" : "useState",
+          "value" : "useState"
         } ]
       }
     }, {
       "DefaultAsImportBlock" : {
         "packageName" : "./components/ProductList",
         "defaultImport" : {
-          "Pair" : {
-          }
+          "key" : "ProductList",
+          "value" : "ProductList"
         }
       }
     }, {
       "DefaultAsImportBlock" : {
         "packageName" : "./components/ProductView",
         "defaultImport" : {
-          "Pair" : {
-          }
+          "key" : "ProductView",
+          "value" : "ProductView"
         }
       }
     }, {
@@ -336,9 +332,7 @@
         "Identifier" : "App",
         "parameters" : {
           "Parameters" : {
-            "values" : [ ],
-            "spreadParameter" : {
-            }
+            "values" : [ ]
           }
         },
         "body" : [ {
@@ -370,26 +364,15 @@
                   }
                 },
                 "value" : {
-                  "ArgumentsExpression" : {
-                    "singleExpression" : {
-                      "IdentifierExpression" : {
-                        "name" : "useState"
-                      }
-                    },
-                    "arguments" : {
-                      "Arguments" : {
-                        "argumentsList" : [ {
-                          "Argument" : {
-                            "value" : {
-                              "DecimalLiteral" : {
-                                "value" : 0.0,
-                                "decimalType" : "Integer"
-                              }
-                            },
-                            "type" : {
-                            }
+                  "UseStateFunction" : {
+                    "initialState" : {
+                      "Argument" : {
+                        "value" : {
+                          "DecimalLiteral" : {
+                            "value" : 0.0,
+                            "decimalType" : "Integer"
                           }
-                        } ]
+                        }
                       }
                     }
                   }
@@ -410,31 +393,157 @@
                           "JSXElement" : {
                             "tagName" : "div",
                             "attributes" : [ {
-                              "Pair" : {
+                              "key" : "className",
+                              "value" : {
+                                "AttributStringValue" : {
+                                  "value" : "App"
+                                }
                               }
                             }, {
-                              "Pair" : {
+                              "key" : "style",
+                              "value" : {
+                                "AttributeInjectValue" : {
+                                  "exp" : {
+                                    "ObjectLiteral" : {
+                                      "objectProperties" : [ {
+                                        "NormalProperty" : {
+                                          "key" : {
+                                            "PropertyByName" : {
+                                              "id" : "display"
+                                            }
+                                          },
+                                          "value" : {
+                                            "StringLiteral" : {
+                                              "value" : "flex"
+                                            }
+                                          }
+                                        }
+                                      }, {
+                                        "NormalProperty" : {
+                                          "key" : {
+                                            "PropertyByName" : {
+                                              "id" : "flexFlow"
+                                            }
+                                          },
+                                          "value" : {
+                                            "StringLiteral" : {
+                                              "value" : "row nowrap"
+                                            }
+                                          }
+                                        }
+                                      }, {
+                                        "NormalProperty" : {
+                                          "key" : {
+                                            "PropertyByName" : {
+                                              "id" : "justifyContent"
+                                            }
+                                          },
+                                          "value" : {
+                                            "StringLiteral" : {
+                                              "value" : "flex-start"
+                                            }
+                                          }
+                                        }
+                                      }, {
+                                        "NormalProperty" : {
+                                          "key" : {
+                                            "PropertyByName" : {
+                                              "id" : "alignContent"
+                                            }
+                                          },
+                                          "value" : {
+                                            "StringLiteral" : {
+                                              "value" : "center"
+                                            }
+                                          }
+                                        }
+                                      } ]
+                                    }
+                                  }
+                                }
                               }
                             } ],
                             "body" : [ {
                               "JSXElement" : {
                                 "tagName" : "div",
                                 "attributes" : [ {
-                                  "Pair" : {
+                                  "key" : "style",
+                                  "value" : {
+                                    "AttributeInjectValue" : {
+                                      "exp" : {
+                                        "ObjectLiteral" : {
+                                          "objectProperties" : [ {
+                                            "NormalProperty" : {
+                                              "key" : {
+                                                "PropertyByName" : {
+                                                  "id" : "flex"
+                                                }
+                                              },
+                                              "value" : {
+                                                "DecimalLiteral" : {
+                                                  "value" : 1.0,
+                                                  "decimalType" : "Integer"
+                                                }
+                                              }
+                                            }
+                                          }, {
+                                            "NormalProperty" : {
+                                              "key" : {
+                                                "PropertyByName" : {
+                                                  "id" : "maxHeight"
+                                                }
+                                              },
+                                              "value" : {
+                                                "StringLiteral" : {
+                                                  "value" : "100vh"
+                                                }
+                                              }
+                                            }
+                                          }, {
+                                            "NormalProperty" : {
+                                              "key" : {
+                                                "PropertyByName" : {
+                                                  "id" : "overflowY"
+                                                }
+                                              },
+                                              "value" : {
+                                                "StringLiteral" : {
+                                                  "value" : "auto"
+                                                }
+                                              }
+                                            }
+                                          } ]
+                                        }
+                                      }
+                                    }
                                   }
                                 } ],
                                 "body" : [ {
                                   "JSXElement" : {
                                     "tagName" : "ProductList",
                                     "attributes" : [ {
-                                      "Pair" : {
+                                      "key" : "products",
+                                      "value" : {
+                                        "AttributeInjectValue" : {
+                                          "exp" : {
+                                            "IdentifierExpression" : {
+                                              "name" : "products"
+                                            }
+                                          }
+                                        }
                                       }
                                     }, {
-                                      "Pair" : {
+                                      "key" : "setActiveProduct",
+                                      "value" : {
+                                        "AttributeInjectValue" : {
+                                          "exp" : {
+                                            "IdentifierExpression" : {
+                                              "name" : "setIndex"
+                                            }
+                                          }
+                                        }
                                       }
-                                    } ],
-                                    "body" : {
-                                    }
+                                    } ]
                                   }
                                 } ]
                               }
@@ -442,18 +551,85 @@
                               "JSXElement" : {
                                 "tagName" : "div",
                                 "attributes" : [ {
-                                  "Pair" : {
+                                  "key" : "style",
+                                  "value" : {
+                                    "AttributeInjectValue" : {
+                                      "exp" : {
+                                        "ObjectLiteral" : {
+                                          "objectProperties" : [ {
+                                            "NormalProperty" : {
+                                              "key" : {
+                                                "PropertyByName" : {
+                                                  "id" : "flex"
+                                                }
+                                              },
+                                              "value" : {
+                                                "DecimalLiteral" : {
+                                                  "value" : 3.0,
+                                                  "decimalType" : "Integer"
+                                                }
+                                              }
+                                            }
+                                          }, {
+                                            "NormalProperty" : {
+                                              "key" : {
+                                                "PropertyByName" : {
+                                                  "id" : "maxHeight"
+                                                }
+                                              },
+                                              "value" : {
+                                                "StringLiteral" : {
+                                                  "value" : "100vh"
+                                                }
+                                              }
+                                            }
+                                          }, {
+                                            "NormalProperty" : {
+                                              "key" : {
+                                                "PropertyByName" : {
+                                                  "id" : "overflowY"
+                                                }
+                                              },
+                                              "value" : {
+                                                "StringLiteral" : {
+                                                  "value" : "auto"
+                                                }
+                                              }
+                                            }
+                                          } ]
+                                        }
+                                      }
+                                    }
                                   }
                                 } ],
                                 "body" : [ {
                                   "JSXElement" : {
                                     "tagName" : "ProductView",
                                     "attributes" : [ {
-                                      "Pair" : {
+                                      "key" : "product",
+                                      "value" : {
+                                        "AttributeInjectValue" : {
+                                          "exp" : {
+                                            "MemberIndex" : {
+                                              "accessedExpression" : {
+                                                "IdentifierExpression" : {
+                                                  "name" : "products"
+                                                }
+                                              },
+                                              "accessedAt" : {
+                                                "ExpressionSequence" : {
+                                                  "list" : [ {
+                                                    "IdentifierExpression" : {
+                                                      "name" : "index"
+                                                    }
+                                                  } ]
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
                                       }
-                                    } ],
-                                    "body" : {
-                                    }
+                                    } ]
                                   }
                                 } ]
                               }

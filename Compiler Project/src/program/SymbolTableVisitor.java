@@ -284,7 +284,6 @@ public class SymbolTableVisitor {
         for (Pair<Assignable, Expression> parameter: classMethodDefinition.parameters.values ){
             symbolables.add(Symbol.make(Symbol.PARAM , parameter.a.toString() , parameter.b != null ? parameter.b: null));
         }
-        //Todo:visit Ellipsis parameter(next update)
         for (Statement statement : classMethodDefinition.body){
             symbolables.addAll(visit(statement));
          }

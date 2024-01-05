@@ -72,8 +72,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
         var importModuleItems = ctx.importModuleItems();
         List<Pair<String, String>> items = new ArrayList<>();
-        for (int i = 1; i < importModuleItems.getChildCount() - 1; i += 2) {
-            var aliasName = importModuleItems.getChild(i);
+        for (var aliasName:importModuleItems.aliasName()) {
             String itemName = aliasName.getChild(0).getText();
             String itemValue = aliasName.getChildCount() == 3 ? aliasName.getChild(2).getText() : itemName;
             items.add(new Pair<>(itemName, itemValue));

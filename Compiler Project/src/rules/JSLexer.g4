@@ -8,117 +8,123 @@ options {
     superClass = JavaScriptLexerBase;
 }
 
-MultiLineComment:               '/*' .*? '*/'             -> channel(HIDDEN);
-SingleLineComment:              '//' ~[\r\n]* -> channel(HIDDEN);
+MultiLineComment: '/*' .*? '*/'             -> channel(HIDDEN);
+SingleLineComment: '//' ~[\r\n]* -> channel(HIDDEN);
 
-BackTick:                   '`';
-DollarSign:                     '$';
-OpenBracket:                    '[';
-CloseBracket:                   ']';
-OpenParen:                      '(';
-CloseParen:                     ')';
-OpenBrace:                      '{' {this.ProcessOpenBrace();};
-CloseBrace:                     '}' {this.ProcessCloseBrace();};
-SemiColon:                      ';';
-Comma:                          ',';
-Assign:                         '=';
-QuestionMark:                   '?';
-QuestionMarkDot:                '?.';
-Colon:                          ':';
-Ellipsis:                       '...';
-Dot:                            '.';
-PlusPlus:                       '++';
-MinusMinus:                     '--';
-Plus:                           '+';
-Minus:                          '-';
-Not:                            '!';
-Multiply:                       '*';
-Divide:                         '/';
-Modulus:                        '%';
-Power:                          '**';
-NullCoalesce:                   '??';
-LessThan:                       '<';
-MoreThan:                       '>';
-LessThanEquals:                 '<=';
-GreaterThanEquals:              '>=';
-Equals_:                        '==';
-NotEquals:                      '!=';
-IdentityEquals:                 '===';
-IdentityNotEquals:              '!==';
-And:                            '&&';
-Or:                             '||';
-MultiplyAssign:                 '*=';
-DivideAssign:                   '/=';
-ModulusAssign:                  '%=';
-PlusAssign:                     '+=';
-MinusAssign:                    '-=';
-PowerAssign:                    '**=';
-NullishCoalescingAssign:        '??=';
-ARROW:                          '=>';
+BackTick: '`';
+DollarSign: '$';
+OpenBracket: '[';
+CloseBracket: ']';
+OpenParen: '(';
+CloseParen: ')';
+OpenBrace: '{' {this.ProcessOpenBrace();};
+CloseBrace: '}' {this.ProcessCloseBrace();};
+SemiColon: ';';
+Comma: ',';
+Assign: '=';
+QuestionMark: '?';
+QuestionMarkDot: '?.';
+Colon: ':';
+Ellipsis: '...';
+Dot: '.';
+PlusPlus: '++';
+MinusMinus: '--';
+Plus: '+';
+Minus: '-';
+Not: '!';
+Multiply: '*';
+Divide: '/';
+Modulus: '%';
+Power: '**';
+NullCoalesce: '??';
+LessThan: '<';
+MoreThan: '>';
+LessThanEquals: '<=';
+GreaterThanEquals: '>=';
+Equals_: '==';
+NotEquals: '!=';
+IdentityEquals: '===';
+IdentityNotEquals: '!==';
+And: '&&';
+Or: '||';
+MultiplyAssign: '*=';
+DivideAssign: '/=';
+ModulusAssign: '%=';
+PlusAssign: '+=';
+MinusAssign: '-=';
+PowerAssign: '**=';
+NullishCoalescingAssign: '??=';
+ARROW: '=>';
 
 /// Null Literals
 
-NullLiteral:                    'null';
+NullLiteral: 'null';
 
 /// Undefined Literals
 
-UndefinedLiteral:               'undefined';
+UndefinedLiteral: 'undefined';
 
 /// Boolean Literals
 
-BooleanLiteral:                 'true'
-              |                 'false';
+BooleanLiteral: 'true'
+              | 'false';
 
 /// Numeric Literals
 
-DecimalLiteral:                 DecimalIntegerLiteral '.' [0-9] [0-9_]* ExponentPart?
-              |                 '.' [0-9] [0-9_]* ExponentPart?
-              |                 DecimalIntegerLiteral ExponentPart?
+DecimalLiteral: DecimalIntegerLiteral '.' [0-9] [0-9_]* ExponentPart?
+              | '.' [0-9] [0-9_]* ExponentPart?
+              | DecimalIntegerLiteral ExponentPart?
               ;
 
 /// Keywords
 
-Break:                          'break';
-Do:                             'do';
-Typeof:                         'typeof';
-Case:                           'case';
-Else:                           'else';
-New:                            'new';
-Var:                            'var';
-Catch:                          'catch';
-Finally:                        'finally';
-Return:                         'return';
-Continue:                       'continue';
-For:                            'for';
-Switch:                         'switch';
-While:                          'while';
-Function_:                      'function';
-This:                           'this';
-Default:                        'default';
-If:                             'if';
-Throw:                          'throw';
-Delete:                         'delete';
-In:                             'in';
-Of:                             'of';
-Try:                            'try';
-As:                             'as';
-From:                           'from';
+Break: 'break';
+Do: 'do';
+Typeof: 'typeof';
+Case: 'case';
+Else: 'else';
+New: 'new';
+Var: 'var';
+Catch: 'catch';
+Finally: 'finally';
+Return: 'return';
+Continue: 'continue';
+For: 'for';
+Switch: 'switch';
+While: 'while';
+Function_: 'function';
+This: 'this';
+Default: 'default';
+If: 'if';
+Throw: 'throw';
+Delete: 'delete';
+In: 'in';
+Of: 'of';
+Try: 'try';
+As: 'as';
+From: 'from';
 
 /// Future Reserved Words
 
-Class:                          'class';
-Extends:                        'extends';
-Super:                          'super';
-Const:                          'const';
-Export:                         'export';
-Import:                         'import';
+Class: 'class';
+Extends: 'extends';
+Super: 'super';
+Const: 'const';
+Export: 'export';
+Import: 'import';
 
 /// The following tokens are also considered to be FutureReservedWords
 /// when parsing strict mode
 
-StrictLet    : 'let'        {this.IsStrictMode()}?;
-NonStrictLet : 'let'        {!this.IsStrictMode()}?;
-Static       : 'static'     {this.IsStrictMode()}?;
+StrictLet: 'let' {this.IsStrictMode()}?;
+NonStrictLet: 'let' {!this.IsStrictMode()}?;
+Static: 'static' {this.IsStrictMode()}?;
+
+///ReactJS Custom Functions Names
+
+UseState: 'useState';
+UseEffect: 'useEffect';
+UseRef: 'useRef';
 
 /// Identifier Names and Identifiers
 
@@ -129,13 +135,13 @@ StringLiteral:
     ('"' DoubleStringCharacter* '"' | '\'' SingleStringCharacter* '\'') {this.ProcessStringLiteral();}
 ;
 
-WhiteSpaces:                    [\t]+ -> channel(HIDDEN);
+WhiteSpaces: [\t]+   -> channel(HIDDEN);
 
-LineTerminator:                 [\r\n] -> channel(HIDDEN);
+LineTerminator: [\r\n]  -> channel(HIDDEN);
 
 /// Comments
 
-UnexpectedCharacter : .                     -> channel(ERROR);
+UnexpectedCharacter: .       -> channel(ERROR);
 
 // Fragment rules
 

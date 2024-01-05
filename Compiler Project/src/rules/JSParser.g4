@@ -51,7 +51,7 @@ importNamespace
     ;
 
 aliasName
-    : Identifier (As Identifier)?
+    : (Identifier | UseState | UseEffect | UseRef) (As Identifier)?
     ;
 
 exportStatement
@@ -252,6 +252,9 @@ singleExpression
     | singleExpression QuestionMark? Dot singleExpression                                               # OptionalChainExpression
     | singleExpression QuestionMarkDot? OpenBracket expressionSequence CloseBracket                     # MemberIndexExpression
     | New Identifier arguments                                                                          # NewExpression
+    | UseState OpenParen argument CloseParen                                                            # UseStateExpression
+    | UseEffect OpenParen anonymousFunction Comma argument? CloseParen                                  # UseEffectExpression
+    | UseRef OpenParen argument CloseParen                                                              # UseRefExpression
     | singleExpression arguments                                                                        # ArgumentsExpression
     | singleExpression PlusPlus                                                                         # PostIncrementExpression
     | singleExpression MinusMinus                                                                       # PostDecreaseExpression
@@ -333,8 +336,8 @@ templateStringLiteral
     ;
 
 templateStringAtom
-    : templateStringText                                                    # TemplateStringCharacter
-    | DollarSign OpenBrace singleExpression CloseBrace     # TemplateStringJSExpression
+    : templateStringText                                    # TemplateStringCharacter
+    | DollarSign OpenBrace singleExpression CloseBrace      # TemplateStringJSExpression
     ;
 
 templateStringText

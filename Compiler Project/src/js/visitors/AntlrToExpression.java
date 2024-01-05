@@ -2,21 +2,22 @@ package js.visitors;
 
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
+import js.expressions.ArgumentsExpression.*;
 import js.expressions.ArrayLiteral.ArrayLiteral;
+import js.expressions.Function.AnonymousFunction;
 import js.expressions.SimpleExpression;
 import js.expressions.*;
-import js.expressions.ArgumentsExpression.Arguments;
-import js.expressions.ArgumentsExpression.ArgumentsExpression;
 import js.expressions.ClassExpression;
 import js.expressions.AssignmentOperatorExpression;
 import js.expressions.LogicalExpression;
 import js.visitors.models.ClassElement;
 import js.visitors.models.Expression;
+import js.visitors.models.Function;
 import js.visitors.models.ObjectLiteral;
 
 public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
 
-    public String filePath ;
+    public String filePath;
 
     public AntlrToExpression(String filePath) {
         this.filePath = filePath;
@@ -33,7 +34,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     @Override
     public Expression visitNewExpression(JSParser.NewExpressionContext ctx) {
         String id = ctx.Identifier().getText();
-        Arguments arguments = new Arguments(ctx.arguments(),filePath);
+        Arguments arguments = new Arguments(ctx.arguments(), filePath);
         NewExpression newExpression = new NewExpression(id, arguments);
         return newExpression;
     }
@@ -41,9 +42,29 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     @Override
     public Expression visitArgumentsExpression(JSParser.ArgumentsExpressionContext ctx) {
         Expression expression = visit(ctx.singleExpression());
-        Arguments arguments = new Arguments(ctx.arguments(),filePath);
+        Arguments arguments = new Arguments(ctx.arguments(), filePath);
         ArgumentsExpression argumentsExpression = new ArgumentsExpression(expression, arguments);
         return argumentsExpression;
+    }
+
+    @Override
+    public Expression visitUseStateExpression(JSParser.UseStateExpressionContext ctx) {
+        Argument argument = new Argument(visit(ctx.argument()));
+        return new UseStateFunction(argument);
+    }
+
+    @Override
+    public Expression visitUseEffectExpression(JSParser.UseEffectExpressionContext ctx) {
+        AntlrToAnonymousFunction visitor = new AntlrToAnonymousFunction(filePath);
+        AnonymousFunction anonymousFunction = (AnonymousFunction) visitor.visit(ctx.anonymousFunction());
+        Argument argument = ctx.argument() != null ? new Argument(visit(ctx.argument())) : null;
+        return new UseEffectFunction(anonymousFunction, argument);
+    }
+
+    @Override
+    public Expression visitUseRefExpression(JSParser.UseRefExpressionContext ctx) {
+        Argument argument = new Argument(visit(ctx.argument()));
+        return new UseRefFunction(argument);
     }
 
     @Override
@@ -205,6 +226,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         return assignmentOperatorExpression;
 
     }
+
     @Override
     public Expression visitThisExpression(JSParser.ThisExpressionContext ctx) {
         return new SimpleExpression().This();
@@ -218,8 +240,8 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     @Override
     public Expression visitMemberIndexExpression(JSParser.MemberIndexExpressionContext ctx) {
         Expression accessedExpression = this.visit(ctx.singleExpression());
-        ExpressionSequence accessedAt = new ExpressionSequence(ctx.expressionSequence(),filePath);
-        return new MemberIndex(accessedExpression,accessedAt);
+        ExpressionSequence accessedAt = new ExpressionSequence(ctx.expressionSequence(), filePath);
+        return new MemberIndex(accessedExpression, accessedAt);
 
     }
 
@@ -231,7 +253,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
 
     @Override
     public Expression visitParenthesizedExpression(JSParser.ParenthesizedExpressionContext ctx) {
-         return new ParenthesizedExpression(ctx.expressionSequence(),filePath);
+        return new ParenthesizedExpression(ctx.expressionSequence(), filePath);
     }
 
     @Override
@@ -242,14 +264,14 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
 
     @Override
     public Expression visitArrayLiteralExpression(JSParser.ArrayLiteralExpressionContext ctx) {
-        return new ArrayLiteral(ctx.arrayLiteral(),filePath);
+        return new ArrayLiteral(ctx.arrayLiteral(), filePath);
     }
 
     @Override
     public Expression visitObjectLiteralExpression(JSParser.ObjectLiteralExpressionContext ctx) {
         ObjectLiteral literal = new ObjectLiteral();
         AntlrToProperty attributeVisitor = new AntlrToProperty(filePath);
-        for (JSParser.PropertyAssignmentContext child:ctx.objectLiteral().propertyAssignment()) {
+        for (JSParser.PropertyAssignmentContext child : ctx.objectLiteral().propertyAssignment()) {
             literal.addAttribute(attributeVisitor.visit(child));
         }
         return literal;

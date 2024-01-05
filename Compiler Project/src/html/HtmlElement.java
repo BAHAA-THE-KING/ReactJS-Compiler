@@ -32,7 +32,6 @@ public class HtmlElement implements HtmlContent {
     }
 
     public void addAttribute(HtmlAttribute at) {
-        //TODO: add error detection in visitor
         attributes.put(at.id, at);
     }
     public boolean hasAttribute(String id){

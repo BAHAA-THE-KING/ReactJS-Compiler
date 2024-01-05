@@ -21,7 +21,6 @@ public class ClassExpression implements Expression {
 
     @Override
     public String toString() {
-        //TODO: return good string
         return "TODO";
     }
 }

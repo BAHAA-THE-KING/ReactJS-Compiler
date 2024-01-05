@@ -76,15 +76,17 @@ public class AntlrToProperty extends JSParserBaseVisitor<Property> {
     public Property visitPropertyShorthand(JSParser.PropertyShorthandContext ctx) {
         AntlrToExpression valueVisitor = new AntlrToExpression(filePath);
         Expression value = valueVisitor.visit(ctx.singleExpression());
-        if (!(value instanceof ObjectLiteral)) {
+//        System.out.println(value::getClass);
+        if (!(value instanceof ObjectLiteral || value instanceof IdentifierExpression)) {
             Error.jsError(
                     ctx.singleExpression(),
                     filePath,
                     "You can only spread objects inside an object."
             );
+
             return null;
         } else {
-            return new EllipsisProperty((ObjectLiteral) value);
+            return new EllipsisProperty((Assignable) value);
         }
     }
 }

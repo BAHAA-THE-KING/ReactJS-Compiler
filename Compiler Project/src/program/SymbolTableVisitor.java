@@ -6,6 +6,7 @@ import js.SymbolTable.Symbolable;
 import js.expressions.ExpressionSequence;
 import js.expressions.Function.AnonymousFunction;
 import js.expressions.Function.ArrowFunction;
+import js.expressions.IdentifierExpression;
 import js.expressions.Properties.ComputedProperty;
 import js.expressions.Properties.EllipsisProperty;
 import js.expressions.Properties.FunctionProperty;
@@ -17,6 +18,7 @@ import js.statements.ClassDeclaration.ClassMethodDefinition;
 import js.statements.ClassDeclaration.PropertyName.PropertyByExpression;
 import js.statements.ClassDeclaration.PropertyName.PropertyByName;
 import js.statements.ClassDeclaration.PropertyName.PropertyByString;
+import js.statements.ExpressionChunk.ExpressionChunk;
 import js.statements.Function.FunctionDeclaration;
 import js.statements.Loops.DoWhileLoop;
 import js.statements.Loops.ForInLoop;
@@ -36,25 +38,64 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SymbolTableVisitor {
-    public static List<Symbolable> visit(Statement model){
-        if(model instanceof VariableDeclarationStatement){
-            return visit((VariableDeclarationStatement)model);
+    public static List<Symbolable> visit(Statement model) {
+        System.out.println(model);
+        if (model instanceof BlockModel) {
+            return visit((BlockModel) model);
         }
-        if(model instanceof TryStatement){
+        if (model instanceof VariableDeclarationStatement) {
+            return visit((VariableDeclarationStatement) model);
+        }
+        if (model instanceof TryStatement) {
             return visit((TryStatement) model);
         }
-        if (model instanceof ConditionalStatement)
+        if (model instanceof CatchProduction) {
+            return visit((CatchProduction) model);
+        }
+        if (model instanceof FinallyProduction) {
+            return visit((FinallyProduction) model);
+        }
+        if (model instanceof ConditionalStatement) {
             return visit((ConditionalStatement) model);
-        if (model instanceof FunctionDeclaration)
+        }
+        if (model instanceof ClassDeclaration) {
+            return visit((ClassDeclaration) model);
+        }
+        if (model instanceof ForLoop) {
+            return visit((ForLoop) model);
+        }
+        if (model instanceof ForInLoop) {
+            return visit((ForInLoop) model);
+        }
+        if (model instanceof ForOfLoop) {
+            return visit((ForOfLoop) model);
+        }
+        if (model instanceof WhileLoop) {
+            return visit((WhileLoop) model);
+        }
+        if (model instanceof DoWhileLoop) {
+            return visit((DoWhileLoop) model);
+        }
+        if (model instanceof FunctionDeclaration) {
             return visit((FunctionDeclaration) model);
-        if (model instanceof ArrowFunction)
-            return visit((ArrowFunction) model);
-        if (model instanceof AnonymousFunction)
+        }
+        if (model instanceof AnonymousFunction) {
             return visit((AnonymousFunction) model);
+        }
+        if (model instanceof ArrowFunction) {
+            return visit((ArrowFunction) model);
+        }
+        if (model instanceof Property) {
+            return visit((Property) model);
+        }
+
+        // If the statement type is not recognized, return an empty list
         return new ArrayList<>();
     }
 
+
     public static Symbolable visit(JsProgram prog){
+        System.out.println("start");
         List<Symbolable> symbolables = new ArrayList<>();
         for (Statement st : prog.statements){
             if(st != null) {
@@ -77,11 +118,7 @@ public class SymbolTableVisitor {
     public static List<Symbolable> visit(VariableDeclarationStatement model){
         List<Symbolable> syms = new ArrayList<>();
         for (VariableDeclaration var : model.vars) {
-            syms.add(new Symbol(
-                    Symbol.VAR,
-                    var.name.toString(),
-                    var.value!=null?var.value.toString():null
-            ));
+            syms.add(Symbol.make(Symbol.VAR,var.name.toString(),var.value));
         }
         return syms;
     }
@@ -129,8 +166,6 @@ public class SymbolTableVisitor {
     }
 
     public static List<Symbolable> visit(ConditionalStatement ConditionalStatement){
-        ArrayList<Symbolable> symArray = new ArrayList<>();
-        //Todo: ExpressionSequence visit
         List<Symbolable>f = visit(ConditionalStatement.statement);
         Scope ifBlock = new Scope("if","",f);
 
@@ -155,15 +190,18 @@ public class SymbolTableVisitor {
     public static List<Symbolable> visit(ClassElement classElement){
         if (classElement instanceof ClassFieldDefinition){
             return visit((ClassFieldDefinition) classElement);
-        }else {
+        }else if(classElement instanceof ClassMethodDefinition){
             return visit((ClassMethodDefinition) classElement);
+        }else {
+            System.out.println("found null in symbol table visitor , ClassElement");
+            return new ArrayList<>();
         }
     }
 
     public static List<Symbolable> visit(ClassFieldDefinition classFieldDefinition){
-        Symbol field = new Symbol(Symbol.ATRIB ,
+        Symbolable field = Symbol.make(Symbol.ATRIB,
                 classFieldDefinition.propertyName.toString() ,
-                classFieldDefinition.propertyValue!=null?classFieldDefinition.propertyValue.toString():null
+                classFieldDefinition.propertyValue!=null?classFieldDefinition.propertyValue:null
         );
         return listify(field);
     }
@@ -171,9 +209,7 @@ public class SymbolTableVisitor {
     public static List<Symbolable> visit(ObjectLiteral ol){
 
         List<Symbolable> symbArray = new ArrayList<>();
-
         for(Property p : ol.objectProperties){
-
             symbArray.addAll(visit(p));
         }
         return symbArray;
@@ -197,34 +233,58 @@ public class SymbolTableVisitor {
         Symbolable symb;
         PropertyName prop = np.key;
         if(prop instanceof PropertyByName){
-            symb = new Symbol(Symbol.VAR, ((PropertyByName) prop).id, np.value.toString());
+            symb = Symbol.make(Symbol.VAR, ((PropertyByName) prop).id, np.value);
         }
         else if(prop instanceof PropertyByExpression){
-            symb = new Symbol(Symbol.VAR, ((PropertyByExpression) prop).value.toString(), np.value.toString());
+            symb =Symbol.make(Symbol.VAR, ((PropertyByExpression) prop).value.toString(), np.value);
         }
         else//propertyByString
         {
-            symb = new Symbol(Symbol.VAR,
+            symb = Symbol.make(Symbol.VAR,
                     "\"" + ((PropertyByString)prop).value + "\"",
-                    np.value.toString());
+                    np.value);
         }
 
         return listify(symb);
     }
 
     public static List<Symbolable> visit(ComputedProperty np){
-
-        Symbolable symb = new Symbol(Symbol.VAR, np.key.toString(), np.value.toString());
-
+        Symbolable symb = Symbol.make(Symbol.VAR, np.key.toString(), np.value);
         return listify(symb);
     }
+    public static List<Symbolable> visit(FunctionProperty functionProperty){
+        List<Symbolable> symbolables = new ArrayList<>();
+        //add parameters
+        for(Assignable name:functionProperty.parameters.keySet()){
+            Expression value = functionProperty.parameters.get(name);
+            symbolables.add(Symbol.make(Symbol.PARAM,name.toString(),value));
+        }
+        //spread parameter
+        symbolables.add(Symbol.make("Spread Param","",functionProperty.spreadParameter));
+        //visit the body
+        for(Statement s:functionProperty.bodyStatements){
+            symbolables.addAll(visit(s));
+        }
+        return listify(new Scope("Function","",symbolables));
+    }
 
+    public static List<Symbolable> visit(EllipsisProperty ellipsisProperty){
+        if(ellipsisProperty.value instanceof ObjectLiteral){
+            return visit((ObjectLiteral) ellipsisProperty.value);
+        }else if(ellipsisProperty.value instanceof IdentifierExpression){
+            Symbolable symbolable= Symbol.make("EllipsisProperty",((IdentifierExpression)ellipsisProperty.value).name,"Calculated in runtime");
+            return listify(symbolable);
+        }else {
+            System.out.println("In EllipsisProperty visit, found unknown type");
+            return new ArrayList<>();
+        }
+    }
     public static List<Symbolable> visit (ClassMethodDefinition classMethodDefinition){
         List<Symbolable> symbolables = new ArrayList<>();
         for (Pair<Assignable, Expression> parameter: classMethodDefinition.parameters.values ){
-            symbolables.add(new Symbol(Symbol.PARAM , parameter.a.toString() , parameter.b != null ? parameter.b.toString(): null));
+            symbolables.add(Symbol.make(Symbol.PARAM , parameter.a.toString() , parameter.b != null ? parameter.b: null));
         }
-        //Todo:visit Ellipsis parameter
+        //Todo:visit Ellipsis parameter(next update)
         for (Statement statement : classMethodDefinition.body){
             symbolables.addAll(visit(statement));
          }
@@ -266,11 +326,11 @@ public class SymbolTableVisitor {
     public static List<Symbolable> visit (FunctionDeclaration functionDeclaration) {
         List<Symbolable> symbolables = new ArrayList<>();
         for (Pair<Assignable, Expression> parameter : functionDeclaration.parameters.values) {
-            symbolables.add(new Symbol(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b.toString() : null));
+            symbolables.add(Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b: null));
         }
         Expression spreadParameter=functionDeclaration.parameters.spreadParameter;
         if (spreadParameter != null){
-            symbolables.add(new Symbol(Symbol.PARAM,"spreadParameter",spreadParameter.toString()));
+            symbolables.add(Symbol.make(Symbol.PARAM,"spreadParameter",spreadParameter));
         }
 
 
@@ -285,11 +345,11 @@ public class SymbolTableVisitor {
     public static List<Symbolable> visit (AnonymousFunction functionDeclaration) {
         List<Symbolable> symbolables = new ArrayList<>();
         for (Pair<Assignable, Expression> parameter : functionDeclaration.parameters.values) {
-            symbolables.add(new Symbol(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b.toString() : null));
+            symbolables.add(Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : null));
         }
         Expression spreadParameter=functionDeclaration.parameters.spreadParameter;
         if (spreadParameter != null){
-            symbolables.add(new Symbol(Symbol.PARAM,"spreadParameter",spreadParameter.toString()));
+            symbolables.add(Symbol.make(Symbol.PARAM,"spreadParameter",spreadParameter));
         }
 
         for (Statement statement : functionDeclaration.body) {
@@ -303,11 +363,11 @@ public class SymbolTableVisitor {
     public static List<Symbolable> visit (ArrowFunction functionDeclaration) {
         List<Symbolable> symbolables = new ArrayList<>();
         for (Pair<Assignable, Expression> parameter : functionDeclaration.parameters.values) {
-            symbolables.add(new Symbol(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b.toString() : null));
+            symbolables.add(Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : null));
         }
       Expression spreadParameter=functionDeclaration.parameters.spreadParameter;
         if (spreadParameter != null){
-            symbolables.add(new Symbol(Symbol.PARAM,"spreadParameter",spreadParameter.toString()));
+            symbolables.add(Symbol.make(Symbol.PARAM,"spreadParameter",spreadParameter));
         }
 
         for (Statement statement : functionDeclaration.body) {

@@ -34,11 +34,11 @@ public class Error {
         ProgramJS.errors.add(getMessage(ctx,filePath,"JS",errorMsg));
     }
     public static String reactError(ParserRuleContext ctx, String filePath, String errorMsg){
-        //TODO: report error to relative class
+        //TODO: report error to relative class(we don't seem to need it)
         return getMessage(ctx,filePath,"REACT",errorMsg);
     }
     public static String reactError(TerminalNode ctx, String filePath, String errorMsg){
-        //TODO: report error to relative class
+        //TODO: report error to relative class(we don't seem to need it)
         return getMessage(ctx,filePath,"REACT",errorMsg);
     }
 }

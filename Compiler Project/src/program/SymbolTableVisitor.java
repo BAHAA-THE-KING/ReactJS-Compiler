@@ -10,6 +10,7 @@ import js.expressions.ExpressionSequence;
 import js.expressions.Function.AnonymousFunction;
 import js.expressions.Function.ArrowFunction;
 import js.expressions.IdentifierExpression;
+import js.expressions.Literals.ObjectLiteral;
 import js.expressions.Properties.ComputedProperty;
 import js.expressions.Properties.EllipsisProperty;
 import js.expressions.Properties.FunctionProperty;

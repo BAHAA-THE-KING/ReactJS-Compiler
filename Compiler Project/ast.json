@@ -1,97 +1,74 @@
 {
   "JsProgram" : {
     "statements" : [ {
-      "VariableDeclarationStatement" : {
-        "vars" : [ {
-          "VariableDeclaration" : {
-            "modifier" : "let",
-            "name" : {
-              "IdentifierExpression" : {
-                "name" : "extendedPerson"
+      "ConditionalStatement" : {
+        "expressions" : {
+          "ExpressionSequence" : {
+            "list" : [ {
+              "LogicalExpression" : {
+                "left" : {
+                  "IdentifierExpression" : {
+                    "name" : "asd"
+                  }
+                },
+                "right" : {
+                  "IdentifierExpression" : {
+                    "name" : "asd"
+                  }
+                },
+                "operator" : "=="
               }
-            },
-            "value" : {
-              "ObjectLiteral" : {
-                "objectProperties" : [ {
-                  "EllipsisProperty" : {
-                    "value" : {
-                      "ObjectLiteral" : {
-                        "objectProperties" : [ {
-                          "NormalProperty" : {
-                            "key" : {
-                              "PropertyByName" : {
-                                "id" : "firstName"
-                              }
-                            },
-                            "value" : {
-                              "StringLiteral" : {
-                                "value" : "John"
-                              }
-                            }
-                          }
-                        }, {
-                          "NormalProperty" : {
-                            "key" : {
-                              "PropertyByName" : {
-                                "id" : "lastName"
-                              }
-                            },
-                            "value" : {
-                              "StringLiteral" : {
-                                "value" : "Doe"
-                              }
-                            }
-                          }
-                        }, {
-                          "NormalProperty" : {
-                            "key" : {
-                              "PropertyByName" : {
-                                "id" : "age"
-                              }
-                            },
-                            "value" : {
-                              "DecimalLiteral" : {
-                                "value" : 30.0,
-                                "decimalType" : "Integer"
-                              }
-                            }
-                          }
-                        } ]
-                      }
-                    }
-                  }
-                }, {
-                  "NormalProperty" : {
-                    "key" : {
-                      "PropertyByName" : {
-                        "id" : "city"
+            } ]
+          }
+        },
+        "statement" : {
+          "BlockModel" : {
+            "statements" : [ {
+              "VariableDeclarationStatement" : {
+                "vars" : [ {
+                  "VariableDeclaration" : {
+                    "modifier" : "let",
+                    "name" : {
+                      "IdentifierExpression" : {
+                        "name" : "asd"
                       }
                     },
                     "value" : {
-                      "StringLiteral" : {
-                        "value" : "Anytown"
-                      }
-                    }
-                  }
-                }, {
-                  "NormalProperty" : {
-                    "key" : {
-                      "PropertyByName" : {
-                        "id" : "country"
+                      "DecimalLiteral" : {
+                        "value" : 5.0,
+                        "decimalType" : "Integer"
                       }
                     },
-                    "value" : {
-                      "StringLiteral" : {
-                        "value" : "USA"
-                      }
-                    }
+                    "type" : "number"
                   }
                 } ]
               }
-            },
-            "type" : "object"
+            }, {
+              "ExpressionChunk" : {
+                "expressions" : {
+                  "ExpressionSequence" : {
+                    "list" : [ {
+                      "AssignmentOperatorExpression" : {
+                        "left" : {
+                          "IdentifierExpression" : {
+                            "name" : "asd"
+                          }
+                        },
+                        "right" : {
+                          "DecimalLiteral" : {
+                            "value" : 5.0,
+                            "decimalType" : "Integer"
+                          }
+                        },
+                        "operator" : "+="
+                      }
+                    } ]
+                  }
+                }
+              }
+            } ]
           }
-        } ]
+        }
       }
     }, {
       "EOFStatement" : {

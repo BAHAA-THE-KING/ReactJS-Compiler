@@ -4,14 +4,14 @@ import js.visitors.models.Expression;
 
 public class DeleteExpression implements Expression{
 
-    public Expression identifier;
+    public Expression expression;
 
-    public DeleteExpression(Expression identifier) {
-        this.identifier = identifier;
+    public DeleteExpression(Expression expression) {
+        this.expression = expression;
     }
 
     @Override
     public String toString() {
-        return "delete "+identifier;
+        return "delete "+expression;
     }
 }

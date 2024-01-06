@@ -11,6 +11,6 @@ public class TypeofExpression implements Expression {
 
     @Override
     public String toString() {
-        return "typeof"+identifier;
+        return "typeof "+identifier;
     }
 }

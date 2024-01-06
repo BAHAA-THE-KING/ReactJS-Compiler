@@ -3,8 +3,9 @@ package js.expressions.Function;
 import js.visitors.models.*;
 
 import java.util.List;
+import java.util.StringJoiner;
 
-public class ArrowFunction extends Function {
+public class ArrowFunction implements Function {
     public Parameters parameters;
     public List<Statement> body;
 
@@ -15,6 +16,8 @@ public class ArrowFunction extends Function {
 
     @Override
     public String toString() {
-        return "ArrowFunction::TODO";
+        StringJoiner bodyString=new StringJoiner("\n");
+        body.forEach(statement -> {bodyString.add(statement.toString());});
+        return "function("+parameters+")=>{\n"+bodyString+"}";
     }
 }

@@ -15,6 +15,6 @@ public class TernaryExpression implements Expression {
 
     @Override
     public String toString() {
-        return condition+"?"+firstStatement+secondStatement;
+        return condition+"?"+firstStatement+":"+secondStatement;
     }
 }

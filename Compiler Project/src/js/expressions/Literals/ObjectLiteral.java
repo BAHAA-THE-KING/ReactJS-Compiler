@@ -1,8 +1,11 @@
-package js.visitors.models;
+package js.expressions.Literals;
+
+import js.visitors.models.Assignable;
+import js.visitors.models.Expression;
+import js.visitors.models.Property;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ObjectLiteral implements Expression, Assignable {
     public List<Property> objectProperties = new ArrayList<>();

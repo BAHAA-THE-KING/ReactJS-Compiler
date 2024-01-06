@@ -1,10 +1,13 @@
 package js.expressions;
 
+import js.statements.ClassDeclaration.ClassFieldDefinition;
+import js.statements.ClassDeclaration.ClassMethodDefinition;
 import js.visitors.models.ClassElement;
 import js.visitors.models.Expression;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class ClassExpression implements Expression {
     public String name;
@@ -21,6 +24,16 @@ public class ClassExpression implements Expression {
 
     @Override
     public String toString() {
-        return "TODO";
+        StringJoiner elementsString=new StringJoiner("\n");
+        elements.forEach(classElement -> {
+            if (classElement instanceof ClassFieldDefinition field){
+                elementsString.add(field.propertyName+" = "+field.propertyValue);
+            }else if(classElement instanceof ClassMethodDefinition method) {
+                StringJoiner bodyString=new StringJoiner("\n");
+                method.body.forEach(statement -> {bodyString.add(statement.toString());});
+                elementsString.add(method.propertyName+" = function("+method.parameters+")"+"{\n"+bodyString+"}");
+            }
+        });
+        return "class "+name+"{\n"+elementsString+"}";
     }
 }

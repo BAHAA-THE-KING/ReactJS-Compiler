@@ -4,7 +4,7 @@ import js.visitors.models.*;
 
 import java.util.List;
 
-public class ClassMethodDefinition extends ClassElement {
+public class ClassMethodDefinition implements ClassElement {
     public boolean isStatic;
     public PropertyName propertyName;
     public Parameters parameters;

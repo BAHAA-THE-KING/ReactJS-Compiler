@@ -123,8 +123,10 @@ public class SymbolTableVisitor {
     public static List<Symbolable> visit(VariableDeclarationStatement model){
         List<Symbolable> syms = new ArrayList<>();
         for (VariableDeclaration var : model.vars) {
-            Object val =
-            syms.add(Symbol.make(Symbol.VAR,var.name,var.value));
+            if(var.name instanceof ArrayLiteral)
+                syms.addAll(Symbol.make(Symbol.VAR,var.name,var.value));
+            else
+                syms.add(Symbol.make(Symbol.VAR,var.name.toString(),var.value));
         }
         return syms;
     }
@@ -389,7 +391,6 @@ public class SymbolTableVisitor {
         for(ArrayElement ae : ar.elements){
             symbArray.add(Symbol.make("ArrayElement","",ae));
         }
-//        return listify(Symbol.make(ar.getClass().getSimpleName(), "", symbArray));
         return symbArray;
     }
 

@@ -8,4 +8,11 @@ public class UseStateFunction implements Expression {
     public UseStateFunction(Argument initialState) {
         this.initialState = initialState;
     }
+
+    @Override
+    public String toString() {
+        return "UseStateFunction(" +
+                initialState +
+                ')';
+    }
 }

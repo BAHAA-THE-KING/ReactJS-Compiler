@@ -216,7 +216,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
             Assignable name = assignableVisitor.visit(decl.assignable());
             Expression value = decl.singleExpression() != null ? expressionVisitor.visit(decl.singleExpression()) : null;
             Type varType = decl.singleExpression() != null ? typeVisitor.visit(decl.singleExpression()) : null;
-            String type = "IDK";
+            String type = "toBeDetermined";
             if (varType instanceof Boolean_) type = "boolean";
             if (varType instanceof Number_) type = "number";
             if (varType instanceof Object_) type = "object";

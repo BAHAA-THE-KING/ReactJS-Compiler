@@ -3,6 +3,10 @@ package program;
 import js.SymbolTable.Scope;
 import js.SymbolTable.Symbol;
 import js.SymbolTable.Symbolable;
+import js.Variable;
+import js.expressions.ArrayLiteral.ArrayElement;
+import js.expressions.ArrayLiteral.ArrayLiteral;
+import js.expressions.ExpressionSequence;
 import js.expressions.Function.AnonymousFunction;
 import js.expressions.Function.ArrowFunction;
 import js.expressions.IdentifierExpression;
@@ -18,6 +22,7 @@ import js.statements.ClassDeclaration.ClassMethodDefinition;
 import js.statements.ClassDeclaration.PropertyName.PropertyByExpression;
 import js.statements.ClassDeclaration.PropertyName.PropertyByName;
 import js.statements.ClassDeclaration.PropertyName.PropertyByString;
+import js.statements.ExpressionChunk.ExpressionChunk;
 import js.statements.Function.FunctionDeclaration;
 import js.statements.Loops.DoWhileLoop;
 import js.statements.Loops.ForInLoop;
@@ -87,21 +92,23 @@ public class SymbolTableVisitor {
         if (model instanceof Property) {
             return visit((Property) model);
         }
-
+        if (model instanceof ArrayLiteral) {
+            return visit((ArrayLiteral) model);
+        }
         // If the statement type is not recognized, return an empty list
         return new ArrayList<>();
     }
 
 
     public static Symbolable visit(JsProgram prog){
-        System.out.println("start");
+
         List<Symbolable> symbolables = new ArrayList<>();
         for (Statement st : prog.statements){
             if(st != null) {
                 symbolables.addAll(visit(st));
             }
         }
-        return new Scope(prog.getClass().getSimpleName(), "", symbolables);
+        return new Scope(prog.getClass().getSimpleName(), "Main", symbolables);
     }
     public static List<Symbolable> visit(BlockModel model){
         List<Symbolable> symbolables =new ArrayList<>();
@@ -117,7 +124,8 @@ public class SymbolTableVisitor {
     public static List<Symbolable> visit(VariableDeclarationStatement model){
         List<Symbolable> syms = new ArrayList<>();
         for (VariableDeclaration var : model.vars) {
-            syms.add(Symbol.make(Symbol.VAR,var.name.toString(),var.value));
+            Object val =
+            syms.add(Symbol.make(Symbol.VAR,var.name,var.value));
         }
         return syms;
     }
@@ -206,7 +214,7 @@ public class SymbolTableVisitor {
     }
 
     public static List<Symbolable> visit(ObjectLiteral ol){
-
+        System.out.println("xghhjh");
         List<Symbolable> symbArray = new ArrayList<>();
         for(Property p : ol.objectProperties){
             symbArray.addAll(visit(p));
@@ -375,5 +383,18 @@ public class SymbolTableVisitor {
 
         return listify(funcScope);
 
+    }
+
+    public static List<Symbolable> visit(ArrayLiteral ar){
+        List<Symbolable> symbArray = new ArrayList<>();
+        for(ArrayElement ae : ar.elements){
+            symbArray.add(Symbol.make("ArrayElement","",ae));
+        }
+//        return listify(Symbol.make(ar.getClass().getSimpleName(), "", symbArray));
+        return symbArray;
+    }
+
+    public static List<Symbolable> visit(Expression e){
+        return visit((VariableDeclarationStatement) e);
     }
 }

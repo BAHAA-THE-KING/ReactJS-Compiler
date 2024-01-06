@@ -4,7 +4,7 @@ import js.expressions.ArrayLiteral.ArrayElement;
 import js.expressions.ArrayLiteral.ArrayLiteral;
 import js.expressions.Function.AnonymousFunction;
 import js.expressions.Literals.StringLiteral;
-import js.visitors.models.ObjectLiteral;
+import js.expressions.Literals.ObjectLiteral;
 import program.SymbolTableVisitor;
 
 import java.util.ArrayList;

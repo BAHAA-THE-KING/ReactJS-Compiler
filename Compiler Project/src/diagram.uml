@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="-125.0" y="193.0">js.expressions.Literals.ObjectLiteral</node>
+    <node x="3012.152255639098" y="272.0">js.expressions.Literals.BooleanLiteral</node>
+    <node x="3768.0" y="346.0">js.expressions.MathmaticalExpression</node>
+    <node x="625.0" y="193.0">js.expressions.ArgumentsExpression.UseRefFunction</node>
+    <node x="1745.1522556390978" y="272.0">js.types.String_</node>
+    <node x="647.0" y="499.0">js.statements.Block.BlockModel</node>
+    <node x="3282.0" y="346.0">js.expressions.PreIncrementExpression</node>
+    <node x="6226.723684210527" y="193.0">js.statements.ExportStatement.ExportChunk</node>
+    <node x="4008.0" y="346.0">js.expressions.PreDecreaseExpression</node>
+    <node x="6188.223684210527" y="272.0">js.statements.ExportStatement.ExportDefaultDeclaration</node>
+    <node x="5918.5" y="193.0">js.statements.ReturnStatement.ReturnStatement</node>
+    <node x="3673.152255639098" y="272.0">js.statements.Loops.DoWhileLoop</node>
+    <node x="1171.0" y="193.0">js.expressions.ArgumentsExpression.UseStateFunction</node>
+    <node x="5414.0" y="346.0">js.expressions.ExpressionSequence</node>
+    <node x="65.0" y="193.0">js.expressions.ArrayLiteral.ArrayLiteral</node>
+    <node x="4162.5" y="193.0">js.statements.ClassDeclaration.ClassDeclaration</node>
+    <node x="990.0" y="193.0">js.expressions.SimpleExpression</node>
+    <node x="1006.0" y="425.0">js.expressions.Properties.EllipsisProperty</node>
+    <node x="4703.5" y="193.0">js.statements.TryStatement.CatchProduction</node>
+    <node x="1842.0" y="193.0">js.expressions.ClassExpression</node>
+    <node x="6020.402255639097" y="272.0">js.statements.SwitchStatement.CaseClause</node>
+    <node x="4485.0" y="346.0">js.expressions.AssignmentExpression</node>
+    <node x="1934.25" y="346.0">js.visitors.models.AttributeValue</node>
+    <node x="3796.5" y="193.0">js.visitors.models.IterationStatement</node>
+    <node x="1390.0" y="425.0">js.statements.ClassDeclaration.ClassMethodDefinition</node>
+    <node x="1986.1522556390978" y="272.0">js.types.Undefined_</node>
+    <node x="2012.0" y="193.0">js.visitors.models.Type</node>
+    <node x="3170.152255639098" y="272.0">js.expressions.Function.ArrowFunction</node>
+    <node x="1534.0" y="193.0">js.expressions.jsxElement.JSXElement</node>
+    <node x="834.0" y="425.0">js.expressions.Properties.NormalProperty</node>
+    <node x="2014.0" y="425.0">js.expressions.jsxElement.AttributeInjectValue</node>
+    <node x="5855.0" y="346.0">js.statements.VariableDeclarationStatement.VariableDeclaration</node>
+    <node x="5162.5" y="193.0">js.statements.TryStatement.FinallyProduction</node>
+    <node x="4723.0" y="346.0">js.expressions.ArgumentsExpression.ArgumentsExpression</node>
+    <node x="655.0" y="425.0">js.expressions.Properties.FunctionProperty</node>
+    <node x="2233.0" y="346.0">js.expressions.AssignmentOperatorExpression</node>
+    <node x="285.0" y="499.0">js.expressions.MemberIndex</node>
+    <node x="468.0" y="499.0">js.expressions.ArrayLiteral.ArrayElement</node>
+    <node x="3035.0" y="346.0">js.expressions.PostDecreaseExpression</node>
+    <node x="5844.402255639097" y="272.0">js.statements.SwitchStatement.SwitchStatement</node>
+    <node x="4976.652255639097" y="272.0">js.statements.ImportStatement.DefaultAsImportBlock</node>
+    <node x="1172.0" y="425.0">js.expressions.Properties.ComputedProperty</node>
+    <node x="1444.1522556390978" y="-15.0">js.visitors.models.JSXContent</node>
+    <node x="-125.0" y="499.0">js.expressions.TypeofExpression</node>
+    <node x="5637.0" y="346.0">js.expressions.CoalesceExpression</node>
+    <node x="1522.5" y="346.0">js.visitors.models.ClassElement</node>
+    <node x="2722.152255639098" y="272.0">js.expressions.Literals.DecimalLiteral</node>
+    <node x="2782.0" y="346.0">js.expressions.OptionalChainExpression</node>
+    <node x="2528.0" y="346.0">js.expressions.PostIncrementExpression</node>
+    <node x="82.0" y="499.0">js.expressions.DeleteExpression</node>
+    <node x="5341.5" y="193.0">js.statements.ContinueStatement.Continue</node>
+    <node x="6072.0" y="346.0">js.expressions.TernaryExpression</node>
+    <node x="2128.152255639098" y="272.0">js.types.Number_</node>
+    <node x="794.0" y="193.0">js.statements.Function.FunctionDeclaration</node>
+    <node x="942.0" y="346.0">js.visitors.models.Property</node>
+    <node x="400.0" y="193.0">js.expressions.ParenthesizedExpression</node>
+    <node x="1311.0" y="499.0">js.expressions.ArgumentsExpression.Argument</node>
+    <node x="2374.152255639098" y="272.0">js.expressions.Literals.StringLiteral</node>
+    <node x="206.0" y="193.0">js.expressions.IdentifierExpression</node>
+    <node x="4956.0" y="346.0">js.statements.ConditionalStatement.ConditionalStatement</node>
+    <node x="3984.5" y="193.0">js.statements.ExpressionChunk.ExpressionChunk</node>
+    <node x="3535.152255639098" y="272.0">js.statements.Loops.WhileLoop</node>
+    <node x="60.6522556390978" y="64.0">js.visitors.models.Assignable</node>
+    <node x="452.0" y="425.0">js.statements.ClassDeclaration.PropertyName.PropertyByName</node>
+    <node x="67.0" y="425.0">js.statements.ClassDeclaration.PropertyName.PropertyByExpression</node>
+    <node x="1604.0" y="425.0">js.statements.ClassDeclaration.ClassFieldDefinition</node>
+    <node x="2719.25" y="193.0">js.visitors.models.Literal</node>
+    <node x="274.0" y="425.0">js.statements.ClassDeclaration.PropertyName.PropertyByString</node>
+    <node x="1676.0" y="193.0">js.expressions.NewExpression</node>
+    <node x="3831.152255639098" y="272.0">js.statements.Loops.ForInLoop</node>
+    <node x="1392.1522556390978" y="64.0">js.expressions.jsxElement.JSXText</node>
+    <node x="3333.152255639098" y="272.0">js.expressions.Function.AnonymousFunction</node>
+    <node x="-125.0" y="425.0">js.statements.ClassDeclaration.PropertyName.PropertyByNumber</node>
+    <node x="4878.5" y="193.0">js.statements.BreakStatement.Break</node>
+    <node x="2256.152255639098" y="272.0">js.types.Object_</node>
+    <node x="2880.152255639098" y="272.0">js.expressions.Literals.NullLiteral</node>
+    <node x="4293.178571428572" y="64.0">js.visitors.models.Statement</node>
+    <node x="5418.152255639097" y="272.0">js.statements.SwitchStatement.DefaultClause</node>
+    <node x="2519.152255639098" y="272.0">js.expressions.Literals.TemplateStringLiteral</node>
+    <node x="3280.402255639098" y="193.0">js.visitors.models.Function</node>
+    <node x="4247.0" y="346.0">js.expressions.UnaryMinusExpression</node>
+    <node x="5468.5" y="193.0">js.statements.ExportStatement.ExportBlock</node>
+    <node x="5189.0" y="346.0">js.expressions.UnaryPlusExpression</node>
+    <node x="4336.5" y="193.0">js.statements.VariableDeclarationStatement.VariableDeclarationStatement</node>
+    <node x="1859.1522556390978" y="272.0">js.types.Boolean_</node>
+    <node x="5767.5" y="193.0">js.statements.SwitchStatement.SwitchChunk</node>
+    <node x="3528.0" y="346.0">js.expressions.MemberDotExpression</node>
+    <node x="4593.5" y="193.0">js.statements.ThrowStatement.Throw</node>
+    <node x="1823.0" y="425.0">js.expressions.jsxElement.AttributStringValue</node>
+    <node x="983.0" y="499.0">js.visitors.models.Parameters</node>
+    <node x="1351.0" y="193.0">js.expressions.ArgumentsExpression.UseEffectFunction</node>
+    <node x="4147.731203007519" y="272.0">js.statements.Loops.ForOfLoop</node>
+    <node x="5228.152255639097" y="272.0">js.statements.ImportStatement.ObjectImportBlock</node>
+    <node x="185.75" y="346.0">js.visitors.models.PropertyName</node>
+    <node x="5697.402255639097" y="272.0">js.statements.SwitchStatement.CaseClauses</node>
+    <node x="4983.5" y="193.0">js.statements.ImportStatement.ImportStatement</node>
+    <node x="6377.723684210527" y="193.0">js.statements.EOFStatement</node>
+    <node x="1774.9022556390978" y="64.0">js.visitors.models.Expression</node>
+    <node x="5613.5" y="193.0">js.statements.TryStatement.TryStatement</node>
+    <node x="817.0" y="499.0">js.expressions.ArgumentsExpression.Arguments</node>
+    <node x="4665.921052631579" y="272.0">js.statements.ImportStatement.FileImportBlock</node>
+    <node x="1149.0" y="499.0">js.visitors.models.JsProgram</node>
+    <node x="6281.0" y="346.0">js.expressions.LogicalExpression</node>
+    <node x="4287.731203007519" y="272.0">js.statements.Loops.ForLoop</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="js.types.String_" target="js.visitors.models.Type" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1792.1522556390978" y="247.0" />
+      <point x="2052.5" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.visitors.models.Literal" target="js.visitors.models.Expression" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="2762.75" y="173.0" />
+      <point x="2791.152255639098" y="173.0" />
+      <point x="2791.152255639098" y="153.0" />
+      <point x="1863.4022556390978" y="153.0" />
+      <point x="29.5" y="14.5" />
+    </edge>
+    <edge source="js.statements.SwitchStatement.DefaultClause" target="js.statements.SwitchStatement.SwitchChunk" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="5486.652255639097" y="247.0" />
+      <point x="5833.0" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.Loops.ForLoop" target="js.visitors.models.IterationStatement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="4339.731203007519" y="247.0" />
+      <point x="3880.5" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.jsxElement.AttributStringValue" target="js.visitors.models.AttributeValue" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1908.5" y="400.0" />
+      <point x="2004.75" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.Function.AnonymousFunction" target="js.visitors.models.Function" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="3424.152255639098" y="247.0" />
+      <point x="3332.902255639098" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.Literals.ObjectLiteral" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="-60.5" y="143.0" />
+      <point x="970.9022556390978" y="143.0" />
+      <point x="970.9022556390978" y="133.0" />
+      <point x="1804.4022556390978" y="133.0" />
+      <point x="-29.5" y="14.5" />
+    </edge>
+    <edge source="js.expressions.SimpleExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1070.5" y="173.0" />
+      <point x="970.9022556390978" y="173.0" />
+      <point x="970.9022556390978" y="133.0" />
+      <point x="1804.4022556390978" y="133.0" />
+      <point x="-29.5" y="14.5" />
+    </edge>
+    <edge source="js.expressions.ArrayLiteral.ArrayLiteral" target="js.visitors.models.Assignable" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="125.5" y="123.0" />
+      <point x="120.1522556390978" y="123.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.ClassDeclaration.PropertyName.PropertyByExpression" target="js.visitors.models.PropertyName" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="160.5" y="400.0" />
+      <point x="256.75" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.PreDecreaseExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="14.5" />
+      <point x="992.0" y="351.0" />
+      <point x="886.0" y="351.0" />
+      <point x="886.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.statements.TryStatement.FinallyProduction" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="5242.0" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.statements.ClassDeclaration.ClassMethodDefinition" target="js.visitors.models.ClassElement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1487.0" y="400.0" />
+      <point x="1589.0" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.visitors.models.Type" target="js.visitors.models.Expression" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="2052.5" y="173.0" />
+      <point x="2791.152255639098" y="173.0" />
+      <point x="2791.152255639098" y="153.0" />
+      <point x="1863.4022556390978" y="153.0" />
+      <point x="29.5" y="14.5" />
+    </edge>
+    <edge source="js.expressions.UnaryPlusExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="-36.0" y="-14.5" />
+      <point x="1213.0" y="879.0" />
+      <point x="1451.0" y="879.0" />
+      <point x="1451.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.expressions.MemberIndex" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="14.5" />
+      <point x="655.0" y="390.0" />
+      <point x="886.0" y="390.0" />
+      <point x="886.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.statements.ImportStatement.ObjectImportBlock" target="js.statements.ImportStatement.ImportStatement" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="5313.152255639097" y="247.0" />
+      <point x="5063.0" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.Loops.ForInLoop" target="js.visitors.models.IterationStatement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="3889.152255639098" y="247.0" />
+      <point x="3880.5" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.ArgumentsExpression.UseRefFunction" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="699.5" y="173.0" />
+      <point x="970.9022556390978" y="173.0" />
+      <point x="970.9022556390978" y="133.0" />
+      <point x="1804.4022556390978" y="133.0" />
+      <point x="-29.5" y="14.5" />
+    </edge>
+    <edge source="js.expressions.PostIncrementExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="-52.5" y="-14.5" />
+      <point x="967.5" y="879.0" />
+      <point x="1451.0" y="879.0" />
+      <point x="1451.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.statements.Loops.ForOfLoop" target="js.visitors.models.IterationStatement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="4207.731203007519" y="247.0" />
+      <point x="3880.5" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.visitors.models.Function" target="js.visitors.models.Expression" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="3332.902255639098" y="163.0" />
+      <point x="2791.152255639098" y="163.0" />
+      <point x="2791.152255639098" y="153.0" />
+      <point x="1863.4022556390978" y="153.0" />
+      <point x="29.5" y="14.5" />
+    </edge>
+    <edge source="js.expressions.jsxElement.AttributeInjectValue" target="js.visitors.models.AttributeValue" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="2101.0" y="400.0" />
+      <point x="2004.75" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.ClassDeclaration.PropertyName.PropertyByNumber" target="js.visitors.models.PropertyName" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="-39.0" y="400.0" />
+      <point x="256.75" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.MathmaticalExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="-97.5" y="0.0" />
+      <point x="886.0" y="383.0" />
+      <point x="886.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.visitors.models.Function" target="js.visitors.models.Statement" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="3332.902255639098" y="173.0" />
+      <point x="3669.9285714285716" y="173.0" />
+      <point x="3669.9285714285716" y="153.0" />
+      <point x="4321.928571428572" y="153.0" />
+      <point x="-28.75" y="14.5" />
+    </edge>
+    <edge source="js.expressions.Properties.EllipsisProperty" target="js.visitors.models.Property" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1079.0" y="400.0" />
+      <point x="994.5" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.ArgumentsExpression.UseEffectFunction" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1432.5" y="173.0" />
+      <point x="970.9022556390978" y="173.0" />
+      <point x="970.9022556390978" y="133.0" />
+      <point x="1804.4022556390978" y="133.0" />
+      <point x="-29.5" y="14.5" />
+    </edge>
+    <edge source="js.expressions.jsxElement.JSXText" target="js.visitors.models.JSXContent" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1441.1522556390978" y="39.0" />
+      <point x="1474.6522556390978" y="39.0" />
+      <point x="-30.5" y="14.5" />
+    </edge>
+    <edge source="js.statements.ClassDeclaration.PropertyName.PropertyByName" target="js.visitors.models.PropertyName" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="531.0" y="400.0" />
+      <point x="256.75" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.SwitchStatement.CaseClauses" target="js.statements.SwitchStatement.SwitchChunk" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="5760.902255639097" y="247.0" />
+      <point x="5833.0" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.Function.FunctionDeclaration" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="992.0" y="488.5" />
+      <point x="401.0" y="488.5" />
+      <point x="401.0" y="607.5" />
+      <point x="464.5" y="607.5" />
+      <point x="-10.5" y="-14.5" />
+    </edge>
+    <edge source="js.expressions.PostDecreaseExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="-101.0" y="-4.2857142852881225E-4" />
+      <point x="886.0" y="446.071" />
+      <point x="886.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.statements.TryStatement.CatchProduction" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="4781.0" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.expressions.ArgumentsExpression.UseStateFunction" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1251.0" y="173.0" />
+      <point x="970.9022556390978" y="173.0" />
+      <point x="970.9022556390978" y="133.0" />
+      <point x="1804.4022556390978" y="133.0" />
+      <point x="-29.5" y="14.5" />
+    </edge>
+    <edge source="js.statements.Loops.DoWhileLoop" target="js.visitors.models.IterationStatement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="3742.152255639098" y="247.0" />
+      <point x="3880.5" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.BreakStatement.Break" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="4921.0" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.expressions.MemberDotExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="14.499571428571471" />
+      <point x="1209.0" y="668.0" />
+      <point x="1451.0" y="668.0" />
+      <point x="1451.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.statements.ClassDeclaration.PropertyName.PropertyByString" target="js.visitors.models.PropertyName" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="353.0" y="400.0" />
+      <point x="256.75" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.Properties.NormalProperty" target="js.visitors.models.Property" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="910.0" y="400.0" />
+      <point x="994.5" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.ArrayLiteral.ArrayLiteral" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="125.5" y="153.0" />
+      <point x="970.9022556390978" y="153.0" />
+      <point x="970.9022556390978" y="133.0" />
+      <point x="1804.4022556390978" y="133.0" />
+      <point x="-29.5" y="14.5" />
+    </edge>
+    <edge source="js.statements.ImportStatement.DefaultAsImportBlock" target="js.statements.ImportStatement.ImportStatement" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="5071.652255639097" y="247.0" />
+      <point x="5063.0" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.Block.BlockModel" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="-62.5" y="0.0" />
+      <point x="141.5" y="236.0" />
+      <point x="141.5" y="611.5" />
+      <point x="542.5" y="611.5" />
+      <point x="542.5" y="636.0" />
+      <point x="57.5" y="0.0" />
+    </edge>
+    <edge source="js.statements.ExpressionChunk.ExpressionChunk" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="4063.5" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.expressions.Literals.NullLiteral" target="js.visitors.models.Literal" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="2936.152255639098" y="247.0" />
+      <point x="2762.75" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.VariableDeclarationStatement.VariableDeclarationStatement" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="4455.0" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.statements.ReturnStatement.ReturnStatement" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="5997.0" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.statements.ExportStatement.ExportBlock" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="5531.0" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.expressions.jsxElement.JSXElement" target="js.visitors.models.JSXContent" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1181.0" y="210.0" />
+      <point x="789.0" y="210.0" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+    <edge source="js.statements.ExportStatement.ExportDefaultDeclaration" target="js.statements.ExportStatement.ExportChunk" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.Loops.WhileLoop" target="js.visitors.models.IterationStatement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="3594.152255639098" y="247.0" />
+      <point x="3880.5" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.DeleteExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1320.0" y="668.0" />
+      <point x="1451.0" y="668.0" />
+      <point x="1451.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.types.Boolean_" target="js.visitors.models.Type" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1912.6522556390978" y="247.0" />
+      <point x="2052.5" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.AssignmentOperatorExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1020.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.statements.ImportStatement.FileImportBlock" target="js.statements.ImportStatement.ImportStatement" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="4740.421052631579" y="247.0" />
+      <point x="5063.0" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.visitors.models.IterationStatement" target="js.visitors.models.Statement" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="3880.5" y="163.0" />
+      <point x="3669.9285714285716" y="163.0" />
+      <point x="3669.9285714285716" y="153.0" />
+      <point x="4321.928571428572" y="153.0" />
+      <point x="-28.75" y="14.5" />
+    </edge>
+    <edge source="js.expressions.Literals.TemplateStringLiteral" target="js.visitors.models.Literal" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="2610.652255639098" y="247.0" />
+      <point x="2762.75" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.ContinueStatement.Continue" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="5395.0" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.expressions.IdentifierExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="293.0" y="163.0" />
+      <point x="970.9022556390978" y="163.0" />
+      <point x="970.9022556390978" y="133.0" />
+      <point x="1804.4022556390978" y="133.0" />
+      <point x="-29.5" y="14.5" />
+    </edge>
+    <edge source="js.visitors.models.Expression" target="js.visitors.models.JSXContent" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1833.9022556390978" y="39.0" />
+      <point x="1535.6522556390978" y="39.0" />
+      <point x="30.5" y="14.5" />
+    </edge>
+    <edge source="js.types.Undefined_" target="js.visitors.models.Type" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="2047.1522556390978" y="247.0" />
+      <point x="2052.5" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.SwitchStatement.SwitchChunk" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="5833.0" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.statements.EOFStatement" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="6448.223684210527" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.statements.Function.FunctionDeclaration" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="882.0" y="173.0" />
+      <point x="970.9022556390978" y="173.0" />
+      <point x="970.9022556390978" y="133.0" />
+      <point x="1804.4022556390978" y="133.0" />
+      <point x="-29.5" y="14.5" />
+    </edge>
+    <edge source="js.expressions.Properties.FunctionProperty" target="js.visitors.models.Property" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="734.5" y="400.0" />
+      <point x="994.5" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.IdentifierExpression" target="js.visitors.models.Assignable" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="293.0" y="113.0" />
+      <point x="120.1522556390978" y="113.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.UnaryMinusExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1279.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.expressions.TypeofExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="75.0" y="14.5" />
+      <point x="1324.0" y="668.0" />
+      <point x="1451.0" y="668.0" />
+      <point x="1451.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.expressions.ParenthesizedExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="502.5" y="173.0" />
+      <point x="970.9022556390978" y="173.0" />
+      <point x="970.9022556390978" y="133.0" />
+      <point x="1804.4022556390978" y="133.0" />
+      <point x="-29.5" y="14.5" />
+    </edge>
+    <edge source="js.statements.ConditionalStatement.ConditionalStatement" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="-94.0" y="0.0" />
+      <point x="91.0" y="383.0" />
+      <point x="91.0" y="636.0" />
+      <point x="-57.5" y="0.0" />
+    </edge>
+    <edge source="js.expressions.NewExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1749.0" y="173.0" />
+      <point x="970.9022556390978" y="173.0" />
+      <point x="970.9022556390978" y="133.0" />
+      <point x="1804.4022556390978" y="133.0" />
+      <point x="-29.5" y="14.5" />
+    </edge>
+    <edge source="js.expressions.Literals.DecimalLiteral" target="js.visitors.models.Literal" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="2791.152255639098" y="247.0" />
+      <point x="2762.75" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.ThrowStatement.Throw" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="4638.5" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.statements.SwitchStatement.CaseClause" target="js.statements.SwitchStatement.SwitchChunk" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="6080.902255639097" y="247.0" />
+      <point x="5833.0" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.types.Number_" target="js.visitors.models.Type" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="2182.152255639098" y="247.0" />
+      <point x="2052.5" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.ExportStatement.ExportChunk" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="6292.223684210527" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.statements.ClassDeclaration.ClassFieldDefinition" target="js.visitors.models.ClassElement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1691.0" y="400.0" />
+      <point x="1589.0" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.ClassDeclaration.ClassDeclaration" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="4239.5" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.expressions.Properties.ComputedProperty" target="js.visitors.models.Property" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1258.5" y="400.0" />
+      <point x="994.5" y="400.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.statements.TryStatement.TryStatement" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="5680.5" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.expressions.Literals.StringLiteral" target="js.visitors.models.Literal" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="2436.652255639098" y="247.0" />
+      <point x="2762.75" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.TernaryExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="82.0" y="-4.2857142852881225E-4" />
+      <point x="1451.0" y="1251.071" />
+      <point x="1451.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.expressions.jsxElement.JSXElement" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1595.0" y="173.0" />
+      <point x="970.9022556390978" y="173.0" />
+      <point x="970.9022556390978" y="133.0" />
+      <point x="1804.4022556390978" y="133.0" />
+      <point x="-29.5" y="14.5" />
+    </edge>
+    <edge source="js.expressions.ClassExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1917.0" y="173.0" />
+      <point x="970.9022556390978" y="173.0" />
+      <point x="970.9022556390978" y="133.0" />
+      <point x="1804.4022556390978" y="133.0" />
+      <point x="-29.5" y="14.5" />
+    </edge>
+    <edge source="js.expressions.PreIncrementExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="-100.5" y="-4.2857142852881225E-4" />
+      <point x="886.0" y="556.071" />
+      <point x="886.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.expressions.ExpressionSequence" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="89.0" y="-4.2857142855723396E-4" />
+      <point x="1451.0" y="246.071" />
+      <point x="1451.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.expressions.CoalesceExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1129.0" y="668.0" />
+      <point x="1451.0" y="668.0" />
+      <point x="1451.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.expressions.Literals.ObjectLiteral" target="js.visitors.models.Assignable" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="-60.5" y="133.0" />
+      <point x="120.1522556390978" y="133.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.Function.ArrowFunction" target="js.visitors.models.Function" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="3241.652255639098" y="247.0" />
+      <point x="3332.902255639098" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.types.Object_" target="js.visitors.models.Type" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="2305.152255639098" y="247.0" />
+      <point x="2052.5" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.Literals.BooleanLiteral" target="js.visitors.models.Literal" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="3081.152255639098" y="247.0" />
+      <point x="2762.75" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="js.expressions.LogicalExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="14.499571428571471" />
+      <point x="1347.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.expressions.AssignmentExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="96.5" y="2.857142858374573E-4" />
+      <point x="1451.0" y="1181.536" />
+      <point x="1451.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.expressions.ArgumentsExpression.ArgumentsExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1089.0" y="86.0" />
+      <point x="970.5" y="86.0" />
+      <point x="970.5" y="184.0" />
+      <point x="815.0" y="184.0" />
+      <point x="815.0" y="583.571" />
+      <point x="1093.0" y="583.571" />
+      <point x="1093.0" y="669.571" />
+      <point x="1015.5" y="669.571" />
+      <point x="1015.5" y="766.571" />
+      <point x="59.0" y="10.499571428571471" />
+    </edge>
+    <edge source="js.expressions.OptionalChainExpression" target="js.visitors.models.Expression" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="1089.0" y="879.0" />
+      <point x="1451.0" y="879.0" />
+      <point x="1451.0" y="791.0" />
+      <point x="789.0" y="791.0" />
+      <point x="0.0" y="14.499571428571471" />
+    </edge>
+    <edge source="js.statements.ImportStatement.ImportStatement" target="js.visitors.models.Statement" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="5063.0" y="173.0" />
+      <point x="5250.652255639097" y="173.0" />
+      <point x="5250.652255639097" y="163.0" />
+      <point x="4379.428571428572" y="163.0" />
+      <point x="28.75" y="14.5" />
+    </edge>
+    <edge source="js.statements.SwitchStatement.SwitchStatement" target="js.statements.SwitchStatement.SwitchChunk" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="5922.402255639097" y="247.0" />
+      <point x="5833.0" y="247.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.4026268710609244" showDependencies="false" x="922.9324942675165" y="458.75791592356694" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

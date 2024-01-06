@@ -15,6 +15,6 @@ public class AssignmentOperatorExpression implements Expression {
 
     @Override
     public String toString() {
-        return left+" += "+right;
+        return left+" "+operator+" "+right;
     }
 }

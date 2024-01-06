@@ -4,7 +4,7 @@ import js.visitors.models.ClassElement;
 import js.visitors.models.Expression;
 import js.visitors.models.PropertyName;
 
-public class ClassFieldDefinition extends ClassElement {
+public class ClassFieldDefinition implements ClassElement {
 
     public boolean isStatic;
     public PropertyName propertyName;

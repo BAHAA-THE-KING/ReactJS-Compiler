@@ -24,7 +24,7 @@ public class ExpressionSequence implements Expression {
 
     @Override
     public String toString() {
-        StringJoiner joiner = new StringJoiner(", ", "", "");
+        StringJoiner joiner = new StringJoiner(", ");
         for (Expression arg : list) {
             joiner.add(arg.toString());
         }

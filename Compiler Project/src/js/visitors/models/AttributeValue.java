@@ -1,4 +1,4 @@
 package js.visitors.models;
 
-public class AttributeValue {
+public interface AttributeValue {
 }

@@ -12,7 +12,6 @@ public class Argument {
 
     @Override
     public String toString() {
-        //TODO: should i return the type?
         return value.toString();
     }
 }

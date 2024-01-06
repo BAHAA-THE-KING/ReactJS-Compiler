@@ -12,8 +12,7 @@ import js.expressions.AssignmentOperatorExpression;
 import js.expressions.LogicalExpression;
 import js.visitors.models.ClassElement;
 import js.visitors.models.Expression;
-import js.visitors.models.Function;
-import js.visitors.models.ObjectLiteral;
+import js.expressions.Literals.ObjectLiteral;
 
 public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
 
@@ -25,9 +24,10 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
 
     @Override
     public Expression visitOptionalChainExpression(JSParser.OptionalChainExpressionContext ctx) {
-        Expression objectName = visit(ctx.getChild(0));
-        Expression objectProperty = visit(ctx.getChild(2));
-        OptionalChainExpression optionalChainExpression = new OptionalChainExpression(objectName, objectProperty);
+        Expression objectName = visit(ctx.singleExpression(0));
+        Expression objectProperty = visit(ctx.singleExpression(1));
+        boolean checkNull=ctx.QuestionMark()!=null;
+        OptionalChainExpression optionalChainExpression = new OptionalChainExpression(objectName, objectProperty, checkNull);
         return optionalChainExpression;
     }
 
@@ -167,8 +167,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     public Expression visitCoalesceExpression(JSParser.CoalesceExpressionContext ctx) {
         Expression firstExpression = visit(ctx.singleExpression(0));
         Expression secondExpression = visit(ctx.singleExpression(1));
-        String nullString = ctx.getChild(1).getText();
-        CoalesceExpression coalesceExpression = new CoalesceExpression(firstExpression, secondExpression, nullString);
+        CoalesceExpression coalesceExpression = new CoalesceExpression(firstExpression, secondExpression);
         return coalesceExpression;
     }
 
@@ -201,7 +200,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     @Override
     public Expression visitLogicalOrExpression(JSParser.LogicalOrExpressionContext ctx) {
         Expression left = visit(ctx.singleExpression(0));
-        Expression right = visit(ctx.singleExpression(2));
+        Expression right = visit(ctx.singleExpression(1));
         String operator = ctx.getChild(1).getText();
         LogicalExpression logical = new LogicalExpression(left, right, operator);
         return logical;
@@ -211,7 +210,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     public Expression visitEqualityExpression(JSParser.EqualityExpressionContext ctx) {
 
         Expression left = visit(ctx.singleExpression(0));
-        Expression right = visit(ctx.singleExpression(2));
+        Expression right = visit(ctx.singleExpression(1));
         String operator = ctx.getChild(1).getText();
         LogicalExpression logical = new LogicalExpression(left, right, operator);
         return logical;
@@ -220,7 +219,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     @Override
     public Expression visitAssignmentOperatorExpression(JSParser.AssignmentOperatorExpressionContext ctx) {
         Expression left = visit(ctx.singleExpression(0));
-        Expression right = visit(ctx.singleExpression(3));
+        Expression right = visit(ctx.singleExpression(1));
         String operator = ctx.getChild(1).getText();
         AssignmentOperatorExpression assignmentOperatorExpression = new AssignmentOperatorExpression(left, right, operator);
         return assignmentOperatorExpression;
@@ -241,7 +240,8 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     public Expression visitMemberIndexExpression(JSParser.MemberIndexExpressionContext ctx) {
         Expression accessedExpression = this.visit(ctx.singleExpression());
         ExpressionSequence accessedAt = new ExpressionSequence(ctx.expressionSequence(), filePath);
-        return new MemberIndex(accessedExpression, accessedAt);
+        boolean checkNull=ctx.QuestionMarkDot()!=null;
+        return new MemberIndex(accessedExpression, accessedAt, checkNull);
 
     }
 

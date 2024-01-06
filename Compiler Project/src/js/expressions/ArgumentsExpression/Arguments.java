@@ -20,7 +20,7 @@ public class Arguments {
 
     @Override
     public String toString() {
-        StringJoiner joiner = new StringJoiner(", ", "", "");
+        StringJoiner joiner = new StringJoiner(", ");
         for (Argument arg : argumentsList) {
             joiner.add(arg.toString());
         }

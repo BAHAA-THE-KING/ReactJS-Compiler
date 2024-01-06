@@ -3,6 +3,7 @@ package js.visitors;
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
 import js.expressions.IdentifierExpression;
+import js.expressions.Literals.ObjectLiteral;
 import js.expressions.Properties.ComputedProperty;
 import js.expressions.Properties.EllipsisProperty;
 import js.expressions.Properties.FunctionProperty;
@@ -10,9 +11,6 @@ import js.expressions.Properties.NormalProperty;
 import js.statements.ClassDeclaration.PropertyName.PropertyByName;
 import js.visitors.models.*;
 import program.Error;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AntlrToProperty extends JSParserBaseVisitor<Property> {
     public String filePath;

@@ -3,7 +3,7 @@ package js.expressions.jsxElement;
 import js.visitors.models.AttributeValue;
 import js.visitors.models.Expression;
 
-public class AttributeInjectValue extends AttributeValue {
+public class AttributeInjectValue implements AttributeValue {
 
     public Expression exp;
 

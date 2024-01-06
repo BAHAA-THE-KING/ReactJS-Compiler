@@ -13,6 +13,6 @@ public class ArgumentsExpression implements Expression {
 
     @Override
     public String toString() {
-        return "( "+arguments+" )";
+        return singleExpression+"( "+arguments+" )";
     }
 }

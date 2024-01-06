@@ -5,7 +5,7 @@ import antlrJS.JSParserBaseVisitor;
 import js.expressions.ArrayLiteral.ArrayLiteral;
 import js.expressions.IdentifierExpression;
 import js.visitors.models.Assignable;
-import js.visitors.models.ObjectLiteral;
+import js.expressions.Literals.ObjectLiteral;
 
 public class AntlrToAssignable extends JSParserBaseVisitor<Assignable> {
     public String filePath ;

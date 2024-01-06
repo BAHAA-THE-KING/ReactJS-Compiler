@@ -8,4 +8,9 @@ public class UseRefFunction implements Expression {
     public UseRefFunction(Argument initialValue) {
         this.initialValue = initialValue;
     }
+
+    @Override
+    public String toString() {
+        return "useRef("+initialValue+")";
+    }
 }

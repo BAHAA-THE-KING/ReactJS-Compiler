@@ -1,7 +1,7 @@
 package js.SymbolTable;
 
 import js.expressions.Function.AnonymousFunction;
-import js.visitors.models.ObjectLiteral;
+import js.expressions.Literals.ObjectLiteral;
 import program.SymbolTableVisitor;
 
 public class Symbol implements Symbolable{

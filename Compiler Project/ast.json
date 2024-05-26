@@ -1,66 +1,35 @@
 {
   "JsProgram" : {
     "statements" : [ {
-      "ConditionalStatement" : {
+      "ExpressionChunk" : {
         "expressions" : {
           "ExpressionSequence" : {
             "list" : [ {
-              "LogicalExpression" : {
-                "left" : {
-                  "IdentifierExpression" : {
-                    "name" : "asd"
-                  }
-                },
-                "right" : {
-                  "IdentifierExpression" : {
-                    "name" : "asd"
-                  }
-                },
-                "operator" : "=="
-              }
-            } ]
-          }
-        },
-        "statement" : {
-          "BlockModel" : {
-            "statements" : [ {
-              "VariableDeclarationStatement" : {
-                "vars" : [ {
-                  "VariableDeclaration" : {
-                    "modifier" : "let",
-                    "name" : {
-                      "IdentifierExpression" : {
-                        "name" : "asd"
-                      }
-                    },
-                    "value" : {
-                      "DecimalLiteral" : {
-                        "value" : 5.0,
-                        "decimalType" : "Integer"
-                      }
-                    },
-                    "type" : "number"
-                  }
-                } ]
-              }
-            }, {
-              "ExpressionChunk" : {
-                "expressions" : {
+              "ParenthesizedExpression" : {
+                "sequence" : {
                   "ExpressionSequence" : {
                     "list" : [ {
-                      "AssignmentOperatorExpression" : {
-                        "left" : {
-                          "IdentifierExpression" : {
-                            "name" : "asd"
+                      "JSXElement" : {
+                        "tagName" : "div",
+                        "attributes" : [ {
+                          "key" : "onClick",
+                          "value" : {
+                            "AttributStringValue" : {
+                              "value" : "aaa"
+                            }
                           }
-                        },
-                        "right" : {
-                          "DecimalLiteral" : {
-                            "value" : 5.0,
-                            "decimalType" : "Integer"
+                        } ],
+                        "body" : [ {
+                          "JSXElement" : {
+                            "tagName" : "h1",
+                            "attributes" : [ ],
+                            "body" : [ {
+                              "JSXText" : {
+                                "value" : "Hello,World!"
+                              }
+                            } ]
                           }
-                        },
-                        "operator" : "+="
+                        } ]
                       }
                     } ]
                   }

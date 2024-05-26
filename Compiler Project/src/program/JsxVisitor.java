@@ -20,13 +20,9 @@ import js.statements.ClassDeclaration.ClassMethodDefinition;
 import js.statements.ClassDeclaration.PropertyName.PropertyByExpression;
 import js.statements.ClassDeclaration.PropertyName.PropertyByName;
 import js.statements.ClassDeclaration.PropertyName.PropertyByString;
-import js.statements.Function.FunctionDeclaration;
-import js.statements.Loops.DoWhileLoop;
-import js.statements.Loops.ForInLoop;
-import js.statements.Loops.ForOfLoop;
-import js.statements.Loops.WhileLoop;
-import js.statements.Loops.ForLoop;
 import js.statements.ConditionalStatement.ConditionalStatement;
+import js.statements.Function.FunctionDeclaration;
+import js.statements.Loops.*;
 import js.statements.TryStatement.CatchProduction;
 import js.statements.TryStatement.FinallyProduction;
 import js.statements.TryStatement.TryStatement;
@@ -38,7 +34,7 @@ import org.antlr.v4.runtime.misc.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SymbolTableVisitor {
+public class JsxVisitor {
     public static List<Symbolable> visit(Statement model) {
         System.out.println(model);
         if (model instanceof BlockModel) {
@@ -107,6 +103,8 @@ public class SymbolTableVisitor {
         }
         return new Scope(prog.getClass().getSimpleName(), "Main", symbolables);
     }
+
+
     public static List<Symbolable> visit(BlockModel model){
         List<Symbolable> symbolables =new ArrayList<>();
         for(Statement child:model.statements){

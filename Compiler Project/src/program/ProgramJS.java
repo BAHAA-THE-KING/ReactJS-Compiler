@@ -3,7 +3,11 @@ package program;
 import antlrJS.JSLexer;
 import antlrJS.JSParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import js.expressions.jsxElement.AttributStringValue;
+import js.expressions.jsxElement.JSXElement;
 import js.visitors.AntlrToProgram;
+import js.visitors.models.AttributeValue;
+import js.visitors.models.JSXContent;
 import js.visitors.models.JsProgram;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -24,28 +28,56 @@ public class ProgramJS {
     public static List<String> errors = new ArrayList<>();
 
     public static void main(String[] args) throws IOException, IllegalAccessException {
-        if (args.length != 1) {
-            System.err.println("Please Select A File.");
-        } else {
-            JSParser parser = getParser(args[0]);
-            ParseTree antlrAST = parser.program();
-            AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
-            JsProgram doc = progVisitor.visit(antlrAST);
-            if (!errors.isEmpty()) {
-                for (String err : errors) {
-                    System.err.println(err);
-                }
-                System.out.println("Do you want to view ast and symbol table anyway? (Default:yes)");
-                Scanner sc = new Scanner(System.in);
-                String userInput = sc.nextLine().trim();
-                boolean wantToContinue = userInput.isEmpty() ? false : Boolean.parseBoolean(userInput);
-                if (!wantToContinue) return;
-            }
-            saveAstInFile(doc);
-            saveSymbolTableInFile(doc);
-            VsCode.openAstTree();
-            VsCode.openSymbolTree();
-        }
+        List<Pair<String, AttributeValue>> attributes = new ArrayList<>();
+        attributes.add(new Pair<>("style",new AttributStringValue("background:#343232;weight:20")));
+        List<JSXContent> body = new ArrayList<>();
+        JSXElement jsx = new JSXElement(
+                "div",
+                attributes,
+                body
+        );
+        List<Pair<String, AttributeValue>> outerAttributes = new ArrayList<>();
+        outerAttributes.add(new Pair<>("style",new AttributStringValue("background:#343232;weight:20")));
+        List<JSXContent> outerBody = new ArrayList<>();
+        outerBody.add(jsx);outerBody.add(jsx);outerBody.add(jsx);
+        JSXElement jsxOuter = new JSXElement(
+                "div",
+                outerAttributes,
+                outerBody
+        );
+        System.out.println(print(JSXConverter.JsxToFunction(jsxOuter)));
+
+
+
+
+
+
+
+
+
+
+//        if (args.length != 1) {
+//            System.err.println("Please Select A File.");
+//        } else {
+//            JSParser parser = getParser(args[0]);
+//            ParseTree antlrAST = parser.program();
+//            AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
+//            JsProgram doc = progVisitor.visit(antlrAST);
+//            if (!errors.isEmpty()) {
+//                for (String err : errors) {
+//                    System.err.println(err);
+//                }
+//                System.out.println("Do you want to view ast and symbol table anyway? (Default:yes)");
+//                Scanner sc = new Scanner(System.in);
+//                String userInput = sc.nextLine().trim();
+//                boolean wantToContinue = userInput.isEmpty() ? false : Boolean.parseBoolean(userInput);
+//                if (!wantToContinue) return;
+//            }
+//            saveAstInFile(doc);
+//            saveSymbolTableInFile(doc);
+//            VsCode.openAstTree();
+//            VsCode.openSymbolTree();
+//        }
     }
 
     private static void saveAstInFile(JsProgram doc) throws IOException, IllegalAccessException {

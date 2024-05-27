@@ -1,7 +1,6 @@
 package js.expressions.ArrayLiteral;
 
 import antlrJS.JSParser;
-import js.expressions.ArgumentsExpression.Argument;
 import js.visitors.AntlrToExpression;
 import js.visitors.models.Assignable;
 import js.visitors.models.Expression;
@@ -12,9 +11,14 @@ import java.util.StringJoiner;
 
 public class ArrayLiteral implements Expression, Assignable {
 
-    public String filePath ;
-    public List<ArrayElement> elements ;
-    public ArrayLiteral(JSParser.ArrayLiteralContext ctx,String filePath) {
+    public String filePath;
+    public List<ArrayElement> elements;
+
+    public ArrayLiteral() {
+        this.elements = new ArrayList<>();
+    }
+
+    public ArrayLiteral(JSParser.ArrayLiteralContext ctx, String filePath) {
         AntlrToExpression visitor = new AntlrToExpression(filePath);
         List<ArrayElement> result = new ArrayList<>();
         for (JSParser.ArrayElementContext child : ctx.elementList().arrayElement()) {
@@ -22,6 +26,10 @@ public class ArrayLiteral implements Expression, Assignable {
             result.add(new ArrayElement(exp).withEllipsis(child.Ellipsis() != null));
         }
         this.elements = result;
+    }
+
+    public void addElement(ArrayElement element) {
+        this.elements.add(element);
     }
 
     @Override

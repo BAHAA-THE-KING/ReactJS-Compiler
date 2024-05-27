@@ -1,45 +1,210 @@
 {
   "JsProgram" : {
     "statements" : [ {
-      "ConditionalStatement" : {
-        "expressions" : {
-          "ExpressionSequence" : {
-            "list" : [ {
-              "LogicalExpression" : {
-                "left" : {
-                  "IdentifierExpression" : {
-                    "name" : "asd"
+      "ClassDeclaration" : {
+        "id" : "asd",
+        "parent" : "ReactJSClassComponent",
+        "elements" : [ {
+          "ClassFieldDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByExpression" : {
+                "value" : {
+                  "OptionalChainExpression" : {
+                    "objectName" : {
+                      "SimpleExpression" : {
+                        "keyWord" : "this"
+                      }
+                    },
+                    "objectProperty" : {
+                      "IdentifierExpression" : {
+                        "name" : "props"
+                      }
+                    },
+                    "checkNull" : false
                   }
-                },
-                "right" : {
-                  "IdentifierExpression" : {
-                    "name" : "asd"
+                }
+              }
+            },
+            "propertyValue" : {
+              "ObjectLiteral" : {
+                "objectProperties" : [ ]
+              }
+            }
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "constructor"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ {
+                  "key" : {
+                    "ObjectLiteral" : {
+                      "objectProperties" : [ {
+                        "NormalProperty" : {
+                          "key" : {
+                            "PropertyByName" : {
+                              "id" : "koko"
+                            }
+                          },
+                          "value" : {
+                            "IdentifierExpression" : {
+                              "name" : "koko"
+                            }
+                          }
+                        }
+                      } ]
+                    }
                   }
-                },
-                "operator" : "=="
+                } ]
+              }
+            },
+            "body" : [ {
+              "ExpressionChunk" : {
+                "expressions" : {
+                  "ExpressionSequence" : {
+                    "list" : [ {
+                      "AssignmentExpression" : {
+                        "leftExpression" : {
+                          "OptionalChainExpression" : {
+                            "objectName" : {
+                              "SimpleExpression" : {
+                                "keyWord" : "this"
+                              }
+                            },
+                            "objectProperty" : {
+                              "IdentifierExpression" : {
+                                "name" : "props"
+                              }
+                            },
+                            "checkNull" : false
+                          }
+                        },
+                        "rightExpression" : {
+                          "IdentifierExpression" : {
+                            "name" : "props"
+                          }
+                        }
+                      }
+                    } ]
+                  }
+                }
+              }
+            }, {
+              "ExpressionChunk" : {
+                "expressions" : {
+                  "ExpressionSequence" : {
+                    "list" : [ {
+                      "AssignmentExpression" : {
+                        "leftExpression" : {
+                          "OptionalChainExpression" : {
+                            "objectName" : {
+                              "SimpleExpression" : {
+                                "keyWord" : "this"
+                              }
+                            },
+                            "objectProperty" : {
+                              "IdentifierExpression" : {
+                                "name" : "state"
+                              }
+                            },
+                            "checkNull" : false
+                          }
+                        },
+                        "rightExpression" : {
+                          "ObjectLiteral" : {
+                            "objectProperties" : [ {
+                              "NormalProperty" : {
+                                "key" : {
+                                  "PropertyByName" : {
+                                    "id" : "state_1"
+                                  }
+                                },
+                                "value" : {
+                                  "DecimalLiteral" : {
+                                    "value" : 1.0,
+                                    "decimalType" : "Integer"
+                                  }
+                                }
+                              }
+                            } ]
+                          }
+                        }
+                      }
+                    } ]
+                  }
+                }
               }
             } ]
           }
-        },
-        "statement" : {
-          "BlockModel" : {
-            "statements" : [ {
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "componentWillMount"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ],
+                "spreadParameter" : {
+                  "ObjectLiteral" : {
+                    "objectProperties" : [ ]
+                  }
+                }
+              }
+            },
+            "body" : [ ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "render"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ],
+                "spreadParameter" : {
+                  "ObjectLiteral" : {
+                    "objectProperties" : [ ]
+                  }
+                }
+              }
+            },
+            "body" : [ {
               "VariableDeclarationStatement" : {
                 "vars" : [ {
                   "VariableDeclaration" : {
                     "modifier" : "let",
                     "name" : {
                       "IdentifierExpression" : {
-                        "name" : "asd"
+                        "name" : "i"
                       }
                     },
                     "value" : {
-                      "DecimalLiteral" : {
-                        "value" : 5.0,
-                        "decimalType" : "Integer"
+                      "UseStateFunction" : {
+                        "initialState" : {
+                          "Argument" : {
+                            "value" : {
+                              "DecimalLiteral" : {
+                                "value" : 1.0,
+                                "decimalType" : "Integer"
+                              }
+                            }
+                          }
+                        }
                       }
                     },
-                    "type" : "number"
+                    "type" : "toBeDetermined"
                   }
                 } ]
               }
@@ -48,27 +213,179 @@
                 "expressions" : {
                   "ExpressionSequence" : {
                     "list" : [ {
-                      "AssignmentOperatorExpression" : {
-                        "left" : {
-                          "IdentifierExpression" : {
-                            "name" : "asd"
+                      "UseStateFunction" : {
+                        "initialState" : {
+                          "Argument" : {
+                            "value" : {
+                              "DecimalLiteral" : {
+                                "value" : 10.0,
+                                "decimalType" : "Integer"
+                              }
+                            }
                           }
-                        },
-                        "right" : {
-                          "DecimalLiteral" : {
-                            "value" : 5.0,
-                            "decimalType" : "Integer"
-                          }
-                        },
-                        "operator" : "+="
+                        }
                       }
                     } ]
                   }
                 }
               }
+            }, {
+              "VariableDeclarationStatement" : {
+                "vars" : [ {
+                  "VariableDeclaration" : {
+                    "modifier" : "let",
+                    "name" : {
+                      "IdentifierExpression" : {
+                        "name" : "u"
+                      }
+                    },
+                    "type" : "toBeDetermined"
+                  }
+                } ]
+              }
             } ]
           }
-        }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "componentDidMount"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ],
+                "spreadParameter" : {
+                  "ObjectLiteral" : {
+                    "objectProperties" : [ ]
+                  }
+                }
+              }
+            },
+            "body" : [ ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "componentWillReceiveProps"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ],
+                "spreadParameter" : {
+                  "ObjectLiteral" : {
+                    "objectProperties" : [ ]
+                  }
+                }
+              }
+            },
+            "body" : [ ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "setState"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ],
+                "spreadParameter" : {
+                  "ObjectLiteral" : {
+                    "objectProperties" : [ ]
+                  }
+                }
+              }
+            },
+            "body" : [ ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "shouldComponentUpdate"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ],
+                "spreadParameter" : {
+                  "ObjectLiteral" : {
+                    "objectProperties" : [ ]
+                  }
+                }
+              }
+            },
+            "body" : [ ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "componentWillUpdate"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ],
+                "spreadParameter" : {
+                  "ObjectLiteral" : {
+                    "objectProperties" : [ ]
+                  }
+                }
+              }
+            },
+            "body" : [ ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "componentDidUpdate"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ],
+                "spreadParameter" : {
+                  "ObjectLiteral" : {
+                    "objectProperties" : [ ]
+                  }
+                }
+              }
+            },
+            "body" : [ ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "componentWillUnmount"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ],
+                "spreadParameter" : {
+                  "ObjectLiteral" : {
+                    "objectProperties" : [ ]
+                  }
+                }
+              }
+            },
+            "body" : [ ]
+          }
+        } ]
       }
     }, {
       "EOFStatement" : {

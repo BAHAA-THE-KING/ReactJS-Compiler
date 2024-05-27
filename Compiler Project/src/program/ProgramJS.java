@@ -3,6 +3,7 @@ package program;
 import antlrJS.JSLexer;
 import antlrJS.JSParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import js.statements.Function.FunctionDeclaration;
 import js.visitors.AntlrToProgram;
 import js.visitors.models.JsProgram;
 import org.antlr.v4.runtime.CharStream;
@@ -11,7 +12,9 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.misc.Pair;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -41,6 +44,10 @@ public class ProgramJS {
                 boolean wantToContinue = userInput.isEmpty() ? false : Boolean.parseBoolean(userInput);
                 if (!wantToContinue) return;
             }
+
+            FunctionDeclaration func = (FunctionDeclaration) doc.statements.get(0);
+            doc.statements.set(0, CodeGeneration.FunctionToClass(func));
+
             saveAstInFile(doc);
             saveSymbolTableInFile(doc);
             VsCode.openAstTree();

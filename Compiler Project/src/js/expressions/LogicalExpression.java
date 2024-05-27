@@ -15,6 +15,6 @@ public class LogicalExpression implements Expression {
 
     @Override
     public String toString() {
-        return  left+" "+operator+" "+right;
+        return left + " " + operator + " " + right;
     }
 }

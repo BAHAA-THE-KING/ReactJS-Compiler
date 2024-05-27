@@ -13,6 +13,6 @@ public class CoalesceExpression implements Expression {
 
     @Override
     public String toString() {
-        return firstExpression+" ?? "+secondExpression;
+        return firstExpression + " ?? " + secondExpression;
     }
 }

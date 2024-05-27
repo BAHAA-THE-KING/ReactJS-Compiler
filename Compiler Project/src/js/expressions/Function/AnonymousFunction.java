@@ -1,6 +1,8 @@
 package js.expressions.Function;
 
-import js.visitors.models.*;
+import js.visitors.models.Function;
+import js.visitors.models.Parameters;
+import js.visitors.models.Statement;
 
 import java.util.List;
 import java.util.StringJoiner;
@@ -16,8 +18,10 @@ public class AnonymousFunction implements Function {
 
     @Override
     public String toString() {
-        StringJoiner bodyString=new StringJoiner("\n");
-        body.forEach(statement -> {bodyString.add(statement.toString());});
-        return "function("+parameters+"){\n"+bodyString+"}";
+        StringJoiner bodyString = new StringJoiner("\n");
+        body.forEach(statement -> {
+            bodyString.add(statement.toString());
+        });
+        return "function(" + parameters + "){\n" + bodyString + "}";
     }
 }

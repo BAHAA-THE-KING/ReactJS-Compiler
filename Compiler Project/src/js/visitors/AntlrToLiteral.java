@@ -3,7 +3,6 @@ package js.visitors;
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
 import js.expressions.Literals.*;
-import js.visitors.models.Expression;
 import js.visitors.models.Literal;
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -43,8 +42,7 @@ public class AntlrToLiteral extends JSParserBaseVisitor<Literal> {
         for (ParseTree child : ctx.templateStringLiteral().children) {
             if (child instanceof JSParser.TemplateStringCharacterContext) {
                 content.add(((JSParser.TemplateStringCharacterContext) child).templateStringText().getText());
-            } else if (child instanceof JSParser.TemplateStringJSExpressionContext) {
-                JSParser.TemplateStringJSExpressionContext castedChild = (JSParser.TemplateStringJSExpressionContext) child;
+            } else if (child instanceof JSParser.TemplateStringJSExpressionContext castedChild) {
                 AntlrToExpression visitor = new AntlrToExpression(filePath);
                 content.add(visitor.visit(castedChild.singleExpression()));
             }

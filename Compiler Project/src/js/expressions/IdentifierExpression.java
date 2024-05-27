@@ -5,7 +5,7 @@ import js.visitors.models.Expression;
 
 import java.util.Objects;
 
-public class IdentifierExpression implements Expression, Assignable  {
+public class IdentifierExpression implements Expression, Assignable {
 
     public String name;
 

@@ -5,9 +5,11 @@ import antlrHTML.HTMLParserBaseVisitor;
 
 public class AntlrToHtmlDocument extends HTMLParserBaseVisitor<HtmlDocument> {
     public String filePath;
-    public AntlrToHtmlDocument(String filePath){
-        this.filePath=filePath;
+
+    public AntlrToHtmlDocument(String filePath) {
+        this.filePath = filePath;
     }
+
     @Override
     public HtmlDocument visitHtmlDocument(HTMLParser.HtmlDocumentContext ctx) {
         HtmlDocument doc = new HtmlDocument();

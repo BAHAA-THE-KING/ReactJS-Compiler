@@ -332,7 +332,7 @@ public class SymbolTableVisitor {
         for (Statement statement : functionDeclaration.body) {
             symbolables.addAll(visit(statement));
         }
-        Scope funcScope = new Scope(Scope.MTHD, functionDeclaration.Identifier.toString(), symbolables);
+        Scope funcScope = new Scope(Scope.MTHD, functionDeclaration.Identifier, symbolables);
 
         return listify(funcScope);
 

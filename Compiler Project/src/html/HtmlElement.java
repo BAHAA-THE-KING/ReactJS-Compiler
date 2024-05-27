@@ -1,12 +1,5 @@
 package html;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationConfig;
-import org.w3c.dom.html.HTMLElement;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +15,7 @@ public class HtmlElement implements HtmlContent {
     Map<String, HtmlAttribute> attributes;
 
     List<HtmlContent> contents;
-    public static int outDepth=0;
+    public static int outDepth = 0;
 
     public HtmlElement(String tagName, String type) {
         this.tagName = tagName;
@@ -34,9 +27,11 @@ public class HtmlElement implements HtmlContent {
     public void addAttribute(HtmlAttribute at) {
         attributes.put(at.id, at);
     }
-    public boolean hasAttribute(String id){
+
+    public boolean hasAttribute(String id) {
         return attributes.containsKey(id);
     }
+
     public void addContents(HtmlContent co) {
         contents.add(co);
     }

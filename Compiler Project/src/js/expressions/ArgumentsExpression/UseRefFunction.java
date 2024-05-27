@@ -11,6 +11,6 @@ public class UseRefFunction implements Expression {
 
     @Override
     public String toString() {
-        return "useRef("+initialValue+")";
+        return "useRef(" + initialValue + ")";
     }
 }

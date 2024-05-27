@@ -67,8 +67,7 @@ public class Symbol implements Symbolable {
 
     public static Symbolable make(String type, String name, Object value) {
 
-        if (value instanceof ArrayLiteral) {
-            ArrayLiteral al = (ArrayLiteral) value;
+        if (value instanceof ArrayLiteral al) {
             return new Scope(
                     al.getClass().getSimpleName(),
                     name,
@@ -76,24 +75,21 @@ public class Symbol implements Symbolable {
             );
         }
 
-        if (value instanceof AnonymousFunction) {
-            AnonymousFunction function = (AnonymousFunction) value;
+        if (value instanceof AnonymousFunction function) {
             return new Scope(
                     "AnonymousFunction",
                     name,
                     SymbolTableVisitor.visit(function)
             );
         }
-        if (value instanceof ObjectLiteral) {
-            ObjectLiteral literal = (ObjectLiteral) value;
+        if (value instanceof ObjectLiteral literal) {
             return new Scope(
                     "ObjectLiteral",
                     name,
                     SymbolTableVisitor.visit(literal)
             );
         }
-        if (value instanceof ArrayElement) {
-            ArrayElement al = (ArrayElement) value;
+        if (value instanceof ArrayElement al) {
             return (Symbol.make(type, name, al.element));
         }
         if (value instanceof Scope) {

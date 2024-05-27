@@ -1,6 +1,5 @@
 package html;
 
-import javax.lang.model.element.Element;
 import java.util.ArrayList;
 import java.util.List;
 

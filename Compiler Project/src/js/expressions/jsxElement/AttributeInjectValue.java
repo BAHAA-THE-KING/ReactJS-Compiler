@@ -13,6 +13,6 @@ public class AttributeInjectValue implements AttributeValue {
 
     @Override
     public String toString() {
-        return "{"+exp+"}";
+        return "{" + exp + "}";
     }
 }

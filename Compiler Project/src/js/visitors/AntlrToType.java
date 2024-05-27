@@ -2,11 +2,7 @@ package js.visitors;
 
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
-import js.types.Boolean_;
-import js.types.Number_;
-import js.types.Object_;
-import js.types.String_;
-import js.types.Undefined_;
+import js.types.*;
 import js.visitors.models.Type;
 
 public class AntlrToType extends JSParserBaseVisitor<Type> {

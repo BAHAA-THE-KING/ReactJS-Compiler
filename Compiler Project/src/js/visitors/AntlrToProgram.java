@@ -6,7 +6,7 @@ import js.visitors.models.JsProgram;
 import js.visitors.models.Statement;
 
 public class AntlrToProgram extends JSParserBaseVisitor<JsProgram> {
-    public String filePath ;
+    public String filePath;
 
     public AntlrToProgram(String filePath) {
         this.filePath = filePath;

@@ -2,7 +2,7 @@ package js.expressions;
 
 import js.visitors.models.Expression;
 
-public class DeleteExpression implements Expression{
+public class DeleteExpression implements Expression {
 
     public Expression expression;
 
@@ -12,6 +12,6 @@ public class DeleteExpression implements Expression{
 
     @Override
     public String toString() {
-        return "delete "+expression;
+        return "delete " + expression;
     }
 }

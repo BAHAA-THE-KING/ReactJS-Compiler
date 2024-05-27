@@ -59,7 +59,7 @@ public class ProgramJS {
                 System.out.println("Do you want to view ast and symbol table anyway? (Default:yes)");
                 Scanner sc = new Scanner(System.in);
                 String userInput = sc.nextLine().trim();
-                boolean wantToContinue = userInput.isEmpty() ? false : Boolean.parseBoolean(userInput);
+                boolean wantToContinue = !userInput.isEmpty() && Boolean.parseBoolean(userInput);
                 if (!wantToContinue) return;
             }
 

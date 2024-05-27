@@ -9,7 +9,6 @@ import js.expressions.Literals.ObjectLiteral;
 import js.expressions.Literals.StringLiteral;
 import js.expressions.OptionalChainExpression;
 import js.expressions.Properties.NormalProperty;
-import js.expressions.jsxElement.AttributStringValue;
 import js.expressions.jsxElement.JSXElement;
 import js.expressions.jsxElement.JSXText;
 import js.statements.ClassDeclaration.PropertyName.PropertyByName;
@@ -22,20 +21,19 @@ import java.util.List;
 
 public class JSXConverter {
 
-    public static Expression JsxToFunction(JSXElement element){
+    public static Expression JsxToFunction(JSXElement element) {
         Arguments arguments = new Arguments();
 
         arguments.addArgument(new Argument(new StringLiteral(element.tagName)));
 
-        arguments.addArgument(new Argument(element.attributes.isEmpty()? new NullLiteral() : toObjectLiteral(element.attributes)));
+        arguments.addArgument(new Argument(element.attributes.isEmpty() ? new NullLiteral() : toObjectLiteral(element.attributes)));
 
-        for(JSXContent elem : element.body){
-            if(elem instanceof JSXText){
+        for (JSXContent elem : element.body) {
+            if (elem instanceof JSXText) {
                 arguments.addArgument(new Argument(new StringLiteral(elem.toString())));
-            }else if (elem instanceof JSXElement){
-                JSXElement e = (JSXElement) elem;
+            } else if (elem instanceof JSXElement e) {
                 arguments.addArgument(new Argument(JsxToFunction(e)));
-            }else {
+            } else {
                 System.err.println("JSX Converter: Unknown jsx content found!");
             }
         }
@@ -44,34 +42,34 @@ public class JSXConverter {
                         new IdentifierExpression("document"),
                         new IdentifierExpression("createElement"),
                         false
-                ),arguments
+                ), arguments
         );
     }
 
-    public static ObjectLiteral toObjectLiteral(List<Pair<String, AttributeValue>> elements){
+    public static ObjectLiteral toObjectLiteral(List<Pair<String, AttributeValue>> elements) {
         ObjectLiteral literal = new ObjectLiteral();
-        for(Pair<String,AttributeValue> element:elements){
-            if(element.a.equals("style")){
+        for (Pair<String, AttributeValue> element : elements) {
+            if (element.a.equals("style")) {
                 String value = element.b.toString();
                 String[] attributes = value.split(";");
                 ObjectLiteral innerLiteral = new ObjectLiteral();
-                for(String attribute :attributes){
-                    try{
-                        String [] pair = attribute.split(":");
+                for (String attribute : attributes) {
+                    try {
+                        String[] pair = attribute.split(":");
                         innerLiteral.addAttribute(
                                 new NormalProperty(
                                         new PropertyByName(pair[0]),
                                         new StringLiteral(pair[1])
                                 )
                         );
-                    }catch(Exception e){
+                    } catch (Exception e) {
                     }
                 }
                 literal.addAttribute(new NormalProperty(
                         new PropertyByName(element.a),
                         innerLiteral
                 ));
-            }else{
+            } else {
                 literal.addAttribute(
                         new NormalProperty(
                                 new PropertyByName(element.a),

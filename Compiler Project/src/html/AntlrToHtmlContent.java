@@ -10,9 +10,9 @@ public class AntlrToHtmlContent extends HTMLParserBaseVisitor<HtmlContent> {
     @Override
     public HtmlContent visitHtmlChardata(HTMLParser.HtmlChardataContext ctx) {
         String text = ctx.getChild(0).getText();
-        Token token = ((TerminalNodeImpl)ctx.getChild(0)).getSymbol();
+        Token token = ((TerminalNodeImpl) ctx.getChild(0)).getSymbol();
         int tokenType = token.getType();
-        if(tokenType == HTMLLexer.SEA_WS){
+        if (tokenType == HTMLLexer.SEA_WS) {
             return null;
         }
         return new HtmlCharData(text);

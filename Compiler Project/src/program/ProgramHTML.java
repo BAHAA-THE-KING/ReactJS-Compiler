@@ -15,13 +15,12 @@ import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ProgramHTML {
     public static List<String> errors = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException, JsonMappingException {
+    public static void main(String[] args) throws IOException {
         if (args.length != 1) {
             System.err.println("fuck you");
         } else {
@@ -31,13 +30,13 @@ public class ProgramHTML {
             AntlrToHtmlDocument docVisitor = new AntlrToHtmlDocument(args[0]);
 
             HtmlDocument doc = docVisitor.visit(antlrAST);
-            if(errors.isEmpty()){
+            if (errors.isEmpty()) {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
                 String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(doc);
                 System.out.println(result);
-            }else{
-                for (String err :errors) {
+            } else {
+                for (String err : errors) {
                     System.err.println(err);
                 }
             }

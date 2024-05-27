@@ -3,7 +3,6 @@ package program;
 import antlrJS.JSLexer;
 import antlrJS.JSParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import js.statements.Function.FunctionDeclaration;
 import js.visitors.AntlrToProgram;
 import js.visitors.models.JsProgram;
 import org.antlr.v4.runtime.CharStream;
@@ -45,8 +44,7 @@ public class ProgramJS {
                 if (!wantToContinue) return;
             }
 
-            FunctionDeclaration func = (FunctionDeclaration) doc.statements.get(0);
-            doc.statements.set(0, CodeGeneration.FunctionToClass(func));
+            System.out.println(doc.toString());
 
             saveAstInFile(doc);
             saveSymbolTableInFile(doc);

@@ -15,6 +15,6 @@ public class MemberIndex implements Expression {
 
     @Override
     public String toString() {
-        return accessedExpression+(checkNull?"?.":"")+"["+accessedAt+"]";
+        return accessedExpression + (checkNull ? "?." : "") + "[" + accessedAt + "]";
     }
 }

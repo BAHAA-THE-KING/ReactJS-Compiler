@@ -222,7 +222,7 @@ arrayElement
 propertyAssignment
     : propertyName Colon singleExpression                                       # PropertyExpressionAssignment
     | OpenBracket singleExpression CloseBracket Colon singleExpression          # ComputedPropertyExpressionAssignment
-    | propertyName formalParameterList  functionBody     # FunctionProperty
+    | propertyName formalParameterList functionBody                             # FunctionProperty
     | Identifier                                                                # PropertyIdentifierShorthand
     | Ellipsis singleExpression                                                 # PropertyShorthand
     ;

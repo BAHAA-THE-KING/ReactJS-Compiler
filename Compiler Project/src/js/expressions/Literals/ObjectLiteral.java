@@ -6,6 +6,7 @@ import js.visitors.models.Property;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class ObjectLiteral implements Expression, Assignable {
     public List<Property> objectProperties = new ArrayList<>();
@@ -22,6 +23,8 @@ public class ObjectLiteral implements Expression, Assignable {
 
     @Override
     public String toString() {
-        return "ObjectLiteral";
+        StringJoiner propsJoiner = new StringJoiner(", ");
+        objectProperties.forEach(prop -> propsJoiner.add(prop.toString()));
+        return "{\n" + propsJoiner + "\n}";
     }
 }

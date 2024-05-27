@@ -1,20 +1,30 @@
 package js.expressions.Literals;
 
-import js.visitors.models.Literal;
 import js.visitors.models.Expression;
+import js.visitors.models.Literal;
+
+import java.util.List;
 
 public class TemplateStringLiteral implements Literal {
-    public String value ;
+    public List content;
     public Expression placeholder;
 
-    public TemplateStringLiteral(String value ,Expression placeholder) {
-        this.value = value;
-        this.placeholder = placeholder;
+    public TemplateStringLiteral(List content) {
+        this.content = content;
     }
 
     @Override
     public String toString() {
-        //TODO:make sure this is the best way
-        return value;
+        StringBuilder cnt = new StringBuilder();
+        content.forEach(e -> {
+            if (e instanceof String) {
+                cnt.append(e);
+            } else if (e instanceof Expression) {
+                cnt.append(e);
+            } else {
+                throw new RuntimeException("There Is Thing Other Than String And Expression In The Template String Literal");
+            }
+        });
+        return "`" + cnt + "`";
     }
 }

@@ -2,7 +2,6 @@ package js.expressions.ArgumentsExpression;
 
 import js.expressions.Function.AnonymousFunction;
 import js.visitors.models.Expression;
-import js.visitors.models.Function;
 
 public class UseEffectFunction implements Expression {
     public AnonymousFunction onRenderFunction;
@@ -15,6 +14,7 @@ public class UseEffectFunction implements Expression {
 
     @Override
     public String toString() {
-        return "useEffect("+onRenderFunction+", "+dependencies+")";
+        if (dependencies == null) return "useEffect(\n" + onRenderFunction + "\n)";
+        return "useEffect(\n" + onRenderFunction + ", " + dependencies + "\n)";
     }
 }

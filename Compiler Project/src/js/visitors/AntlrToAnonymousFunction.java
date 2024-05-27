@@ -6,7 +6,10 @@ import js.expressions.ExpressionSequence;
 import js.expressions.Function.AnonymousFunction;
 import js.expressions.Function.ArrowFunction;
 import js.statements.ReturnStatement.ReturnStatement;
-import js.visitors.models.*;
+import js.visitors.models.Expression;
+import js.visitors.models.Function;
+import js.visitors.models.Parameters;
+import js.visitors.models.Statement;
 import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.ArrayList;
@@ -44,13 +47,14 @@ public class AntlrToAnonymousFunction extends JSParserBaseVisitor<Function> {
         AntlrToStatement statementVisitor = new AntlrToStatement(filePath);
         var arrowFunctionBody = ctx.arrowFunctionBody();
         if (arrowFunctionBody.functionBody() != null) {
-            for (int i = 0; i < arrowFunctionBody.functionBody().statement().size(); i++) {
-                body.add(statementVisitor.visit(arrowFunctionBody.functionBody().statement(i)));
+            var statements = arrowFunctionBody.functionBody().statement();
+            for (JSParser.StatementContext statement : statements) {
+                body.add(statementVisitor.visit(statement));
             }
         }
         if (arrowFunctionBody.singleExpression() != null) {
             Expression expression = new AntlrToExpression(filePath).visit(arrowFunctionBody.singleExpression());
-            ExpressionSequence expressions = new ExpressionSequence(expression, filePath);
+            ExpressionSequence expressions = new ExpressionSequence(expression);
             body.add(new ReturnStatement(expressions));
         }
         return new ArrowFunction(parameters, body);

@@ -1,10 +1,7 @@
 package js.statements.ConditionalStatement;
 
 import js.expressions.ExpressionSequence;
-import js.visitors.models.Expression;
 import js.visitors.models.Statement;
-
-import java.util.List;
 
 public class ConditionalStatement implements Statement {
     public ExpressionSequence expressions;
@@ -15,5 +12,10 @@ public class ConditionalStatement implements Statement {
         this.expressions = expressions;
         this.statement = statement;
         this.elseStatement = elseStatement;
+    }
+
+    @Override
+    public String toString() {
+        return "if (" + expressions + ")\n" + statement + "\n" + elseStatement;
     }
 }

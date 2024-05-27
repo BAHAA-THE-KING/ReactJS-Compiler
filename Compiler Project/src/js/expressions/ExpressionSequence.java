@@ -1,7 +1,6 @@
 package js.expressions;
 
 import antlrJS.JSParser;
-import js.expressions.ArgumentsExpression.Argument;
 import js.visitors.AntlrToExpressionList;
 import js.visitors.models.Expression;
 
@@ -11,15 +10,23 @@ import java.util.StringJoiner;
 
 public class ExpressionSequence implements Expression {
     public List<Expression> list;
-    public ExpressionSequence(JSParser.ExpressionSequenceContext ctx,String filePath) {
+
+    public ExpressionSequence(JSParser.ExpressionSequenceContext ctx, String filePath) {
         AntlrToExpressionList visitor = new AntlrToExpressionList(filePath);
         this.list = visitor.visit(ctx);
     }
 
-    public ExpressionSequence(Expression exp,String filePath) {
-        AntlrToExpressionList visitor = new AntlrToExpressionList(filePath);
+    public ExpressionSequence() {
+        this.list = new ArrayList<>();
+    }
+
+    public ExpressionSequence(Expression exp) {
         this.list = new ArrayList<>();
         this.list.add(exp);
+    }
+
+    public void addExpression(Expression expression) {
+        this.list.add(expression);
     }
 
     @Override

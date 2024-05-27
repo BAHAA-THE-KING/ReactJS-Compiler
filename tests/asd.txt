@@ -15,9 +15,9 @@ const products = [
   { id: 4, name: "chicken", details: "Chicken is a versatile and widely consumed type of meat. It is known for its tender and flavorful meat, which is often used in a variety of dishes. Chicken is also a good source of protein and is low in fat. It is commonly raised for its meat, but also for its eggs. Chicken is a popular choice for many people due to its affordability and ease of preparation.", url: chickenImage },
 ];
 
-function App() {
+const App=()=> {
   const [index, setIndex] = useState(0);
-  return (0);
+  return;
 }
 
 export default App;

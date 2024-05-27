@@ -1,0 +1,5 @@
+function asd({koko}){
+let i=useState(1);
+useState(10);
+let u;
+}

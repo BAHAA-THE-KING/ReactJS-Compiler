@@ -4,15 +4,11 @@ import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
 import js.expressions.ArgumentsExpression.*;
 import js.expressions.ArrayLiteral.ArrayLiteral;
-import js.expressions.Function.AnonymousFunction;
-import js.expressions.SimpleExpression;
 import js.expressions.*;
-import js.expressions.ClassExpression;
-import js.expressions.AssignmentOperatorExpression;
-import js.expressions.LogicalExpression;
+import js.expressions.Function.AnonymousFunction;
+import js.expressions.Literals.ObjectLiteral;
 import js.visitors.models.ClassElement;
 import js.visitors.models.Expression;
-import js.expressions.Literals.ObjectLiteral;
 
 public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
 
@@ -26,7 +22,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     public Expression visitOptionalChainExpression(JSParser.OptionalChainExpressionContext ctx) {
         Expression objectName = visit(ctx.singleExpression(0));
         Expression objectProperty = visit(ctx.singleExpression(1));
-        boolean checkNull=ctx.QuestionMark()!=null;
+        boolean checkNull = ctx.QuestionMark() != null;
         OptionalChainExpression optionalChainExpression = new OptionalChainExpression(objectName, objectProperty, checkNull);
         return optionalChainExpression;
     }
@@ -240,7 +236,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     public Expression visitMemberIndexExpression(JSParser.MemberIndexExpressionContext ctx) {
         Expression accessedExpression = this.visit(ctx.singleExpression());
         ExpressionSequence accessedAt = new ExpressionSequence(ctx.expressionSequence(), filePath);
-        boolean checkNull=ctx.QuestionMarkDot()!=null;
+        boolean checkNull = ctx.QuestionMarkDot() != null;
         return new MemberIndex(accessedExpression, accessedAt, checkNull);
 
     }
@@ -280,5 +276,10 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     @Override
     public Expression visitJSXExpression(JSParser.JSXExpressionContext ctx) {
         return new AntlrToJSXElement(filePath).visit(ctx.jsxElement());
+    }
+
+    @Override
+    public Expression visitArrowFunction(JSParser.ArrowFunctionContext ctx) {
+        return (new AntlrToAnonymousFunction(filePath)).visitArrowFunction(ctx);
     }
 }

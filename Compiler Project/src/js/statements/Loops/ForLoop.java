@@ -15,4 +15,9 @@ public class ForLoop implements IterationStatement {
         this.thirdPart = thirdPart;
         this.statement = statement;
     }
+
+    @Override
+    public String toString() {
+        return "for (" + firstPart + " ; " + secondPart + " ; " + thirdPart + ")\n" + statement;
+    }
 }

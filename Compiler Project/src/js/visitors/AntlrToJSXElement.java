@@ -2,8 +2,8 @@ package js.visitors;
 
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
-import js.visitors.models.AttributeValue;
 import js.expressions.jsxElement.JSXElement;
+import js.visitors.models.AttributeValue;
 import js.visitors.models.JSXContent;
 import org.antlr.v4.runtime.misc.Pair;
 import program.Error;
@@ -28,7 +28,7 @@ public class AntlrToJSXElement extends JSParserBaseVisitor<JSXElement> {
             AttributeValue value = visitor.visit(attribute.attributeValue());
             attributes.add(new Pair<>(name, value));
         }
-        return new JSXElement(tagName, attributes, null);
+        return new JSXElement(tagName, attributes, new ArrayList<>());
     }
 
     @Override

@@ -1,11 +1,7 @@
 package js.statements.ExpressionChunk;
 
 import js.expressions.ExpressionSequence;
-import js.visitors.models.Expression;
 import js.visitors.models.Statement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ExpressionChunk implements Statement {
 
@@ -13,5 +9,10 @@ public class ExpressionChunk implements Statement {
 
     public ExpressionChunk(ExpressionSequence expressions) {
         this.expressions = expressions;
+    }
+
+    @Override
+    public String toString() {
+        return expressions.toString();
     }
 }

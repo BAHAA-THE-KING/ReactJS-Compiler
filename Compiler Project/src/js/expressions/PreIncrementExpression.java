@@ -12,6 +12,6 @@ public class PreIncrementExpression implements Expression {
 
     @Override
     public String toString() {
-        return "++"+identifier;
+        return "++" + identifier;
     }
 }

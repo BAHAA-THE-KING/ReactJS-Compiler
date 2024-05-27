@@ -6,4 +6,9 @@ public class ExportDefaultDeclaration extends ExportChunk {
     public ExportDefaultDeclaration(String exportName) {
         this.exportName = exportName;
     }
+
+    @Override
+    public String toString() {
+        return "export default " + exportName;
+    }
 }

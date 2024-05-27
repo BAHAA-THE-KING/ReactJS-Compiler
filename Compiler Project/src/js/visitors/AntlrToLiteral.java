@@ -7,6 +7,9 @@ import js.visitors.models.Expression;
 import js.visitors.models.Literal;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AntlrToLiteral extends JSParserBaseVisitor<Literal> {
     public String filePath;
 
@@ -36,19 +39,16 @@ public class AntlrToLiteral extends JSParserBaseVisitor<Literal> {
 
     @Override
     public Literal visitTemplateString(JSParser.TemplateStringContext ctx) {
-        StringBuilder builder = new StringBuilder("`");
-        Expression exp = null;
+        List content = new ArrayList();
         for (ParseTree child : ctx.templateStringLiteral().children) {
             if (child instanceof JSParser.TemplateStringCharacterContext) {
-                builder.append(((JSParser.TemplateStringCharacterContext) child).templateStringText().getText());
+                content.add(((JSParser.TemplateStringCharacterContext) child).templateStringText().getText());
             } else if (child instanceof JSParser.TemplateStringJSExpressionContext) {
                 JSParser.TemplateStringJSExpressionContext castedChild = (JSParser.TemplateStringJSExpressionContext) child;
                 AntlrToExpression visitor = new AntlrToExpression(filePath);
-                exp = visitor.visit(castedChild.singleExpression());
-                builder.append(castedChild.DollarSign().getText()).append(castedChild.OpenBrace().getText()).append(exp.toString()).append(castedChild.CloseBrace().getText());
+                content.add(visitor.visit(castedChild.singleExpression()));
             }
         }
-        builder.append("`");
-        return new TemplateStringLiteral(builder.toString(), exp);
+        return new TemplateStringLiteral(content);
     }
 }

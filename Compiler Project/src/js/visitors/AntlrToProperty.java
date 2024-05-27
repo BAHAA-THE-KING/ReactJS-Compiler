@@ -9,7 +9,10 @@ import js.expressions.Properties.EllipsisProperty;
 import js.expressions.Properties.FunctionProperty;
 import js.expressions.Properties.NormalProperty;
 import js.statements.ClassDeclaration.PropertyName.PropertyByName;
-import js.visitors.models.*;
+import js.visitors.models.Assignable;
+import js.visitors.models.Expression;
+import js.visitors.models.Property;
+import js.visitors.models.PropertyName;
 import program.Error;
 
 public class AntlrToProperty extends JSParserBaseVisitor<Property> {
@@ -45,7 +48,7 @@ public class AntlrToProperty extends JSParserBaseVisitor<Property> {
 
     @Override
     public Property visitFunctionProperty(JSParser.FunctionPropertyContext ctx) {
-        FunctionProperty property = new FunctionProperty();
+        FunctionProperty property = new FunctionProperty(ctx.propertyName().getText());
         AntlrToExpression expressionVisitor = new AntlrToExpression(filePath);
         AntlrToAssignable assignableVisitor = new AntlrToAssignable(filePath);
         var allParameters = ctx.formalParameterList();
@@ -76,11 +79,7 @@ public class AntlrToProperty extends JSParserBaseVisitor<Property> {
         Expression value = valueVisitor.visit(ctx.singleExpression());
 //        System.out.println(value::getClass);
         if (!(value instanceof ObjectLiteral || value instanceof IdentifierExpression)) {
-            Error.jsError(
-                    ctx.singleExpression(),
-                    filePath,
-                    "You can only spread objects inside an object."
-            );
+            Error.jsError(ctx.singleExpression(), filePath, "You can only spread objects inside an object.");
 
             return null;
         } else {

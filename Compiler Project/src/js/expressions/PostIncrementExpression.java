@@ -9,8 +9,9 @@ public class PostIncrementExpression implements Expression {
     public PostIncrementExpression(Expression identifier) {
         this.identifier = identifier;
     }
+
     @Override
     public String toString() {
-        return identifier+"++";
+        return identifier + "++";
     }
 }

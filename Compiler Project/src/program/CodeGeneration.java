@@ -105,8 +105,8 @@ public class CodeGeneration {
         Expression stateAssignmentExpression = new AssignmentExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("state"), false), objectLiteral);
 
         List<Statement> constructorBody = new ArrayList<>();
-        constructorBody.add(new ExpressionChunk(new ExpressionSequence(propsAssignmentExpression, "")));
-        constructorBody.add(new ExpressionChunk(new ExpressionSequence(stateAssignmentExpression, "")));
+        constructorBody.add(new ExpressionChunk(new ExpressionSequence(propsAssignmentExpression)));
+        constructorBody.add(new ExpressionChunk(new ExpressionSequence(stateAssignmentExpression)));
 
         ClassMethodDefinition constructor = new ClassMethodDefinition(false, new PropertyByName("constructor"), functionDeclaration.parameters, constructorBody);
         classDeclaration.addElement(constructor);
@@ -132,7 +132,7 @@ public class CodeGeneration {
                 // Replace useState() with [this.state, value=>this.setState({...this.state, state_NUM++:value})]
                 ArrayLiteral array = new ArrayLiteral();
 
-                array.addElement(new ArrayElement(new ExpressionSequence(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("state"), false), ""), false));
+                array.addElement(new ArrayElement(new ExpressionSequence(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("state"), false)), false));
 
                 List<Pair<Assignable, Expression>> params = new ArrayList<>();
                 params.add(new Pair<>(new IdentifierExpression("value"), null));
@@ -145,7 +145,7 @@ public class CodeGeneration {
                 Arguments arguments = new Arguments();
                 arguments.addArgument(new Argument(objectLiteral));
 
-                body.add(new ExpressionChunk(new ExpressionSequence(new ArgumentsExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("setState"), false), arguments), "")));
+                body.add(new ExpressionChunk(new ExpressionSequence(new ArgumentsExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("setState"), false), arguments))));
                 array.addElement(new ArrayElement(new ArrowFunction(parameters, body), false));
             }
         }

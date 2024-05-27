@@ -6,6 +6,7 @@ import js.visitors.models.JSXContent;
 import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 public class JSXElement implements Expression, JSXContent {
     public String tagName;
@@ -20,6 +21,13 @@ public class JSXElement implements Expression, JSXContent {
 
     @Override
     public String toString() {
-        return "JSXElement: <"+tagName+">";
+        StringJoiner attributesJoiner = new StringJoiner(" ");
+        attributes.forEach(att -> attributesJoiner.add(att.a + "=" + att.b));
+
+        StringJoiner bodyJoiner = new StringJoiner("\n");
+        body.forEach(cnt -> bodyJoiner.add(cnt.toString()));
+
+        if (body.size() == 0) return "<" + tagName + " " + attributesJoiner + " />";
+        return "<" + tagName + " " + attributesJoiner + ">\n" + bodyJoiner + "</" + tagName + ">";
     }
 }

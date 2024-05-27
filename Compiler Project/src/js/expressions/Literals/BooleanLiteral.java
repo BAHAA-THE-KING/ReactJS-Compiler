@@ -4,12 +4,13 @@ import js.visitors.models.Literal;
 
 public class BooleanLiteral implements Literal {
     public boolean value;
+
     public BooleanLiteral(String value) {
         this.value = Boolean.parseBoolean(value);
     }
 
     @Override
     public String toString() {
-        return value?"true":"false";
+        return value ? "true" : "false";
     }
 }

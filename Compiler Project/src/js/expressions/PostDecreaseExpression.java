@@ -12,6 +12,6 @@ public class PostDecreaseExpression implements Expression {
 
     @Override
     public String toString() {
-        return identifier+"--";
+        return identifier + "--";
     }
 }

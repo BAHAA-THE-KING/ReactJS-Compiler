@@ -9,4 +9,9 @@ public class Throw implements Statement {
     public Throw(ExpressionSequence expressions) {
         this.expressions = expressions;
     }
+
+    @Override
+    public String toString() {
+        return "throw " + expressions;
+    }
 }

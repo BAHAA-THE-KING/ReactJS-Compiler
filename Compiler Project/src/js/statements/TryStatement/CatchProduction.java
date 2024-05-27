@@ -1,16 +1,21 @@
 package js.statements.TryStatement;
 
-import js.statements.Block.BlockModel;
+import js.statements.Block.Block;
 import js.visitors.models.Assignable;
 import js.visitors.models.Statement;
 
 public class CatchProduction implements Statement {
+    public final String className = getClass().getSimpleName();
     public Assignable exception;
-    public BlockModel block;
-    public final String className= getClass().getSimpleName();
+    public Block block;
 
-    public CatchProduction(Assignable exception, BlockModel block) {
+    public CatchProduction(Assignable exception, Block block) {
         this.exception = exception;
         this.block = block;
+    }
+
+    @Override
+    public String toString() {
+        return "catch(" + exception + ")\n" + block;
     }
 }

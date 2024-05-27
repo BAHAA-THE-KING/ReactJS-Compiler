@@ -6,4 +6,9 @@ public class FileImportBlock extends ImportStatement {
     public FileImportBlock(String packageName) {
         this.packageName = packageName;
     }
+
+    @Override
+    public String toString() {
+        return "import " + packageName;
+    }
 }

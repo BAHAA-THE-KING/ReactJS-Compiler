@@ -11,8 +11,6 @@ public class UseStateFunction implements Expression {
 
     @Override
     public String toString() {
-        return "UseStateFunction(" +
-                initialState +
-                ')';
+        return "useState(" + initialState + ')';
     }
 }

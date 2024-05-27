@@ -1,11 +1,11 @@
 package js.visitors;
 
-import js.expressions.ExpressionSequence;
-import js.statements.BreakStatement.Break;
-import js.statements.ClassDeclaration.ClassDeclaration;
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
-import js.statements.Block.BlockModel;
+import js.expressions.ExpressionSequence;
+import js.statements.Block.Block;
+import js.statements.BreakStatement.Break;
+import js.statements.ClassDeclaration.ClassDeclaration;
 import js.statements.ConditionalStatement.ConditionalStatement;
 import js.statements.ContinueStatement.Continue;
 import js.statements.EOFStatement;
@@ -27,9 +27,6 @@ import js.statements.TryStatement.TryStatement;
 import js.statements.VariableDeclarationStatement.VariableDeclaration;
 import js.statements.VariableDeclarationStatement.VariableDeclarationStatement;
 import js.types.*;
-import js.types.Boolean_;
-import js.types.Number_;
-import js.types.Object_;
 import js.visitors.models.*;
 import org.antlr.v4.runtime.misc.Pair;
 
@@ -66,15 +63,15 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
         String defaultImportValue = null;
         if (importNamespace != null) {
             defaultImportName = importNamespace.getChild(0).getText();
-            defaultImportValue = importNamespace.getChildCount() == 3 ? importNamespace.getChild(2).getText() : defaultImportName;
+            defaultImportValue = importNamespace.getChildCount() == 3 ? importNamespace.getChild(2).getText() : null;
         }
         Pair<String, String> defaultImport = new Pair<>(defaultImportName, defaultImportValue);
 
         var importModuleItems = ctx.importModuleItems();
         List<Pair<String, String>> items = new ArrayList<>();
-        for (var aliasName:importModuleItems.aliasName()) {
+        for (var aliasName : importModuleItems.aliasName()) {
             String itemName = aliasName.getChild(0).getText();
-            String itemValue = aliasName.getChildCount() == 3 ? aliasName.getChild(2).getText() : itemName;
+            String itemValue = aliasName.getChildCount() == 3 ? aliasName.getChild(2).getText() : null;
             items.add(new Pair<>(itemName, itemValue));
         }
 
@@ -87,7 +84,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
         var importNamespace = ctx.importNamespace();
         String defaultImportName = importNamespace.getChild(0).getText();
-        String defaultImportValue = importNamespace.getChildCount() == 3 ? importNamespace.getChild(2).getText() : defaultImportName;
+        String defaultImportValue = importNamespace.getChildCount() == 3 ? importNamespace.getChild(2).getText() : null;
         Pair<String, String> defaultImport = new Pair<>(defaultImportName, defaultImportValue);
 
         return new DefaultAsImportBlock(packageName, defaultImport);
@@ -101,8 +98,8 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitBlock(JSParser.BlockContext ctx) {
 
-        if (ctx.statementList() == null) return new BlockModel();
-        BlockModel block = new BlockModel();
+        if (ctx.statementList() == null) return new Block();
+        Block block = new Block();
         for (int i = 0; i < ctx.statementList().getChildCount(); i++) {
             block.addStatement(visit(ctx.statementList().getChild(i)));
         }
@@ -132,7 +129,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     public Statement visitExportDefaultDeclaration(JSParser.ExportDefaultDeclarationContext ctx) {
         String exportName = ctx.singleExpression().getChild(0).getText();
         ExportDefaultDeclaration e = new ExportDefaultDeclaration(exportName);
-        System.out.println(e.toString());
+//        System.out.println(e.toString());
         return e;
     }
 
@@ -144,7 +141,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
             items.add(ctx.exportFromBlock().exportModuleItems().getChild(i).getText());
         }
         ExportBlock e = new ExportBlock(items);
-        System.out.println(e.toString());
+//        System.out.println(e.toString());
         return e;
     }
 
@@ -171,7 +168,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
     @Override
     public Statement visitReturnChunk(JSParser.ReturnChunkContext ctx) {
-        ExpressionSequence expressions = new ExpressionSequence(ctx.returnStatement().expressionSequence(), filePath);
+        ExpressionSequence expressions = ctx.returnStatement().expressionSequence() != null ? new ExpressionSequence(ctx.returnStatement().expressionSequence(), filePath) : new ExpressionSequence();
 
         return new ReturnStatement(expressions);
     }
@@ -235,7 +232,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     @Override
     public Statement visitTryStatement(JSParser.TryStatementContext ctx) {
 
-        BlockModel block = (BlockModel) visit(ctx.block());
+        Block block = (Block) visit(ctx.block());
         CatchProduction catchPro = ctx.catchProduction() != null ? (CatchProduction) visit(ctx.catchProduction()) : null;
 
         FinallyProduction finallyPro = ctx.finallyProduction() != null ? (FinallyProduction) visit(ctx.finallyProduction()) : null;
@@ -250,7 +247,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
         AntlrToAssignable visitor = new AntlrToAssignable(filePath);
 
         Assignable exception = visitor.visit(ctx.assignable());
-        BlockModel block = (BlockModel) visit(ctx.block());
+        Block block = (Block) visit(ctx.block());
 
         CatchProduction catchPro = new CatchProduction(exception, block);
         return catchPro;
@@ -258,7 +255,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
 
     @Override
     public Statement visitFinallyProduction(JSParser.FinallyProductionContext ctx) {
-        BlockModel block = (BlockModel) visit(ctx.block());
+        Block block = (Block) visit(ctx.block());
 
         FinallyProduction finallyPro = new FinallyProduction(block);
 
@@ -285,7 +282,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
             defaultClause = new DefaultClause(statements);
         }
         SwitchStatement s = new SwitchStatement(expressionSequence, cases, defaultClause);
-        System.out.println(s.toString());
+//        System.out.println(s.toString());
         return s;
 //        return new SwitchStatement(expressionSequence,cases,defaultClause);
     }

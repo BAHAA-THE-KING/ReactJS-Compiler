@@ -5,8 +5,9 @@ import js.visitors.models.Statement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
-public class ClassDeclaration implements Statement{
+public class ClassDeclaration implements Statement {
     public String id;
     public String parent;
     public List<ClassElement> elements;
@@ -19,5 +20,12 @@ public class ClassDeclaration implements Statement{
 
     public void addElement(ClassElement classElement) {
         this.elements.add(classElement);
+    }
+
+    @Override
+    public String toString() {
+        StringJoiner elementsJoiner = new StringJoiner(";\n");
+        elements.forEach(elm -> elementsJoiner.add(elm.toString()));
+        return "class " + id + (parent != null && !parent.equals("") ? "extends " + parent : "") + "{\n" + elementsJoiner + "\n}";
     }
 }

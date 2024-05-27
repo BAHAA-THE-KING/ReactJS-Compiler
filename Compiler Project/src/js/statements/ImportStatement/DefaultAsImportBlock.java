@@ -10,4 +10,9 @@ public class DefaultAsImportBlock extends ImportStatement {
         this.packageName = packageName;
         this.defaultImport = defaultImport;
     }
+
+    @Override
+    public String toString() {
+        return "import " + defaultImport.a + (defaultImport.b != null ? " as " + defaultImport.b : "") + " from " + packageName + "";
+    }
 }

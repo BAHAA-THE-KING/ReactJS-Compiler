@@ -1,6 +1,5 @@
 package js.statements.VariableDeclarationStatement;
 
-import js.SymbolTable.Symbolable;
 import js.visitors.models.Assignable;
 import js.visitors.models.Expression;
 
@@ -15,5 +14,10 @@ public class VariableDeclaration {
         this.name = name;
         this.value = value;
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return modifier + " " + name + " = " + value;
     }
 }

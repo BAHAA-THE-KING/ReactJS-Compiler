@@ -3,14 +3,14 @@ package js.expressions;
 import js.visitors.models.Expression;
 
 public class UnaryMinusExpression implements Expression {
-    public Expression identifier;
+    public Expression expression;
 
-    public UnaryMinusExpression(Expression identifier) {
-        this.identifier = identifier;
+    public UnaryMinusExpression(Expression expression) {
+        this.expression = expression;
     }
 
     @Override
     public String toString() {
-        return "-"+identifier;
+        return "-" + expression;
     }
 }

@@ -4,17 +4,17 @@ import js.visitors.models.Expression;
 
 public class TernaryExpression implements Expression {
     public Expression condition;
-    public Expression firstStatement;
-    public Expression secondStatement;
+    public Expression trueExpression;
+    public Expression falseExpression;
 
-    public TernaryExpression(Expression condition, Expression firstStatement, Expression secondStatement) {
+    public TernaryExpression(Expression condition, Expression trueExpression, Expression falseExpression) {
         this.condition = condition;
-        this.firstStatement = firstStatement;
-        this.secondStatement = secondStatement;
+        this.trueExpression = trueExpression;
+        this.falseExpression = falseExpression;
     }
 
     @Override
     public String toString() {
-        return condition+"?"+firstStatement+":"+secondStatement;
+        return condition + " ? " + trueExpression + " : " + falseExpression;
     }
 }

@@ -15,6 +15,6 @@ public class MathmaticalExpression implements Expression {
 
     @Override
     public String toString() {
-        return firstExpression+" "+process+" "+secondExpression;
+        return firstExpression + " " + process + " " + secondExpression;
     }
 }

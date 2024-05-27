@@ -2,12 +2,15 @@ package js.visitors;
 
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
-import js.statements.ClassDeclaration.PropertyName.*;
+import js.statements.ClassDeclaration.PropertyName.PropertyByExpression;
+import js.statements.ClassDeclaration.PropertyName.PropertyByName;
+import js.statements.ClassDeclaration.PropertyName.PropertyByNumber;
+import js.statements.ClassDeclaration.PropertyName.PropertyByString;
 import js.visitors.models.Expression;
 import js.visitors.models.PropertyName;
 
 public class AntlrToPropertyName extends JSParserBaseVisitor<PropertyName> {
-    public String filePath ;
+    public String filePath;
 
     public AntlrToPropertyName(String filePath) {
         this.filePath = filePath;
@@ -27,7 +30,7 @@ public class AntlrToPropertyName extends JSParserBaseVisitor<PropertyName> {
 
     @Override
     public PropertyName visitPropertyByNumber(JSParser.PropertyByNumberContext ctx) {
-        double number = Double.parseDouble(ctx.DecimalLiteral().getText());
+        String number = ctx.DecimalLiteral().getText();
         return new PropertyByNumber(number);
     }
 

@@ -4,7 +4,6 @@ import js.visitors.models.Expression;
 
 public class Argument {
     public Expression value;
-    public String type;
 
     public Argument(Expression value) {
         this.value = value;

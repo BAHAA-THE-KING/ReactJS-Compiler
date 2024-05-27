@@ -26,6 +26,25 @@ public class ProgramJS {
     public static List<String> errors = new ArrayList<>();
 
     public static void main(String[] args) throws IOException, IllegalAccessException {
+//        List<Pair<String, AttributeValue>> attributes = new ArrayList<>();
+//        attributes.add(new Pair<>("style",new AttributStringValue("background:#343232;weight:20")));
+//        List<JSXContent> body = new ArrayList<>();
+//        JSXElement jsx = new JSXElement(
+//                "div",
+//                attributes,
+//                body
+//        );
+//        List<Pair<String, AttributeValue>> outerAttributes = new ArrayList<>();
+//        outerAttributes.add(new Pair<>("style",new AttributStringValue("background:#343232;weight:20")));
+//        List<JSXContent> outerBody = new ArrayList<>();
+//        outerBody.add(jsx);outerBody.add(jsx);outerBody.add(jsx);
+//        JSXElement jsxOuter = new JSXElement(
+//                "div",
+//                outerAttributes,
+//                outerBody
+//        );
+//        System.out.println(print(JSXConverter.JsxToFunction(jsxOuter)));
+
         if (args.length != 1) {
             System.err.println("Please Select A File.");
         } else {

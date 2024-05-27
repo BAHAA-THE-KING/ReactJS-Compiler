@@ -3,19 +3,20 @@ package js.SymbolTable;
 import js.expressions.ArrayLiteral.ArrayElement;
 import js.expressions.ArrayLiteral.ArrayLiteral;
 import js.expressions.Function.AnonymousFunction;
-import js.expressions.Literals.StringLiteral;
 import js.expressions.Literals.ObjectLiteral;
+import js.expressions.Literals.StringLiteral;
 import program.SymbolTableVisitor;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Symbol implements Symbolable{
+public class Symbol implements Symbolable {
+    public static final String VAR = "Variable", ATRIB = "Attribute", PARAM = "Parameter";
     public String type; // variable , property , parameter
     public String name;
     public Object value;
-    public static final String VAR="Variable" , ATRIB= "Attribute" , PARAM = "Parameter";
+
     public Symbol(String type, String name, String value) {
         this.type = type;
         this.name = name;
@@ -26,27 +27,25 @@ public class Symbol implements Symbolable{
     public static List<Symbolable> make(String type, Object name, Object value) {
         List<Symbolable> symbArray = new ArrayList<>();
 
-        if(name instanceof ArrayLiteral){
+        if (name instanceof ArrayLiteral) {
             int nsize = (((ArrayLiteral) name).elements).size();
-            for(int i = 0 ; i < nsize; i++){
+            for (int i = 0; i < nsize; i++) {
 
                 //TODO: if value is bool or num -> error
-                if(value instanceof ArrayLiteral){
+                if (value instanceof ArrayLiteral) {
                     int vsize = (((ArrayLiteral) value).elements).size();
-                    if(nsize > vsize){
-                        List<ArrayElement> temp = Collections.nCopies(nsize-vsize, new ArrayElement(new StringLiteral("undefined")));
+                    if (nsize > vsize) {
+                        List<ArrayElement> temp = Collections.nCopies(nsize - vsize, new ArrayElement(new StringLiteral("undefined")));
                         ((ArrayLiteral) value).elements.addAll(temp);
                     }
                     symbArray.add(Symbol.make(
                             Symbol.VAR,
                             (((ArrayLiteral) name).elements).get(i).element.toString(),
                             (((ArrayLiteral) value).elements).get(i)));
-                }
-
-                else if(value instanceof StringLiteral){
+                } else if (value instanceof StringLiteral) {
                     int vsize = ((StringLiteral) value).value.length();
-                    Object val = ((StringLiteral) value).value.charAt(i+1);
-                    if(i >= vsize-2){
+                    Object val = ((StringLiteral) value).value.charAt(i + 1);
+                    if (i >= vsize - 2) {
                         val = "undefined";
                     }
                     symbArray.add(Symbol.make(
@@ -54,13 +53,11 @@ public class Symbol implements Symbolable{
                             (((ArrayLiteral) name).elements).get(i).element.toString(),
                             val)
                     );
-                }
-                
-                else{
+                } else {
                     symbArray.add(Symbol.make(
                             Symbol.VAR,
                             (((ArrayLiteral) name).elements).get(i).element.toString(),
-                            value+"["+i+"]")
+                            value + "[" + i + "]")
                     );
                 }
             }
@@ -68,9 +65,9 @@ public class Symbol implements Symbolable{
         return symbArray;
     }
 
-    public static Symbolable make(String type, String name, Object value){
+    public static Symbolable make(String type, String name, Object value) {
 
-        if(value instanceof ArrayLiteral){
+        if (value instanceof ArrayLiteral) {
             ArrayLiteral al = (ArrayLiteral) value;
             return new Scope(
                     al.getClass().getSimpleName(),
@@ -79,7 +76,7 @@ public class Symbol implements Symbolable{
             );
         }
 
-        if(value instanceof AnonymousFunction) {
+        if (value instanceof AnonymousFunction) {
             AnonymousFunction function = (AnonymousFunction) value;
             return new Scope(
                     "AnonymousFunction",
@@ -87,7 +84,7 @@ public class Symbol implements Symbolable{
                     SymbolTableVisitor.visit(function)
             );
         }
-        if(value instanceof ObjectLiteral){
+        if (value instanceof ObjectLiteral) {
             ObjectLiteral literal = (ObjectLiteral) value;
             return new Scope(
                     "ObjectLiteral",
@@ -95,17 +92,17 @@ public class Symbol implements Symbolable{
                     SymbolTableVisitor.visit(literal)
             );
         }
-        if(value instanceof ArrayElement){
+        if (value instanceof ArrayElement) {
             ArrayElement al = (ArrayElement) value;
             return (Symbol.make(type, name, al.element));
         }
-        if(value instanceof Scope){
-            return (Scope)value;
+        if (value instanceof Scope) {
+            return (Scope) value;
         }
         return new Symbol(
                 type,
                 name,
-                value!=null?value.toString():null
+                value != null ? value.toString() : null
         );
     }
 }

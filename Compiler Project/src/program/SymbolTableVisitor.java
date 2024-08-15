@@ -229,19 +229,19 @@ public class SymbolTableVisitor {
         Symbolable symb;
         PropertyName prop = np.key;
         if (prop instanceof PropertyByName) {
-            symb = Symbol.make(Symbol.VAR, ((PropertyByName) prop).id, np.value);
+            symb = Symbol.make(Symbol.PROP, ((PropertyByName) prop).id, np.value);
         } else if (prop instanceof PropertyByExpression) {
-            symb = Symbol.make(Symbol.VAR, ((PropertyByExpression) prop).value.toString(), np.value);
+            symb = Symbol.make(Symbol.PROP, ((PropertyByExpression) prop).value.toString(), np.value);
         } else//propertyByString
         {
-            symb = Symbol.make(Symbol.VAR, "\"" + ((PropertyByString) prop).value + "\"", np.value);
+            symb = Symbol.make(Symbol.PROP, "\"" + ((PropertyByString) prop).value + "\"", np.value);
         }
 
         return listify(symb);
     }
 
     public static List<Symbolable> visit(ComputedProperty np) {
-        Symbolable symb = Symbol.make(Symbol.VAR, np.key.toString(), np.value);
+        Symbolable symb = Symbol.make(Symbol.PROP, np.key.toString(), np.value);
         return listify(symb);
     }
 

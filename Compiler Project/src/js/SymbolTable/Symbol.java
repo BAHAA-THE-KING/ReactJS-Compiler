@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Symbol implements Symbolable {
-    public static final String VAR = "Variable", ATRIB = "Attribute", PARAM = "Parameter";
+    public static final String VAR = "Variable", ATRIB = "Attribute", PARAM = "Parameter", PROP="Property";
     public String type; // variable , property , parameter
     public String name;
     public Object value;

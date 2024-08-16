@@ -116,10 +116,19 @@ public class SymbolTableVisitor {
     }
 
     public static List<Symbolable> visit(VariableDeclarationStatement model) {
+
         List<Symbolable> syms = new ArrayList<>();
+
         for (VariableDeclaration var : model.vars) {
+
             if (var.name instanceof ArrayLiteral) syms.addAll(Symbol.make(Symbol.VAR, var.name, var.value));
-            else syms.add(Symbol.make(Symbol.VAR, var.name.toString(), var.value));
+
+            else {
+                if (var.modifier.equals("const"))
+                    syms.add(Symbol.make(Symbol.CONST, var.name.toString(), var.value));
+                else
+                    syms.add(Symbol.make(Symbol.VAR, var.name.toString(), var.value));
+            }
         }
         return syms;
     }

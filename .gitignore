@@ -32,3 +32,4 @@ bin/
 Compiler Project/src/antlrHTML/HTMLLexer.java
 
 Compiler Project/src/antlrJS/
+tests/random.txt

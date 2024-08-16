@@ -13,7 +13,7 @@ import js.expressions.Properties.ComputedProperty;
 import js.expressions.Properties.EllipsisProperty;
 import js.expressions.Properties.FunctionProperty;
 import js.expressions.Properties.NormalProperty;
-import js.statements.Block.BlockModel;
+import js.statements.Block.Block;
 import js.statements.ClassDeclaration.ClassDeclaration;
 import js.statements.ClassDeclaration.ClassFieldDefinition;
 import js.statements.ClassDeclaration.ClassMethodDefinition;
@@ -37,8 +37,8 @@ import java.util.List;
 public class JsxVisitor {
     public static List<Symbolable> visit(Statement model) {
         System.out.println(model);
-        if (model instanceof BlockModel) {
-            return visit((BlockModel) model);
+        if (model instanceof Block) {
+            return visit((Block) model);
         }
         if (model instanceof VariableDeclarationStatement) {
             return visit((VariableDeclarationStatement) model);
@@ -105,7 +105,7 @@ public class JsxVisitor {
     }
 
 
-    public static List<Symbolable> visit(BlockModel model) {
+    public static List<Symbolable> visit(Block model) {
         List<Symbolable> symbolables = new ArrayList<>();
         for (Statement child : model.statements) {
             List<Symbolable> s = visit(child);

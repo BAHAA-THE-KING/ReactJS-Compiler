@@ -1,43 +1,387 @@
 {
   "JsProgram" : {
     "statements" : [ {
-      "ExpressionChunk" : {
-        "expressions" : {
-          "ExpressionSequence" : {
-            "list" : [ {
-              "ParenthesizedExpression" : {
-                "sequence" : {
-                  "ExpressionSequence" : {
-                    "list" : [ {
-                      "JSXElement" : {
-                        "tagName" : "div",
-                        "attributes" : [ {
-                          "key" : "onClick",
-                          "value" : {
-                            "AttributStringValue" : {
-                              "value" : "aaa"
+      "FileImportBlock" : {
+        "packageName" : "./App.css"
+      }
+    }, {
+      "DefaultAsImportBlock" : {
+        "packageName" : "./images/meat.jpg",
+        "defaultImport" : {
+          "key" : "meatImage"
+        }
+      }
+    }, {
+      "DefaultAsImportBlock" : {
+        "packageName" : "./images/fruit.jpg",
+        "defaultImport" : {
+          "key" : "fruitImage"
+        }
+      }
+    }, {
+      "DefaultAsImportBlock" : {
+        "packageName" : "./images/vegetable.webp",
+        "defaultImport" : {
+          "key" : "vegetableImage"
+        }
+      }
+    }, {
+      "DefaultAsImportBlock" : {
+        "packageName" : "./images/chicken.webp",
+        "defaultImport" : {
+          "key" : "chickenImage"
+        }
+      }
+    }, {
+      "ObjectImportBlock" : {
+        "packageName" : "react",
+        "items" : [ {
+          "key" : "useState"
+        } ]
+      }
+    }, {
+      "DefaultAsImportBlock" : {
+        "packageName" : "./components/ProductList",
+        "defaultImport" : {
+          "key" : "ProductList"
+        }
+      }
+    }, {
+      "DefaultAsImportBlock" : {
+        "packageName" : "./components/ProductView",
+        "defaultImport" : {
+          "key" : "ProductView"
+        }
+      }
+    }, {
+      "VariableDeclarationStatement" : {
+        "vars" : [ {
+          "VariableDeclaration" : {
+            "modifier" : "const",
+            "name" : {
+              "IdentifierExpression" : {
+                "name" : "products"
+              }
+            },
+            "value" : {
+              "ArrayLiteral" : {
+                "elements" : [ {
+                  "ArrayElement" : {
+                    "element" : {
+                      "ObjectLiteral" : {
+                        "objectProperties" : [ {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "id"
+                              }
+                            },
+                            "value" : {
+                              "DecimalLiteral" : {
+                                "value" : "1"
+                              }
                             }
                           }
-                        } ],
-                        "body" : [ {
-                          "JSXElement" : {
-                            "tagName" : "h1",
-                            "attributes" : [ ],
-                            "body" : [ {
-                              "JSXText" : {
-                                "value" : "Hello,World!"
+                        }, {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "name"
                               }
-                            } ]
+                            },
+                            "value" : {
+                              "StringLiteral" : {
+                                "value" : "meat"
+                              }
+                            }
+                          }
+                        }, {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "details"
+                              }
+                            },
+                            "value" : {
+                              "StringLiteral" : {
+                                "value" : "Meat is a vital source of protein for many people, providing essential nutrients for muscle growth and repair. It is also a rich source of vitamins and minerals, including B vitamins, iron, and zinc. However, it's important to consume meat in moderation due to its high saturated fat content. Additionally, the production of meat can have significant environmental impacts, including deforestation and greenhouse gas emissions."
+                              }
+                            }
+                          }
+                        }, {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "url"
+                              }
+                            },
+                            "value" : {
+                              "IdentifierExpression" : {
+                                "name" : "meatImage"
+                              }
+                            }
                           }
                         } ]
                       }
+                    },
+                    "withEllipsis" : false
+                  }
+                }, {
+                  "ArrayElement" : {
+                    "element" : {
+                      "ObjectLiteral" : {
+                        "objectProperties" : [ {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "id"
+                              }
+                            },
+                            "value" : {
+                              "DecimalLiteral" : {
+                                "value" : "2"
+                              }
+                            }
+                          }
+                        }, {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "name"
+                              }
+                            },
+                            "value" : {
+                              "StringLiteral" : {
+                                "value" : "fruit"
+                              }
+                            }
+                          }
+                        }, {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "details"
+                              }
+                            },
+                            "value" : {
+                              "StringLiteral" : {
+                                "value" : "Fruits are a vital part of our diet, providing essential nutrients and a source of natural sweetness. They come in a variety of colors and flavors, each with its own unique health benefits. From the tart taste of citrus fruits to the sweetness of berries, fruits offer a range of flavors that can complement any meal. They are also a great source of fiber, vitamins, and minerals, making them a healthy choice for anyone's diet."
+                              }
+                            }
+                          }
+                        }, {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "url"
+                              }
+                            },
+                            "value" : {
+                              "IdentifierExpression" : {
+                                "name" : "fruitImage"
+                              }
+                            }
+                          }
+                        } ]
+                      }
+                    },
+                    "withEllipsis" : false
+                  }
+                }, {
+                  "ArrayElement" : {
+                    "element" : {
+                      "ObjectLiteral" : {
+                        "objectProperties" : [ {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "id"
+                              }
+                            },
+                            "value" : {
+                              "DecimalLiteral" : {
+                                "value" : "3"
+                              }
+                            }
+                          }
+                        }, {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "name"
+                              }
+                            },
+                            "value" : {
+                              "StringLiteral" : {
+                                "value" : "vegetable"
+                              }
+                            }
+                          }
+                        }, {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "details"
+                              }
+                            },
+                            "value" : {
+                              "StringLiteral" : {
+                                "value" : "Vegetables are a vital part of a healthy diet, providing a wide range of nutrients. They are low in calories but high in vitamins, minerals, and fiber. They also offer a variety of flavors and textures, making them a versatile addition to any meal. Some of the most common vegetables include carrots, broccoli, and spinach, but there are many more to explore."
+                              }
+                            }
+                          }
+                        }, {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "url"
+                              }
+                            },
+                            "value" : {
+                              "IdentifierExpression" : {
+                                "name" : "vegetableImage"
+                              }
+                            }
+                          }
+                        } ]
+                      }
+                    },
+                    "withEllipsis" : false
+                  }
+                }, {
+                  "ArrayElement" : {
+                    "element" : {
+                      "ObjectLiteral" : {
+                        "objectProperties" : [ {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "id"
+                              }
+                            },
+                            "value" : {
+                              "DecimalLiteral" : {
+                                "value" : "4"
+                              }
+                            }
+                          }
+                        }, {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "name"
+                              }
+                            },
+                            "value" : {
+                              "StringLiteral" : {
+                                "value" : "chicken"
+                              }
+                            }
+                          }
+                        }, {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "details"
+                              }
+                            },
+                            "value" : {
+                              "StringLiteral" : {
+                                "value" : "Chicken is a versatile and widely consumed type of meat. It is known for its tender and flavorful meat, which is often used in a variety of dishes. Chicken is also a good source of protein and is low in fat. It is commonly raised for its meat, but also for its eggs. Chicken is a popular choice for many people due to its affordability and ease of preparation."
+                              }
+                            }
+                          }
+                        }, {
+                          "NormalProperty" : {
+                            "key" : {
+                              "PropertyByName" : {
+                                "id" : "url"
+                              }
+                            },
+                            "value" : {
+                              "IdentifierExpression" : {
+                                "name" : "chickenImage"
+                              }
+                            }
+                          }
+                        } ]
+                      }
+                    },
+                    "withEllipsis" : false
+                  }
+                } ]
+              }
+            },
+            "type" : "object"
+          }
+        } ]
+      }
+    }, {
+      "FunctionDeclaration" : {
+        "Identifier" : "App",
+        "parameters" : {
+          "Parameters" : {
+            "values" : [ ]
+          }
+        },
+        "body" : [ {
+          "VariableDeclarationStatement" : {
+            "vars" : [ {
+              "VariableDeclaration" : {
+                "modifier" : "const",
+                "name" : {
+                  "ArrayLiteral" : {
+                    "elements" : [ {
+                      "ArrayElement" : {
+                        "element" : {
+                          "IdentifierExpression" : {
+                            "name" : "index"
+                          }
+                        },
+                        "withEllipsis" : false
+                      }
+                    }, {
+                      "ArrayElement" : {
+                        "element" : {
+                          "IdentifierExpression" : {
+                            "name" : "setIndex"
+                          }
+                        },
+                        "withEllipsis" : false
+                      }
                     } ]
                   }
-                }
+                },
+                "value" : {
+                  "UseStateFunction" : {
+                    "initialState" : {
+                      "Argument" : {
+                        "value" : {
+                          "DecimalLiteral" : {
+                            "value" : "0"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "type" : "toBeDetermined"
               }
             } ]
           }
-        }
+        }, {
+          "ReturnStatement" : {
+            "expr" : {
+              "ExpressionSequence" : {
+                "list" : [ ]
+              }
+            }
+          }
+        } ]
+      }
+    }, {
+      "ExportDefaultDeclaration" : {
+        "exportName" : "App"
       }
     }, {
       "EOFStatement" : {

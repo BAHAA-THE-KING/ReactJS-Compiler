@@ -18,10 +18,10 @@ public class ArrowFunction implements Function {
 
     @Override
     public String toString() {
-        StringJoiner bodyString = new StringJoiner(";\n", "", ";");
+        StringJoiner bodyString = new StringJoiner(";", "", ";");
         body.forEach(statement -> {
             bodyString.add(statement.toString());
         });
-        return "(" + parameters + ")=>{\n" + bodyString + "\n}";
+        return "(" + parameters + ")=>{" + bodyString + "}";
     }
 }

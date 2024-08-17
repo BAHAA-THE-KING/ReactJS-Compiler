@@ -18,7 +18,8 @@ public class JsProgram {
     @Override
     public String toString() {
         StringJoiner joiner = new StringJoiner(";\n");
-        statements.forEach(stmt -> joiner.add(stmt.toString()));
+
+        statements.forEach(stmt -> joiner.add(stmt==null?"":stmt.toString()));
         return joiner.toString();
     }
 }

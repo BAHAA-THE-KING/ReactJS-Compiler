@@ -34,6 +34,7 @@ import js.statements.VariableDeclarationStatement.VariableDeclarationStatement;
 import js.visitors.models.*;
 import org.antlr.v4.runtime.misc.Pair;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -140,7 +141,7 @@ public class SymbolTableVisitor {
     public static List<Symbolable> visit(VariableDeclarationStatement model,Object ...args) {
 
         List<Symbolable> syms = new ArrayList<>();
-        HashMap<String,Pair<String,String>> fatherMap = (HashMap<String,Pair<String,String>>)args[0];
+        HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
         for (VariableDeclaration var : model.vars) {
             //var name is an array [] = [] or value
             if (var.name instanceof ArrayLiteral){
@@ -425,7 +426,7 @@ public class SymbolTableVisitor {
 
     public static List<Symbolable> visit(ArrayLiteral ar,Object ...args) {
         List<Symbolable> symbArray = new ArrayList<>();
-        HashMap<String,Pair<String,String>> fatherMap = (HashMap<String,Pair<String,String>>)args[0];
+        HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
         for (ArrayElement ae : ar.elements) {
             symbArray.add(Symbol.make("ArrayElement", "", ae));
         }
@@ -433,13 +434,13 @@ public class SymbolTableVisitor {
     }
 
     public static List<Symbolable> visit(ExpressionChunk e, Object ...args) {
-        visit(e.expressions,args[0]);
+        visit(e.expressions,getMapFromArgs(args));
         return new ArrayList<>();
     }
     public static List<Symbolable> visit(ExpressionSequence e, Object ...args) {
         for (Expression exp : e.list) {
             if (exp instanceof AssignmentExpression) {
-                visit((AssignmentExpression)exp,args[0]);
+                visit((AssignmentExpression)exp,getMapFromArgs(args));
             }
         }
         return new ArrayList<>();
@@ -450,7 +451,7 @@ public class SymbolTableVisitor {
     }
 
     public static List<Symbolable> visit(AssignmentExpression e, Object ...args) {
-        HashMap<String,Pair<String,String>> fatherMap = (HashMap<String,Pair<String,String>>)args[0];
+        HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
         if(e.leftExpression instanceof ArrayLiteral){
 
         }else if(e.leftExpression instanceof IdentifierExpression){
@@ -474,6 +475,13 @@ public class SymbolTableVisitor {
 
     private static HashMap<String,Pair<String,String>> cloneHashMap(HashMap<String,Pair<String,String>> map){
         return new HashMap<>(map);
+    }
+
+    private static HashMap<String,Pair<String,String>> getMapFromArgs(Object[] args){
+        if(args.length>=1){
+            return (HashMap<String,Pair<String,String>>) args[0];
+        }
+        return new HashMap<>();
     }
 
 }

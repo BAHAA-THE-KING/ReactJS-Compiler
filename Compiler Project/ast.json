@@ -1,146 +1,87 @@
 {
   "JsProgram" : {
     "statements" : [ {
-      "VariableDeclarationStatement" : {
-        "vars" : [ {
-          "VariableDeclaration" : {
-            "modifier" : "let",
-            "name" : {
-              "IdentifierExpression" : {
-                "name" : "a"
+      "FunctionDeclaration" : {
+        "Identifier" : "Asd",
+        "parameters" : {
+          "Parameters" : {
+            "values" : [ ]
+          }
+        },
+        "body" : [ {
+          "ExpressionChunk" : {
+            "expressions" : {
+              "ExpressionSequence" : {
+                "list" : [ {
+                  "UseStateFunction" : {
+                    "initialState" : {
+                      "Argument" : {
+                        "value" : {
+                          "DecimalLiteral" : {
+                            "value" : "6"
+                          }
+                        }
+                      }
+                    }
+                  }
+                } ]
               }
-            },
-            "value" : {
-              "DecimalLiteral" : {
-                "value" : "5"
+            }
+          }
+        }, {
+          "ExpressionChunk" : {
+            "expressions" : {
+              "ExpressionSequence" : {
+                "list" : [ {
+                  "MathmaticalExpression" : {
+                    "firstExpression" : {
+                      "IdentifierExpression" : {
+                        "name" : "koko"
+                      }
+                    },
+                    "secondExpression" : {
+                      "DecimalLiteral" : {
+                        "value" : "1"
+                      }
+                    },
+                    "process" : "+"
+                  }
+                } ]
               }
-            },
-            "type" : "number"
+            }
+          }
+        }, {
+          "ExpressionChunk" : {
+            "expressions" : {
+              "ExpressionSequence" : {
+                "list" : [ {
+                  "ArgumentsExpression" : {
+                    "singleExpression" : {
+                      "IdentifierExpression" : {
+                        "name" : "setKoko"
+                      }
+                    },
+                    "arguments" : {
+                      "Arguments" : {
+                        "argumentsList" : [ {
+                          "Argument" : {
+                            "value" : {
+                              "DecimalLiteral" : {
+                                "value" : "2"
+                              }
+                            }
+                          }
+                        } ]
+                      }
+                    }
+                  }
+                } ]
+              }
+            }
           }
         } ],
         "context" : {
-          "VariableDeclerationChunkContext" : {
-          }
-        }
-      }
-    }, {
-      "VariableDeclarationStatement" : {
-        "vars" : [ {
-          "VariableDeclaration" : {
-            "modifier" : "let",
-            "name" : {
-              "IdentifierExpression" : {
-                "name" : "a"
-              }
-            },
-            "value" : {
-              "DecimalLiteral" : {
-                "value" : "1"
-              }
-            },
-            "type" : "number"
-          }
-        } ],
-        "context" : {
-          "VariableDeclerationChunkContext" : {
-          }
-        }
-      }
-    }, {
-      "VariableDeclarationStatement" : {
-        "vars" : [ {
-          "VariableDeclaration" : {
-            "modifier" : "const",
-            "name" : {
-              "IdentifierExpression" : {
-                "name" : "b"
-              }
-            },
-            "value" : {
-              "DecimalLiteral" : {
-                "value" : "1"
-              }
-            },
-            "type" : "number"
-          }
-        } ],
-        "context" : {
-          "VariableDeclerationChunkContext" : {
-          }
-        }
-      }
-    }, {
-      "ExpressionChunk" : {
-        "expressions" : {
-          "ExpressionSequence" : {
-            "list" : [ {
-              "AssignmentExpression" : {
-                "leftExpression" : {
-                  "IdentifierExpression" : {
-                    "name" : "b"
-                  }
-                },
-                "rightExpression" : {
-                  "DecimalLiteral" : {
-                    "value" : "50"
-                  }
-                },
-                "context" : {
-                  "AssignmentExpressionContext" : {
-                  }
-                }
-              }
-            } ]
-          }
-        }
-      }
-    }, {
-      "ExpressionChunk" : {
-        "expressions" : {
-          "ExpressionSequence" : {
-            "list" : [ {
-              "AssignmentExpression" : {
-                "leftExpression" : {
-                  "IdentifierExpression" : {
-                    "name" : "ahmad"
-                  }
-                },
-                "rightExpression" : {
-                  "StringLiteral" : {
-                    "value" : "sheroror"
-                  }
-                },
-                "context" : {
-                  "AssignmentExpressionContext" : {
-                  }
-                }
-              }
-            } ]
-          }
-        }
-      }
-    }, {
-      "ExpressionChunk" : {
-        "expressions" : {
-          "ExpressionSequence" : {
-            "list" : [ {
-              "AssignmentExpression" : {
-                "leftExpression" : {
-                  "IdentifierExpression" : {
-                    "name" : "a"
-                  }
-                },
-                "rightExpression" : {
-                  "IdentifierExpression" : {
-                    "name" : "ahmad"
-                  }
-                },
-                "context" : {
-                  "AssignmentExpressionContext" : {
-                  }
-                }
-              }
-            } ]
+          "FunctionDeclarationContext" : {
           }
         }
       }

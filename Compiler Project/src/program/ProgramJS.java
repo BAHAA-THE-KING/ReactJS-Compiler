@@ -53,7 +53,7 @@ public class ProgramJS {
             ParseTree antlrAST = parser.program();
             AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
             JsProgram doc = progVisitor.visit(antlrAST);
-            doc.statements.set(0, CodeGeneration.FunctionToClass((FunctionDeclaration) doc.statements.get(0)));
+//            doc.statements.set(0, CodeGeneration.FunctionToClass((FunctionDeclaration) doc.statements.get(0)));
             if (!ProgramJS.errors.isEmpty()) {
 
                 for (String err : errors) {
@@ -66,7 +66,7 @@ public class ProgramJS {
                 if (!wantToContinue) return;
             }
 
-            System.out.println(doc);
+            System.out.println("class Component {\n" + "    constructor(props) {\n" + "        this.props = props || {}; // Props passed to the component\n" + "        this.state = {}; // Initial state is empty\n" + "        this._internalInstance = null; // Placeholder for internal instance reference\n" + "\n" + "        this.componentWillMount();\n" + "    }\n" + "\n" + "    setState(newState) {\n" + "        this.state = { ...this.state, ...newState };\n" + "        this.updateComponent();\n" + "    }\n" + "\n" + "    updateComponent() {\n" + "        const nextProps = this.props;\n" + "        const nextState = this.state;\n" + "\n" + "        this.componentWillUpdate(nextProps, nextState); // Trigger willUpdate\n" + "        this._internalInstance = this.render(); // Re-render the component\n" + "        this.componentDidUpdate(this.props, this.state); // Trigger didUpdate\n" + "    }\n" + "\n" + "    // Placeholder methods for lifecycle events\n" + "    componentWillMount() {}\n" + "    componentDidMount() {}\n" + "    componentWillUpdate(nextProps, nextState) {}\n" + "    componentDidUpdate(prevProps, prevState) {}\n" + "    componentWillUnmount() {}\n" + "\n" + "    // The render method must be implemented by subclasses\n" + "    render() {\n" + "        throw new Error('Component.render must be implemented');\n" + "    }\n" + "\n" + "    mount() {\n" + "        this.componentWillMount(); // Trigger willMount\n" + "        this._internalInstance = this.render(); // Render the component\n" + "        this.componentDidMount(); // Trigger didMount\n" + "    }\n" + "\n" + "    unmount() {\n" + "        this.componentWillUnmount(); // Trigger willUnmount\n" + "        // Clean up any resources\n" + "        this._internalInstance = null;\n" + "    }\n" + "}\n" + doc);
             saveAstInFile(doc);
             saveSymbolTableInFile(doc);
             VsCode.openAstTree();

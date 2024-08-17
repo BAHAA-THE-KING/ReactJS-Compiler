@@ -1,87 +1,476 @@
 {
   "JsProgram" : {
     "statements" : [ {
-      "FunctionDeclaration" : {
-        "Identifier" : "Asd",
-        "parameters" : {
-          "Parameters" : {
-            "values" : [ ]
-          }
-        },
-        "body" : [ {
-          "ExpressionChunk" : {
-            "expressions" : {
-              "ExpressionSequence" : {
-                "list" : [ {
-                  "UseStateFunction" : {
-                    "initialState" : {
-                      "Argument" : {
-                        "value" : {
-                          "DecimalLiteral" : {
-                            "value" : "6"
+      "ClassDeclaration" : {
+        "id" : "Asd",
+        "parent" : "Component",
+        "elements" : [ {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "constructor"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ {
+                  "key" : {
+                    "IdentifierExpression" : {
+                      "name" : "props"
+                    }
+                  },
+                  "value" : {
+                    "ObjectLiteral" : {
+                      "objectProperties" : [ ]
+                    }
+                  }
+                } ]
+              }
+            },
+            "body" : [ {
+              "ExpressionChunk" : {
+                "expressions" : {
+                  "ExpressionSequence" : {
+                    "list" : [ {
+                      "ArgumentsExpression" : {
+                        "singleExpression" : {
+                          "SimpleExpression" : {
+                            "keyWord" : "super"
+                          }
+                        },
+                        "arguments" : {
+                          "Arguments" : {
+                            "argumentsList" : [ {
+                              "Argument" : {
+                                "value" : {
+                                  "IdentifierExpression" : {
+                                    "name" : "props"
+                                  }
+                                }
+                              }
+                            } ]
                           }
                         }
                       }
-                    }
+                    } ]
                   }
-                } ]
+                }
               }
-            }
-          }
-        }, {
-          "ExpressionChunk" : {
-            "expressions" : {
-              "ExpressionSequence" : {
-                "list" : [ {
-                  "MathmaticalExpression" : {
-                    "firstExpression" : {
-                      "IdentifierExpression" : {
-                        "name" : "koko"
-                      }
-                    },
-                    "secondExpression" : {
-                      "DecimalLiteral" : {
-                        "value" : "1"
-                      }
-                    },
-                    "process" : "+"
-                  }
-                } ]
-              }
-            }
-          }
-        }, {
-          "ExpressionChunk" : {
-            "expressions" : {
-              "ExpressionSequence" : {
-                "list" : [ {
-                  "ArgumentsExpression" : {
-                    "singleExpression" : {
-                      "IdentifierExpression" : {
-                        "name" : "setKoko"
-                      }
-                    },
-                    "arguments" : {
-                      "Arguments" : {
-                        "argumentsList" : [ {
-                          "Argument" : {
-                            "value" : {
-                              "DecimalLiteral" : {
-                                "value" : "2"
+            }, {
+              "ExpressionChunk" : {
+                "expressions" : {
+                  "ExpressionSequence" : {
+                    "list" : [ {
+                      "AssignmentExpression" : {
+                        "leftExpression" : {
+                          "OptionalChainExpression" : {
+                            "objectName" : {
+                              "SimpleExpression" : {
+                                "keyWord" : "this"
                               }
-                            }
+                            },
+                            "objectProperty" : {
+                              "IdentifierExpression" : {
+                                "name" : "props"
+                              }
+                            },
+                            "checkNull" : false
+                          }
+                        },
+                        "rightExpression" : {
+                          "IdentifierExpression" : {
+                            "name" : "props"
+                          }
+                        }
+                      }
+                    } ]
+                  }
+                }
+              }
+            }, {
+              "ExpressionChunk" : {
+                "expressions" : {
+                  "ExpressionSequence" : {
+                    "list" : [ {
+                      "AssignmentExpression" : {
+                        "leftExpression" : {
+                          "OptionalChainExpression" : {
+                            "objectName" : {
+                              "SimpleExpression" : {
+                                "keyWord" : "this"
+                              }
+                            },
+                            "objectProperty" : {
+                              "IdentifierExpression" : {
+                                "name" : "state"
+                              }
+                            },
+                            "checkNull" : false
+                          }
+                        },
+                        "rightExpression" : {
+                          "ObjectLiteral" : {
+                            "objectProperties" : [ {
+                              "NormalProperty" : {
+                                "key" : {
+                                  "PropertyByName" : {
+                                    "id" : "state_2"
+                                  }
+                                },
+                                "value" : {
+                                  "DecimalLiteral" : {
+                                    "value" : "6"
+                                  }
+                                }
+                              }
+                            } ]
+                          }
+                        }
+                      }
+                    } ]
+                  }
+                }
+              }
+            } ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "render"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ]
+              }
+            },
+            "body" : [ {
+              "VariableDeclarationStatement" : {
+                "vars" : [ {
+                  "VariableDeclaration" : {
+                    "modifier" : "const",
+                    "name" : {
+                      "ObjectLiteral" : {
+                        "objectProperties" : [ ]
+                      }
+                    },
+                    "value" : {
+                      "OptionalChainExpression" : {
+                        "objectName" : {
+                          "SimpleExpression" : {
+                            "keyWord" : "this"
+                          }
+                        },
+                        "objectProperty" : {
+                          "IdentifierExpression" : {
+                            "name" : "props"
+                          }
+                        },
+                        "checkNull" : false
+                      }
+                    },
+                    "type" : "idk"
+                  }
+                } ]
+              }
+            }, {
+              "VariableDeclarationStatement" : {
+                "vars" : [ {
+                  "VariableDeclaration" : {
+                    "modifier" : "const",
+                    "name" : {
+                      "ArrayLiteral" : {
+                        "elements" : [ {
+                          "ArrayElement" : {
+                            "element" : {
+                              "IdentifierExpression" : {
+                                "name" : "koko"
+                              }
+                            },
+                            "withEllipsis" : false
+                          }
+                        }, {
+                          "ArrayElement" : {
+                            "element" : {
+                              "IdentifierExpression" : {
+                                "name" : "setKoko"
+                              }
+                            },
+                            "withEllipsis" : false
+                          }
+                        } ],
+                        "context" : {
+                          "ArrayLiteralContext" : {
+                          }
+                        }
+                      }
+                    },
+                    "value" : {
+                      "ArrayLiteral" : {
+                        "elements" : [ {
+                          "ArrayElement" : {
+                            "element" : {
+                              "ExpressionSequence" : {
+                                "list" : [ {
+                                  "OptionalChainExpression" : {
+                                    "objectName" : {
+                                      "SimpleExpression" : {
+                                        "keyWord" : "this"
+                                      }
+                                    },
+                                    "objectProperty" : {
+                                      "OptionalChainExpression" : {
+                                        "objectName" : {
+                                          "IdentifierExpression" : {
+                                            "name" : "state"
+                                          }
+                                        },
+                                        "objectProperty" : {
+                                          "IdentifierExpression" : {
+                                            "name" : "state_1"
+                                          }
+                                        },
+                                        "checkNull" : false
+                                      }
+                                    },
+                                    "checkNull" : false
+                                  }
+                                } ]
+                              }
+                            },
+                            "withEllipsis" : false
+                          }
+                        }, {
+                          "ArrayElement" : {
+                            "element" : {
+                              "ArrowFunction" : {
+                                "parameters" : {
+                                  "Parameters" : {
+                                    "values" : [ {
+                                      "key" : {
+                                        "IdentifierExpression" : {
+                                          "name" : "value"
+                                        }
+                                      }
+                                    } ]
+                                  }
+                                },
+                                "body" : [ {
+                                  "ExpressionChunk" : {
+                                    "expressions" : {
+                                      "ExpressionSequence" : {
+                                        "list" : [ {
+                                          "ArgumentsExpression" : {
+                                            "singleExpression" : {
+                                              "OptionalChainExpression" : {
+                                                "objectName" : {
+                                                  "SimpleExpression" : {
+                                                    "keyWord" : "this"
+                                                  }
+                                                },
+                                                "objectProperty" : {
+                                                  "IdentifierExpression" : {
+                                                    "name" : "setState"
+                                                  }
+                                                },
+                                                "checkNull" : false
+                                              }
+                                            },
+                                            "arguments" : {
+                                              "Arguments" : {
+                                                "argumentsList" : [ {
+                                                  "Argument" : {
+                                                    "value" : {
+                                                      "ObjectLiteral" : {
+                                                        "objectProperties" : [ {
+                                                          "EllipsisProperty" : {
+                                                            "value" : {
+                                                              "IdentifierExpression" : {
+                                                                "name" : "this.state"
+                                                              }
+                                                            }
+                                                          }
+                                                        }, {
+                                                          "NormalProperty" : {
+                                                            "key" : {
+                                                              "PropertyByName" : {
+                                                                "id" : "state_1"
+                                                              }
+                                                            },
+                                                            "value" : {
+                                                              "IdentifierExpression" : {
+                                                                "name" : "value"
+                                                              }
+                                                            }
+                                                          }
+                                                        } ]
+                                                      }
+                                                    }
+                                                  }
+                                                } ]
+                                              }
+                                            }
+                                          }
+                                        } ]
+                                      }
+                                    }
+                                  }
+                                } ]
+                              }
+                            },
+                            "withEllipsis" : false
                           }
                         } ]
                       }
-                    }
+                    },
+                    "type" : "toBeDetermined"
                   }
-                } ]
+                } ],
+                "context" : {
+                  "VariableDeclerationChunkContext" : {
+                  }
+                }
               }
-            }
+            }, {
+              "ExpressionChunk" : {
+                "expressions" : {
+                  "ExpressionSequence" : {
+                    "list" : [ {
+                      "ArgumentsExpression" : {
+                        "singleExpression" : {
+                          "IdentifierExpression" : {
+                            "name" : "alert"
+                          }
+                        },
+                        "arguments" : {
+                          "Arguments" : {
+                            "argumentsList" : [ {
+                              "Argument" : {
+                                "value" : {
+                                  "IdentifierExpression" : {
+                                    "name" : "koko"
+                                  }
+                                }
+                              }
+                            } ]
+                          }
+                        }
+                      }
+                    } ]
+                  }
+                }
+              }
+            }, {
+              "ExpressionChunk" : {
+                "expressions" : {
+                  "ExpressionSequence" : {
+                    "list" : [ {
+                      "ArgumentsExpression" : {
+                        "singleExpression" : {
+                          "IdentifierExpression" : {
+                            "name" : "setInterval"
+                          }
+                        },
+                        "arguments" : {
+                          "Arguments" : {
+                            "argumentsList" : [ {
+                              "Argument" : {
+                                "value" : {
+                                  "ArrowFunction" : {
+                                    "parameters" : {
+                                      "Parameters" : {
+                                        "values" : [ ]
+                                      }
+                                    },
+                                    "body" : [ {
+                                      "ExpressionChunk" : {
+                                        "expressions" : {
+                                          "ExpressionSequence" : {
+                                            "list" : [ {
+                                              "ArgumentsExpression" : {
+                                                "singleExpression" : {
+                                                  "IdentifierExpression" : {
+                                                    "name" : "setKoko"
+                                                  }
+                                                },
+                                                "arguments" : {
+                                                  "Arguments" : {
+                                                    "argumentsList" : [ {
+                                                      "Argument" : {
+                                                        "value" : {
+                                                          "DecimalLiteral" : {
+                                                            "value" : "3"
+                                                          }
+                                                        }
+                                                      }
+                                                    } ]
+                                                  }
+                                                }
+                                              }
+                                            } ]
+                                          }
+                                        }
+                                      }
+                                    } ]
+                                  }
+                                }
+                              }
+                            }, {
+                              "Argument" : {
+                                "value" : {
+                                  "DecimalLiteral" : {
+                                    "value" : "1000"
+                                  }
+                                }
+                              }
+                            } ]
+                          }
+                        }
+                      }
+                    } ]
+                  }
+                }
+              }
+            } ]
           }
-        } ],
-        "context" : {
-          "FunctionDeclarationContext" : {
+        } ]
+      }
+    }, {
+      "ExpressionChunk" : {
+        "expressions" : {
+          "ExpressionSequence" : {
+            "list" : [ {
+              "ArgumentsExpression" : {
+                "singleExpression" : {
+                  "OptionalChainExpression" : {
+                    "objectName" : {
+                      "NewExpression" : {
+                        "id" : "Asd",
+                        "arguments" : {
+                          "Arguments" : {
+                            "argumentsList" : [ ]
+                          }
+                        }
+                      }
+                    },
+                    "objectProperty" : {
+                      "IdentifierExpression" : {
+                        "name" : "render"
+                      }
+                    },
+                    "checkNull" : false
+                  }
+                },
+                "arguments" : {
+                  "Arguments" : {
+                    "argumentsList" : [ ]
+                  }
+                }
+              }
+            } ]
           }
         }
       }

@@ -58,7 +58,7 @@ public class JSXConverter {
                         String[] pair = attribute.split(":");
                         innerLiteral.addAttribute(
                                 new NormalProperty(
-                                        new PropertyByName(pair[0]),
+                                        new PropertyByName(pair[0],null),
                                         new StringLiteral(pair[1])
                                 )
                         );
@@ -66,13 +66,13 @@ public class JSXConverter {
                     }
                 }
                 literal.addAttribute(new NormalProperty(
-                        new PropertyByName(element.a),
+                        new PropertyByName(element.a,null),
                         innerLiteral
                 ));
             } else {
                 literal.addAttribute(
                         new NormalProperty(
-                                new PropertyByName(element.a),
+                                new PropertyByName(element.a,null),
                                 new StringLiteral(element.b.toString())
                         )
                 );

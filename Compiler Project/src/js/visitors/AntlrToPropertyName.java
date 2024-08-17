@@ -19,7 +19,7 @@ public class AntlrToPropertyName extends JSParserBaseVisitor<PropertyName> {
     @Override
     public PropertyName visitPropertyByName(JSParser.PropertyByNameContext ctx) {
         String id = ctx.Identifier().getText();
-        return new PropertyByName(id);
+        return new PropertyByName(id,ctx);
     }
 
     @Override

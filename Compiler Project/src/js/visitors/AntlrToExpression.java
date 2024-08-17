@@ -180,7 +180,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     public Expression visitAssignmentExpression(JSParser.AssignmentExpressionContext ctx) {
         Expression leftExpression = visit(ctx.singleExpression(0));
         Expression rightExpression = visit(ctx.singleExpression(1));
-        AssignmentExpression assignmentExpression = new AssignmentExpression(leftExpression, rightExpression);
+        AssignmentExpression assignmentExpression = new AssignmentExpression(leftExpression, rightExpression,ctx);
         return assignmentExpression;
     }
 

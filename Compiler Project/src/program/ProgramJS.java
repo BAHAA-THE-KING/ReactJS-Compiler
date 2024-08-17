@@ -10,10 +10,10 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.misc.Pair;
 import org.antlr.v4.runtime.tree.ParseTree;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -52,9 +52,10 @@ public class ProgramJS {
             ParseTree antlrAST = parser.program();
             AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
             JsProgram doc = progVisitor.visit(antlrAST);
-            if (!errors.isEmpty()) {
+            if (!ProgramJS.errors.isEmpty()) {
+
                 for (String err : errors) {
-                    System.err.println(err);
+                    System.out.println(err);
                 }
                 System.out.println("Do you want to view ast and symbol table anyway? (Default:yes)");
                 Scanner sc = new Scanner(System.in);
@@ -64,11 +65,13 @@ public class ProgramJS {
             }
 
             System.out.println(doc.toString());
-
             saveAstInFile(doc);
             saveSymbolTableInFile(doc);
             VsCode.openAstTree();
             VsCode.openSymbolTree();
+            for(String s:errors){
+                System.err.println(s);
+            }
         }
     }
 

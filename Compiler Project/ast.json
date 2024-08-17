@@ -1,70 +1,142 @@
 {
   "JsProgram" : {
     "statements" : [ {
+      "VariableDeclarationStatement" : {
+        "vars" : [ {
+          "VariableDeclaration" : {
+            "modifier" : "let",
+            "name" : {
+              "IdentifierExpression" : {
+                "name" : "a"
+              }
+            },
+            "value" : {
+              "DecimalLiteral" : {
+                "value" : "5"
+              }
+            },
+            "type" : "number"
+          }
+        } ],
+        "context" : {
+          "VariableDeclerationChunkContext" : {
+          }
+        }
+      }
+    }, {
+      "VariableDeclarationStatement" : {
+        "vars" : [ {
+          "VariableDeclaration" : {
+            "modifier" : "let",
+            "name" : {
+              "IdentifierExpression" : {
+                "name" : "a"
+              }
+            },
+            "value" : {
+              "DecimalLiteral" : {
+                "value" : "1"
+              }
+            },
+            "type" : "number"
+          }
+        } ],
+        "context" : {
+          "VariableDeclerationChunkContext" : {
+          }
+        }
+      }
+    }, {
+      "VariableDeclarationStatement" : {
+        "vars" : [ {
+          "VariableDeclaration" : {
+            "modifier" : "const",
+            "name" : {
+              "IdentifierExpression" : {
+                "name" : "b"
+              }
+            },
+            "value" : {
+              "DecimalLiteral" : {
+                "value" : "1"
+              }
+            },
+            "type" : "number"
+          }
+        } ],
+        "context" : {
+          "VariableDeclerationChunkContext" : {
+          }
+        }
+      }
+    }, {
       "ExpressionChunk" : {
         "expressions" : {
           "ExpressionSequence" : {
             "list" : [ {
-              "UseEffectFunction" : {
-                "onRenderFunction" : {
-                  "ArrowFunction" : {
-                    "parameters" : {
-                      "Parameters" : {
-                        "values" : [ ]
-                      }
-                    },
-                    "body" : [ {
-                      "ExpressionChunk" : {
-                        "expressions" : {
-                          "ExpressionSequence" : {
-                            "list" : [ {
-                              "UseEffectFunction" : {
-                                "onRenderFunction" : {
-                                  "ArrowFunction" : {
-                                    "parameters" : {
-                                      "Parameters" : {
-                                        "values" : [ ]
-                                      }
-                                    },
-                                    "body" : [ {
-                                      "ExpressionChunk" : {
-                                        "expressions" : {
-                                          "ExpressionSequence" : {
-                                            "list" : [ {
-                                              "IdentifierExpression" : {
-                                                "name" : "asd"
-                                              }
-                                            } ]
-                                          }
-                                        }
-                                      }
-                                    } ]
-                                  }
-                                },
-                                "dependencies" : {
-                                  "Argument" : {
-                                    "value" : {
-                                      "ArrayLiteral" : {
-                                        "elements" : [ ]
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            } ]
-                          }
-                        }
-                      }
-                    } ]
+              "AssignmentExpression" : {
+                "leftExpression" : {
+                  "IdentifierExpression" : {
+                    "name" : "b"
                   }
                 },
-                "dependencies" : {
-                  "Argument" : {
-                    "value" : {
-                      "ArrayLiteral" : {
-                        "elements" : [ ]
-                      }
-                    }
+                "rightExpression" : {
+                  "DecimalLiteral" : {
+                    "value" : "50"
+                  }
+                },
+                "context" : {
+                  "AssignmentExpressionContext" : {
+                  }
+                }
+              }
+            } ]
+          }
+        }
+      }
+    }, {
+      "ExpressionChunk" : {
+        "expressions" : {
+          "ExpressionSequence" : {
+            "list" : [ {
+              "AssignmentExpression" : {
+                "leftExpression" : {
+                  "IdentifierExpression" : {
+                    "name" : "ahmad"
+                  }
+                },
+                "rightExpression" : {
+                  "StringLiteral" : {
+                    "value" : "sheroror"
+                  }
+                },
+                "context" : {
+                  "AssignmentExpressionContext" : {
+                  }
+                }
+              }
+            } ]
+          }
+        }
+      }
+    }, {
+      "ExpressionChunk" : {
+        "expressions" : {
+          "ExpressionSequence" : {
+            "list" : [ {
+              "AssignmentExpression" : {
+                "leftExpression" : {
+                  "IdentifierExpression" : {
+                    "name" : "a"
+                  }
+                },
+                "rightExpression" : {
+                  "IdentifierExpression" : {
+                    "name" : "ahmad"
+                  }
+                },
+                "context" : {
+                  "AssignmentExpressionContext" : {
                   }
                 }
               }

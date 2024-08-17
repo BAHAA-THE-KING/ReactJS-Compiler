@@ -4,6 +4,7 @@ import antlrJS.JSParser;
 import js.visitors.AntlrToExpression;
 import js.visitors.models.Assignable;
 import js.visitors.models.Expression;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ public class ArrayLiteral implements Expression, Assignable {
 
     public String filePath;
     public List<ArrayElement> elements;
+    public ParserRuleContext context;
 
     public ArrayLiteral() {
         this.elements = new ArrayList<>();
@@ -25,6 +27,7 @@ public class ArrayLiteral implements Expression, Assignable {
             Expression exp = visitor.visit(child.singleExpression());
             result.add(new ArrayElement(exp).withEllipsis(child.Ellipsis() != null));
         }
+        this.context = ctx;
         this.elements = result;
     }
 

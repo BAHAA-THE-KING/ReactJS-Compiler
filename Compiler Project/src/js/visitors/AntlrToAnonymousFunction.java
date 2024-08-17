@@ -31,7 +31,7 @@ public class AntlrToAnonymousFunction extends JSParserBaseVisitor<Function> {
         for (int i = 0; i < functionBody.statement().size(); i++) {
             body.add(statementVisitor.visit(functionBody.statement(i)));
         }
-        return new AnonymousFunction(parameters, body);
+        return new AnonymousFunction(parameters, body,ctx);
     }
 
     @Override
@@ -57,6 +57,6 @@ public class AntlrToAnonymousFunction extends JSParserBaseVisitor<Function> {
             ExpressionSequence expressions = new ExpressionSequence(expression);
             body.add(new ReturnStatement(expressions));
         }
-        return new ArrowFunction(parameters, body);
+        return new ArrowFunction(parameters, body,ctx);
     }
 }

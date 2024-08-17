@@ -3,6 +3,7 @@ package js.expressions.Function;
 import js.visitors.models.Function;
 import js.visitors.models.Parameters;
 import js.visitors.models.Statement;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.List;
 import java.util.StringJoiner;
@@ -10,10 +11,12 @@ import java.util.StringJoiner;
 public class AnonymousFunction implements Function {
     public Parameters parameters;
     public List<Statement> body;
+    public ParserRuleContext context;
 
-    public AnonymousFunction(Parameters parameters, List<Statement> body) {
+    public AnonymousFunction(Parameters parameters, List<Statement> body,ParserRuleContext context) {
         this.parameters = parameters;
         this.body = body;
+        this.context = context;
     }
 
     @Override

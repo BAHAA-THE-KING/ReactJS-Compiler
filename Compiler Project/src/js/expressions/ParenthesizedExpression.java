@@ -10,6 +10,10 @@ public class ParenthesizedExpression implements Expression {
         this.sequence = new ExpressionSequence(ctx, filePath);
     }
 
+    public ParenthesizedExpression(ExpressionSequence sequence) {
+        this.sequence = sequence;
+    }
+
     @Override
     public String toString() {
         return "(" + sequence + ")";

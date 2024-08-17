@@ -17,7 +17,10 @@ public class Parameters {
     @Override
     public String toString() {
         StringJoiner joiner = new StringJoiner(", ");
-        values.forEach(val -> joiner.add(val.a + " = " + val.b));
+        for (var val : values) {
+            if (val.b != null) joiner.add(val.a + " = " + val.b);
+            else joiner.add(val.a.toString());
+        }
         if (spreadParameter != null) joiner.add("..." + spreadParameter);
         return joiner.toString();
     }

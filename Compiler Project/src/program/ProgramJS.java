@@ -3,6 +3,7 @@ package program;
 import antlrJS.JSLexer;
 import antlrJS.JSParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import js.statements.Function.FunctionDeclaration;
 import js.visitors.AntlrToProgram;
 import js.visitors.models.JsProgram;
 import org.antlr.v4.runtime.CharStream;
@@ -10,10 +11,10 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.misc.Pair;
 import org.antlr.v4.runtime.tree.ParseTree;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class ProgramJS {
             ParseTree antlrAST = parser.program();
             AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
             JsProgram doc = progVisitor.visit(antlrAST);
+            doc.statements.set(0, CodeGeneration.FunctionToClass((FunctionDeclaration) doc.statements.get(0)));
             if (!ProgramJS.errors.isEmpty()) {
 
                 for (String err : errors) {
@@ -69,7 +71,7 @@ public class ProgramJS {
             saveSymbolTableInFile(doc);
             VsCode.openAstTree();
             VsCode.openSymbolTree();
-            for(String s:errors){
+            for (String s : errors) {
                 System.err.println(s);
             }
         }
@@ -100,7 +102,7 @@ public class ProgramJS {
         String json = "{" + print(SymbolTableVisitor.visit(doc)) + "}";
 
         ObjectMapper objectMapper = new ObjectMapper();
-        Object jsonObject = objectMapper.readValue(json, Object.class);
+        Object jsonObject = objectMapper.readValue(json.replace("\n", "\\n"), Object.class);
         json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject);
 
         System.out.println("Symbol Table :");

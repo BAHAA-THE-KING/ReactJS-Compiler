@@ -5,8 +5,8 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class Error {
     private static String getMessage(int line, int column, String filePath, String errorType, String errorMsg) {
-        return String.format("%s Error in %s:%d:%d at line %d, column %d%nMessage: %s",
-                errorType, filePath, line, column, line, column, errorMsg);
+        return String.format("%s Error at line %d: %s",
+                errorType, line, errorMsg);
     }
 
     private static String getMessage(ParserRuleContext ctx, String filePath, String errorType, String errorMsg) {
@@ -34,7 +34,6 @@ public class Error {
     }
     public static void jsError(ParserRuleContext ctx,String errorMsg) {
         ProgramJS.errors.add(getMessage(ctx, "", "JS", errorMsg));
-        System.out.println(ProgramJS.errors);
     }
 
     public static void jsError(TerminalNode ctx, String filePath, String errorMsg) {

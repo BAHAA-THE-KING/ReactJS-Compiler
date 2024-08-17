@@ -19,8 +19,8 @@ public class Block implements Statement {
 
     @Override
     public String toString() {
-        StringJoiner statementsJoiner = new StringJoiner(";\n");
+        StringJoiner statementsJoiner = new StringJoiner(";\\n");
         statements.forEach(stmt -> statementsJoiner.add(stmt.toString()));
-        return "{\n" + statementsJoiner + "\n}";
+        return "{\\n" + statementsJoiner + "\\n}";
     }
 }

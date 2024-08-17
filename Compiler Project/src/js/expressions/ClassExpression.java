@@ -24,18 +24,18 @@ public class ClassExpression implements Expression {
 
     @Override
     public String toString() {
-        StringJoiner elementsString = new StringJoiner("\n");
+        StringJoiner elementsString = new StringJoiner("\\n");
         elements.forEach(classElement -> {
             if (classElement instanceof ClassFieldDefinition field) {
                 elementsString.add(field.propertyName + " = " + field.propertyValue);
             } else if (classElement instanceof ClassMethodDefinition method) {
-                StringJoiner bodyString = new StringJoiner("\n");
+                StringJoiner bodyString = new StringJoiner("\\n");
                 method.body.forEach(statement -> {
                     bodyString.add(statement.toString());
                 });
-                elementsString.add(method.propertyName + " = function(" + method.parameters + ")" + "{\n" + bodyString + "}");
+                elementsString.add(method.propertyName + " = function(" + method.parameters + ")" + "{\\n" + bodyString + "}");
             }
         });
-        return "class " + name + "{\n" + elementsString + "\n}";
+        return "class " + name + "{\\n" + elementsString + "\\n}";
     }
 }

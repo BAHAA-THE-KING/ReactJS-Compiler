@@ -25,6 +25,6 @@ public class ObjectLiteral implements Expression, Assignable {
     public String toString() {
         StringJoiner propsJoiner = new StringJoiner(", ");
         objectProperties.forEach(prop -> propsJoiner.add(prop.toString()));
-        return "{\n" + propsJoiner + "\n}";
+        return "{\\n" + propsJoiner + "\\n}";
     }
 }

@@ -18,10 +18,10 @@ public class AnonymousFunction implements Function {
 
     @Override
     public String toString() {
-        StringJoiner bodyString = new StringJoiner("\n");
+        StringJoiner bodyString = new StringJoiner("\\n");
         body.forEach(statement -> {
             bodyString.add(statement.toString());
         });
-        return "function(" + parameters + "){\n" + bodyString + "}";
+        return "function(" + parameters + "){\\n" + bodyString + "}";
     }
 }

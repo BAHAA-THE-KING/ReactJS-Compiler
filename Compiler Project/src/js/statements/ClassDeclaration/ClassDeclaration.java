@@ -24,8 +24,8 @@ public class ClassDeclaration implements Statement {
 
     @Override
     public String toString() {
-        StringJoiner elementsJoiner = new StringJoiner(";\n");
+        StringJoiner elementsJoiner = new StringJoiner(";\\n");
         elements.forEach(elm -> elementsJoiner.add(elm.toString()));
-        return "class " + id + (parent != null && !parent.equals("") ? "extends " + parent : "") + "{\n" + elementsJoiner + "\n}";
+        return "class " + id + (parent != null && !parent.equals("") ? " extends " + parent : "") + "{\\n" + elementsJoiner + "\\n}";
     }
 }

@@ -19,10 +19,10 @@ public class ArrowFunction extends AnonymousFunction {
 
     @Override
     public String toString() {
-        StringJoiner bodyString = new StringJoiner(";", "", ";");
+        StringJoiner bodyString = new StringJoiner(";\\n", "", ";");
         body.forEach(statement -> {
             bodyString.add(statement.toString());
         });
-        return "(" + parameters + ")=>{" + bodyString + "}";
+        return "(" + parameters + ")=>{\\n" + bodyString + "\\n}";
     }
 }

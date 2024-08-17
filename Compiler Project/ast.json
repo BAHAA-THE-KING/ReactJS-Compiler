@@ -1,53 +1,97 @@
 {
   "JsProgram" : {
     "statements" : [ {
-      "ExpressionChunk" : {
-        "expressions" : {
-          "ExpressionSequence" : {
-            "list" : [ {
-              "UseEffectFunction" : {
-                "onRenderFunction" : {
-                  "ArrowFunction" : {
-                    "parameters" : {
-                      "Parameters" : {
-                        "values" : [ ]
+      "ClassDeclaration" : {
+        "id" : "Asd",
+        "parent" : "ReactJSClassComponent",
+        "elements" : [ {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "constructor"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ {
+                  "key" : {
+                    "IdentifierExpression" : {
+                      "name" : "props"
+                    }
+                  },
+                  "value" : {
+                    "ObjectLiteral" : {
+                      "objectProperties" : [ ]
+                    }
+                  }
+                } ]
+              }
+            },
+            "body" : [ {
+              "ExpressionChunk" : {
+                "expressions" : {
+                  "ExpressionSequence" : {
+                    "list" : [ {
+                      "AssignmentExpression" : {
+                        "leftExpression" : {
+                          "OptionalChainExpression" : {
+                            "objectName" : {
+                              "SimpleExpression" : {
+                                "keyWord" : "this"
+                              }
+                            },
+                            "objectProperty" : {
+                              "IdentifierExpression" : {
+                                "name" : "props"
+                              }
+                            },
+                            "checkNull" : false
+                          }
+                        },
+                        "rightExpression" : {
+                          "IdentifierExpression" : {
+                            "name" : "props"
+                          }
+                        }
                       }
-                    },
-                    "body" : [ {
-                      "ExpressionChunk" : {
-                        "expressions" : {
-                          "ExpressionSequence" : {
-                            "list" : [ {
-                              "UseEffectFunction" : {
-                                "onRenderFunction" : {
-                                  "ArrowFunction" : {
-                                    "parameters" : {
-                                      "Parameters" : {
-                                        "values" : [ ]
-                                      }
-                                    },
-                                    "body" : [ {
-                                      "ExpressionChunk" : {
-                                        "expressions" : {
-                                          "ExpressionSequence" : {
-                                            "list" : [ {
-                                              "IdentifierExpression" : {
-                                                "name" : "asd"
-                                              }
-                                            } ]
-                                          }
-                                        }
-                                      }
-                                    } ]
+                    } ]
+                  }
+                }
+              }
+            }, {
+              "ExpressionChunk" : {
+                "expressions" : {
+                  "ExpressionSequence" : {
+                    "list" : [ {
+                      "AssignmentExpression" : {
+                        "leftExpression" : {
+                          "OptionalChainExpression" : {
+                            "objectName" : {
+                              "SimpleExpression" : {
+                                "keyWord" : "this"
+                              }
+                            },
+                            "objectProperty" : {
+                              "IdentifierExpression" : {
+                                "name" : "state"
+                              }
+                            },
+                            "checkNull" : false
+                          }
+                        },
+                        "rightExpression" : {
+                          "ObjectLiteral" : {
+                            "objectProperties" : [ {
+                              "NormalProperty" : {
+                                "key" : {
+                                  "PropertyByName" : {
+                                    "id" : "state_1"
                                   }
                                 },
-                                "dependencies" : {
-                                  "Argument" : {
-                                    "value" : {
-                                      "ArrayLiteral" : {
-                                        "elements" : [ ]
-                                      }
-                                    }
+                                "value" : {
+                                  "DecimalLiteral" : {
+                                    "value" : "6"
                                   }
                                 }
                               }
@@ -57,20 +101,223 @@
                       }
                     } ]
                   }
-                },
-                "dependencies" : {
-                  "Argument" : {
-                    "value" : {
-                      "ArrayLiteral" : {
-                        "elements" : [ ]
-                      }
+                }
+              }
+            } ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "componentWillMount"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ]
+              }
+            },
+            "body" : [ ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "render"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ {
+                  "key" : {
+                    "ObjectLiteral" : {
+                      "objectProperties" : [ ]
                     }
+                  }
+                } ]
+              }
+            },
+            "body" : [ {
+              "ExpressionChunk" : {
+                "expressions" : {
+                  "ExpressionSequence" : {
+                    "list" : [ {
+                      "UseStateFunction" : {
+                        "initialState" : {
+                          "Argument" : {
+                            "value" : {
+                              "DecimalLiteral" : {
+                                "value" : "6"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    } ]
+                  }
+                }
+              }
+            }, {
+              "ExpressionChunk" : {
+                "expressions" : {
+                  "ExpressionSequence" : {
+                    "list" : [ {
+                      "MathmaticalExpression" : {
+                        "firstExpression" : {
+                          "IdentifierExpression" : {
+                            "name" : "koko"
+                          }
+                        },
+                        "secondExpression" : {
+                          "DecimalLiteral" : {
+                            "value" : "1"
+                          }
+                        },
+                        "process" : "+"
+                      }
+                    } ]
+                  }
+                }
+              }
+            }, {
+              "ExpressionChunk" : {
+                "expressions" : {
+                  "ExpressionSequence" : {
+                    "list" : [ {
+                      "ArgumentsExpression" : {
+                        "singleExpression" : {
+                          "IdentifierExpression" : {
+                            "name" : "setKoko"
+                          }
+                        },
+                        "arguments" : {
+                          "Arguments" : {
+                            "argumentsList" : [ {
+                              "Argument" : {
+                                "value" : {
+                                  "DecimalLiteral" : {
+                                    "value" : "2"
+                                  }
+                                }
+                              }
+                            } ]
+                          }
+                        }
+                      }
+                    } ]
                   }
                 }
               }
             } ]
           }
-        }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "componentDidMount"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ]
+              }
+            },
+            "body" : [ ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "componentWillReceiveProps"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ]
+              }
+            },
+            "body" : [ ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "setState"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ]
+              }
+            },
+            "body" : [ ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "shouldComponentUpdate"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ]
+              }
+            },
+            "body" : [ ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "componentWillUpdate"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ]
+              }
+            },
+            "body" : [ ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "componentDidUpdate"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ]
+              }
+            },
+            "body" : [ ]
+          }
+        }, {
+          "ClassMethodDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "componentWillUnmount"
+              }
+            },
+            "parameters" : {
+              "Parameters" : {
+                "values" : [ ]
+              }
+            },
+            "body" : [ ]
+          }
+        } ]
       }
     }, {
       "EOFStatement" : {

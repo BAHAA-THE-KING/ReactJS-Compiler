@@ -3,6 +3,7 @@ package program;
 import antlrJS.JSLexer;
 import antlrJS.JSParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import js.statements.Function.FunctionDeclaration;
 import js.visitors.AntlrToProgram;
 import js.visitors.models.JsProgram;
 import org.antlr.v4.runtime.CharStream;
@@ -52,6 +53,7 @@ public class ProgramJS {
             ParseTree antlrAST = parser.program();
             AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
             JsProgram doc = progVisitor.visit(antlrAST);
+            doc.statements.set(0, CodeGeneration.FunctionToClass((FunctionDeclaration) doc.statements.get(0)));
             if (!errors.isEmpty()) {
                 for (String err : errors) {
                     System.err.println(err);

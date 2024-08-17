@@ -17,7 +17,7 @@ public class AntlrToAssignable extends JSParserBaseVisitor<Assignable> {
     @Override
     public Assignable visitVariableByName(JSParser.VariableByNameContext ctx) {
         String name = ctx.Identifier().getText();
-        return new IdentifierExpression(name);
+        return new IdentifierExpression(name,ctx);
     }
 
     @Override

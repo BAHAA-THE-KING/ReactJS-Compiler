@@ -37,8 +37,10 @@ public class JSXConverter {
                 System.err.println("JSX Converter: Unknown jsx content found!");
             }
         }
+
         return new ArgumentsExpression(
                 new OptionalChainExpression(
+                        //todo: add the context to the constructor of IdentifierExpression
                         new IdentifierExpression("document"),
                         new IdentifierExpression("createElement"),
                         false

@@ -138,7 +138,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
 
     @Override
     public Expression visitIdentifierExpression(JSParser.IdentifierExpressionContext ctx) {
-        return new IdentifierExpression(ctx.Identifier().getText());
+        return new IdentifierExpression(ctx.Identifier().getText(),ctx);
     }
 
     @Override

@@ -7,7 +7,11 @@
             "modifier" : "let",
             "name" : {
               "IdentifierExpression" : {
-                "name" : "a"
+                "name" : "a",
+                "context" : {
+                  "VariableByNameContext" : {
+                  }
+                }
               }
             },
             "value" : {
@@ -30,7 +34,11 @@
             "modifier" : "let",
             "name" : {
               "IdentifierExpression" : {
-                "name" : "a"
+                "name" : "b",
+                "context" : {
+                  "VariableByNameContext" : {
+                  }
+                }
               }
             },
             "value" : {
@@ -53,15 +61,23 @@
             "modifier" : "const",
             "name" : {
               "IdentifierExpression" : {
-                "name" : "b"
+                "name" : "c",
+                "context" : {
+                  "VariableByNameContext" : {
+                  }
+                }
               }
             },
             "value" : {
-              "DecimalLiteral" : {
-                "value" : "1"
+              "IdentifierExpression" : {
+                "name" : "sdfdsfsdf",
+                "context" : {
+                  "IdentifierExpressionContext" : {
+                  }
+                }
               }
             },
-            "type" : "number"
+            "type" : "toBeDetermined"
           }
         } ],
         "context" : {
@@ -70,77 +86,116 @@
         }
       }
     }, {
-      "ExpressionChunk" : {
-        "expressions" : {
-          "ExpressionSequence" : {
-            "list" : [ {
-              "AssignmentExpression" : {
-                "leftExpression" : {
-                  "IdentifierExpression" : {
-                    "name" : "b"
+      "VariableDeclarationStatement" : {
+        "vars" : [ {
+          "VariableDeclaration" : {
+            "modifier" : "const",
+            "name" : {
+              "ArrayLiteral" : {
+                "elements" : [ {
+                  "ArrayElement" : {
+                    "element" : {
+                      "IdentifierExpression" : {
+                        "name" : "a",
+                        "context" : {
+                          "IdentifierExpressionContext" : {
+                          }
+                        }
+                      }
+                    },
+                    "withEllipsis" : false
                   }
-                },
-                "rightExpression" : {
-                  "DecimalLiteral" : {
-                    "value" : "50"
+                }, {
+                  "ArrayElement" : {
+                    "element" : {
+                      "IdentifierExpression" : {
+                        "name" : "bb",
+                        "context" : {
+                          "IdentifierExpressionContext" : {
+                          }
+                        }
+                      }
+                    },
+                    "withEllipsis" : false
                   }
-                },
+                }, {
+                  "ArrayElement" : {
+                    "element" : {
+                      "IdentifierExpression" : {
+                        "name" : "cc",
+                        "context" : {
+                          "IdentifierExpressionContext" : {
+                          }
+                        }
+                      }
+                    },
+                    "withEllipsis" : false
+                  }
+                } ],
                 "context" : {
-                  "AssignmentExpressionContext" : {
+                  "ArrayLiteralContext" : {
                   }
                 }
               }
-            } ]
+            },
+            "value" : {
+              "ArrayLiteral" : {
+                "elements" : [ {
+                  "ArrayElement" : {
+                    "element" : {
+                      "IdentifierExpression" : {
+                        "name" : "e",
+                        "context" : {
+                          "IdentifierExpressionContext" : {
+                          }
+                        }
+                      }
+                    },
+                    "withEllipsis" : false
+                  }
+                }, {
+                  "ArrayElement" : {
+                    "element" : {
+                      "IdentifierExpression" : {
+                        "name" : "f",
+                        "context" : {
+                          "IdentifierExpressionContext" : {
+                          }
+                        }
+                      }
+                    },
+                    "withEllipsis" : false
+                  }
+                }, {
+                  "ArrayElement" : {
+                    "element" : {
+                      "DecimalLiteral" : {
+                        "value" : "3"
+                      }
+                    },
+                    "withEllipsis" : false
+                  }
+                }, {
+                  "ArrayElement" : {
+                    "element" : {
+                      "DecimalLiteral" : {
+                        "value" : "5"
+                      }
+                    },
+                    "withEllipsis" : false
+                  }
+                } ],
+                "context" : {
+                  "ArrayLiteralContext" : {
+                  }
+                }
+              }
+            },
+            "type" : "object"
           }
-        }
-      }
-    }, {
-      "ExpressionChunk" : {
-        "expressions" : {
-          "ExpressionSequence" : {
-            "list" : [ {
-              "AssignmentExpression" : {
-                "leftExpression" : {
-                  "IdentifierExpression" : {
-                    "name" : "ahmad"
-                  }
-                },
-                "rightExpression" : {
-                  "StringLiteral" : {
-                    "value" : "sheroror"
-                  }
-                },
-                "context" : {
-                  "AssignmentExpressionContext" : {
-                  }
-                }
-              }
-            } ]
-          }
-        }
-      }
-    }, {
-      "ExpressionChunk" : {
-        "expressions" : {
-          "ExpressionSequence" : {
-            "list" : [ {
-              "AssignmentExpression" : {
-                "leftExpression" : {
-                  "IdentifierExpression" : {
-                    "name" : "a"
-                  }
-                },
-                "rightExpression" : {
-                  "IdentifierExpression" : {
-                    "name" : "ahmad"
-                  }
-                },
-                "context" : {
-                  "AssignmentExpressionContext" : {
-                  }
-                }
-              }
-            } ]
+        } ],
+        "context" : {
+          "VariableDeclerationChunkContext" : {
           }
         }
       }

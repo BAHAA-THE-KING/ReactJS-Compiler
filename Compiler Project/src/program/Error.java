@@ -49,4 +49,11 @@ public class Error {
         //TODO: report error to relative class(we don't seem to need it)
         return getMessage(ctx, filePath, "REACT", errorMsg);
     }
+
+    public static void variableAlreadyDefined(ParserRuleContext ctx,String varName){
+        jsError(ctx,"Variable "+varName+" is already defined.");
+    }
+    public static void variableUnDefined(ParserRuleContext ctx,String varName){
+        jsError(ctx,"Variable "+varName+" is undefined.");
+    }
 }

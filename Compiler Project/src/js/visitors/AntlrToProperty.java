@@ -34,7 +34,7 @@ public class AntlrToProperty extends JSParserBaseVisitor<Property> {
     @Override
     public Property visitPropertyIdentifierShorthand(JSParser.PropertyIdentifierShorthandContext ctx) {
         PropertyName key = new PropertyByName(ctx.Identifier().getText(),ctx);
-        Expression value = new IdentifierExpression(ctx.Identifier().getText());
+        Expression value = new IdentifierExpression(ctx.Identifier().getText(),ctx);
         return new NormalProperty(key, value);
     }
 

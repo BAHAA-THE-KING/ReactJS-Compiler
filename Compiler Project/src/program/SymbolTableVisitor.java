@@ -143,44 +143,44 @@ public class SymbolTableVisitor {
         List<Symbolable> syms = new ArrayList<>();
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
         for (VariableDeclaration var : model.vars) {
-            //var name is an array [] = [] or value
-            if (var.name instanceof ArrayLiteral){
-                syms.addAll(Symbol.make(Symbol.VAR, var.name, var.value));
-            }
-            else {
-                //var name is a string  aha = [] or value
-                if(fatherMap.containsKey(var.name.toString())){
-                    //already exists => error
-                    Error.jsError(model.context,"Variable "+var.name.toString()+" already defined.");
-                }else{
-                    if (var.modifier.equals("const")){
-                        //constant => error
-                        syms.add(Symbol.make(Symbol.CONST, var.name.toString(), var.value));
-                        fatherMap.put(var.name.toString(),new Pair<>(Symbol.CONST,var.value.toString()));
-                    }
-                    else{
-                        //all good
-                        syms.add(Symbol.make(Symbol.VAR, var.name.toString(), var.value));
-                        fatherMap.put(var.name.toString(),new Pair<>(Symbol.VAR,var.value.toString()));
+            if(var.name instanceof ArrayLiteral arrayLiteral){
+                //name is array
+                for(ArrayElement arrayElement: arrayLiteral.elements){
+                    if(arrayElement.element instanceof IdentifierExpression identifierExpression){
+                        if(fatherMap.containsKey(identifierExpression.name)){
+                            Error.variableAlreadyDefined(
+                                    identifierExpression.context,
+                                    identifierExpression.name
+                            );
+                        }
                     }
                 }
+            }else {
+                //identifierExpression or other thing
+                if(fatherMap.containsKey(var.name.toString())) {
+                    //already exists
+                    Error.variableAlreadyDefined(
+                            model.context,
+                            var.name.toString()
+                    );
+                }
             }
-            if(var.value instanceof ArrayLiteral){
-                visit((ArrayLiteral) var.value,cloneHashMap(fatherMap));
+            //naming is good, lets check the value
+            String definitionType = var.modifier.equals("const")?Symbol.CONST:Symbol.VAR;
+            if (var.value instanceof IdentifierExpression identifierExpression) {
+                visit(identifierExpression,cloneHashMap(fatherMap));
             }
+            syms.add(Symbol.make(definitionType, var.name.toString(), var.value));
+            fatherMap.put(var.name.toString(),new Pair<>(definitionType,var.value.toString()));
         }
-
         return syms;
     }
 
     public static List<Symbolable> visit(TryStatement ts,Object ...args) {
-
         List<Symbolable> symbArray = new ArrayList<>();
-
         Scope block = (Scope) visit(ts.block).get(0);
         block.type = "tryBlock";
         symbArray.add(block);
-
         Scope catchBlock;
         if (ts.catchProduction != null) {
             catchBlock = (Scope) visit(ts.catchProduction).get(0);
@@ -428,6 +428,7 @@ public class SymbolTableVisitor {
         List<Symbolable> symbArray = new ArrayList<>();
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
         for (ArrayElement ae : ar.elements) {
+            visit(ae.element,cloneHashMap(fatherMap));
             symbArray.add(Symbol.make("ArrayElement", "", ae));
         }
         return symbArray;
@@ -447,7 +448,22 @@ public class SymbolTableVisitor {
     }
 
     public static List<Symbolable> visit(Expression e,Object ...args) {
-        return visit((VariableDeclarationStatement) e);
+        HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
+        if(e instanceof VariableDeclarationStatement vds){
+            return visit(vds,fatherMap);
+        }
+        if(e instanceof IdentifierExpression ie){
+            return visit(ie,fatherMap);
+        }
+        return new ArrayList<>();
+    }
+    public static List<Symbolable> visit(IdentifierExpression e, Object ...args) {
+        HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
+        if(!fatherMap.containsKey(e.name)){
+            Error.variableUnDefined(e.context,e.name);
+        }
+//        visit(e.expressions,getMapFromArgs(args));
+        return new ArrayList<>();
     }
 
     public static List<Symbolable> visit(AssignmentExpression e, Object ...args) {

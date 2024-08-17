@@ -24,10 +24,10 @@ public class JSXElement implements Expression, JSXContent {
         StringJoiner attributesJoiner = new StringJoiner(" ");
         attributes.forEach(att -> attributesJoiner.add(att.a + "=" + att.b));
 
-        StringJoiner bodyJoiner = new StringJoiner("\\n");
+        StringJoiner bodyJoiner = new StringJoiner("\n");
         body.forEach(cnt -> bodyJoiner.add(cnt.toString()));
 
         if (body.size() == 0) return "<" + tagName + " " + attributesJoiner + " />";
-        return "<" + tagName + " " + attributesJoiner + ">\\n" + bodyJoiner + "</" + tagName + ">";
+        return "<" + tagName + " " + attributesJoiner + ">\n" + bodyJoiner + "</" + tagName + ">";
     }
 }

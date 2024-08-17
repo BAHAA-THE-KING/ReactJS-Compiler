@@ -23,8 +23,8 @@ public class ClassMethodDefinition implements ClassElement {
 
     @Override
     public String toString() {
-        StringJoiner bodyJoiner = new StringJoiner(";\\n");
+        StringJoiner bodyJoiner = new StringJoiner(";\n");
         body.forEach(stmt -> bodyJoiner.add(stmt.toString()));
-        return (isStatic ? "static " : "") + propertyName + "(" + parameters + "){\\n" + bodyJoiner + "\\n}";
+        return (isStatic ? "static " : "") + propertyName + "(" + parameters + "){\n" + bodyJoiner + "\n}";
     }
 }

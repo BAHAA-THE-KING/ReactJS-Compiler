@@ -16,6 +16,6 @@ public class ConditionalStatement implements Statement {
 
     @Override
     public String toString() {
-        return "if (" + expressions + ")\\n" + statement + "\\n" + elseStatement;
+        return "if (" + expressions + ")\n" + statement + "\n" + elseStatement;
     }
 }

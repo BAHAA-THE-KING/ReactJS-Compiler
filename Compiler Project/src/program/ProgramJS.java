@@ -2,6 +2,8 @@ package program;
 
 import antlrJS.JSLexer;
 import antlrJS.JSParser;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.util.JsonParserDelegate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import js.statements.Function.FunctionDeclaration;
 import js.visitors.AntlrToProgram;
@@ -65,7 +67,7 @@ public class ProgramJS {
                 if (!wantToContinue) return;
             }
 
-            System.out.println(doc.toString());
+            System.out.println(doc);
 
             saveAstInFile(doc);
             saveSymbolTableInFile(doc);
@@ -99,7 +101,7 @@ public class ProgramJS {
         String json = "{" + print(SymbolTableVisitor.visit(doc)) + "}";
 
         ObjectMapper objectMapper = new ObjectMapper();
-        Object jsonObject = objectMapper.readValue(json, Object.class);
+        Object jsonObject = objectMapper.readValue(json.replace("\n", "\\n"), Object.class);
         json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject);
 
         System.out.println("Symbol Table :");

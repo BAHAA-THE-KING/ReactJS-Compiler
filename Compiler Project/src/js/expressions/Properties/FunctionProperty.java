@@ -40,11 +40,11 @@ public class FunctionProperty implements Property {
         });
         if (spreadParameter != null) parametersJoiner.add("..." + spreadParameter);
 
-        StringJoiner bodyJoiner = new StringJoiner("\\n");
+        StringJoiner bodyJoiner = new StringJoiner("\n");
         bodyStatements.forEach(statement -> {
             bodyJoiner.add(statement.toString());
         });
 
-        return name + "(" + parametersJoiner + "){\\n" + bodyJoiner + "\\n}";
+        return name + "(" + parametersJoiner + "){\n" + bodyJoiner + "\n}";
     }
 }

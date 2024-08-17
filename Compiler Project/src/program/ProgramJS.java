@@ -66,7 +66,7 @@ public class ProgramJS {
                 if (!wantToContinue) return;
             }
 
-            System.out.println(doc.toString());
+            System.out.println(doc);
             saveAstInFile(doc);
             saveSymbolTableInFile(doc);
             VsCode.openAstTree();

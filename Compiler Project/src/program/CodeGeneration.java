@@ -111,7 +111,8 @@ public class CodeGeneration {
             if (statement instanceof ExpressionChunk) {
                 for (Expression expressionChunk : ((ExpressionChunk) statement).expressions.list) {
                     if (expressionChunk instanceof UseStateFunction) {
-                        PropertyName name = new PropertyByName("state_" + (stateNum1++), null);
+                        stateNum1++;
+                        PropertyName name = new PropertyByName("state_" + stateNum1, null);
                         Expression value = ((UseStateFunction) expressionChunk).initialState.value;
                         objectLiteral.addAttribute(new NormalProperty(name, value));
                     }
@@ -120,7 +121,8 @@ public class CodeGeneration {
                 // variables with useState()
                 for (VariableDeclaration varDecl : ((VariableDeclarationStatement) statement).vars) {
                     if (varDecl.value instanceof UseStateFunction) {
-                        PropertyName name = new PropertyByName("state_" + (stateNum1++), null);
+                        stateNum1++;
+                        PropertyName name = new PropertyByName("state_" + stateNum1, null);
                         Expression value = ((UseStateFunction) varDecl.value).initialState.value;
                         objectLiteral.addAttribute(new NormalProperty(name, value));
                     }
@@ -132,35 +134,16 @@ public class CodeGeneration {
 
     private static List<Statement> ReplaceUseStates(FunctionDeclaration functionDeclaration) {
         List<Statement> statements = functionDeclaration.body;
-        for (Statement statement : statements) {
-            if (statement instanceof UseStateFunction) {
-                // Replace useState() with [this.state, value=>this.setState({...this.state, state_NUM++:value})]
-                ArrayLiteral array = new ArrayLiteral();
-
-                array.addElement(new ArrayElement(new ExpressionSequence(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("state"), false)), false));
-
-                List<Pair<Assignable, Expression>> params = new ArrayList<>();
-                params.add(new Pair<>(new IdentifierExpression("value"), null));
-                Parameters parameters = new Parameters(params, null);
-
-                List<Statement> body = new ArrayList<>();
-                ObjectLiteral objectLiteral = new ObjectLiteral();
-                objectLiteral.addAttribute(new EllipsisProperty(new IdentifierExpression("this.state")));
-                objectLiteral.addAttribute(new NormalProperty(new PropertyByName("state_" + (stateNum2++), null), new IdentifierExpression("value")));
-                Arguments arguments = new Arguments();
-                arguments.addArgument(new Argument(objectLiteral));
-
-                body.add(new ExpressionChunk(new ExpressionSequence(new ArgumentsExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("setState"), false), arguments))));
-                array.addElement(new ArrayElement(new ArrowFunction(parameters, body, null), false));
-            } else if (statement instanceof VariableDeclarationStatement) {
-                // variables with useState()
-                for (VariableDeclaration varDecl : ((VariableDeclarationStatement) statement).vars) {
-                    if (varDecl.value instanceof UseStateFunction) {
-
+        for (int i = 0; i < statements.size(); i++) {
+            Statement statement = statements.get(i);
+            if (statement instanceof ExpressionChunk) {
+                for (Expression expressionChunk : ((ExpressionChunk) statement).expressions.list) {
+                    if (expressionChunk instanceof UseStateFunction) {
+                        stateNum2++;
                         // Replace useState() with [this.state, value=>this.setState({...this.state, state_NUM++:value})]
                         ArrayLiteral array = new ArrayLiteral();
 
-                        array.addElement(new ArrayElement(new ExpressionSequence(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("state"), false)), false));
+                        array.addElement(new ArrayElement(new ExpressionSequence(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("state.state_" + stateNum2), false)), false));
 
                         List<Pair<Assignable, Expression>> params = new ArrayList<>();
                         params.add(new Pair<>(new IdentifierExpression("value"), null));
@@ -169,13 +152,43 @@ public class CodeGeneration {
                         List<Statement> body = new ArrayList<>();
                         ObjectLiteral objectLiteral = new ObjectLiteral();
                         objectLiteral.addAttribute(new EllipsisProperty(new IdentifierExpression("this.state")));
-                        objectLiteral.addAttribute(new NormalProperty(new PropertyByName("state_" + (stateNum2++), null), new IdentifierExpression("value")));
+                        objectLiteral.addAttribute(new NormalProperty(new PropertyByName("state_" + (stateNum2), null), new IdentifierExpression("value")));
                         Arguments arguments = new Arguments();
                         arguments.addArgument(new Argument(objectLiteral));
 
                         body.add(new ExpressionChunk(new ExpressionSequence(new ArgumentsExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("setState"), false), arguments))));
                         array.addElement(new ArrayElement(new ArrowFunction(parameters, body, null), false));
 
+                        ExpressionSequence expressions = new ExpressionSequence();
+                        expressions.addExpression(array);
+                        statements.set(i, new ExpressionChunk(expressions));
+                    }
+                }
+            } else if (statement instanceof VariableDeclarationStatement) {
+                // variables with useState()
+                for (VariableDeclaration varDecl : ((VariableDeclarationStatement) statement).vars) {
+                    if (varDecl.value instanceof UseStateFunction) {
+                        stateNum2++;
+                        // Replace useState() with [this.state, value=>this.setState({...this.state, state_NUM++:value})]
+                        ArrayLiteral array = new ArrayLiteral();
+
+                        array.addElement(new ArrayElement(new ExpressionSequence(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("state.state_" + stateNum2), false)), false));
+
+                        List<Pair<Assignable, Expression>> params = new ArrayList<>();
+                        params.add(new Pair<>(new IdentifierExpression("value"), null));
+                        Parameters parameters = new Parameters(params, null);
+
+                        List<Statement> body = new ArrayList<>();
+                        ObjectLiteral objectLiteral = new ObjectLiteral();
+                        objectLiteral.addAttribute(new EllipsisProperty(new IdentifierExpression("this.state")));
+                        objectLiteral.addAttribute(new NormalProperty(new PropertyByName("state_" + stateNum2, null), new IdentifierExpression("value")));
+                        Arguments arguments = new Arguments();
+                        arguments.addArgument(new Argument(objectLiteral));
+
+                        body.add(new ExpressionChunk(new ExpressionSequence(new ArgumentsExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("setState"), false), arguments))));
+                        array.addElement(new ArrayElement(new ArrowFunction(parameters, body, null), false));
+
+                        varDecl.value = array;
                     }
                 }
             }
@@ -197,9 +210,10 @@ public class CodeGeneration {
         render(){}
         */
         List<Statement> newBody = ReplaceUseStates(functionDeclaration);
-        List<Pair<Assignable, Expression>> paramsList = new ArrayList<>();
-        paramsList.add(new Pair<>(new ObjectLiteral(), null));
-        ClassMethodDefinition renderMethod = new ClassMethodDefinition(false, new PropertyByName("render", null), new Parameters(paramsList, null), newBody);
+        List<VariableDeclaration> vars = new ArrayList<>();
+        vars.add(new VariableDeclaration("const", functionDeclaration.parameters.values.size() != 0 ? functionDeclaration.parameters.values.get(0).a : new ObjectLiteral(), new IdentifierExpression("this.props"), "idk"));
+        newBody.add(0, new VariableDeclarationStatement(vars, null));
+        ClassMethodDefinition renderMethod = new ClassMethodDefinition(false, new PropertyByName("render", null), new Parameters(new ArrayList<>(), null), newBody);
         classDeclaration.addElement(renderMethod);
     }
 

@@ -2,8 +2,6 @@ package program;
 
 import antlrJS.JSLexer;
 import antlrJS.JSParser;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.util.JsonParserDelegate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import js.statements.Function.FunctionDeclaration;
 import js.visitors.AntlrToProgram;
@@ -56,9 +54,10 @@ public class ProgramJS {
             AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
             JsProgram doc = progVisitor.visit(antlrAST);
             doc.statements.set(0, CodeGeneration.FunctionToClass((FunctionDeclaration) doc.statements.get(0)));
-            if (!errors.isEmpty()) {
+            if (!ProgramJS.errors.isEmpty()) {
+
                 for (String err : errors) {
-                    System.err.println(err);
+                    System.out.println(err);
                 }
                 System.out.println("Do you want to view ast and symbol table anyway? (Default:yes)");
                 Scanner sc = new Scanner(System.in);
@@ -67,12 +66,14 @@ public class ProgramJS {
                 if (!wantToContinue) return;
             }
 
-            System.out.println(doc);
-
+            System.out.println(doc.toString());
             saveAstInFile(doc);
             saveSymbolTableInFile(doc);
             VsCode.openAstTree();
             VsCode.openSymbolTree();
+            for (String s : errors) {
+                System.err.println(s);
+            }
         }
     }
 

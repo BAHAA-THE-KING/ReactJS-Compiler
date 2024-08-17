@@ -32,6 +32,10 @@ public class Error {
     public static void jsError(ParserRuleContext ctx, String filePath, String errorMsg) {
         ProgramJS.errors.add(getMessage(ctx, filePath, "JS", errorMsg));
     }
+    public static void jsError(ParserRuleContext ctx,String errorMsg) {
+        ProgramJS.errors.add(getMessage(ctx, "", "JS", errorMsg));
+        System.out.println(ProgramJS.errors);
+    }
 
     public static void jsError(TerminalNode ctx, String filePath, String errorMsg) {
         ProgramJS.errors.add(getMessage(ctx, filePath, "JS", errorMsg));

@@ -88,9 +88,9 @@ public class CodeGeneration {
             this.state=Object Of States
             }
         */
-        Expression propsAssignmentExpression = new AssignmentExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("props"), false), new IdentifierExpression("props"));
+        Expression propsAssignmentExpression = new AssignmentExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("props"), false), new IdentifierExpression("props"), null);
         ObjectLiteral objectLiteral = GetStates(functionDeclaration);
-        Expression stateAssignmentExpression = new AssignmentExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("state"), false), objectLiteral);
+        Expression stateAssignmentExpression = new AssignmentExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("state"), false), objectLiteral, null);
 
         List<Statement> constructorBody = new ArrayList<>();
         constructorBody.add(new ExpressionChunk(new ExpressionSequence(propsAssignmentExpression)));
@@ -99,7 +99,7 @@ public class CodeGeneration {
         List<Pair<Assignable, Expression>> propsParam = new ArrayList<>();
         propsParam.add(new Pair<>(new IdentifierExpression("props"), new ObjectLiteral()));
 
-        ClassMethodDefinition constructor = new ClassMethodDefinition(false, new PropertyByName("constructor"), new Parameters(propsParam, null), constructorBody);
+        ClassMethodDefinition constructor = new ClassMethodDefinition(false, new PropertyByName("constructor", null), new Parameters(propsParam, null), constructorBody);
         classDeclaration.addElement(constructor);
     }
 
@@ -111,7 +111,7 @@ public class CodeGeneration {
             if (statement instanceof ExpressionChunk) {
                 for (Expression expressionChunk : ((ExpressionChunk) statement).expressions.list) {
                     if (expressionChunk instanceof UseStateFunction) {
-                        PropertyName name = new PropertyByName("state_" + (stateNum1++));
+                        PropertyName name = new PropertyByName("state_" + (stateNum1++), null);
                         Expression value = ((UseStateFunction) expressionChunk).initialState.value;
                         objectLiteral.addAttribute(new NormalProperty(name, value));
                     }
@@ -120,7 +120,7 @@ public class CodeGeneration {
                 // variables with useState()
                 for (VariableDeclaration varDecl : ((VariableDeclarationStatement) statement).vars) {
                     if (varDecl.value instanceof UseStateFunction) {
-                        PropertyName name = new PropertyByName("state_" + (stateNum1++));
+                        PropertyName name = new PropertyByName("state_" + (stateNum1++), null);
                         Expression value = ((UseStateFunction) varDecl.value).initialState.value;
                         objectLiteral.addAttribute(new NormalProperty(name, value));
                     }
@@ -146,12 +146,12 @@ public class CodeGeneration {
                 List<Statement> body = new ArrayList<>();
                 ObjectLiteral objectLiteral = new ObjectLiteral();
                 objectLiteral.addAttribute(new EllipsisProperty(new IdentifierExpression("this.state")));
-                objectLiteral.addAttribute(new NormalProperty(new PropertyByName("state_" + (stateNum2++)), new IdentifierExpression("value")));
+                objectLiteral.addAttribute(new NormalProperty(new PropertyByName("state_" + (stateNum2++), null), new IdentifierExpression("value")));
                 Arguments arguments = new Arguments();
                 arguments.addArgument(new Argument(objectLiteral));
 
                 body.add(new ExpressionChunk(new ExpressionSequence(new ArgumentsExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("setState"), false), arguments))));
-                array.addElement(new ArrayElement(new ArrowFunction(parameters, body), false));
+                array.addElement(new ArrayElement(new ArrowFunction(parameters, body, null), false));
             } else if (statement instanceof VariableDeclarationStatement) {
                 // variables with useState()
                 for (VariableDeclaration varDecl : ((VariableDeclarationStatement) statement).vars) {
@@ -169,12 +169,12 @@ public class CodeGeneration {
                         List<Statement> body = new ArrayList<>();
                         ObjectLiteral objectLiteral = new ObjectLiteral();
                         objectLiteral.addAttribute(new EllipsisProperty(new IdentifierExpression("this.state")));
-                        objectLiteral.addAttribute(new NormalProperty(new PropertyByName("state_" + (stateNum2++)), new IdentifierExpression("value")));
+                        objectLiteral.addAttribute(new NormalProperty(new PropertyByName("state_" + (stateNum2++), null), new IdentifierExpression("value")));
                         Arguments arguments = new Arguments();
                         arguments.addArgument(new Argument(objectLiteral));
 
                         body.add(new ExpressionChunk(new ExpressionSequence(new ArgumentsExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("setState"), false), arguments))));
-                        array.addElement(new ArrayElement(new ArrowFunction(parameters, body), false));
+                        array.addElement(new ArrayElement(new ArrowFunction(parameters, body, null), false));
 
                     }
                 }
@@ -188,7 +188,7 @@ public class CodeGeneration {
         /*
         componentWillMount(){}
         */
-        ClassMethodDefinition componentWillMountMethod = new ClassMethodDefinition(false, new PropertyByName("componentWillMount"), new Parameters(new ArrayList<>(), null), new ArrayList<>());
+        ClassMethodDefinition componentWillMountMethod = new ClassMethodDefinition(false, new PropertyByName("componentWillMount", null), new Parameters(new ArrayList<>(), null), new ArrayList<>());
         classDeclaration.addElement(componentWillMountMethod);
     }
 
@@ -199,7 +199,7 @@ public class CodeGeneration {
         List<Statement> newBody = ReplaceUseStates(functionDeclaration);
         List<Pair<Assignable, Expression>> paramsList = new ArrayList<>();
         paramsList.add(new Pair<>(new ObjectLiteral(), null));
-        ClassMethodDefinition renderMethod = new ClassMethodDefinition(false, new PropertyByName("render"), new Parameters(paramsList, null), newBody);
+        ClassMethodDefinition renderMethod = new ClassMethodDefinition(false, new PropertyByName("render", null), new Parameters(paramsList, null), newBody);
         classDeclaration.addElement(renderMethod);
     }
 
@@ -207,7 +207,7 @@ public class CodeGeneration {
         /*
         componentDidMount(){}
         */
-        ClassMethodDefinition componentDidMountMethod = new ClassMethodDefinition(false, new PropertyByName("componentDidMount"), new Parameters(new ArrayList<>(), null), new ArrayList<>());
+        ClassMethodDefinition componentDidMountMethod = new ClassMethodDefinition(false, new PropertyByName("componentDidMount", null), new Parameters(new ArrayList<>(), null), new ArrayList<>());
         classDeclaration.addElement(componentDidMountMethod);
     }
 
@@ -215,7 +215,7 @@ public class CodeGeneration {
         /*
         componentWillReceiveProps(){}
         */
-        ClassMethodDefinition componentWillReceivePropsMethod = new ClassMethodDefinition(false, new PropertyByName("componentWillReceiveProps"), new Parameters(new ArrayList<>(), null), new ArrayList<>());
+        ClassMethodDefinition componentWillReceivePropsMethod = new ClassMethodDefinition(false, new PropertyByName("componentWillReceiveProps", null), new Parameters(new ArrayList<>(), null), new ArrayList<>());
         classDeclaration.addElement(componentWillReceivePropsMethod);
     }
 
@@ -223,7 +223,7 @@ public class CodeGeneration {
         /*
         setState(){}
         */
-        ClassMethodDefinition setStateMethod = new ClassMethodDefinition(false, new PropertyByName("setState"), new Parameters(new ArrayList<>(), null), new ArrayList<>());
+        ClassMethodDefinition setStateMethod = new ClassMethodDefinition(false, new PropertyByName("setState", null), new Parameters(new ArrayList<>(), null), new ArrayList<>());
         classDeclaration.addElement(setStateMethod);
     }
 
@@ -231,7 +231,7 @@ public class CodeGeneration {
         /*
         shouldComponentUpdate(){}
         */
-        ClassMethodDefinition shouldComponentUpdateMethod = new ClassMethodDefinition(false, new PropertyByName("shouldComponentUpdate"), new Parameters(new ArrayList<>(), null), new ArrayList<>());
+        ClassMethodDefinition shouldComponentUpdateMethod = new ClassMethodDefinition(false, new PropertyByName("shouldComponentUpdate", null), new Parameters(new ArrayList<>(), null), new ArrayList<>());
         classDeclaration.addElement(shouldComponentUpdateMethod);
 
     }
@@ -240,7 +240,7 @@ public class CodeGeneration {
         /*
         componentWillUpdate(){}
         */
-        ClassMethodDefinition componentWillUpdateMethod = new ClassMethodDefinition(false, new PropertyByName("componentWillUpdate"), new Parameters(new ArrayList<>(), null), new ArrayList<>());
+        ClassMethodDefinition componentWillUpdateMethod = new ClassMethodDefinition(false, new PropertyByName("componentWillUpdate", null), new Parameters(new ArrayList<>(), null), new ArrayList<>());
         classDeclaration.addElement(componentWillUpdateMethod);
 
     }
@@ -249,7 +249,7 @@ public class CodeGeneration {
         /*
         componentDidUpdate(){}
         */
-        ClassMethodDefinition componentDidUpdateMethod = new ClassMethodDefinition(false, new PropertyByName("componentDidUpdate"), new Parameters(new ArrayList<>(), null), new ArrayList<>());
+        ClassMethodDefinition componentDidUpdateMethod = new ClassMethodDefinition(false, new PropertyByName("componentDidUpdate", null), new Parameters(new ArrayList<>(), null), new ArrayList<>());
         classDeclaration.addElement(componentDidUpdateMethod);
     }
 
@@ -257,7 +257,7 @@ public class CodeGeneration {
         /*
         componentWillUnmount(){}
         */
-        ClassMethodDefinition componentWillUnmountMethod = new ClassMethodDefinition(false, new PropertyByName("componentWillUnmount"), new Parameters(new ArrayList<>(), null), new ArrayList<>());
+        ClassMethodDefinition componentWillUnmountMethod = new ClassMethodDefinition(false, new PropertyByName("componentWillUnmount", null), new Parameters(new ArrayList<>(), null), new ArrayList<>());
         classDeclaration.addElement(componentWillUnmountMethod);
     }
 }

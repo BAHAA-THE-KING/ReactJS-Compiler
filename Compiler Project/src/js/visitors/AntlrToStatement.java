@@ -163,7 +163,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
         for (int i = 0; i < functionBody.statement().size(); i++) {
             body.add(statementVisitor.visit(functionBody.statement(i)));
         }
-        return new FunctionDeclaration(functionName, parameters, body);
+        return new FunctionDeclaration(functionName, parameters, body,ctx);
     }
 
     @Override
@@ -221,7 +221,7 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
             if (varType instanceof Undefined_) type = "undefined";
             vars.add(new VariableDeclaration(modifier, name, value, type));
         }
-        return new VariableDeclarationStatement(vars);
+        return new VariableDeclarationStatement(vars,ctx);
     }
 
     @Override

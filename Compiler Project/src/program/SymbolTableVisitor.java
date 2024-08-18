@@ -3,6 +3,7 @@ package program;
 import js.SymbolTable.Scope;
 import js.SymbolTable.Symbol;
 import js.SymbolTable.Symbolable;
+import js.expressions.ArgumentsExpression.UseStateFunction;
 import js.expressions.ArrayLiteral.ArrayElement;
 import js.expressions.ArrayLiteral.ArrayLiteral;
 import js.expressions.AssignmentExpression;
@@ -32,6 +33,7 @@ import js.statements.TryStatement.TryStatement;
 import js.statements.VariableDeclarationStatement.VariableDeclaration;
 import js.statements.VariableDeclarationStatement.VariableDeclarationStatement;
 import js.visitors.models.*;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.misc.Pair;
 
 import java.lang.reflect.Array;
@@ -157,8 +159,9 @@ public class SymbolTableVisitor {
                     }
                 }
             }
-            else {
-                //identifierExpression or other thing
+            else if (var.name instanceof IdentifierExpression){
+
+                //identifierExpression
                 if(fatherMap.containsKey(var.name.toString())) {
                     //already exists
                     Error.variableAlreadyDefined(
@@ -166,6 +169,11 @@ public class SymbolTableVisitor {
                             var.name.toString()
                     );
                     continue;
+                }
+
+                //check if this declaration is a component
+                if (isComponent(var.name.toString()) && (var.value instanceof Function fun)){
+                    visit(fun, cloneHashMap(fatherMap), true);
                 }
             }
 
@@ -512,5 +520,15 @@ public class SymbolTableVisitor {
                 map.put(symbol.name,new Pair(symbol.type,symbol.value));
             }
         }
-    };
+    }
+
+    private static boolean isComponent(Function function){
+        if (function instanceof FunctionDeclaration)
+            return isComponent(((FunctionDeclaration) function).Identifier);
+        else
+            return isComponent(((AnonymousFunction) function).parameters.values.get(0).a.toString());
+    }
+    private static boolean isComponent(String name){
+            return Character.isUpperCase(name.charAt(0));
+    }
 }

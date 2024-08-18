@@ -56,4 +56,8 @@ public class Error {
     public static void variableUnDefined(ParserRuleContext ctx,String varName){
         jsError(ctx,"Variable "+varName+" is undefined.");
     }
+
+    public static void hookError(ParserRuleContext ctx, String varName){
+        jsError(ctx,"Hook used insinde non-Component scope: " + varName);
+    }
 }

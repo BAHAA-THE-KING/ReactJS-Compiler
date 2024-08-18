@@ -28,7 +28,21 @@
             },
             "propertyValue" : {
               "DecimalLiteral" : {
-                "value" : "-1"
+                "value" : "2"
+              }
+            }
+          }
+        }, {
+          "ClassFieldDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "deps_first_1"
+              }
+            },
+            "propertyValue" : {
+              "BooleanLiteral" : {
+                "value" : true
               }
             }
           }
@@ -371,6 +385,33 @@
                 }
               }
             }, {
+              "VariableDeclarationStatement" : {
+                "vars" : [ {
+                  "VariableDeclaration" : {
+                    "modifier" : "let",
+                    "name" : {
+                      "IdentifierExpression" : {
+                        "name" : "asd",
+                        "context" : {
+                          "VariableByNameContext" : {
+                          }
+                        }
+                      }
+                    },
+                    "value" : {
+                      "StringLiteral" : {
+                        "value" : ""
+                      }
+                    },
+                    "type" : "string"
+                  }
+                } ],
+                "context" : {
+                  "VariableDeclerationChunkContext" : {
+                  }
+                }
+              }
+            }, {
               "ConditionalStatement" : {
                 "expressions" : {
                   "ExpressionSequence" : {
@@ -379,16 +420,26 @@
                         "left" : {
                           "LogicalExpression" : {
                             "left" : {
-                              "IdentifierExpression" : {
-                                "name" : "this.deps_length_1"
+                              "LogicalExpression" : {
+                                "left" : {
+                                  "IdentifierExpression" : {
+                                    "name" : "this.deps_length_1"
+                                  }
+                                },
+                                "right" : {
+                                  "DecimalLiteral" : {
+                                    "value" : "-1"
+                                  }
+                                },
+                                "operator" : "==="
                               }
                             },
                             "right" : {
-                              "DecimalLiteral" : {
-                                "value" : "-1"
+                              "IdentifierExpression" : {
+                                "name" : "this.deps_first_1"
                               }
                             },
-                            "operator" : "==="
+                            "operator" : "||"
                           }
                         },
                         "right" : {
@@ -398,16 +449,126 @@
                                 "list" : [ {
                                   "LogicalExpression" : {
                                     "left" : {
-                                      "IdentifierExpression" : {
-                                        "name" : "this.deps_length_1"
+                                      "LogicalExpression" : {
+                                        "left" : {
+                                          "LogicalExpression" : {
+                                            "left" : {
+                                              "IdentifierExpression" : {
+                                                "name" : "this.deps_length_1"
+                                              }
+                                            },
+                                            "right" : {
+                                              "DecimalLiteral" : {
+                                                "value" : "0"
+                                              }
+                                            },
+                                            "operator" : "==="
+                                          }
+                                        },
+                                        "right" : {
+                                          "IdentifierExpression" : {
+                                            "name" : "this.deps_first_1"
+                                          }
+                                        },
+                                        "operator" : "&&"
                                       }
                                     },
                                     "right" : {
-                                      "DecimalLiteral" : {
-                                        "value" : "0"
+                                      "ExpressionSequence" : {
+                                        "list" : [ {
+                                          "ParenthesizedExpression" : {
+                                            "sequence" : {
+                                              "ExpressionSequence" : {
+                                                "list" : [ {
+                                                  "LogicalExpression" : {
+                                                    "left" : {
+                                                      "LogicalExpression" : {
+                                                        "left" : {
+                                                          "LogicalExpression" : {
+                                                            "left" : {
+                                                              "LogicalExpression" : {
+                                                                "left" : {
+                                                                  "IdentifierExpression" : {
+                                                                    "name" : "this.deps_1[0]"
+                                                                  }
+                                                                },
+                                                                "right" : {
+                                                                  "IdentifierExpression" : {
+                                                                    "name" : "asd",
+                                                                    "context" : {
+                                                                      "IdentifierExpressionContext" : {
+                                                                      }
+                                                                    }
+                                                                  }
+                                                                },
+                                                                "operator" : "!=="
+                                                              }
+                                                            },
+                                                            "right" : {
+                                                              "LogicalExpression" : {
+                                                                "left" : {
+                                                                  "IdentifierExpression" : {
+                                                                    "name" : "this.deps_length_1"
+                                                                  }
+                                                                },
+                                                                "right" : {
+                                                                  "DecimalLiteral" : {
+                                                                    "value" : "0"
+                                                                  }
+                                                                },
+                                                                "operator" : ">"
+                                                              }
+                                                            },
+                                                            "operator" : "&&"
+                                                          }
+                                                        },
+                                                        "right" : {
+                                                          "LogicalExpression" : {
+                                                            "left" : {
+                                                              "IdentifierExpression" : {
+                                                                "name" : "this.deps_1[1]"
+                                                              }
+                                                            },
+                                                            "right" : {
+                                                              "IdentifierExpression" : {
+                                                                "name" : "asd",
+                                                                "context" : {
+                                                                  "IdentifierExpressionContext" : {
+                                                                  }
+                                                                }
+                                                              }
+                                                            },
+                                                            "operator" : "!=="
+                                                          }
+                                                        },
+                                                        "operator" : "||"
+                                                      }
+                                                    },
+                                                    "right" : {
+                                                      "LogicalExpression" : {
+                                                        "left" : {
+                                                          "IdentifierExpression" : {
+                                                            "name" : "this.deps_length_1"
+                                                          }
+                                                        },
+                                                        "right" : {
+                                                          "DecimalLiteral" : {
+                                                            "value" : "0"
+                                                          }
+                                                        },
+                                                        "operator" : ">"
+                                                      }
+                                                    },
+                                                    "operator" : "&&"
+                                                  }
+                                                } ]
+                                              }
+                                            }
+                                          }
+                                        } ]
                                       }
                                     },
-                                    "operator" : "!=="
+                                    "operator" : "||"
                                   }
                                 } ]
                               }
@@ -422,6 +583,66 @@
                 "statement" : {
                   "Block" : {
                     "statements" : [ {
+                      "ExpressionChunk" : {
+                        "expressions" : {
+                          "ExpressionSequence" : {
+                            "list" : [ {
+                              "AssignmentExpression" : {
+                                "leftExpression" : {
+                                  "IdentifierExpression" : {
+                                    "name" : "this.deps_1"
+                                  }
+                                },
+                                "rightExpression" : {
+                                  "ArrayLiteral" : {
+                                    "elements" : [ {
+                                      "ArrayElement" : {
+                                        "element" : {
+                                          "IdentifierExpression" : {
+                                            "name" : "asd",
+                                            "context" : {
+                                              "IdentifierExpressionContext" : {
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "withEllipsis" : false
+                                      }
+                                    }, {
+                                      "ArrayElement" : {
+                                        "element" : {
+                                          "IdentifierExpression" : {
+                                            "name" : "asd",
+                                            "context" : {
+                                              "IdentifierExpressionContext" : {
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "withEllipsis" : false
+                                      }
+                                    } ]
+                                  }
+                                }
+                              }
+                            }, {
+                              "AssignmentExpression" : {
+                                "leftExpression" : {
+                                  "IdentifierExpression" : {
+                                    "name" : "this.deps_first_1"
+                                  }
+                                },
+                                "rightExpression" : {
+                                  "BooleanLiteral" : {
+                                    "value" : false
+                                  }
+                                }
+                              }
+                            } ]
+                          }
+                        }
+                      }
+                    }, {
                       "ExpressionChunk" : {
                         "expressions" : {
                           "ExpressionSequence" : {

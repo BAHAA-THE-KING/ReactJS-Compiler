@@ -53,7 +53,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     public Expression visitUseEffectExpression(JSParser.UseEffectExpressionContext ctx) {
         AntlrToAnonymousFunction visitor = new AntlrToAnonymousFunction(filePath);
         AnonymousFunction anonymousFunction = (AnonymousFunction) visitor.visit(ctx.anonymousFunction());
-        ArrayLiteral deps = ctx.arrayLiteral() != null ? (ArrayLiteral) visit(ctx.arrayLiteral()) : null;
+        ArrayLiteral deps = ctx.arrayLiteral() != null ? new ArrayLiteral(ctx.arrayLiteral(), "") : null;
         return new UseEffectFunction(anonymousFunction, deps);
     }
 

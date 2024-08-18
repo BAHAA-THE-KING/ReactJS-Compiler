@@ -173,7 +173,7 @@ public class SymbolTableVisitor {
 
                 //check if this declaration is a component
                 if (isComponent(var.name.toString()) && (var.value instanceof Function fun)){
-                    visit(fun, cloneHashMap(fatherMap), true);
+//                    visit(fun, cloneHashMap(fatherMap), true);
                 }
             }
 

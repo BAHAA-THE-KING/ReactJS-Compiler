@@ -2,9 +2,11 @@ function Asd(){
 
 const [koko, setKoko]=useState(5);
 
+let asd="";
+
 useEffect(()=>{
 alert(koko);
-},[]);
+},[asd, asd]);
 
 setInterval(()=>{
 setKoko(6);

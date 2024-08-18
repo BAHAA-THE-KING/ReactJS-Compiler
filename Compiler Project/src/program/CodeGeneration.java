@@ -5,6 +5,7 @@ import js.expressions.ArrayLiteral.ArrayElement;
 import js.expressions.ArrayLiteral.ArrayLiteral;
 import js.expressions.*;
 import js.expressions.Function.ArrowFunction;
+import js.expressions.Literals.BooleanLiteral;
 import js.expressions.Literals.DecimalLiteral;
 import js.expressions.Literals.ObjectLiteral;
 import js.expressions.Properties.EllipsisProperty;
@@ -124,12 +125,15 @@ public class CodeGeneration {
                 for (Expression expressionChunk : ((ExpressionChunk) statement).expressions.list) {
                     if (expressionChunk instanceof UseEffectFunction) {
                         effectNum1++;
-                        PropertyName name1 = new PropertyByName("deps_" + stateNum1, null);
+                        PropertyName name1 = new PropertyByName("deps_" + effectNum1, null);
                         Expression value1 = new ArrayLiteral();
-                        PropertyName name2 = new PropertyByName("deps_length_" + stateNum1, null);
+                        PropertyName name2 = new PropertyByName("deps_length_" + effectNum1, null);
                         Expression value2 = new DecimalLiteral(((UseEffectFunction) expressionChunk).dependencies == null ? "-1" : (((UseEffectFunction) expressionChunk).dependencies.elements.size() + ""));
+                        PropertyName name3 = new PropertyByName("deps_first_" + effectNum1, null);
+                        Expression value3 = new BooleanLiteral("true");
                         fields.add(new ClassFieldDefinition(false, name1, value1));
                         fields.add(new ClassFieldDefinition(false, name2, value2));
+                        fields.add(new ClassFieldDefinition(false, name3, value3));
                     }
                 }
             }
@@ -156,7 +160,7 @@ public class CodeGeneration {
                         List<Statement> body = new ArrayList<>();
                         ObjectLiteral objectLiteral = new ObjectLiteral();
                         objectLiteral.addAttribute(new EllipsisProperty(new IdentifierExpression("this.state")));
-                        objectLiteral.addAttribute(new NormalProperty(new PropertyByName("state_" + (stateNum2), null), new IdentifierExpression("value")));
+                        objectLiteral.addAttribute(new NormalProperty(new PropertyByName("state_" + stateNum2, null), new IdentifierExpression("value")));
                         Arguments arguments = new Arguments();
                         arguments.addArgument(new Argument(objectLiteral));
 
@@ -210,27 +214,45 @@ public class CodeGeneration {
                         List<ArrayElement> deps = ((UseEffectFunction) expressionChunk).dependencies != null ? ((UseEffectFunction) expressionChunk).dependencies.elements : null;
                         effectNum2++;
                         // Replace useEffect() with if (this.deps_length_1 === -1 || (this.deps_length_1 !== 0 && this.deps_1 && (this.deps_1[0] !== dep0 || this.deps_1[1] !== dep1))){}
-                        ExpressionSequence expressions = new ExpressionSequence();
-                        LogicalExpression noDeps = new LogicalExpression(new IdentifierExpression("this.deps_length_" + effectNum2), new DecimalLiteral("-1"), "===");
-                        LogicalExpression zeroDeps = new LogicalExpression(new IdentifierExpression("this.deps_length_" + effectNum2), new DecimalLiteral("0"), "!==");
-
-                        ExpressionSequence sequence2 = new ExpressionSequence();
-                        ExpressionSequence sequence3 = new ExpressionSequence();
-                        if (deps != null && deps.size() > 0) {
-                            Expression changesCheck = new LogicalExpression(new IdentifierExpression("this.deps_" + effectNum2 + "[0]"), ((UseEffectFunction) expressionChunk).dependencies.elements.get(0).element, "===");
-                            for (int j = 0; j < deps.size(); j++) {
-                                changesCheck = new LogicalExpression(changesCheck, new LogicalExpression(new IdentifierExpression("this.deps_" + effectNum2 + "[" + j + "]"), deps.get(j).element, "==="), "&&");
-                            }
-                            sequence3.addExpression(changesCheck);
-                            sequence2.addExpression(new ParenthesizedExpression(sequence3));
-                        }
-
-                        LogicalExpression depsChanged = sequence2.list.size() == 0 ? zeroDeps : new LogicalExpression(zeroDeps, sequence2, "&&");
-                        ExpressionSequence sequence = new ExpressionSequence();
-                        sequence.addExpression(depsChanged);
-                        expressions.addExpression(new LogicalExpression(noDeps, new ParenthesizedExpression(sequence), "||"));
                         Block newStatements = new Block();
                         newStatements.statements = ((UseEffectFunction) expressionChunk).onRenderFunction.body;
+
+                        ExpressionSequence expressions = new ExpressionSequence();
+                        LogicalExpression noDeps = new LogicalExpression(new IdentifierExpression("this.deps_length_" + effectNum2), new DecimalLiteral("-1"), "===");
+                        LogicalExpression zeroDeps = new LogicalExpression(new LogicalExpression(new IdentifierExpression("this.deps_length_" + effectNum2), new DecimalLiteral("0"), "==="), new IdentifierExpression("this.deps_first_" + effectNum2), "&&");
+                        ExpressionSequence sequence2 = new ExpressionSequence();
+                        ExpressionSequence sequence4 = new ExpressionSequence();
+                        ArrayLiteral newValues = new ArrayLiteral();
+                        if (deps != null && deps.size() > 0) {
+                            Expression changesCheck = null;
+                            for (int j = 0; j < deps.size(); j++) {
+                                if (j == 0) {
+                                    changesCheck = new LogicalExpression(new IdentifierExpression("this.deps_" + effectNum2 + "[" + j + "]"), deps.get(j).element, "!==");
+                                    newValues.addElement(new ArrayElement(deps.get(j).element));
+                                } else {
+                                    changesCheck = new LogicalExpression(changesCheck, new LogicalExpression(new IdentifierExpression("this.deps_" + effectNum2 + "[" + j + "]"), deps.get(j).element, "!=="), "||");
+                                    newValues.addElement(new ArrayElement(deps.get(j).element));
+                                }
+                                changesCheck = new LogicalExpression(
+                                        changesCheck,
+                                        new LogicalExpression(
+                                                new IdentifierExpression("this.deps_length_" + effectNum2),
+                                                new DecimalLiteral("0"),
+                                                ">"),
+                                        "&&");
+                            }
+                            sequence2.addExpression(new ParenthesizedExpression(new ExpressionSequence(changesCheck)));
+                            sequence4.addExpression(new AssignmentExpression(new IdentifierExpression("this.deps_" + effectNum2), newValues, null));
+                        }
+                        sequence4.addExpression(new AssignmentExpression(new IdentifierExpression("this.deps_first_" + effectNum2), new BooleanLiteral("false"), null));
+                        newStatements.statements.add(0, new ExpressionChunk(sequence4));
+
+
+                        LogicalExpression depsChanged = sequence2.list.size() == 0 ? zeroDeps : new LogicalExpression(zeroDeps, sequence2, "||");
+                        ExpressionSequence sequence = new ExpressionSequence();
+                        sequence.addExpression(depsChanged);
+                        expressions.addExpression(new LogicalExpression(new LogicalExpression(noDeps, new IdentifierExpression("this.deps_first_" + effectNum2), "||"), new ParenthesizedExpression(sequence), "||"));
+
                         ConditionalStatement ifStatement = new ConditionalStatement(expressions, newStatements, null);
                         statements.set(i, ifStatement);
                     }

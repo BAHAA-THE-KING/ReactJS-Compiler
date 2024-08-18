@@ -115,12 +115,9 @@ public class SymbolTableVisitor {
         for (Statement st : prog.statements) {
             if (st != null) {
                 List<Symbolable> childSymbolables = visit(st,cloneHashMap(map));
-                for (Symbolable symbolable : childSymbolables) {
-                    if (symbolable instanceof Symbol){
-                        Symbol symbol = (Symbol) symbolable;
-                        map.put(symbol.name,new Pair(symbol.type,symbol.value));
-                    }
-                }
+
+                addNewSymbolsToMap(map, childSymbolables);
+
                 symbolables.addAll(childSymbolables);
             }
         }
@@ -129,10 +126,14 @@ public class SymbolTableVisitor {
 
     public static List<Symbolable> visit(Block model,Object ...args) {
         List<Symbolable> symbolables = new ArrayList<>();
+        HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
+
         for (Statement child : model.statements) {
-            List<Symbolable> s = visit(child);
-            if (s != null) {
-                symbolables.addAll(s);
+            List<Symbolable> childSymbolables = visit(child, cloneHashMap(fatherMap));
+
+            if (childSymbolables != null) {
+                addNewSymbolsToMap(fatherMap, childSymbolables);
+                symbolables.addAll(childSymbolables);
             }
         }
         return listify(new Scope(model.getClass().getSimpleName(), "", symbolables));
@@ -155,7 +156,8 @@ public class SymbolTableVisitor {
                         }
                     }
                 }
-            }else {
+            }
+            else {
                 //identifierExpression or other thing
                 if(fatherMap.containsKey(var.name.toString())) {
                     //already exists
@@ -163,8 +165,10 @@ public class SymbolTableVisitor {
                             model.context,
                             var.name.toString()
                     );
+                    continue;
                 }
             }
+
             //naming is good, lets check the value
             String definitionType = var.modifier.equals("const")?Symbol.CONST:Symbol.VAR;
             if (var.value instanceof IdentifierExpression identifierExpression) {
@@ -500,4 +504,13 @@ public class SymbolTableVisitor {
         return new HashMap<>();
     }
 
+    private static void addNewSymbolsToMap(HashMap<String,Pair<String,String>> map, List<Symbolable> childSymbolables){
+
+        for (Symbolable symbolable : childSymbolables) {
+            if (symbolable instanceof Symbol){
+                Symbol symbol = (Symbol) symbolable;
+                map.put(symbol.name,new Pair(symbol.type,symbol.value));
+            }
+        }
+    };
 }

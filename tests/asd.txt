@@ -1,9 +1,13 @@
-useEffect(
-    ()=>{
-        useEffect(
-            ()=>{
-                asd;
-            },
-            []);
-    },
-[]);
+function Asd(){
+
+const [koko, setKoko]=useState(5);
+
+useEffect(()=>{
+alert(koko);
+},[]);
+
+setInterval(()=>{
+setKoko(6);
+},1000);
+
+}

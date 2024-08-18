@@ -53,8 +53,8 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     public Expression visitUseEffectExpression(JSParser.UseEffectExpressionContext ctx) {
         AntlrToAnonymousFunction visitor = new AntlrToAnonymousFunction(filePath);
         AnonymousFunction anonymousFunction = (AnonymousFunction) visitor.visit(ctx.anonymousFunction());
-        Argument argument = ctx.argument() != null ? new Argument(visit(ctx.argument())) : null;
-        return new UseEffectFunction(anonymousFunction, argument);
+        ArrayLiteral deps = ctx.arrayLiteral() != null ? (ArrayLiteral) visit(ctx.arrayLiteral()) : null;
+        return new UseEffectFunction(anonymousFunction, deps);
     }
 
     @Override
@@ -138,7 +138,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
 
     @Override
     public Expression visitIdentifierExpression(JSParser.IdentifierExpressionContext ctx) {
-        return new IdentifierExpression(ctx.Identifier().getText(),ctx);
+        return new IdentifierExpression(ctx.Identifier().getText(), ctx);
     }
 
     @Override
@@ -180,7 +180,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     public Expression visitAssignmentExpression(JSParser.AssignmentExpressionContext ctx) {
         Expression leftExpression = visit(ctx.singleExpression(0));
         Expression rightExpression = visit(ctx.singleExpression(1));
-        AssignmentExpression assignmentExpression = new AssignmentExpression(leftExpression, rightExpression,ctx);
+        AssignmentExpression assignmentExpression = new AssignmentExpression(leftExpression, rightExpression, ctx);
         return assignmentExpression;
     }
 

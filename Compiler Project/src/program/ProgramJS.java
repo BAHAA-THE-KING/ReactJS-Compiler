@@ -19,7 +19,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.StringJoiner;
 
 public class ProgramJS {
@@ -34,12 +33,16 @@ public class ProgramJS {
             ParseTree antlrAST = parser.program();
             AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
             JsProgram doc = progVisitor.visit(antlrAST);
+            doc.statements.set(0, CodeGeneration.FunctionToClass((FunctionDeclaration) doc.statements.get(0)));
+            // IMPORTANT
+            // Don't Delete This Line, Comment It Instead
+            System.out.println("class Component {\n" + "    constructor(props) {\n" + "        this.props = props || {};\n" + "        this.state = {};\n" + "\n" + "        this.componentWillMount();\n" + "    }\n" + "\n" + "    setState(newState) {\n" + "        this.state = { ...this.state, ...newState };\n" + "        this.updateComponent();\n" + "    }\n" + "\n" + "    updateComponent() {\n" + "        const nextProps = this.props;\n" + "        const nextState = this.state;\n" + "\n" + "        this.componentWillUpdate(nextProps, nextState);\n" + "        this.render();\n" + "        this.componentDidUpdate(this.props, this.state);\n" + "    }\n" + "\n" + "    componentWillMount() {}\n" + "    componentDidMount() {}\n" + "    componentWillUpdate(nextProps, nextState) {}\n" + "    componentDidUpdate(prevProps, prevState) {}\n" + "    componentWillUnmount() {}\n" + "\n" + "    render() {\n" + "        throw new Error('Component.render must be implemented');\n" + "    }\n" + "\n" + "    mount() {\n" + "        this.componentWillMount();\n" + "        this.render();\n" + "        this.componentDidMount();\n" + "    }\n" + "\n" + "    unmount() {\n" + "        this.componentWillUnmount();\n" + "    }\n" + "}\n" + doc);
             saveAstInFile(doc);
             saveSymbolTableInFile(doc);
             VsCode.openAstTree();
             VsCode.openSymbolTree();
-            if(!errors.isEmpty()){
-                System.err.println("Found "+errors.size()+" errors:");
+            if (!errors.isEmpty()) {
+                System.err.println("Found " + errors.size() + " errors:");
                 for (String s : errors) {
                     System.err.println(s);
                 }

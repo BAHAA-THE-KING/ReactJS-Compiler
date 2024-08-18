@@ -31,6 +31,8 @@ public class CodeGeneration {
     private static int stateNum2 = 0;
     private static int effectNum1 = 0;
     private static int effectNum2 = 0;
+    private static int refNum1 = 0;
+    private static int refNum2 = 0;
 
     public static void UniformComponents(JsProgram program) {
     }
@@ -42,6 +44,8 @@ public class CodeGeneration {
         stateNum2 = 0;
         effectNum1 = 0;
         effectNum2 = 0;
+        refNum1 = 0;
+        refNum2 = 0;
         /*
         constructor(props){
             this.props=props;
@@ -69,8 +73,12 @@ public class CodeGeneration {
         Expression superCall = new ArgumentsExpression(new SimpleExpression().Super(), arguments);
         Expression propsAssignmentExpression = new AssignmentExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("props"), false), new IdentifierExpression("props"), null);
         ObjectLiteral objectLiteral = GetStates(functionDeclaration);
-        List<ClassFieldDefinition> fields = GetDeps(functionDeclaration);
-        for (ClassFieldDefinition field : fields) {
+        List<ClassFieldDefinition> fields1 = GetDeps(functionDeclaration);
+        List<ClassFieldDefinition> fields2 = GetRefs(functionDeclaration);
+        for (ClassFieldDefinition field : fields1) {
+            classDeclaration.addElement(field);
+        }
+        for (ClassFieldDefinition field : fields2) {
             classDeclaration.addElement(field);
         }
         Expression stateAssignmentExpression = new AssignmentExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("state"), false), objectLiteral, null);
@@ -134,6 +142,35 @@ public class CodeGeneration {
                         fields.add(new ClassFieldDefinition(false, name1, value1));
                         fields.add(new ClassFieldDefinition(false, name2, value2));
                         fields.add(new ClassFieldDefinition(false, name3, value3));
+                    }
+                }
+            }
+        }
+        return fields;
+    }
+
+    private static List<ClassFieldDefinition> GetRefs(FunctionDeclaration functionDeclaration) {
+        List<ClassFieldDefinition> fields = new ArrayList<>();
+        List<Statement> statements = functionDeclaration.body;
+        for (Statement statement : statements) {
+            // Plain useRef()
+            if (statement instanceof ExpressionChunk) {
+                for (Expression expressionChunk : ((ExpressionChunk) statement).expressions.list) {
+                    if (expressionChunk instanceof UseRefFunction) {
+                        refNum1++;
+                        PropertyName name = new PropertyByName("ref_" + refNum1, null);
+                        Expression value = new ObjectLiteral().addAttribute(new NormalProperty(new PropertyByName("current", null), ((UseRefFunction) expressionChunk).initialValue.value));
+                        fields.add(new ClassFieldDefinition(false, name, value));
+                    }
+                }
+            } else if (statement instanceof VariableDeclarationStatement) {
+                // variables with useRef()
+                for (VariableDeclaration varDecl : ((VariableDeclarationStatement) statement).vars) {
+                    if (varDecl.value instanceof UseRefFunction) {
+                        refNum1++;
+                        PropertyName name = new PropertyByName("ref_" + refNum1, null);
+                        Expression value = new ObjectLiteral().addAttribute(new NormalProperty(new PropertyByName("current", null), ((UseRefFunction) varDecl.value).initialValue.value));
+                        fields.add(new ClassFieldDefinition(false, name, value));
                     }
                 }
             }
@@ -233,13 +270,7 @@ public class CodeGeneration {
                                     changesCheck = new LogicalExpression(changesCheck, new LogicalExpression(new IdentifierExpression("this.deps_" + effectNum2 + "[" + j + "]"), deps.get(j).element, "!=="), "||");
                                     newValues.addElement(new ArrayElement(deps.get(j).element));
                                 }
-                                changesCheck = new LogicalExpression(
-                                        changesCheck,
-                                        new LogicalExpression(
-                                                new IdentifierExpression("this.deps_length_" + effectNum2),
-                                                new DecimalLiteral("0"),
-                                                ">"),
-                                        "&&");
+                                changesCheck = new LogicalExpression(changesCheck, new LogicalExpression(new IdentifierExpression("this.deps_length_" + effectNum2), new DecimalLiteral("0"), ">"), "&&");
                             }
                             sequence2.addExpression(new ParenthesizedExpression(new ExpressionSequence(changesCheck)));
                             sequence4.addExpression(new AssignmentExpression(new IdentifierExpression("this.deps_" + effectNum2), newValues, null));
@@ -262,12 +293,42 @@ public class CodeGeneration {
         return statements;
     }
 
+    private static List<Statement> ReplaceUseRefs(List<Statement> statements) {
+        for (int i = 0; i < statements.size(); i++) {
+            Statement statement = statements.get(i);
+            if (statement instanceof ExpressionChunk) {
+                for (Expression expressionChunk : ((ExpressionChunk) statement).expressions.list) {
+                    if (expressionChunk instanceof UseRefFunction) {
+                        refNum2++;
+                        // Replace useState() with [this.state, value=>this.setState({...this.state, state_NUM++:value})]
+
+                        statements.set(i, new ExpressionChunk(new ExpressionSequence(new IdentifierExpression("this.ref_" + refNum2))));
+                    }
+                }
+            } else if (statement instanceof VariableDeclarationStatement) {
+                // variables with useState()
+                for (VariableDeclaration varDecl : ((VariableDeclarationStatement) statement).vars) {
+                    if (varDecl.value instanceof UseRefFunction) {
+                        refNum2++;
+                        // Replace useState() with [this.state, value=>this.setState({...this.state, state_NUM++:value})]
+
+                        varDecl.value = new IdentifierExpression("this.ref_" + refNum2);
+                    }
+                }
+            }
+
+        }
+        return statements;
+    }
+
+
     private static void DefineRender(ClassDeclaration classDeclaration, FunctionDeclaration functionDeclaration) {
         /*
         render(){}
         */
         List<Statement> newBody = ReplaceUseStates(functionDeclaration.body);
         newBody = ReplaceUseEffects(newBody);
+        newBody = ReplaceUseRefs(newBody);
         List<VariableDeclaration> vars = new ArrayList<>();
         vars.add(new VariableDeclaration("const", functionDeclaration.parameters.values.size() != 0 ? functionDeclaration.parameters.values.get(0).a : new ObjectLiteral(), new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("props"), false), "idk"));
         newBody.add(0, new VariableDeclarationStatement(vars, null));

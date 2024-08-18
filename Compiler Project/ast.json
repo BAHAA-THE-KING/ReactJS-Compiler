@@ -47,6 +47,33 @@
             }
           }
         }, {
+          "ClassFieldDefinition" : {
+            "isStatic" : false,
+            "propertyName" : {
+              "PropertyByName" : {
+                "id" : "ref_1"
+              }
+            },
+            "propertyValue" : {
+              "ObjectLiteral" : {
+                "objectProperties" : [ {
+                  "NormalProperty" : {
+                    "key" : {
+                      "PropertyByName" : {
+                        "id" : "current"
+                      }
+                    },
+                    "value" : {
+                      "DecimalLiteral" : {
+                        "value" : "987"
+                      }
+                    }
+                  }
+                } ]
+              }
+            }
+          }
+        }, {
           "ClassMethodDefinition" : {
             "isStatic" : false,
             "propertyName" : {
@@ -759,6 +786,33 @@
                         }
                       }
                     } ]
+                  }
+                }
+              }
+            }, {
+              "VariableDeclarationStatement" : {
+                "vars" : [ {
+                  "VariableDeclaration" : {
+                    "modifier" : "const",
+                    "name" : {
+                      "IdentifierExpression" : {
+                        "name" : "asdasd",
+                        "context" : {
+                          "VariableByNameContext" : {
+                          }
+                        }
+                      }
+                    },
+                    "value" : {
+                      "IdentifierExpression" : {
+                        "name" : "this.ref_1"
+                      }
+                    },
+                    "type" : "toBeDetermined"
+                  }
+                } ],
+                "context" : {
+                  "VariableDeclerationChunkContext" : {
                   }
                 }
               }

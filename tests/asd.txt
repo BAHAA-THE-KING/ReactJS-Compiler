@@ -12,4 +12,6 @@ setInterval(()=>{
 setKoko(6);
 },1000);
 
+const asdasd=useRef(987);
+
 }

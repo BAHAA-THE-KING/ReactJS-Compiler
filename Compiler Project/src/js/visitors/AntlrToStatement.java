@@ -297,4 +297,32 @@ public class AntlrToStatement extends JSParserBaseVisitor<Statement> {
     public Statement visitEndOfFile(JSParser.EndOfFileContext ctx) {
         return new EOFStatement();
     }
+
+    @Override
+    public Statement visitVariableDeclarationList(JSParser.VariableDeclarationListContext ctx) {
+
+
+        String modifier = ctx.varModifier().getText();
+        List<VariableDeclaration> vars = new ArrayList<>();
+
+        AntlrToAssignable assignableVisitor = new AntlrToAssignable(filePath);
+        AntlrToExpression expressionVisitor = new AntlrToExpression(filePath);
+        AntlrToType typeVisitor = new AntlrToType();
+        for (var decl : ctx.variableDeclaration()) {
+            Assignable name = assignableVisitor.visit(decl.assignable());
+            Expression value = decl.singleExpression() != null ? expressionVisitor.visit(decl.singleExpression()) : null;
+            Type varType = decl.singleExpression() != null ? typeVisitor.visit(decl.singleExpression()) : null;
+            String type = "toBeDetermined";
+            if (varType instanceof Boolean_) type = "boolean";
+            if (varType instanceof Number_) type = "number";
+            if (varType instanceof Object_) type = "object";
+            if (varType instanceof String_) type = "string";
+            if (varType instanceof Undefined_) type = "undefined";
+            vars.add(new VariableDeclaration(modifier, name, value, type));
+        }
+
+        return new VariableDeclarationStatement(vars,ctx);
+    }
+
+
 }

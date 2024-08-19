@@ -129,12 +129,14 @@ public class SymbolTableVisitor {
     public static List<Symbolable> visit(Block model,Object ...args) {
         List<Symbolable> symbolables = new ArrayList<>();
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
+        HashMap<String,Pair<String,String>> myMap = initializeHashMap();
+
 
         for (Statement child : model.statements) {
-            List<Symbolable> childSymbolables = visit(child, cloneHashMap(fatherMap));
+            List<Symbolable> childSymbolables = visit(child, cloneHashMap(myMap), cloneHashMap(fatherMap));
 
             if (childSymbolables != null) {
-                addNewSymbolsToMap(fatherMap, childSymbolables);
+                addNewSymbolsToMap(myMap, childSymbolables);
                 symbolables.addAll(childSymbolables);
             }
         }
@@ -145,6 +147,7 @@ public class SymbolTableVisitor {
 
         List<Symbolable> syms = new ArrayList<>();
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
+        HashMap<String,Pair<String,String>> grandMap = getGrandMapFromArgs(args);
         for (VariableDeclaration var : model.vars) {
             if(var.name instanceof ArrayLiteral arrayLiteral){
                 //name is array
@@ -171,16 +174,16 @@ public class SymbolTableVisitor {
                     continue;
                 }
 
-                //check if this declaration is a component
-                if (isComponent(var.name.toString()) && (var.value instanceof Function fun)){
+//                //check if this declaration is a component
+//                if (isComponent(var.name.toString()) && (var.value instanceof Function fun)){
 //                    visit(fun, cloneHashMap(fatherMap), true);
-                }
+//                }
             }
 
             //naming is good, lets check the value
             String definitionType = var.modifier.equals("const")?Symbol.CONST:Symbol.VAR;
             if (var.value instanceof IdentifierExpression identifierExpression) {
-                visit(identifierExpression,cloneHashMap(fatherMap));
+                visit(identifierExpression,cloneHashMap(fatherMap), cloneHashMap(grandMap));
             }
             syms.add(Symbol.make(definitionType, var.name.toString(), var.value));
             fatherMap.put(var.name.toString(),new Pair<>(definitionType,var.value.toString()));
@@ -228,10 +231,14 @@ public class SymbolTableVisitor {
     }
 
     public static List<Symbolable> visit(ConditionalStatement ConditionalStatement,Object ...args) {
-        List<Symbolable> f = visit(ConditionalStatement.statement);
+
+        HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
+        HashMap<String,Pair<String,String>> grandMap = getGrandMapFromArgs(args);
+
+        List<Symbolable> f = visit(ConditionalStatement.statement, cloneHashMap(fatherMap), cloneHashMap(grandMap));
         Scope ifBlock = new Scope("if", "", f);
 
-        List<Symbolable> e = visit(ConditionalStatement.elseStatement);
+        List<Symbolable> e = visit(ConditionalStatement.elseStatement, cloneHashMap(fatherMap), cloneHashMap(grandMap));
         Scope elseBlock = new Scope("else", "", e);
         List<Symbolable> condition = new ArrayList<>();
         condition.add(ifBlock);
@@ -347,8 +354,12 @@ public class SymbolTableVisitor {
 
     public static List<Symbolable> visit(ForLoop loop,Object ...args) {
         List<Symbolable> symbolables = new ArrayList<>();
-        symbolables.addAll(visit(loop.firstPart));
-        symbolables.addAll(visit(loop.statement));
+        HashMap<String, Pair<String, String>> myMap = initializeHashMap();
+
+        List<Symbolable> childSymbolables = visit(loop.firstPart, cloneHashMap(getMapFromArgs(args)));
+        addNewSymbolsToMap(myMap, childSymbolables);
+        symbolables.addAll(childSymbolables);
+        symbolables.addAll(visit(loop.statement, cloneHashMap(myMap), cloneHashMap(getMapFromArgs(args))));
         return listify(new Scope("ForLoop", "", symbolables));
     }
 
@@ -447,13 +458,13 @@ public class SymbolTableVisitor {
     }
 
     public static List<Symbolable> visit(ExpressionChunk e, Object ...args) {
-        visit(e.expressions,getMapFromArgs(args));
+        visit(e.expressions,getMapFromArgs(args), getGrandMapFromArgs(args));
         return new ArrayList<>();
     }
     public static List<Symbolable> visit(ExpressionSequence e, Object ...args) {
         for (Expression exp : e.list) {
             if (exp instanceof AssignmentExpression) {
-                visit((AssignmentExpression)exp,getMapFromArgs(args));
+                visit((AssignmentExpression)exp,getMapFromArgs(args), getGrandMapFromArgs(args));
             }
         }
         return new ArrayList<>();
@@ -461,17 +472,19 @@ public class SymbolTableVisitor {
 
     public static List<Symbolable> visit(Expression e,Object ...args) {
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
+        HashMap<String,Pair<String,String>> grandMap = getGrandMapFromArgs(args);
         if(e instanceof VariableDeclarationStatement vds){
-            return visit(vds,fatherMap);
+            return visit(vds,fatherMap, grandMap);
         }
         if(e instanceof IdentifierExpression ie){
-            return visit(ie,fatherMap);
+            return visit(ie,fatherMap, grandMap);
         }
         return new ArrayList<>();
     }
     public static List<Symbolable> visit(IdentifierExpression e, Object ...args) {
-        HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
-        if(!fatherMap.containsKey(e.name)){
+        HashMap<String,Pair<String,String>> mergedMap = getMapFromArgs(args);
+        mergedMap.putAll(getGrandMapFromArgs(args));
+        if(!mergedMap.containsKey(e.name)){
             Error.variableUnDefined(e.context,e.name);
         }
 //        visit(e.expressions,getMapFromArgs(args));
@@ -480,16 +493,31 @@ public class SymbolTableVisitor {
 
     public static List<Symbolable> visit(AssignmentExpression e, Object ...args) {
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
+        HashMap<String,Pair<String,String>> grandMap = getGrandMapFromArgs(args);
+        HashMap<String,Pair<String,String>> mergedMap = cloneHashMap(fatherMap);
+        mergedMap.putAll(grandMap);
+
         if(e.leftExpression instanceof ArrayLiteral){
 
-        }else if(e.leftExpression instanceof IdentifierExpression){
+        }
+        else if(e.leftExpression instanceof IdentifierExpression){
             String name = e.leftExpression.toString();
-            if(!fatherMap.containsKey(name)){
+
+            //symbol isn't declared before
+            if(!mergedMap.containsKey(name)){
                 Error.jsError(e.context,"Trying to assign value to undefined variable: " + name +".");
-            }else{
-                 if(fatherMap.get(name).a.equals(Symbol.CONST)) {
+            }
+            //symbol is already defined in symbol table
+            else{
+                //the symbol is const->error for trying to change it
+                 if(mergedMap.get(name).a.equals(Symbol.CONST)) {
                      Error.jsError(e.context, "Trying to assign value to a constant: " + name +".");
                  }
+                 //the symbol value is changed
+                 else{
+//                     mergedMap.get(name).b=e.rightExpression.toString();
+                 }
+
             }
         }else {
             System.err.println("Unknown Expression SymbolTableVisitor:visitAssignmentExpression");
@@ -508,6 +536,13 @@ public class SymbolTableVisitor {
     private static HashMap<String,Pair<String,String>> getMapFromArgs(Object[] args){
         if(args.length>=1){
             return (HashMap<String,Pair<String,String>>) args[0];
+        }
+        return new HashMap<>();
+    }
+
+    private static HashMap<String,Pair<String,String>> getGrandMapFromArgs(Object[] args){
+        if(args.length>=2){
+            return (HashMap<String,Pair<String,String>>) args[1];
         }
         return new HashMap<>();
     }

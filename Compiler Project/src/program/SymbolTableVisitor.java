@@ -186,7 +186,7 @@ public class SymbolTableVisitor {
                 visit(identifierExpression,cloneHashMap(fatherMap), cloneHashMap(grandMap));
             }
             syms.add(Symbol.make(definitionType, var.name.toString(), var.value));
-            fatherMap.put(var.name.toString(),new Pair<>(definitionType,var.value.toString()));
+            fatherMap.put(var.name.toString(),new Pair<>(definitionType,var.value==null?"":var.value.toString()));
         }
         return syms;
     }

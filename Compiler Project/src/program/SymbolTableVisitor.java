@@ -83,11 +83,8 @@ public class SymbolTableVisitor {
         if (model instanceof FunctionDeclaration) {
             return visit((FunctionDeclaration) model,args);
         }
-        if (model instanceof AnonymousFunction) {
-            return visit((AnonymousFunction) model,args);
-        }
-        if (model instanceof ArrowFunction) {
-            return visit((ArrowFunction) model,args);
+        if (model instanceof Function fn) {
+            return visit(fn,args);
         }
         if (model instanceof Property) {
             return visit((Property) model,args);
@@ -108,7 +105,15 @@ public class SymbolTableVisitor {
         return new ArrayList<>();
     }
 
-
+    public static List<Symbolable> visit(Function function,Object ...args){
+        if(function instanceof ArrowFunction arf){
+            return visit(arf,args);
+        }
+        if(function instanceof AnonymousFunction af){
+            return visit(af,args);
+        }
+        return new ArrayList<>();
+    }
     public static Symbolable visit(JsProgram prog,Object ...args) {
 
         List<Symbolable> symbolables = new ArrayList<>();
@@ -128,7 +133,18 @@ public class SymbolTableVisitor {
 
     public static List<Symbolable> visit(Block model,Object ...args) {
         List<Symbolable> symbolables = new ArrayList<>();
-        HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
+        HashMap<String,Pair<String,String>> parentMap = getMapFromArgs(args);
+        HashMap<String,Pair<String,String>> map = getMapFromArgs(args);
+        for (Statement child : model.statements) {
+//            HashMap<String,Pair<String,String>> targetMap = child
+            List<Symbolable> childSymbolables = visit(child, parentMap, map);
+
+            if (childSymbolables != null) {
+                addNewSymbolsToMap(map, childSymbolables);
+                symbolables.addAll(childSymbolables);
+            }
+        }
+
 
         for (Statement child : model.statements) {
             List<Symbolable> childSymbolables = visit(child, cloneHashMap(fatherMap));
@@ -142,7 +158,6 @@ public class SymbolTableVisitor {
     }
 
     public static List<Symbolable> visit(VariableDeclarationStatement model,Object ...args) {
-
         List<Symbolable> syms = new ArrayList<>();
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
         for (VariableDeclaration var : model.vars) {
@@ -160,7 +175,6 @@ public class SymbolTableVisitor {
                 }
             }
             else if (var.name instanceof IdentifierExpression){
-
                 //identifierExpression
                 if(fatherMap.containsKey(var.name.toString())) {
                     //already exists
@@ -173,10 +187,13 @@ public class SymbolTableVisitor {
 
                 //check if this declaration is a component
                 if (isComponent(var.name.toString()) && (var.value instanceof Function fun)){
+<<<<<<< Updated upstream
 //                    visit(fun, cloneHashMap(fatherMap), true);
+=======
+                    syms.addAll(visit(fun, cloneHashMap(fatherMap), true));
+>>>>>>> Stashed changes
                 }
             }
-
             //naming is good, lets check the value
             String definitionType = var.modifier.equals("const")?Symbol.CONST:Symbol.VAR;
             if (var.value instanceof IdentifierExpression identifierExpression) {
@@ -400,6 +417,8 @@ public class SymbolTableVisitor {
 
     public static List<Symbolable> visit(AnonymousFunction functionDeclaration,Object ...args) {
         List<Symbolable> symbolables = new ArrayList<>();
+        HashMap<String,Pair<String,String>> parentMap = getMapFromArgs(args);
+        HashMap<String,Pair<String,String>> map = initializeHashMap();
         for (Pair<Assignable, Expression> parameter : functionDeclaration.parameters.values) {
             symbolables.add(Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : null));
         }
@@ -407,9 +426,20 @@ public class SymbolTableVisitor {
         if (spreadParameter != null) {
             symbolables.add(Symbol.make(Symbol.PARAM, "spreadParameter", spreadParameter));
         }
-
         for (Statement statement : functionDeclaration.body) {
-            symbolables.addAll(visit(statement));
+            if (statement != null) {
+                HashMap<String,Pair<String,String>> mergedMap= cloneHashMap(parentMap);
+                if(statement instanceof VariableDeclaration){
+                    mergedMap.putAll(map);
+                }
+                List<Symbolable> childSymbolables = visit(
+                        statement,
+                        mergedMap,
+                        getIsComponentFromArgs(args)
+                );
+                addNewSymbolsToMap(map, childSymbolables);
+                symbolables.addAll(childSymbolables);
+            }
         }
         Scope funcScope = new Scope(Scope.MTHD, "", symbolables);
 
@@ -512,6 +542,13 @@ public class SymbolTableVisitor {
         return new HashMap<>();
     }
 
+    private static boolean getIsComponentFromArgs(Object[] args){
+        if(args.length>=2){
+            return (boolean)args[1];
+        }
+        return false;
+    }
+
     private static void addNewSymbolsToMap(HashMap<String,Pair<String,String>> map, List<Symbolable> childSymbolables){
 
         for (Symbolable symbolable : childSymbolables) {
@@ -528,7 +565,9 @@ public class SymbolTableVisitor {
         else
             return isComponent(((AnonymousFunction) function).parameters.values.get(0).a.toString());
     }
+
     private static boolean isComponent(String name){
             return Character.isUpperCase(name.charAt(0));
     }
+
 }

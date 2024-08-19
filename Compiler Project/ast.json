@@ -7,7 +7,7 @@
             "modifier" : "let",
             "name" : {
               "IdentifierExpression" : {
-                "name" : "a",
+                "name" : "x",
                 "context" : {
                   "VariableByNameContext" : {
                   }
@@ -15,8 +15,13 @@
               }
             },
             "value" : {
+<<<<<<< Updated upstream
               "StringLiteral" : {
                 "value" : ""
+=======
+              "DecimalLiteral" : {
+                "value" : "100"
+>>>>>>> Stashed changes
               }
             },
             "type" : "string"
@@ -34,13 +39,92 @@
             "modifier" : "var",
             "name" : {
               "IdentifierExpression" : {
+<<<<<<< Updated upstream
                 "name" : "dsa",
+=======
+                "name" : "y",
+>>>>>>> Stashed changes
                 "context" : {
                   "VariableByNameContext" : {
                   }
                 }
               }
             },
+<<<<<<< Updated upstream
+=======
+            "value" : {
+              "DecimalLiteral" : {
+                "value" : "1000"
+              }
+            },
+            "type" : "number"
+          }
+        } ],
+        "context" : {
+          "VariableDeclerationChunkContext" : {
+          }
+        }
+      }
+    }, {
+      "VariableDeclarationStatement" : {
+        "vars" : [ {
+          "VariableDeclaration" : {
+            "modifier" : "let",
+            "name" : {
+              "IdentifierExpression" : {
+                "name" : "z",
+                "context" : {
+                  "VariableByNameContext" : {
+                  }
+                }
+              }
+            },
+            "value" : {
+              "AnonymousFunction" : {
+                "parameters" : {
+                  "Parameters" : {
+                    "values" : [ ]
+                  }
+                },
+                "body" : [ {
+                  "VariableDeclarationStatement" : {
+                    "vars" : [ {
+                      "VariableDeclaration" : {
+                        "modifier" : "let",
+                        "name" : {
+                          "IdentifierExpression" : {
+                            "name" : "english",
+                            "context" : {
+                              "VariableByNameContext" : {
+                              }
+                            }
+                          }
+                        },
+                        "value" : {
+                          "IdentifierExpression" : {
+                            "name" : "x",
+                            "context" : {
+                              "IdentifierExpressionContext" : {
+                              }
+                            }
+                          }
+                        },
+                        "type" : "toBeDetermined"
+                      }
+                    } ],
+                    "context" : {
+                      "VariableDeclerationChunkContext" : {
+                      }
+                    }
+                  }
+                } ],
+                "context" : {
+                  "AnonymousFunctionDeclContext" : {
+                  }
+                }
+              }
+            },
+>>>>>>> Stashed changes
             "type" : "toBeDetermined"
           }
         } ],
@@ -50,6 +134,7 @@
         }
       }
     }, {
+<<<<<<< Updated upstream
       "VariableDeclarationStatement" : {
         "vars" : [ {
           "VariableDeclaration" : {
@@ -143,6 +228,8 @@
         }
       }
     }, {
+=======
+>>>>>>> Stashed changes
       "EOFStatement" : {
       }
     } ]

@@ -12,6 +12,7 @@ import js.expressions.Properties.NormalProperty;
 import js.expressions.jsxElement.JSXElement;
 import js.expressions.jsxElement.JSXText;
 import js.statements.ClassDeclaration.PropertyName.PropertyByName;
+import js.visitors.models.AttributeValue;
 import js.visitors.models.Expression;
 import js.visitors.models.JSXContent;
 import org.antlr.v4.runtime.misc.Pair;
@@ -47,9 +48,9 @@ public class JSXConverter {
         );
     }
 
-    public static ObjectLiteral toObjectLiteral(List<Pair<String, Expression>> elements) {
+    public static ObjectLiteral toObjectLiteral(List<Pair<String, AttributeValue>> elements) {
         ObjectLiteral literal = new ObjectLiteral();
-        for (Pair<String, Expression> element : elements) {
+        for (Pair<String, AttributeValue> element : elements) {
             if (element.a.equals("style")) {
                 String value = element.b.toString();
                 String[] attributes = value.split(";");

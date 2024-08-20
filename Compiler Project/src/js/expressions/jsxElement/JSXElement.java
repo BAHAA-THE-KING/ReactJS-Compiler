@@ -1,5 +1,6 @@
 package js.expressions.jsxElement;
 
+import js.visitors.models.AttributeValue;
 import js.visitors.models.Expression;
 import js.visitors.models.JSXContent;
 import org.antlr.v4.runtime.misc.Pair;
@@ -9,10 +10,10 @@ import java.util.StringJoiner;
 
 public class JSXElement implements Expression, JSXContent {
     public String tagName;
-    public List<Pair<String, Expression>> attributes;
+    public List<Pair<String, AttributeValue>> attributes;
     public List<JSXContent> body;
 
-    public JSXElement(String tagName, List<Pair<String, Expression>> attributes, List<JSXContent> body) {
+    public JSXElement(String tagName, List<Pair<String, AttributeValue>> attributes, List<JSXContent> body) {
         this.tagName = tagName;
         this.attributes = attributes;
         this.body = body;
@@ -20,7 +21,6 @@ public class JSXElement implements Expression, JSXContent {
 
     @Override
     public String toString() {
-//        return JSXConverter.JsxToFunction(this).toString();
         StringJoiner attributesJoiner = new StringJoiner(" ");
         attributes.forEach(att -> attributesJoiner.add(att.a + "=" + att.b));
 

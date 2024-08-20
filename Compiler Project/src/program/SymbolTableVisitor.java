@@ -3,22 +3,20 @@ package program;
 import js.SymbolTable.Scope;
 import js.SymbolTable.Symbol;
 import js.SymbolTable.Symbolable;
+import js.expressions.*;
 import js.expressions.ArgumentsExpression.UseEffectFunction;
 import js.expressions.ArgumentsExpression.UseRefFunction;
 import js.expressions.ArgumentsExpression.UseStateFunction;
 import js.expressions.ArrayLiteral.ArrayElement;
 import js.expressions.ArrayLiteral.ArrayLiteral;
-import js.expressions.AssignmentExpression;
-import js.expressions.ExpressionSequence;
 import js.expressions.Function.AnonymousFunction;
 import js.expressions.Function.ArrowFunction;
-import js.expressions.IdentifierExpression;
 import js.expressions.Literals.ObjectLiteral;
+import js.expressions.Literals.StringLiteral;
 import js.expressions.Properties.ComputedProperty;
 import js.expressions.Properties.EllipsisProperty;
 import js.expressions.Properties.FunctionProperty;
 import js.expressions.Properties.NormalProperty;
-import js.expressions.RelationalExpression;
 import js.expressions.jsxElement.JSXElement;
 import js.statements.Block.Block;
 import js.statements.ClassDeclaration.ClassDeclaration;
@@ -154,60 +152,102 @@ public class SymbolTableVisitor {
         List<Symbolable> syms = new ArrayList<>();
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
         HashMap<String,Pair<String,String>> grandMap = getGrandMapFromArgs(args);
+
         for (VariableDeclaration var : model.vars) {
-            if(var.name instanceof ArrayLiteral arrayLiteral){
-                //name is array
-                for(ArrayElement arrayElement: arrayLiteral.elements){
-                    if(arrayElement.element instanceof IdentifierExpression identifierExpression){
-                        if(fatherMap.containsKey(identifierExpression.name)){
-                            Error.variableAlreadyDefined(
-                                    identifierExpression.context,
-                                    identifierExpression.name
-                            );
-                        }
+
+            //defining array literal = array literal
+            if(var.name instanceof ArrayLiteral variables && var.value instanceof ArrayLiteral values){
+
+                //visit each array element as variable declaration
+                for(int i = 0; i < variables.elements.size(); i++ ){
+
+                    IdentifierExpression element = (IdentifierExpression) variables.elements.get(i).element;
+                    Expression elementValue = values.elements.size() > i ? values.elements.get(i).element : new StringLiteral("ToBeDetermined");
+
+                    String type = var.modifier.equals("const") ? "Constant" : "Variable";
+                    VariableDeclaration declaration = new VariableDeclaration(var.modifier,element, elementValue, type);
+
+                    ArrayList<VariableDeclaration> newVar = new ArrayList<VariableDeclaration>();
+                    newVar.add(declaration);
+
+                    VariableDeclarationStatement pair = new VariableDeclarationStatement(newVar, element.context);
+                    List<Symbolable> childSymbolables = visit(pair, cloneHashMap(fatherMap), cloneHashMap(grandMap), getIsInComponentFromArgs(args));
+
+                    addNewSymbolsToMap(fatherMap, childSymbolables);
+
+                    syms.addAll(childSymbolables);
+                }
+            }
+
+            else {
+
+                //array literal but value isn't array literal
+                if (var.name instanceof ArrayLiteral variables){
+
+                    if (!isaHook(var.value))
+                        Error.jsError(model.context, var.value.toString() + " isn't of type ArrayLiteral");
+
+                    //visit each variable in the array literal and save in symbol table
+                    for (ArrayElement arrayElement : variables.elements){
+
+                        IdentifierExpression element = (IdentifierExpression) arrayElement.element;
+                        Expression elementValue = isaHook(var.value) ? new StringLiteral(var.value.toString()) : new StringLiteral("error");
+
+                        String type = var.modifier.equals("const") ? "Constant" : "Variable";
+                        VariableDeclaration declaration = new VariableDeclaration(var.modifier,element, elementValue, type);
+
+                        ArrayList<VariableDeclaration> newVar = new ArrayList<VariableDeclaration>();
+                        newVar.add(declaration);
+
+                        VariableDeclarationStatement pair = new VariableDeclarationStatement(newVar, element.context);
+                        List<Symbolable> childSymbolables = visit(pair, cloneHashMap(fatherMap), cloneHashMap(grandMap), getIsInComponentFromArgs(args));
+
+                        addNewSymbolsToMap(fatherMap, childSymbolables);
+
+                        syms.addAll(childSymbolables);
                     }
+
                 }
-            }
-            else if (var.name instanceof IdentifierExpression){
+                    //identifierExpression
+                else if (var.name instanceof IdentifierExpression){
+                    if(fatherMap.containsKey(var.name.toString())) {
+                        //already exists
+                        Error.variableAlreadyDefined(
+                                model.context,
+                                var.name.toString()
+                        );
+                        continue;
+                    }
 
-                //identifierExpression
-                if(fatherMap.containsKey(var.name.toString())) {
-                    //already exists
-                    Error.variableAlreadyDefined(
-                            model.context,
-                            var.name.toString()
-                    );
-                    continue;
+                    //naming is good, lets check the value
+                    String definitionType = var.modifier.equals("const")?Symbol.CONST:Symbol.VAR;
+
+                    if (var.value instanceof ArrowFunction af && var.name instanceof IdentifierExpression id){
+                        visit(af,cloneHashMap(fatherMap), cloneHashMap(grandMap), getGrandMapFromArgs(args), isComponent(id.name));
+                    }
+                    else if (var.value instanceof IdentifierExpression identifierExpression) {
+                        visit(var.value,cloneHashMap(fatherMap), cloneHashMap(grandMap), getGrandMapFromArgs(args));
+                    }
+
+                    syms.add(Symbol.make(definitionType, var.name.toString(), var.value));
+                    fatherMap.put(var.name.toString(),new Pair<>(definitionType,var.value==null?"":var.value.toString()));
+                }
+
+                //checking for incorrect hooks uses
+                if (var.value instanceof UseStateFunction us && !getIsInComponentFromArgs(args))
+                {
+                    Error.hookError(us.context, "UseState");
+                }
+                else if (var.value instanceof UseEffectFunction uf && !getIsInComponentFromArgs(args))
+                {
+                    Error.hookError(uf.context, "UseEffect");
+                }
+                else if (var.value instanceof UseRefFunction ur && !getIsInComponentFromArgs(args))
+                {
+                    Error.hookError(ur.context, "UseRef");
                 }
 
             }
-
-            //checking for incorrect hooks uses
-            if (var.value instanceof UseStateFunction us && !getIsInComponentFromArgs(args))
-            {
-                Error.hookError(us.context, "UseState");
-            }
-            else if (var.value instanceof UseEffectFunction uf && !getIsInComponentFromArgs(args))
-            {
-                Error.hookError(uf.context, "UseEffect");
-            }
-            else if (var.value instanceof UseRefFunction ur && !getIsInComponentFromArgs(args))
-            {
-                Error.hookError(ur.context, "UseRef");
-            }
-
-            //naming is good, lets check the value
-            String definitionType = var.modifier.equals("const")?Symbol.CONST:Symbol.VAR;
-
-            if (var.value instanceof ArrowFunction af && var.name instanceof IdentifierExpression id){
-                visit(af,cloneHashMap(fatherMap), cloneHashMap(grandMap), getGrandMapFromArgs(args), isComponent(id.name));
-            }
-            else if (var.value instanceof IdentifierExpression identifierExpression) {
-                visit(var.value,cloneHashMap(fatherMap), cloneHashMap(grandMap), getGrandMapFromArgs(args));
-            }
-
-            syms.add(Symbol.make(definitionType, var.name.toString(), var.value));
-            fatherMap.put(var.name.toString(),new Pair<>(definitionType,var.value==null?"":var.value.toString()));
         }
         return syms;
     }
@@ -258,14 +298,18 @@ public class SymbolTableVisitor {
 
         visit(ConditionalStatement.expressions, fatherMap, grandMap);
 
+        List<Symbolable> condition = new ArrayList<>();
+
         List<Symbolable> f = visit(ConditionalStatement.statement, cloneHashMap(fatherMap), cloneHashMap(grandMap));
         Scope ifBlock = new Scope("if", "", f);
-
-        List<Symbolable> e = visit(ConditionalStatement.elseStatement, cloneHashMap(fatherMap), cloneHashMap(grandMap));
-        Scope elseBlock = new Scope("else", "", e);
-        List<Symbolable> condition = new ArrayList<>();
         condition.add(ifBlock);
-        condition.add(elseBlock);
+
+        if (ConditionalStatement.elseStatement != null){
+            List<Symbolable> e = visit(ConditionalStatement.elseStatement, cloneHashMap(fatherMap), cloneHashMap(grandMap));
+            Scope elseBlock = new Scope("else", "", e);
+            condition.add(elseBlock);
+        }
+
         Scope ConditionalBlock = new Scope("ConditionalStatement", "", condition);
         return listify(ConditionalBlock);
     }
@@ -421,7 +465,7 @@ public class SymbolTableVisitor {
 
         //adding function parameters to the symbol table
         for (Pair<Assignable, Expression> parameter : functionDeclaration.parameters.values) {
-            Symbol paramSymbol = (Symbol) Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : null);
+            Symbol paramSymbol = (Symbol) Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : "ToBeDetermined");
             symbolables.add(paramSymbol);
             myMap.put(paramSymbol.name, new Pair<>(paramSymbol.type, "ToBeDetermined"));
 
@@ -436,7 +480,7 @@ public class SymbolTableVisitor {
 
         //adding symbols of the function body to symbol table
         for (Statement statement : functionDeclaration.body) {
-            List<Symbolable> childSymbolables = visit(statement, myMap, fatherMap, isComponent(functionDeclaration));
+            List<Symbolable> childSymbolables = visit(statement, cloneHashMap(myMap), cloneHashMap(fatherMap), isComponent(functionDeclaration));
 
             addNewSymbolsToMap(myMap, childSymbolables);
 
@@ -510,6 +554,9 @@ public class SymbolTableVisitor {
                 visit(re.leftExpression , getMapFromArgs(args), getGrandMapFromArgs(args), getIsInComponentFromArgs(args));
                 visit(re.rightExpression , getMapFromArgs(args), getGrandMapFromArgs(args), getIsInComponentFromArgs(args));
             }
+//            if (exp instanceof AssignmentOperatorExpression aoe){
+//
+//            }
         }
         return new ArrayList<>();
     }
@@ -517,6 +564,7 @@ public class SymbolTableVisitor {
     public static List<Symbolable> visit(Expression e,Object ...args) {
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
         HashMap<String,Pair<String,String>> grandMap = getGrandMapFromArgs(args);
+
         if(e instanceof VariableDeclarationStatement vds){
             return visit(vds,fatherMap, grandMap);
         }
@@ -529,8 +577,13 @@ public class SymbolTableVisitor {
         if (e instanceof AnonymousFunction af){
             return visit(af, fatherMap, grandMap);
         }
+        if (e instanceof MathmaticalExpression me){
+            visit(me.firstExpression, fatherMap, grandMap);
+            return visit(me.secondExpression, fatherMap, grandMap);
+        }
         return new ArrayList<>();
     }
+
     public static List<Symbolable> visit(IdentifierExpression e, Object ...args) {
         HashMap<String,Pair<String,String>> mergedMap = getMapFromArgs(args);
         mergedMap.putAll(getGrandMapFromArgs(args));
@@ -546,40 +599,18 @@ public class SymbolTableVisitor {
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
         HashMap<String,Pair<String,String>> grandMap = getGrandMapFromArgs(args);
 
-        HashMap<String,Pair<String,String>> mergedMap = cloneHashMap(fatherMap);
-        mergedMap.putAll(grandMap);
+        HashMap<String,Pair<String,String>> mergedMap = cloneHashMap(grandMap);
+        mergedMap.putAll(fatherMap);
 
-        if(e.leftExpression instanceof IdentifierExpression){
-            String name = e.leftExpression.toString();
 
-            //symbol isn't declared before
-            if(!mergedMap.containsKey(name)){
-                Error.jsError(e.context,"Trying to assign value to undefined variable: " + name +".");
-            }
-            //symbol is already defined in symbol table
-            else{
-                //the symbol is const->error for trying to change it
-                 if(mergedMap.get(name).a.equals(Symbol.CONST)) {
-                     Error.jsError(e.context, "Trying to assign value to a constant: " + name +".");
-                 }
-                 //the symbol value is changed
-                 else{
-//                     mergedMap.get(name).b=e.rightExpression.toString();
-                 }
-
-            }
-        }
-        else {
-
-            System.err.println("Unknown Expression SymbolTableVisitor:visitAssignmentExpression");
+        //checking the left expression for errors
+        visit(e.leftExpression, fatherMap, grandMap, getIsInComponentFromArgs(args));
+        if (e.leftExpression instanceof IdentifierExpression id && mergedMap.get(id.name) != null && mergedMap.get(id.name).a.equals("Constant")){
+            Error.jsError(e.context, "Trying to assign value to a constant: " + id.name +".");
         }
 
-        if (e.rightExpression instanceof IdentifierExpression){
-            String name = e.rightExpression.toString();
-            if (!mergedMap.containsKey(name)){
-                Error.jsError(e.context,"Trying to use undefined variable: " + name +".");
-            }
-        }
+        //checking the right expression for errors
+        visit(e.rightExpression, fatherMap, grandMap, getIsInComponentFromArgs(args));
 
         //checking for incorrect hooks uses
         if (e.rightExpression instanceof UseStateFunction us && !getIsInComponentFromArgs(args))
@@ -640,33 +671,12 @@ public class SymbolTableVisitor {
         else
             return (boolean) args[0];
     }
+
     private static boolean isComponent(String name){
         return Character.isUpperCase(name.charAt(0));
     }
 
-//    private static boolean isComponentByReturn(Function function, Map<String, Pair<String, String>> symbolTable){
-//
-//        if (function instanceof FunctionDeclaration fd) {
-//
-//            for (Statement st : fd.body){
-//                if (st instanceof ReturnStatement rs){
-//                    Expression returned = rs.expr.list.get(0);
-//
-//                    if (returned instanceof JSXElement)
-//                        return true;
-//                    else if (returned instanceof IdentifierExpression id)
-//                    {
-//                        if (symbolTable.containsKey(id.name) && symbolTable.get(id.name).b.equals("JSXElement"))
-//                            return true
-//                    }
-//
-//                }
-//            }
-//        }
-//        else
-//            return isComponent(((AnonymousFunction) function).parameters.values.get(0).a.toString());
-
-
-//        return false;
-//    }
+    private static boolean isaHook(Expression hook){
+        return hook instanceof UseStateFunction || hook instanceof UseEffectFunction || hook instanceof UseRefFunction;
+    }
 }

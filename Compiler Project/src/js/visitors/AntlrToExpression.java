@@ -217,7 +217,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         Expression left = visit(ctx.singleExpression(0));
         Expression right = visit(ctx.singleExpression(1));
         String operator = ctx.getChild(1).getText();
-        AssignmentOperatorExpression assignmentOperatorExpression = new AssignmentOperatorExpression(left, right, operator);
+        AssignmentOperatorExpression assignmentOperatorExpression = new AssignmentOperatorExpression(left, right, operator, ctx);
         return assignmentOperatorExpression;
 
     }

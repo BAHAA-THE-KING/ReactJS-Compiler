@@ -12,6 +12,6 @@ public class JSXExpression implements JSXContent {
 
     @Override
     public String toString() {
-        return value.toString();
+        return "{" + value + "}";
     }
 }

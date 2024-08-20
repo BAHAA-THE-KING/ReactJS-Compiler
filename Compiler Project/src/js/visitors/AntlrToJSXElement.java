@@ -3,7 +3,7 @@ package js.visitors;
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
 import js.expressions.jsxElement.JSXElement;
-import js.visitors.models.AttributeValue;
+import js.visitors.models.Expression;
 import js.visitors.models.JSXContent;
 import org.antlr.v4.runtime.misc.Pair;
 import program.Error;
@@ -21,11 +21,11 @@ public class AntlrToJSXElement extends JSParserBaseVisitor<JSXElement> {
     @Override
     public JSXElement visitSelfClosing(JSParser.SelfClosingContext ctx) {
         String tagName = ctx.tagName().getText();
-        List<Pair<String, AttributeValue>> attributes = new ArrayList<>();
-        AntlrToAttributeValue visitor = new AntlrToAttributeValue(filePath);
+        List<Pair<String, Expression>> attributes = new ArrayList<>();
+        AntlrToExpression visitor = new AntlrToExpression(filePath);
         for (var attribute : ctx.attribute()) {
             String name = attribute.attributeName().getText();
-            AttributeValue value = visitor.visit(attribute.attributeValue());
+            Expression value = visitor.visit(attribute.attributeValue());
             attributes.add(new Pair<>(name, value));
         }
         return new JSXElement(tagName, attributes, new ArrayList<>());
@@ -40,11 +40,11 @@ public class AntlrToJSXElement extends JSParserBaseVisitor<JSXElement> {
 
         }
         String tagName = ctx.tagName(0) != null ? ctx.tagName(0).getText() : "";
-        List<Pair<String, AttributeValue>> attributes = new ArrayList<>();
-        AntlrToAttributeValue attributeValueVisitor = new AntlrToAttributeValue(filePath);
+        List<Pair<String, Expression>> attributes = new ArrayList<>();
+        AntlrToExpression antlrToExpression = new AntlrToExpression(filePath);
         for (var attribute : ctx.attribute()) {
             String name = attribute.attributeName().getText();
-            AttributeValue value = attributeValueVisitor.visit(attribute.attributeValue());
+            Expression value = antlrToExpression.visit(attribute.attributeValue());
             attributes.add(new Pair<>(name, value));
         }
         List<JSXContent> body = new ArrayList<>();

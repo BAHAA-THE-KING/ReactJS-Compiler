@@ -3,9 +3,12 @@ function Comp() {
 
   useEffect(() => {
     alert(name);
-  }, []);
+return ()=>{
+console.log(name);
+}
+  }, [name]);
 
   setTimeout(() => {
-    setName(name + " Bahaa");
+      setName(name+"Bahaa");
   }, 1000);
 }

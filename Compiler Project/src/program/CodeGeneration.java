@@ -228,7 +228,7 @@ public class CodeGeneration {
                     if (expressionChunk instanceof UseRefFunction) {
                         refNum1++;
                         PropertyName name = new PropertyByName("ref_" + refNum1, null);
-                        Expression value = new ObjectLiteral().addAttribute(new NormalProperty(new PropertyByName("current", null), ((UseRefFunction) expressionChunk).initialValue.value));
+                        Expression value = new ObjectLiteral().addAttribute(new NormalProperty(new PropertyByName("current", null), ((UseRefFunction) expressionChunk).initialValue != null ? ((UseRefFunction) expressionChunk).initialValue.value : new SimpleExpression().Undefined()));
                         fields.add(new ClassFieldDefinition(false, name, value));
                     }
                 }
@@ -238,7 +238,7 @@ public class CodeGeneration {
                     if (varDecl.value instanceof UseRefFunction) {
                         refNum1++;
                         PropertyName name = new PropertyByName("ref_" + refNum1, null);
-                        Expression value = new ObjectLiteral().addAttribute(new NormalProperty(new PropertyByName("current", null), ((UseRefFunction) varDecl.value).initialValue.value));
+                        Expression value = new ObjectLiteral().addAttribute(new NormalProperty(new PropertyByName("current", null), ((UseRefFunction) varDecl.value).initialValue != null ? ((UseRefFunction) varDecl.value).initialValue.value : new SimpleExpression().Undefined()));
                         fields.add(new ClassFieldDefinition(false, name, value));
                     }
                 }
@@ -345,9 +345,14 @@ public class CodeGeneration {
                         }
                         sequence4.addExpression(new AssignmentExpression(new IdentifierExpression("this.deps_first_" + effectNum2), new BooleanLiteral("false"), null));
                         LogicalExpression cleanupCondition = new LogicalExpression(new UnaryExpression("!", new IdentifierExpression("this.deps_first_" + effectNum2)), new IdentifierExpression("this.cleanup_" + effectNum2), "&&");
-                        ConditionalStatement ifStatement = new ConditionalStatement(new ExpressionSequence(cleanupCondition), new ExpressionChunk(new ExpressionSequence(new ArgumentsExpression(new IdentifierExpression("this.deps_first_" + effectNum2), null))), null);
-                        newStatements.statements.add(0, ifStatement);
+                        ConditionalStatement ifStatement = new ConditionalStatement(new ExpressionSequence(cleanupCondition), new ExpressionChunk(new ExpressionSequence(new ArgumentsExpression(new IdentifierExpression("this.cleanup_" + effectNum2), null))), null);
                         newStatements.statements.add(0, new ExpressionChunk(sequence4));
+                        newStatements.statements.add(0, ifStatement);
+                        Statement lastStatement = (((UseEffectFunction) expressionChunk).onRenderFunction.body.get(((UseEffectFunction) expressionChunk).onRenderFunction.body.size() - 1));
+                        if (lastStatement instanceof ReturnStatement) {
+                            newStatements.statements.add(new ExpressionChunk(new ExpressionSequence(new AssignmentExpression(new IdentifierExpression("this.cleanup_" + effectNum2), ((ReturnStatement) lastStatement).expr, null))));
+                            newStatements.statements.remove(newStatements.statements.size() - 2);
+                        }
 
 
                         LogicalExpression depsChanged = sequence2.list.size() == 0 ? zeroDeps : new LogicalExpression(zeroDeps, sequence2, "||");
@@ -370,17 +375,17 @@ public class CodeGeneration {
                 for (Expression expressionChunk : ((ExpressionChunk) statement).expressions.list) {
                     if (expressionChunk instanceof UseRefFunction) {
                         refNum2++;
-                        // Replace useState() with [this.state, value=>this.setState({...this.state, state_NUM++:value})]
+                        // Replace useState() with this.ref_i
 
                         statements.set(i, new ExpressionChunk(new ExpressionSequence(new IdentifierExpression("this.ref_" + refNum2))));
                     }
                 }
             } else if (statement instanceof VariableDeclarationStatement) {
-                // variables with useState()
+                // variables with useRef()
                 for (VariableDeclaration varDecl : ((VariableDeclarationStatement) statement).vars) {
                     if (varDecl.value instanceof UseRefFunction) {
                         refNum2++;
-                        // Replace useState() with [this.state, value=>this.setState({...this.state, state_NUM++:value})]
+                        // Replace useRef() with this.ref_i
 
                         varDecl.value = new IdentifierExpression("this.ref_" + refNum2);
                     }

@@ -56,7 +56,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
 
     @Override
     public Expression visitUseRefExpression(JSParser.UseRefExpressionContext ctx) {
-        Argument argument = new Argument(visit(ctx.argument()));
+        Argument argument = ctx.argument() != null ? new Argument(visit(ctx.argument())) : null;
         return new UseRefFunction(argument, ctx);
     }
 
@@ -277,5 +277,8 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         return new RelationalExpression(left, right, comparision, ctx);
     }
 
-
+    @Override
+    public Expression visitUndefined(JSParser.UndefinedContext ctx) {
+        return new SimpleExpression().Undefined();
+    }
 }

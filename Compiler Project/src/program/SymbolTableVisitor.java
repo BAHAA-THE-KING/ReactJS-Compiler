@@ -412,6 +412,10 @@ public class SymbolTableVisitor {
     public static List<Symbolable> visit(FunctionDeclaration functionDeclaration,Object ...args) {
 
         List<Symbolable> symbolables = new ArrayList<>();
+
+        HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
+        HashMap<String,Pair<String,String>> myMap = initializeHashMap();
+
         for (Pair<Assignable, Expression> parameter : functionDeclaration.parameters.values) {
             symbolables.add(Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : null));
         }
@@ -422,7 +426,11 @@ public class SymbolTableVisitor {
 
 
         for (Statement statement : functionDeclaration.body) {
-            symbolables.addAll(visit(statement, initializeHashMap(), initializeHashMap(), isComponent(functionDeclaration)));
+            List<Symbolable> childSymbolables = visit(statement, myMap, fatherMap, isComponent(functionDeclaration));
+
+            addNewSymbolsToMap(myMap, childSymbolables);
+
+            symbolables.addAll(childSymbolables);
         }
         Scope funcScope = new Scope(Scope.MTHD, functionDeclaration.Identifier, symbolables);
 
@@ -526,10 +534,7 @@ public class SymbolTableVisitor {
         HashMap<String,Pair<String,String>> mergedMap = cloneHashMap(fatherMap);
         mergedMap.putAll(grandMap);
 
-        if(e.leftExpression instanceof ArrayLiteral){
-
-        }
-        else if(e.leftExpression instanceof IdentifierExpression){
+        if(e.leftExpression instanceof IdentifierExpression){
             String name = e.leftExpression.toString();
 
             //symbol isn't declared before
@@ -548,8 +553,17 @@ public class SymbolTableVisitor {
                  }
 
             }
-        }else {
+        }
+        else {
+
             System.err.println("Unknown Expression SymbolTableVisitor:visitAssignmentExpression");
+        }
+
+        if (e.rightExpression instanceof IdentifierExpression){
+            String name = e.rightExpression.toString();
+            if (!mergedMap.containsKey(name)){
+                Error.jsError(e.context,"Trying to use undefined variable: " + name +".");
+            }
         }
 
         //checking for incorrect hooks uses

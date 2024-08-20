@@ -283,5 +283,14 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         return (new AntlrToAnonymousFunction(filePath)).visitArrowFunction(ctx);
     }
 
+    @Override
+    public Expression visitRelationalExpression(JSParser.RelationalExpressionContext ctx) {
+        Expression left = visit(ctx.singleExpression(0));
+        Expression right = visit(ctx.singleExpression(1));
+        String comparision = ctx.getChild(1).toString();
+
+        return new RelationalExpression(left, right, comparision, ctx);
+    }
+
 
 }

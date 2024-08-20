@@ -18,6 +18,7 @@ import js.expressions.Properties.ComputedProperty;
 import js.expressions.Properties.EllipsisProperty;
 import js.expressions.Properties.FunctionProperty;
 import js.expressions.Properties.NormalProperty;
+import js.expressions.RelationalExpression;
 import js.expressions.jsxElement.JSXElement;
 import js.statements.Block.Block;
 import js.statements.ClassDeclaration.ClassDeclaration;
@@ -255,6 +256,8 @@ public class SymbolTableVisitor {
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
         HashMap<String,Pair<String,String>> grandMap = getGrandMapFromArgs(args);
 
+        visit(ConditionalStatement.expressions, fatherMap, grandMap);
+
         List<Symbolable> f = visit(ConditionalStatement.statement, cloneHashMap(fatherMap), cloneHashMap(grandMap));
         Scope ifBlock = new Scope("if", "", f);
 
@@ -416,15 +419,22 @@ public class SymbolTableVisitor {
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
         HashMap<String,Pair<String,String>> myMap = initializeHashMap();
 
+        //adding function parameters to the symbol table
         for (Pair<Assignable, Expression> parameter : functionDeclaration.parameters.values) {
-            symbolables.add(Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : null));
+            Symbol paramSymbol = (Symbol) Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : null);
+            symbolables.add(paramSymbol);
+            myMap.put(paramSymbol.name, new Pair<>(paramSymbol.type, "ToBeDetermined"));
+
         }
+        //same wtih spread parameter
         Expression spreadParameter = functionDeclaration.parameters.spreadParameter;
         if (spreadParameter != null) {
-            symbolables.add(Symbol.make(Symbol.PARAM, "spreadParameter", spreadParameter));
+            Symbol paramSymbol = (Symbol) Symbol.make(Symbol.PARAM, "spreadParameter", spreadParameter);
+            symbolables.add(paramSymbol);
+            symbolables.add(paramSymbol);
         }
 
-
+        //adding symbols of the function body to symbol table
         for (Statement statement : functionDeclaration.body) {
             List<Symbolable> childSymbolables = visit(statement, myMap, fatherMap, isComponent(functionDeclaration));
 
@@ -490,10 +500,15 @@ public class SymbolTableVisitor {
         visit(e.expressions,getMapFromArgs(args), getGrandMapFromArgs(args), getIsInComponentFromArgs(args));
         return new ArrayList<>();
     }
+
     public static List<Symbolable> visit(ExpressionSequence e, Object ...args) {
         for (Expression exp : e.list) {
-            if (exp instanceof AssignmentExpression) {
-                visit((AssignmentExpression)exp,getMapFromArgs(args), getGrandMapFromArgs(args), getIsInComponentFromArgs(args));
+            if (exp instanceof AssignmentExpression ae) {
+                visit(ae,getMapFromArgs(args), getGrandMapFromArgs(args), getIsInComponentFromArgs(args));
+            }
+            if (exp instanceof RelationalExpression re){
+                visit(re.leftExpression , getMapFromArgs(args), getGrandMapFromArgs(args), getIsInComponentFromArgs(args));
+                visit(re.rightExpression , getMapFromArgs(args), getGrandMapFromArgs(args), getIsInComponentFromArgs(args));
             }
         }
         return new ArrayList<>();

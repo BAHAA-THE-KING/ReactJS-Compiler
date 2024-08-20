@@ -4,10 +4,12 @@ import js.expressions.ArgumentsExpression.*;
 import js.expressions.ArrayLiteral.ArrayElement;
 import js.expressions.ArrayLiteral.ArrayLiteral;
 import js.expressions.*;
+import js.expressions.Function.AnonymousFunction;
 import js.expressions.Function.ArrowFunction;
 import js.expressions.Literals.BooleanLiteral;
 import js.expressions.Literals.DecimalLiteral;
 import js.expressions.Literals.ObjectLiteral;
+import js.expressions.Literals.StringLiteral;
 import js.expressions.Properties.EllipsisProperty;
 import js.expressions.Properties.NormalProperty;
 import js.statements.Block.Block;
@@ -18,6 +20,7 @@ import js.statements.ClassDeclaration.PropertyName.PropertyByName;
 import js.statements.ConditionalStatement.ConditionalStatement;
 import js.statements.ExpressionChunk.ExpressionChunk;
 import js.statements.Function.FunctionDeclaration;
+import js.statements.ImportStatement.DefaultAsImportBlock;
 import js.statements.VariableDeclarationStatement.VariableDeclaration;
 import js.statements.VariableDeclarationStatement.VariableDeclarationStatement;
 import js.visitors.models.*;
@@ -34,12 +37,42 @@ public class CodeGeneration {
     private static int refNum1 = 0;
     private static int refNum2 = 0;
 
-    public static void UniformComponents(JsProgram program) {
+    public static VariableDeclarationStatement ImportToDecl(DefaultAsImportBlock importStatement) {
+        if (importStatement.packageName.endsWith(".png") || importStatement.packageName.endsWith(".jpg")) {
+            List<VariableDeclaration> declarations = new ArrayList<>();
+            declarations.add(new VariableDeclaration("const", new IdentifierExpression(((DefaultAsImportBlock) importStatement).defaultImport.b), new StringLiteral(((DefaultAsImportBlock) importStatement).packageName), ""));
+            return new VariableDeclarationStatement(declarations, null);
+        }
+        return null;
     }
 
     public static ClassDeclaration FunctionToClass(FunctionDeclaration functionDeclaration) {
-        if (GetStates(functionDeclaration).objectProperties.size() == 0) return null;
+//        if (GetStates(functionDeclaration).objectProperties.size() == 0) return null;
         ClassDeclaration classDeclaration = new ClassDeclaration(functionDeclaration.Identifier, "Component");
+        stateNum1 = 0;
+        stateNum2 = 0;
+        effectNum1 = 0;
+        effectNum2 = 0;
+        refNum1 = 0;
+        refNum2 = 0;
+        /*
+        constructor(props){
+            this.props=props;
+            this.state=Object Of States
+            }
+        */
+        DefineConstructor(classDeclaration, functionDeclaration);
+        /*
+        render(){}
+         */
+        DefineRender(classDeclaration, functionDeclaration);
+
+        return classDeclaration;
+    }
+
+    public static ClassDeclaration FunctionToClass(AnonymousFunction functionDeclaration) {
+//        if (GetStates(functionDeclaration).objectProperties.size() == 0) return null;
+        ClassDeclaration classDeclaration = new ClassDeclaration("", "Component");
         stateNum1 = 0;
         stateNum2 = 0;
         effectNum1 = 0;
@@ -72,9 +105,9 @@ public class CodeGeneration {
         arguments.addArgument(new Argument(new IdentifierExpression("props")));
         Expression superCall = new ArgumentsExpression(new SimpleExpression().Super(), arguments);
         Expression propsAssignmentExpression = new AssignmentExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("props"), false), new IdentifierExpression("props"), null);
-        ObjectLiteral objectLiteral = GetStates(functionDeclaration);
-        List<ClassFieldDefinition> fields1 = GetDeps(functionDeclaration);
-        List<ClassFieldDefinition> fields2 = GetRefs(functionDeclaration);
+        ObjectLiteral objectLiteral = GetStates(functionDeclaration.body);
+        List<ClassFieldDefinition> fields1 = GetDeps(functionDeclaration.body);
+        List<ClassFieldDefinition> fields2 = GetRefs(functionDeclaration.body);
         for (ClassFieldDefinition field : fields1) {
             classDeclaration.addElement(field);
         }
@@ -95,9 +128,42 @@ public class CodeGeneration {
         classDeclaration.addElement(constructor);
     }
 
-    private static ObjectLiteral GetStates(FunctionDeclaration functionDeclaration) {
+    private static void DefineConstructor(ClassDeclaration classDeclaration, AnonymousFunction functionDeclaration) {
+        /*
+        constructor(props){
+            this.props=props;
+            this.state=Object Of States
+            }
+        */
+        Arguments arguments = new Arguments();
+        arguments.addArgument(new Argument(new IdentifierExpression("props")));
+        Expression superCall = new ArgumentsExpression(new SimpleExpression().Super(), arguments);
+        Expression propsAssignmentExpression = new AssignmentExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("props"), false), new IdentifierExpression("props"), null);
+        ObjectLiteral objectLiteral = GetStates(functionDeclaration.body);
+        List<ClassFieldDefinition> fields1 = GetDeps(functionDeclaration.body);
+        List<ClassFieldDefinition> fields2 = GetRefs(functionDeclaration.body);
+        for (ClassFieldDefinition field : fields1) {
+            classDeclaration.addElement(field);
+        }
+        for (ClassFieldDefinition field : fields2) {
+            classDeclaration.addElement(field);
+        }
+        Expression stateAssignmentExpression = new AssignmentExpression(new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("state"), false), objectLiteral, null);
+
+        List<Statement> constructorBody = new ArrayList<>();
+        constructorBody.add(new ExpressionChunk(new ExpressionSequence(superCall)));
+        constructorBody.add(new ExpressionChunk(new ExpressionSequence(propsAssignmentExpression)));
+        constructorBody.add(new ExpressionChunk(new ExpressionSequence(stateAssignmentExpression)));
+
+        List<Pair<Assignable, Expression>> propsParam = new ArrayList<>();
+        propsParam.add(new Pair<>(new IdentifierExpression("props"), new ObjectLiteral()));
+
+        ClassMethodDefinition constructor = new ClassMethodDefinition(false, new PropertyByName("constructor", null), new Parameters(propsParam, null), constructorBody);
+        classDeclaration.addElement(constructor);
+    }
+
+    private static ObjectLiteral GetStates(List<Statement> statements) {
         ObjectLiteral objectLiteral = new ObjectLiteral();
-        List<Statement> statements = functionDeclaration.body;
         for (Statement statement : statements) {
             // Plain useState()
             if (statement instanceof ExpressionChunk) {
@@ -124,9 +190,8 @@ public class CodeGeneration {
         return objectLiteral;
     }
 
-    private static List<ClassFieldDefinition> GetDeps(FunctionDeclaration functionDeclaration) {
+    private static List<ClassFieldDefinition> GetDeps(List<Statement> statements) {
         List<ClassFieldDefinition> fields = new ArrayList<>();
-        List<Statement> statements = functionDeclaration.body;
         for (Statement statement : statements) {
             // Plain useState()
             if (statement instanceof ExpressionChunk) {
@@ -149,9 +214,8 @@ public class CodeGeneration {
         return fields;
     }
 
-    private static List<ClassFieldDefinition> GetRefs(FunctionDeclaration functionDeclaration) {
+    private static List<ClassFieldDefinition> GetRefs(List<Statement> statements) {
         List<ClassFieldDefinition> fields = new ArrayList<>();
-        List<Statement> statements = functionDeclaration.body;
         for (Statement statement : statements) {
             // Plain useRef()
             if (statement instanceof ExpressionChunk) {
@@ -326,7 +390,23 @@ public class CodeGeneration {
         /*
         render(){}
         */
-        List<Statement> newBody = ReplaceUseStates(functionDeclaration.body);
+        List<Statement> newBody = functionDeclaration.body;
+        newBody = ReplaceUseStates(newBody);
+        newBody = ReplaceUseEffects(newBody);
+        newBody = ReplaceUseRefs(newBody);
+        List<VariableDeclaration> vars = new ArrayList<>();
+        vars.add(new VariableDeclaration("const", functionDeclaration.parameters.values.size() != 0 ? functionDeclaration.parameters.values.get(0).a : new ObjectLiteral(), new OptionalChainExpression(new SimpleExpression().This(), new IdentifierExpression("props"), false), "idk"));
+        newBody.add(0, new VariableDeclarationStatement(vars, null));
+        ClassMethodDefinition renderMethod = new ClassMethodDefinition(false, new PropertyByName("render", null), new Parameters(new ArrayList<>(), null), newBody);
+        classDeclaration.addElement(renderMethod);
+    }
+
+    private static void DefineRender(ClassDeclaration classDeclaration, AnonymousFunction functionDeclaration) {
+        /*
+        render(){}
+        */
+        List<Statement> newBody = functionDeclaration.body;
+        newBody = ReplaceUseStates(newBody);
         newBody = ReplaceUseEffects(newBody);
         newBody = ReplaceUseRefs(newBody);
         List<VariableDeclaration> vars = new ArrayList<>();

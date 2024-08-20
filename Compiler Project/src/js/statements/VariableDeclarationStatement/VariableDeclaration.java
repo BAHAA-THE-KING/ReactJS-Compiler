@@ -1,7 +1,9 @@
 package js.statements.VariableDeclarationStatement;
 
+import js.expressions.Function.AnonymousFunction;
 import js.visitors.models.Assignable;
 import js.visitors.models.Expression;
+import program.CodeGeneration;
 
 public class VariableDeclaration {
     public String modifier;
@@ -18,6 +20,9 @@ public class VariableDeclaration {
 
     @Override
     public String toString() {
+        if (value instanceof AnonymousFunction && name.toString().toUpperCase().charAt(0) == name.toString().charAt(0)) {
+            return modifier + " " + name + " = " + CodeGeneration.FunctionToClass((AnonymousFunction) value);
+        }
         return modifier + " " + name + " = " + value;
     }
 }

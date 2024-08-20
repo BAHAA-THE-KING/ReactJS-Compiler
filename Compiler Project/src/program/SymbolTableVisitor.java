@@ -3,6 +3,8 @@ package program;
 import js.SymbolTable.Scope;
 import js.SymbolTable.Symbol;
 import js.SymbolTable.Symbolable;
+import js.expressions.ArgumentsExpression.UseEffectFunction;
+import js.expressions.ArgumentsExpression.UseRefFunction;
 import js.expressions.ArgumentsExpression.UseStateFunction;
 import js.expressions.ArrayLiteral.ArrayElement;
 import js.expressions.ArrayLiteral.ArrayLiteral;
@@ -16,6 +18,8 @@ import js.expressions.Properties.ComputedProperty;
 import js.expressions.Properties.EllipsisProperty;
 import js.expressions.Properties.FunctionProperty;
 import js.expressions.Properties.NormalProperty;
+import js.expressions.RelationalExpression;
+import js.expressions.jsxElement.JSXElement;
 import js.statements.Block.Block;
 import js.statements.ClassDeclaration.ClassDeclaration;
 import js.statements.ClassDeclaration.ClassFieldDefinition;
@@ -27,6 +31,7 @@ import js.statements.ConditionalStatement.ConditionalStatement;
 import js.statements.ExpressionChunk.ExpressionChunk;
 import js.statements.Function.FunctionDeclaration;
 import js.statements.Loops.*;
+import js.statements.ReturnStatement.ReturnStatement;
 import js.statements.TryStatement.CatchProduction;
 import js.statements.TryStatement.FinallyProduction;
 import js.statements.TryStatement.TryStatement;
@@ -40,6 +45,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SymbolTableVisitor {
     public static List<Symbolable> visit(Statement model,Object ...args) {
@@ -84,10 +90,10 @@ public class SymbolTableVisitor {
             return visit((FunctionDeclaration) model,args);
         }
         if (model instanceof AnonymousFunction) {
-            return visit((AnonymousFunction) model,args);
-        }
-        if (model instanceof ArrowFunction) {
-            return visit((ArrowFunction) model,args);
+            if (model instanceof ArrowFunction)
+                return visit((ArrowFunction) model,args);
+            else
+                return visit((AnonymousFunction) model,args);
         }
         if (model instanceof Property) {
             return visit((Property) model,args);
@@ -174,17 +180,32 @@ public class SymbolTableVisitor {
                     continue;
                 }
 
-//                //check if this declaration is a component
-//                if (isComponent(var.name.toString()) && (var.value instanceof Function fun)){
-//                    visit(fun, cloneHashMap(fatherMap), true);
-//                }
+            }
+
+            //checking for incorrect hooks uses
+            if (var.value instanceof UseStateFunction us && !getIsInComponentFromArgs(args))
+            {
+                Error.hookError(us.context, "UseState");
+            }
+            else if (var.value instanceof UseEffectFunction uf && !getIsInComponentFromArgs(args))
+            {
+                Error.hookError(uf.context, "UseEffect");
+            }
+            else if (var.value instanceof UseRefFunction ur && !getIsInComponentFromArgs(args))
+            {
+                Error.hookError(ur.context, "UseRef");
             }
 
             //naming is good, lets check the value
             String definitionType = var.modifier.equals("const")?Symbol.CONST:Symbol.VAR;
-            if (var.value instanceof IdentifierExpression identifierExpression) {
-                visit(identifierExpression,cloneHashMap(fatherMap), cloneHashMap(grandMap));
+
+            if (var.value instanceof ArrowFunction af && var.name instanceof IdentifierExpression id){
+                visit(af,cloneHashMap(fatherMap), cloneHashMap(grandMap), getGrandMapFromArgs(args), isComponent(id.name));
             }
+            else if (var.value instanceof IdentifierExpression identifierExpression) {
+                visit(var.value,cloneHashMap(fatherMap), cloneHashMap(grandMap), getGrandMapFromArgs(args));
+            }
+
             syms.add(Symbol.make(definitionType, var.name.toString(), var.value));
             fatherMap.put(var.name.toString(),new Pair<>(definitionType,var.value==null?"":var.value.toString()));
         }
@@ -234,6 +255,8 @@ public class SymbolTableVisitor {
 
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
         HashMap<String,Pair<String,String>> grandMap = getGrandMapFromArgs(args);
+
+        visit(ConditionalStatement.expressions, fatherMap, grandMap);
 
         List<Symbolable> f = visit(ConditionalStatement.statement, cloneHashMap(fatherMap), cloneHashMap(grandMap));
         Scope ifBlock = new Scope("if", "", f);
@@ -390,18 +413,34 @@ public class SymbolTableVisitor {
     }
 
     public static List<Symbolable> visit(FunctionDeclaration functionDeclaration,Object ...args) {
+
         List<Symbolable> symbolables = new ArrayList<>();
+
+        HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
+        HashMap<String,Pair<String,String>> myMap = initializeHashMap();
+
+        //adding function parameters to the symbol table
         for (Pair<Assignable, Expression> parameter : functionDeclaration.parameters.values) {
-            symbolables.add(Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : null));
+            Symbol paramSymbol = (Symbol) Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : null);
+            symbolables.add(paramSymbol);
+            myMap.put(paramSymbol.name, new Pair<>(paramSymbol.type, "ToBeDetermined"));
+
         }
+        //same wtih spread parameter
         Expression spreadParameter = functionDeclaration.parameters.spreadParameter;
         if (spreadParameter != null) {
-            symbolables.add(Symbol.make(Symbol.PARAM, "spreadParameter", spreadParameter));
+            Symbol paramSymbol = (Symbol) Symbol.make(Symbol.PARAM, "spreadParameter", spreadParameter);
+            symbolables.add(paramSymbol);
+            symbolables.add(paramSymbol);
         }
 
-
+        //adding symbols of the function body to symbol table
         for (Statement statement : functionDeclaration.body) {
-            symbolables.addAll(visit(statement));
+            List<Symbolable> childSymbolables = visit(statement, myMap, fatherMap, isComponent(functionDeclaration));
+
+            addNewSymbolsToMap(myMap, childSymbolables);
+
+            symbolables.addAll(childSymbolables);
         }
         Scope funcScope = new Scope(Scope.MTHD, functionDeclaration.Identifier, symbolables);
 
@@ -439,7 +478,7 @@ public class SymbolTableVisitor {
         }
 
         for (Statement statement : functionDeclaration.body) {
-            symbolables.addAll(visit(statement));
+            symbolables.addAll(visit(statement, initializeHashMap(), initializeHashMap(), args[3]));
         }
         Scope funcScope = new Scope(Scope.MTHD, "", symbolables);
 
@@ -458,13 +497,18 @@ public class SymbolTableVisitor {
     }
 
     public static List<Symbolable> visit(ExpressionChunk e, Object ...args) {
-        visit(e.expressions,getMapFromArgs(args), getGrandMapFromArgs(args));
+        visit(e.expressions,getMapFromArgs(args), getGrandMapFromArgs(args), getIsInComponentFromArgs(args));
         return new ArrayList<>();
     }
+
     public static List<Symbolable> visit(ExpressionSequence e, Object ...args) {
         for (Expression exp : e.list) {
-            if (exp instanceof AssignmentExpression) {
-                visit((AssignmentExpression)exp,getMapFromArgs(args), getGrandMapFromArgs(args));
+            if (exp instanceof AssignmentExpression ae) {
+                visit(ae,getMapFromArgs(args), getGrandMapFromArgs(args), getIsInComponentFromArgs(args));
+            }
+            if (exp instanceof RelationalExpression re){
+                visit(re.leftExpression , getMapFromArgs(args), getGrandMapFromArgs(args), getIsInComponentFromArgs(args));
+                visit(re.rightExpression , getMapFromArgs(args), getGrandMapFromArgs(args), getIsInComponentFromArgs(args));
             }
         }
         return new ArrayList<>();
@@ -479,6 +523,12 @@ public class SymbolTableVisitor {
         if(e instanceof IdentifierExpression ie){
             return visit(ie,fatherMap, grandMap);
         }
+        if (e instanceof ArrowFunction af){
+            return visit(af, fatherMap, grandMap);
+        }
+        if (e instanceof AnonymousFunction af){
+            return visit(af, fatherMap, grandMap);
+        }
         return new ArrayList<>();
     }
     public static List<Symbolable> visit(IdentifierExpression e, Object ...args) {
@@ -492,15 +542,14 @@ public class SymbolTableVisitor {
     }
 
     public static List<Symbolable> visit(AssignmentExpression e, Object ...args) {
+
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
         HashMap<String,Pair<String,String>> grandMap = getGrandMapFromArgs(args);
+
         HashMap<String,Pair<String,String>> mergedMap = cloneHashMap(fatherMap);
         mergedMap.putAll(grandMap);
 
-        if(e.leftExpression instanceof ArrayLiteral){
-
-        }
-        else if(e.leftExpression instanceof IdentifierExpression){
+        if(e.leftExpression instanceof IdentifierExpression){
             String name = e.leftExpression.toString();
 
             //symbol isn't declared before
@@ -519,9 +568,33 @@ public class SymbolTableVisitor {
                  }
 
             }
-        }else {
+        }
+        else {
+
             System.err.println("Unknown Expression SymbolTableVisitor:visitAssignmentExpression");
         }
+
+        if (e.rightExpression instanceof IdentifierExpression){
+            String name = e.rightExpression.toString();
+            if (!mergedMap.containsKey(name)){
+                Error.jsError(e.context,"Trying to use undefined variable: " + name +".");
+            }
+        }
+
+        //checking for incorrect hooks uses
+        if (e.rightExpression instanceof UseStateFunction us && !getIsInComponentFromArgs(args))
+        {
+            Error.hookError(us.context, "UseState");
+        }
+        else if (e.rightExpression instanceof UseEffectFunction uf && !getIsInComponentFromArgs(args))
+        {
+            Error.hookError(uf.context, "UseEffect");
+        }
+        else if (e.rightExpression instanceof UseRefFunction ur && !getIsInComponentFromArgs(args))
+        {
+            Error.hookError(ur.context, "UseRef");
+        }
+
         return new ArrayList<>();
     }
 
@@ -557,13 +630,43 @@ public class SymbolTableVisitor {
         }
     }
 
-    private static boolean isComponent(Function function){
+    private static boolean getIsInComponentFromArgs(Object[] args){
+        return args.length >= 3 && (boolean) args[2];
+    }
+    private static boolean isComponent(Function function, Object ...args){
         if (function instanceof FunctionDeclaration)
             return isComponent(((FunctionDeclaration) function).Identifier);
+//        else if (function instanceof ArrowFunction)
         else
-            return isComponent(((AnonymousFunction) function).parameters.values.get(0).a.toString());
+            return (boolean) args[0];
     }
     private static boolean isComponent(String name){
-            return Character.isUpperCase(name.charAt(0));
+        return Character.isUpperCase(name.charAt(0));
     }
+
+//    private static boolean isComponentByReturn(Function function, Map<String, Pair<String, String>> symbolTable){
+//
+//        if (function instanceof FunctionDeclaration fd) {
+//
+//            for (Statement st : fd.body){
+//                if (st instanceof ReturnStatement rs){
+//                    Expression returned = rs.expr.list.get(0);
+//
+//                    if (returned instanceof JSXElement)
+//                        return true;
+//                    else if (returned instanceof IdentifierExpression id)
+//                    {
+//                        if (symbolTable.containsKey(id.name) && symbolTable.get(id.name).b.equals("JSXElement"))
+//                            return true
+//                    }
+//
+//                }
+//            }
+//        }
+//        else
+//            return isComponent(((AnonymousFunction) function).parameters.values.get(0).a.toString());
+
+
+//        return false;
+//    }
 }

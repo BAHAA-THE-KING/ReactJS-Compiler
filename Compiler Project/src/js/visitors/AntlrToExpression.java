@@ -43,7 +43,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     @Override
     public Expression visitUseStateExpression(JSParser.UseStateExpressionContext ctx) {
         Argument argument = new Argument(visit(ctx.argument()));
-        return new UseStateFunction(argument);
+        return new UseStateFunction(argument, ctx);
     }
 
     @Override
@@ -51,13 +51,13 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         AntlrToAnonymousFunction visitor = new AntlrToAnonymousFunction(filePath);
         AnonymousFunction anonymousFunction = (AnonymousFunction) visitor.visit(ctx.anonymousFunction());
         ArrayLiteral deps = ctx.arrayLiteral() != null ? new ArrayLiteral(ctx.arrayLiteral(), "") : null;
-        return new UseEffectFunction(anonymousFunction, deps);
+        return new UseEffectFunction(anonymousFunction, deps, ctx);
     }
 
     @Override
     public Expression visitUseRefExpression(JSParser.UseRefExpressionContext ctx) {
         Argument argument = new Argument(visit(ctx.argument()));
-        return new UseRefFunction(argument);
+        return new UseRefFunction(argument, ctx);
     }
 
     @Override
@@ -267,4 +267,15 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     public Expression visitNotExpression(JSParser.NotExpressionContext ctx) {
         return new UnaryExpression(ctx.Not().getText(), this.visit(ctx.singleExpression()));
     }
+
+    @Override
+    public Expression visitRelationalExpression(JSParser.RelationalExpressionContext ctx) {
+        Expression left = visit(ctx.singleExpression(0));
+        Expression right = visit(ctx.singleExpression(1));
+        String comparision = ctx.getChild(1).toString();
+
+        return new RelationalExpression(left, right, comparision, ctx);
+    }
+
+
 }

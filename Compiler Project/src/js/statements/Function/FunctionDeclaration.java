@@ -1,6 +1,7 @@
 package js.statements.Function;
 
 import js.visitors.models.Expression;
+import js.visitors.models.Function;
 import js.visitors.models.Parameters;
 import js.visitors.models.Statement;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -9,7 +10,7 @@ import program.CodeGeneration;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class FunctionDeclaration implements Statement, Expression {
+public class FunctionDeclaration implements Function {
     public String Identifier;
     public Parameters parameters;
     public List<Statement> body;

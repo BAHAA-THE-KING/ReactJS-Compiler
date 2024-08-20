@@ -282,4 +282,9 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     public Expression visitUndefined(JSParser.UndefinedContext ctx) {
         return new SimpleExpression().Undefined();
     }
+
+    @Override
+    public Expression visitAttributeInjection(JSParser.AttributeInjectionContext ctx) {
+        return visit(ctx.expressionInjection().singleExpression());
+    }
 }

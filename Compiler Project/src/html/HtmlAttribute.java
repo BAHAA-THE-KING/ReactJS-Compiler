@@ -10,4 +10,9 @@ public class HtmlAttribute {
         this.id = id;
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return id + (value != null ? ("=\"" + value + "\"") : "");
+    }
 }

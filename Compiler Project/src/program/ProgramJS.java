@@ -76,7 +76,6 @@ public class ProgramJS {
         String json = "{" + print(SymbolTableVisitor.visit(doc)) + "}";
 
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(json);
         Object jsonObject = objectMapper.readValue(json.replace("\n", "\\n"), Object.class);
         json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject);
 

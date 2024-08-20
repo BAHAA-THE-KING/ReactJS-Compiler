@@ -57,7 +57,7 @@ public class Error {
         jsError(ctx,"Variable "+varName+" is undefined.");
     }
 
-    public static void hookError(ParserRuleContext ctx, String varName){
-        jsError(ctx,"Hook used insinde non-Component scope: " + varName);
+    public static void hookError(ParserRuleContext ctx, String hook){
+        jsError(ctx,"Hook: " + hook + " was used outside a React Component");
     }
 }

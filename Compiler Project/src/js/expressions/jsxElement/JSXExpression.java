@@ -1,16 +1,17 @@
 package js.expressions.jsxElement;
 
+import js.visitors.models.Expression;
 import js.visitors.models.JSXContent;
 
-public class JSXText implements JSXContent {
-    public String value;
+public class JSXExpression implements JSXContent {
+    public Expression value;
 
-    public JSXText(String value) {
+    public JSXExpression(Expression value) {
         this.value = value;
     }
 
     @Override
     public String toString() {
-        return value;
+        return value.toString();
     }
 }

@@ -2,11 +2,11 @@ package js.visitors;
 
 import antlrJS.JSParser;
 import antlrJS.JSParserBaseVisitor;
-import js.expressions.jsxElement.AttributStringValue;
-import js.expressions.jsxElement.AttributeInjectValue;
-import js.visitors.models.AttributeValue;
+import js.expressions.jsxElement.JSXExpression;
+import js.expressions.jsxElement.JSXText;
+import js.visitors.models.JSXContent;
 
-public class AntlrToAttributeValue extends JSParserBaseVisitor<AttributeValue> {
+public class AntlrToAttributeValue extends JSParserBaseVisitor<JSXContent> {
     public String filePath;
 
     public AntlrToAttributeValue(String filePath) {
@@ -14,13 +14,13 @@ public class AntlrToAttributeValue extends JSParserBaseVisitor<AttributeValue> {
     }
 
     @Override
-    public AttributeValue visitAttributeString(JSParser.AttributeStringContext ctx) {
-        return new AttributStringValue(ctx.StringLiteral().getText());
+    public JSXContent visitAttributeString(JSParser.AttributeStringContext ctx) {
+        return new JSXText(ctx.StringLiteral().getText());
     }
 
     @Override
-    public AttributeValue visitAttributeInjection(JSParser.AttributeInjectionContext ctx) {
+    public JSXContent visitAttributeInjection(JSParser.AttributeInjectionContext ctx) {
         AntlrToExpression visitor = new AntlrToExpression(filePath);
-        return new AttributeInjectValue(visitor.visit(ctx.expressionInjection().singleExpression()));
+        return new JSXExpression(visitor.visit(ctx.expressionInjection().singleExpression()));
     }
 }

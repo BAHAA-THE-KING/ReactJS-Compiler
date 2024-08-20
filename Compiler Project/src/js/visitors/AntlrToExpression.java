@@ -23,24 +23,21 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         Expression objectName = visit(ctx.singleExpression(0));
         Expression objectProperty = visit(ctx.singleExpression(1));
         boolean checkNull = ctx.QuestionMark() != null;
-        OptionalChainExpression optionalChainExpression = new OptionalChainExpression(objectName, objectProperty, checkNull);
-        return optionalChainExpression;
+        return new OptionalChainExpression(objectName, objectProperty, checkNull);
     }
 
     @Override
     public Expression visitNewExpression(JSParser.NewExpressionContext ctx) {
         String id = ctx.Identifier().getText();
         Arguments arguments = new Arguments(ctx.arguments(), filePath);
-        NewExpression newExpression = new NewExpression(id, arguments);
-        return newExpression;
+        return new NewExpression(id, arguments);
     }
 
     @Override
     public Expression visitArgumentsExpression(JSParser.ArgumentsExpressionContext ctx) {
         Expression expression = visit(ctx.singleExpression());
         Arguments arguments = new Arguments(ctx.arguments(), filePath);
-        ArgumentsExpression argumentsExpression = new ArgumentsExpression(expression, arguments);
-        return argumentsExpression;
+        return new ArgumentsExpression(expression, arguments);
     }
 
     @Override
@@ -79,61 +76,53 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     @Override
     public Expression visitPostIncrementExpression(JSParser.PostIncrementExpressionContext ctx) {
         Expression objectName = visit(ctx.singleExpression());
-        PostIncrementExpression incrementExp = new PostIncrementExpression(objectName);
-        return incrementExp;
+        return new PostIncrementExpression(objectName);
     }
 
     @Override
     public Expression visitPostDecreaseExpression(JSParser.PostDecreaseExpressionContext ctx) {
 
         Expression objectName = visit(ctx.singleExpression());
-        PostDecreaseExpression decreaseExp = new PostDecreaseExpression(objectName);
-        return decreaseExp;
+        return new PostDecreaseExpression(objectName);
     }
 
     @Override
     public Expression visitPreIncrementExpression(JSParser.PreIncrementExpressionContext ctx) {
         Expression objectName = visit(ctx.singleExpression());
-        PreIncrementExpression incrementExp = new PreIncrementExpression(objectName);
-        return incrementExp;
+        return new PreIncrementExpression(objectName);
     }
 
     @Override
     public Expression visitPreDecreaseExpression(JSParser.PreDecreaseExpressionContext ctx) {
 
         Expression objectName = visit(ctx.singleExpression());
-        PreDecreaseExpression decreaseExp = new PreDecreaseExpression(objectName);
-        return decreaseExp;
+        return new PreDecreaseExpression(objectName);
     }
 
     @Override
     public Expression visitUnaryPlusExpression(JSParser.UnaryPlusExpressionContext ctx) {
 
         Expression objectName = visit(ctx.singleExpression());
-        UnaryPlusExpression unaryPlus = new UnaryPlusExpression(objectName);
-        return unaryPlus;
+        return new UnaryExpression("+", objectName);
     }
 
     @Override
     public Expression visitUnaryMinusExpression(JSParser.UnaryMinusExpressionContext ctx) {
 
         Expression objectName = visit(ctx.singleExpression());
-        UnaryMinusExpression unaryMinus = new UnaryMinusExpression(objectName);
-        return unaryMinus;
+        return new UnaryExpression("-", objectName);
     }
 
     @Override
     public Expression visitDeleteExpression(JSParser.DeleteExpressionContext ctx) {
         Expression identifier = visit(ctx.singleExpression());
-        DeleteExpression delete = new DeleteExpression(identifier);
-        return delete;
+        return new DeleteExpression(identifier);
     }
 
     @Override
     public Expression visitTypeofExpression(JSParser.TypeofExpressionContext ctx) {
         Expression identifier = visit(ctx.singleExpression());
-        TypeofExpression typeOf = new TypeofExpression(identifier);
-        return typeOf;
+        return new TypeofExpression(identifier);
     }
 
     @Override
@@ -146,8 +135,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         Expression firstExpression = visit(ctx.singleExpression(0));
         Expression secondExpression = visit(ctx.singleExpression(1));
         String process = ctx.getChild(1).getText();
-        MathmaticalExpression mathmaticalExpression = new MathmaticalExpression(firstExpression, secondExpression, process);
-        return mathmaticalExpression;
+        return new MathmaticalExpression(firstExpression, secondExpression, process);
     }
 
     @Override
@@ -155,16 +143,14 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         Expression firstExpression = visit(ctx.singleExpression(0));
         Expression secondExpression = visit(ctx.singleExpression(1));
         String process = ctx.getChild(1).getText();
-        MathmaticalExpression mathmaticalExpression = new MathmaticalExpression(firstExpression, secondExpression, process);
-        return mathmaticalExpression;
+        return new MathmaticalExpression(firstExpression, secondExpression, process);
     }
 
     @Override
     public Expression visitCoalesceExpression(JSParser.CoalesceExpressionContext ctx) {
         Expression firstExpression = visit(ctx.singleExpression(0));
         Expression secondExpression = visit(ctx.singleExpression(1));
-        CoalesceExpression coalesceExpression = new CoalesceExpression(firstExpression, secondExpression);
-        return coalesceExpression;
+        return new CoalesceExpression(firstExpression, secondExpression);
     }
 
     @Override
@@ -172,16 +158,14 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         Expression condition = visit(ctx.singleExpression(0));
         Expression firstStatement = visit(ctx.singleExpression(1));
         Expression secondStatement = visit(ctx.singleExpression(2));
-        TernaryExpression ternaryExpression = new TernaryExpression(condition, firstStatement, secondStatement);
-        return ternaryExpression;
+        return new TernaryExpression(condition, firstStatement, secondStatement);
     }
 
     @Override
     public Expression visitAssignmentExpression(JSParser.AssignmentExpressionContext ctx) {
         Expression leftExpression = visit(ctx.singleExpression(0));
         Expression rightExpression = visit(ctx.singleExpression(1));
-        AssignmentExpression assignmentExpression = new AssignmentExpression(leftExpression, rightExpression, ctx);
-        return assignmentExpression;
+        return new AssignmentExpression(leftExpression, rightExpression, ctx);
     }
 
     @Override
@@ -189,8 +173,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         Expression left = visit(ctx.singleExpression(0));
         Expression right = visit(ctx.singleExpression(2));
         String operator = ctx.getChild(1).getText();
-        LogicalExpression logical = new LogicalExpression(left, right, operator);
-        return logical;
+        return new LogicalExpression(left, right, operator);
     }
 
     @Override
@@ -198,8 +181,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         Expression left = visit(ctx.singleExpression(0));
         Expression right = visit(ctx.singleExpression(1));
         String operator = ctx.getChild(1).getText();
-        LogicalExpression logical = new LogicalExpression(left, right, operator);
-        return logical;
+        return new LogicalExpression(left, right, operator);
     }
 
     @Override
@@ -208,8 +190,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         Expression left = visit(ctx.singleExpression(0));
         Expression right = visit(ctx.singleExpression(1));
         String operator = ctx.getChild(1).getText();
-        LogicalExpression logical = new LogicalExpression(left, right, operator);
-        return logical;
+        return new LogicalExpression(left, right, operator);
     }
 
     @Override
@@ -217,8 +198,7 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
         Expression left = visit(ctx.singleExpression(0));
         Expression right = visit(ctx.singleExpression(1));
         String operator = ctx.getChild(1).getText();
-        AssignmentOperatorExpression assignmentOperatorExpression = new AssignmentOperatorExpression(left, right, operator);
-        return assignmentOperatorExpression;
+        return new AssignmentOperatorExpression(left, right, operator);
 
     }
 
@@ -281,5 +261,10 @@ public class AntlrToExpression extends JSParserBaseVisitor<Expression> {
     @Override
     public Expression visitArrowFunction(JSParser.ArrowFunctionContext ctx) {
         return (new AntlrToAnonymousFunction(filePath)).visitArrowFunction(ctx);
+    }
+
+    @Override
+    public Expression visitNotExpression(JSParser.NotExpressionContext ctx) {
+        return new UnaryExpression(ctx.Not().getText(), this.visit(ctx.singleExpression()));
     }
 }

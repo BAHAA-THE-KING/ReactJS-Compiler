@@ -15,6 +15,11 @@ public class SimpleExpression implements Expression {
         return this;
     }
 
+    public SimpleExpression Undefined() {
+        keyWord = "undefined";
+        return this;
+    }
+
     @Override
     public String toString() {
         return keyWord;

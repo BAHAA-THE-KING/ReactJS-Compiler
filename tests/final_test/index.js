@@ -1,10 +1,9 @@
 import "./App.css";
+import "./index.css";
 import meatImage from "./images/meat.jpg";
 import fruitImage from "./images/fruit.jpg";
 import vegetableImage from "./images/vegetable.webp";
 import chickenImage from "./images/chicken.webp";
-
-import { useState } from "react";
 
 const products = [
   {
@@ -104,4 +103,4 @@ function ProductList({ products, setActiveProduct }) {
   );
 }
 
-export default App;
+createRoot(<App />);

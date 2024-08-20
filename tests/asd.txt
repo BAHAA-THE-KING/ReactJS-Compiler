@@ -1,17 +1,14 @@
-function Asd(){
+function Comp() {
+  const [name, setName] = useState("");
 
-const [koko, setKoko]=useState(5);
+  useEffect(() => {
+    alert(name);
+return ()=>{
+console.log(name);
+}
+  }, [name]);
 
-let asd="";
-
-useEffect(()=>{
-alert(koko);
-},[asd, asd]);
-
-setInterval(()=>{
-setKoko(6);
-},1000);
-
-const asdasd=useRef(987);
-
+  setTimeout(() => {
+      setName(name+"Bahaa");
+  }, 1000);
 }

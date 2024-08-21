@@ -1,14 +1,11 @@
-function Comp() {
-  const [name, setName] = useState("");
-
-  useEffect(() => {
-    alert(name);
-return ()=>{
-console.log(name);
-}
-  }, [name]);
-
-  setTimeout(() => {
-      setName(name+"Bahaa");
-  }, 1000);
+let [asd,bds,a] = [22,11];
+let a = 20;
+const z = 10;
+function App(x){
+	let [a,b] = useState(1);
+	if(x > 5){
+		z = 20;
+		f = 50;
+		x = useState(0);
+	}
 }

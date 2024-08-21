@@ -133,6 +133,8 @@ public class SymbolTableVisitor {
     public static List<Symbolable> visit(Block model,Object ...args) {
         List<Symbolable> symbolables = new ArrayList<>();
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
+        fatherMap.putAll(getGrandMapFromArgs(args));
+        
         HashMap<String,Pair<String,String>> myMap = initializeHashMap();
 
 

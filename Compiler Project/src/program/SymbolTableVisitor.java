@@ -270,6 +270,9 @@ public class SymbolTableVisitor {
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
         HashMap<String,Pair<String,String>> myMap = initializeHashMap();
 
+        if (fatherMap.containsKey(functionDeclaration.Identifier) && fatherMap.get(functionDeclaration.Identifier).a.equals("Function")){
+            Error.jsError(functionDeclaration.context, "there is already a function with the same name: " + functionDeclaration.Identifier);
+        }
         //adding function parameters to the symbol table
         for (Pair<Assignable, Expression> parameter : functionDeclaration.parameters.values) {
             Symbol paramSymbol = (Symbol) Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : "ToBeDetermined");
@@ -292,6 +295,7 @@ public class SymbolTableVisitor {
 
             symbolables.addAll(childSymbolables);
         }
+
         Scope funcScope = new Scope(Scope.MTHD, functionDeclaration.Identifier, symbolables);
 
         return listify(funcScope);
@@ -665,6 +669,10 @@ public class SymbolTableVisitor {
             if (symbolable instanceof Symbol){
                 Symbol symbol = (Symbol) symbolable;
                 map.put(symbol.name,new Pair(symbol.type,symbol.value));
+            }
+            else if (symbolable instanceof Scope sp){
+                Scope scope = (Scope) symbolable;
+                map.put(scope.name,new Pair(scope.type, "Block"));
             }
         }
     }

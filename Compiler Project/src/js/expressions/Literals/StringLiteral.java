@@ -11,9 +11,10 @@ public class StringLiteral implements Literal {
 
     @Override
     public String toString() {
-        String temp = value;
-        if (temp.length() > 2) temp = temp.substring(1, temp.length() - 1);
-        else temp = "";
-        return "`" + temp + "`";
+        return value;
+//        String temp = value;
+//        if (temp.length() > 2) temp = temp.substring(1, temp.length() - 1);
+//        else temp = "";
+//        return "`" + temp + "`";
     }
 }

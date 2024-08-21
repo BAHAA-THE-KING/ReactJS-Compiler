@@ -1,5 +1,7 @@
 package js.statements.ImportStatement;
 
+import program.ProgramJS;
+
 public class FileImportBlock extends ImportStatement {
     public String packageName;
 
@@ -9,6 +11,7 @@ public class FileImportBlock extends ImportStatement {
 
     @Override
     public String toString() {
-        return "import " + packageName;
+        ProgramJS.InjectPaths.add(packageName);
+        return "";
     }
 }

@@ -14,6 +14,11 @@ public class Arguments {
         this.argumentsList = new ArrayList<>();
     }
 
+    public Arguments(Argument argument) {
+        this.argumentsList = new ArrayList<>();
+        this.argumentsList.add(argument);
+    }
+
     public Arguments(JSParser.ArgumentsContext ctx, String filePath) {
         AntlrToArguments visitor = new AntlrToArguments(filePath);
         this.argumentsList = visitor.visit(ctx);

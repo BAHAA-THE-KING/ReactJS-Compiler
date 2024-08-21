@@ -39,9 +39,9 @@ public class CodeGeneration {
     private static int refNum2 = 0;
 
     public static VariableDeclarationStatement ImportToDecl(DefaultAsImportBlock importStatement) {
-        if (importStatement.packageName.endsWith(".png") || importStatement.packageName.endsWith(".jpg")) {
+        if (importStatement.packageName.contains(".png") || importStatement.packageName.contains(".jpg") || importStatement.packageName.contains(".webp")) {
             List<VariableDeclaration> declarations = new ArrayList<>();
-            declarations.add(new VariableDeclaration("const", new IdentifierExpression(importStatement.defaultImport.b), new StringLiteral(importStatement.packageName), ""));
+            declarations.add(new VariableDeclaration("const", new IdentifierExpression(importStatement.defaultImport.a), new StringLiteral(importStatement.packageName), ""));
             return new VariableDeclarationStatement(declarations, null);
         }
         return null;

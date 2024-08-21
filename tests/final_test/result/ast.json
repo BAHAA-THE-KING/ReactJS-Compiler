@@ -2,36 +2,36 @@
   "JsProgram" : {
     "statements" : [ {
       "FileImportBlock" : {
-        "packageName" : "./App.css"
+        "packageName" : "App.css"
       }
     }, {
       "FileImportBlock" : {
-        "packageName" : "./index.css"
+        "packageName" : "index.css"
       }
     }, {
       "DefaultAsImportBlock" : {
-        "packageName" : "./images/meat.jpg",
+        "packageName" : "images/meat.jpg",
         "defaultImport" : {
           "key" : "meatImage"
         }
       }
     }, {
       "DefaultAsImportBlock" : {
-        "packageName" : "./images/fruit.jpg",
+        "packageName" : "images/fruit.jpg",
         "defaultImport" : {
           "key" : "fruitImage"
         }
       }
     }, {
       "DefaultAsImportBlock" : {
-        "packageName" : "./images/vegetable.webp",
+        "packageName" : "images/vegetable.webp",
         "defaultImport" : {
           "key" : "vegetableImage"
         }
       }
     }, {
       "DefaultAsImportBlock" : {
-        "packageName" : "./images/chicken.webp",
+        "packageName" : "images/chicken.webp",
         "defaultImport" : {
           "key" : "chickenImage"
         }
@@ -151,168 +151,6 @@
                             "value" : {
                               "DecimalLiteral" : {
                                 "value" : "2"
-                              }
-                            }
-                          }
-                        }, {
-                          "NormalProperty" : {
-                            "key" : {
-                              "PropertyByName" : {
-                                "id" : "name",
-                                "context" : {
-                                  "PropertyByNameContext" : {
-                                  }
-                                }
-                              }
-                            },
-                            "value" : {
-                              "StringLiteral" : {
-                                "value" : "fruit"
-                              }
-                            }
-                          }
-                        }, {
-                          "NormalProperty" : {
-                            "key" : {
-                              "PropertyByName" : {
-                                "id" : "details",
-                                "context" : {
-                                  "PropertyByNameContext" : {
-                                  }
-                                }
-                              }
-                            },
-                            "value" : {
-                              "StringLiteral" : {
-                                "value" : "Fruits are a vital part of our diet, providing essential nutrients and a source of natural sweetness. They come in a variety of colors and flavors, each with its own unique health benefits. From the tart taste of citrus fruits to the sweetness of berries, fruits offer a range of flavors that can complement any meal. They are also a great source of fiber, vitamins, and minerals, making them a healthy choice for anyone's diet."
-                              }
-                            }
-                          }
-                        }, {
-                          "NormalProperty" : {
-                            "key" : {
-                              "PropertyByName" : {
-                                "id" : "url",
-                                "context" : {
-                                  "PropertyByNameContext" : {
-                                  }
-                                }
-                              }
-                            },
-                            "value" : {
-                              "IdentifierExpression" : {
-                                "name" : "fruitImage",
-                                "context" : {
-                                  "IdentifierExpressionContext" : {
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        } ]
-                      }
-                    },
-                    "withEllipsis" : false
-                  }
-                }, {
-                  "ArrayElement" : {
-                    "element" : {
-                      "ObjectLiteral" : {
-                        "objectProperties" : [ {
-                          "NormalProperty" : {
-                            "key" : {
-                              "PropertyByName" : {
-                                "id" : "id",
-                                "context" : {
-                                  "PropertyByNameContext" : {
-                                  }
-                                }
-                              }
-                            },
-                            "value" : {
-                              "DecimalLiteral" : {
-                                "value" : "3"
-                              }
-                            }
-                          }
-                        }, {
-                          "NormalProperty" : {
-                            "key" : {
-                              "PropertyByName" : {
-                                "id" : "name",
-                                "context" : {
-                                  "PropertyByNameContext" : {
-                                  }
-                                }
-                              }
-                            },
-                            "value" : {
-                              "StringLiteral" : {
-                                "value" : "vegetable"
-                              }
-                            }
-                          }
-                        }, {
-                          "NormalProperty" : {
-                            "key" : {
-                              "PropertyByName" : {
-                                "id" : "details",
-                                "context" : {
-                                  "PropertyByNameContext" : {
-                                  }
-                                }
-                              }
-                            },
-                            "value" : {
-                              "StringLiteral" : {
-                                "value" : "Vegetables are a vital part of a healthy diet, providing a wide range of nutrients. They are low in calories but high in vitamins, minerals, and fiber. They also offer a variety of flavors and textures, making them a versatile addition to any meal. Some of the most common vegetables include carrots, broccoli, and spinach, but there are many more to explore."
-                              }
-                            }
-                          }
-                        }, {
-                          "NormalProperty" : {
-                            "key" : {
-                              "PropertyByName" : {
-                                "id" : "url",
-                                "context" : {
-                                  "PropertyByNameContext" : {
-                                  }
-                                }
-                              }
-                            },
-                            "value" : {
-                              "IdentifierExpression" : {
-                                "name" : "vegetableImage",
-                                "context" : {
-                                  "IdentifierExpressionContext" : {
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        } ]
-                      }
-                    },
-                    "withEllipsis" : false
-                  }
-                }, {
-                  "ArrayElement" : {
-                    "element" : {
-                      "ObjectLiteral" : {
-                        "objectProperties" : [ {
-                          "NormalProperty" : {
-                            "key" : {
-                              "PropertyByName" : {
-                                "id" : "id",
-                                "context" : {
-                                  "PropertyByNameContext" : {
-                                  }
-                                }
-                              }
-                            },
-                            "value" : {
-                              "DecimalLiteral" : {
-                                "value" : "4"
                               }
                             }
                           }
@@ -653,6 +491,21 @@
                                           "exp" : {
                                             "IdentifierExpression" : {
                                               "name" : "setIndex",
+                                              "context" : {
+                                                "IdentifierExpressionContext" : {
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }, {
+                                      "key" : "index",
+                                      "value" : {
+                                        "AttributeInjectValue" : {
+                                          "exp" : {
+                                            "IdentifierExpression" : {
+                                              "name" : "index",
                                               "context" : {
                                                 "IdentifierExpressionContext" : {
                                                 }
@@ -1126,7 +979,7 @@
                                           },
                                           "value" : {
                                             "StringLiteral" : {
-                                              "value" : "felx"
+                                              "value" : "flex"
                                             }
                                           }
                                         }
@@ -1410,6 +1263,27 @@
                         }
                       }
                     }
+                  }, {
+                    "NormalProperty" : {
+                      "key" : {
+                        "PropertyByName" : {
+                          "id" : "index",
+                          "context" : {
+                            "PropertyIdentifierShorthandContext" : {
+                            }
+                          }
+                        }
+                      },
+                      "value" : {
+                        "IdentifierExpression" : {
+                          "name" : "index",
+                          "context" : {
+                            "PropertyIdentifierShorthandContext" : {
+                            }
+                          }
+                        }
+                      }
+                    }
                   } ]
                 }
               }
@@ -1571,31 +1445,76 @@
                                                                               "expr" : {
                                                                                 "ExpressionSequence" : {
                                                                                   "list" : [ {
-                                                                                    "ArgumentsExpression" : {
-                                                                                      "singleExpression" : {
-                                                                                        "IdentifierExpression" : {
-                                                                                          "name" : "setActiveProduct",
-                                                                                          "context" : {
-                                                                                            "IdentifierExpressionContext" : {
+                                                                                    "TernaryExpression" : {
+                                                                                      "condition" : {
+                                                                                        "LogicalExpression" : {
+                                                                                          "left" : {
+                                                                                            "IdentifierExpression" : {
+                                                                                              "name" : "index",
+                                                                                              "context" : {
+                                                                                                "IdentifierExpressionContext" : {
+                                                                                                }
+                                                                                              }
+                                                                                            }
+                                                                                          },
+                                                                                          "right" : {
+                                                                                            "DecimalLiteral" : {
+                                                                                              "value" : "1"
+                                                                                            }
+                                                                                          },
+                                                                                          "operator" : "==="
+                                                                                        }
+                                                                                      },
+                                                                                      "trueExpression" : {
+                                                                                        "ArgumentsExpression" : {
+                                                                                          "singleExpression" : {
+                                                                                            "IdentifierExpression" : {
+                                                                                              "name" : "setActiveProduct",
+                                                                                              "context" : {
+                                                                                                "IdentifierExpressionContext" : {
+                                                                                                }
+                                                                                              }
+                                                                                            }
+                                                                                          },
+                                                                                          "arguments" : {
+                                                                                            "Arguments" : {
+                                                                                              "argumentsList" : [ {
+                                                                                                "Argument" : {
+                                                                                                  "value" : {
+                                                                                                    "DecimalLiteral" : {
+                                                                                                      "value" : "0"
+                                                                                                    }
+                                                                                                  }
+                                                                                                }
+                                                                                              } ]
                                                                                             }
                                                                                           }
                                                                                         }
                                                                                       },
-                                                                                      "arguments" : {
-                                                                                        "Arguments" : {
-                                                                                          "argumentsList" : [ {
-                                                                                            "Argument" : {
-                                                                                              "value" : {
-                                                                                                "IdentifierExpression" : {
-                                                                                                  "name" : "i",
-                                                                                                  "context" : {
-                                                                                                    "IdentifierExpressionContext" : {
-                                                                                                    }
-                                                                                                  }
+                                                                                      "falseExpression" : {
+                                                                                        "ArgumentsExpression" : {
+                                                                                          "singleExpression" : {
+                                                                                            "IdentifierExpression" : {
+                                                                                              "name" : "setActiveProduct",
+                                                                                              "context" : {
+                                                                                                "IdentifierExpressionContext" : {
                                                                                                 }
                                                                                               }
                                                                                             }
-                                                                                          } ]
+                                                                                          },
+                                                                                          "arguments" : {
+                                                                                            "Arguments" : {
+                                                                                              "argumentsList" : [ {
+                                                                                                "Argument" : {
+                                                                                                  "value" : {
+                                                                                                    "DecimalLiteral" : {
+                                                                                                      "value" : "1"
+                                                                                                    }
+                                                                                                  }
+                                                                                                }
+                                                                                              } ]
+                                                                                            }
+                                                                                          }
                                                                                         }
                                                                                       }
                                                                                     }

@@ -1,9 +1,9 @@
-import "./App.css";
-import "./index.css";
-import meatImage from "./images/meat.jpg";
-import fruitImage from "./images/fruit.jpg";
-import vegetableImage from "./images/vegetable.webp";
-import chickenImage from "./images/chicken.webp";
+import "App.css";
+import "index.css";
+import meatImage from "images/meat.jpg";
+import fruitImage from "images/fruit.jpg";
+import vegetableImage from "images/vegetable.webp";
+import chickenImage from "images/chicken.webp";
 
 const products = [
   {
@@ -15,20 +15,6 @@ const products = [
   },
   {
     id: 2,
-    name: "fruit",
-    details:
-      "Fruits are a vital part of our diet, providing essential nutrients and a source of natural sweetness. They come in a variety of colors and flavors, each with its own unique health benefits. From the tart taste of citrus fruits to the sweetness of berries, fruits offer a range of flavors that can complement any meal. They are also a great source of fiber, vitamins, and minerals, making them a healthy choice for anyone's diet.",
-    url: fruitImage,
-  },
-  {
-    id: 3,
-    name: "vegetable",
-    details:
-      "Vegetables are a vital part of a healthy diet, providing a wide range of nutrients. They are low in calories but high in vitamins, minerals, and fiber. They also offer a variety of flavors and textures, making them a versatile addition to any meal. Some of the most common vegetables include carrots, broccoli, and spinach, but there are many more to explore.",
-    url: vegetableImage,
-  },
-  {
-    id: 4,
     name: "chicken",
     details:
       "Chicken is a versatile and widely consumed type of meat. It is known for its tender and flavorful meat, which is often used in a variety of dishes. Chicken is also a good source of protein and is low in fat. It is commonly raised for its meat, but also for its eggs. Chicken is a popular choice for many people due to its affordability and ease of preparation.",
@@ -49,7 +35,11 @@ function App() {
       }}
     >
       <div style={{ flex: 1, maxHeight: "100vh", overflowY: "auto" }}>
-        <ProductList products={products} setActiveProduct={setIndex} />
+        <ProductList
+          products={products}
+          setActiveProduct={setIndex}
+          index={index}
+        />
       </div>
       <div style={{ flex: 3, maxHeight: "100vh", overflowY: "auto" }}>
         <ProductView product={products[index]} />
@@ -74,7 +64,7 @@ function ProductsListItem(props) {
   return (
     <li
       style={{
-        display: "felx",
+        display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
         cursor: "pointer",
@@ -90,13 +80,15 @@ function ProductsListItem(props) {
   );
 }
 
-function ProductList({ products, setActiveProduct }) {
+function ProductList({ products, setActiveProduct, index }) {
   return (
     <ul style={{ padding: "0 20px", listStyle: "none" }}>
       {products.map((e, i) => (
         <ProductsListItem
           product={e}
-          setActiveProduct={() => setActiveProduct(i)}
+          setActiveProduct={() =>
+            index === 1 ? setActiveProduct(0) : setActiveProduct(1)
+          }
         />
       ))}
     </ul>

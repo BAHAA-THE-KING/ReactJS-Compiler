@@ -50,66 +50,6 @@
               "Symbol" : {
                 "type" : "Property",
                 "name" : "name",
-                "value" : "fruit"
-              }
-            }, {
-              "Symbol" : {
-                "type" : "Property",
-                "name" : "details",
-                "value" : "Fruits are a vital part of our diet, providing essential nutrients and a source of natural sweetness. They come in a variety of colors and flavors, each with its own unique health benefits. From the tart taste of citrus fruits to the sweetness of berries, fruits offer a range of flavors that can complement any meal. They are also a great source of fiber, vitamins, and minerals, making them a healthy choice for anyone's diet."
-              }
-            }, {
-              "Symbol" : {
-                "type" : "Property",
-                "name" : "url",
-                "value" : "fruitImage"
-              }
-            } ]
-          }
-        }, {
-          "Scope" : {
-            "type" : "ObjectLiteral",
-            "name" : "",
-            "symbolables" : [ {
-              "Symbol" : {
-                "type" : "Property",
-                "name" : "id",
-                "value" : "3"
-              }
-            }, {
-              "Symbol" : {
-                "type" : "Property",
-                "name" : "name",
-                "value" : "vegetable"
-              }
-            }, {
-              "Symbol" : {
-                "type" : "Property",
-                "name" : "details",
-                "value" : "Vegetables are a vital part of a healthy diet, providing a wide range of nutrients. They are low in calories but high in vitamins, minerals, and fiber. They also offer a variety of flavors and textures, making them a versatile addition to any meal. Some of the most common vegetables include carrots, broccoli, and spinach, but there are many more to explore."
-              }
-            }, {
-              "Symbol" : {
-                "type" : "Property",
-                "name" : "url",
-                "value" : "vegetableImage"
-              }
-            } ]
-          }
-        }, {
-          "Scope" : {
-            "type" : "ObjectLiteral",
-            "name" : "",
-            "symbolables" : [ {
-              "Symbol" : {
-                "type" : "Property",
-                "name" : "id",
-                "value" : "4"
-              }
-            }, {
-              "Symbol" : {
-                "type" : "Property",
-                "name" : "name",
                 "value" : "chicken"
               }
             }, {
@@ -189,7 +129,7 @@
         "symbolables" : [ {
           "Symbol" : {
             "type" : "Parameter",
-            "name" : "{\nproducts:products, setActiveProduct:setActiveProduct\n}",
+            "name" : "{\nproducts:products, setActiveProduct:setActiveProduct, index:index\n}",
             "value" : "ToBeDetermined"
           }
         } ]

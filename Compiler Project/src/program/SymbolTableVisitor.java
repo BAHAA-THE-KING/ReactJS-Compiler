@@ -240,45 +240,6 @@ public class SymbolTableVisitor {
         return syms;
     }
 
-    public static List<Symbolable> visit(TryStatement ts,Object ...args) {
-        List<Symbolable> symbArray = new ArrayList<>();
-        Scope block = (Scope) visit(ts.block).get(0);
-        block.type = "tryBlock";
-        symbArray.add(block);
-        Scope catchBlock;
-        if (ts.catchProduction != null) {
-            catchBlock = (Scope) visit(ts.catchProduction).get(0);
-            symbArray.add(catchBlock);
-        }
-        Scope finBlock;
-        if (ts.finallyProduction != null) {
-            finBlock = (Scope) visit(ts.finallyProduction).get(0);
-            symbArray.add(finBlock);
-        }
-        return symbArray;
-    }
-
-    public static List<Symbolable> visit(CatchProduction cp,Object ...args) {
-
-        Scope block = (Scope) visit(cp.block).get(0);
-        block.type = "catchBlock";
-        block.symbolables.add(cp.exception);
-        return listify(block);
-    }
-
-    public static List<Symbolable> visit(FinallyProduction fp,Object ...args) {
-
-        Scope block = (Scope) visit(fp.block).get(0);
-        block.type = "finallyBlock";
-        return listify(block);
-    }
-
-    public static List<Symbolable> listify(Symbolable s,Object ...args) {
-        ArrayList symbArray = new ArrayList<>();
-        symbArray.add(s);
-        return symbArray;
-    }
-
     public static List<Symbolable> visit(ConditionalStatement ConditionalStatement,Object ...args) {
 
         HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
@@ -300,148 +261,6 @@ public class SymbolTableVisitor {
 
         Scope ConditionalBlock = new Scope("ConditionalStatement", "", condition);
         return listify(ConditionalBlock);
-    }
-
-    public static List<Symbolable> visit(ClassDeclaration classDeclaration,Object ...args) {
-        ArrayList<Symbolable> symbArray = new ArrayList();
-        Scope classBlock;
-        for (ClassElement element : classDeclaration.elements) {
-            symbArray.addAll(visit(element));
-        }
-        classBlock = new Scope("class", classDeclaration.id, symbArray);
-        return listify(classBlock);
-    }
-
-    public static List<Symbolable> visit(ClassElement classElement,Object ...args) {
-        if (classElement instanceof ClassFieldDefinition) {
-            return visit((ClassFieldDefinition) classElement);
-        } else if (classElement instanceof ClassMethodDefinition) {
-            return visit((ClassMethodDefinition) classElement);
-        } else {
-//            System.out.println("found null in symbol table visitor , ClassElement");
-            return new ArrayList<>();
-        }
-    }
-
-    public static List<Symbolable> visit(ClassFieldDefinition classFieldDefinition,Object ...args) {
-        Symbolable field = Symbol.make(Symbol.ATRIB, classFieldDefinition.propertyName.toString(), classFieldDefinition.propertyValue != null ? classFieldDefinition.propertyValue : null);
-        return listify(field);
-    }
-
-    public static List<Symbolable> visit(ObjectLiteral ol,Object ...args) {
-        List<Symbolable> symbArray = new ArrayList<>();
-        for (Property p : ol.objectProperties) {
-            symbArray.addAll(visit(p));
-        }
-        return symbArray;
-    }
-
-    public static List<Symbolable> visit(Property p,Object ...args) {
-
-        if (p instanceof NormalProperty) return visit((NormalProperty) p);
-
-        if (p instanceof ComputedProperty) return visit((ComputedProperty) p);
-
-        if (p instanceof FunctionProperty) return visit((FunctionProperty) p);
-
-        return visit((EllipsisProperty) p);
-    }
-
-    public static List<Symbolable> visit(NormalProperty np,Object ...args) {
-        Symbolable symb;
-        PropertyName prop = np.key;
-        if (prop instanceof PropertyByName) {
-            symb = Symbol.make(Symbol.PROP, ((PropertyByName) prop).id, np.value);
-        } else if (prop instanceof PropertyByExpression) {
-            symb = Symbol.make(Symbol.PROP, ((PropertyByExpression) prop).value.toString(), np.value);
-        } else//propertyByString
-        {
-            symb = Symbol.make(Symbol.PROP, "\"" + ((PropertyByString) prop).value + "\"", np.value);
-        }
-
-        return listify(symb);
-    }
-
-    public static List<Symbolable> visit(ComputedProperty np,Object ...args) {
-        Symbolable symb = Symbol.make(Symbol.PROP, np.key.toString(), np.value);
-        return listify(symb);
-    }
-
-    public static List<Symbolable> visit(FunctionProperty functionProperty,Object ...args) {
-        List<Symbolable> symbolables = new ArrayList<>();
-        //add parameters
-        for (Assignable name : functionProperty.parameters.keySet()) {
-            Expression value = functionProperty.parameters.get(name);
-            symbolables.add(Symbol.make(Symbol.PARAM, name.toString(), value));
-        }
-        //spread parameter
-        symbolables.add(Symbol.make("Spread Param", "", functionProperty.spreadParameter));
-        //visit the body
-        for (Statement s : functionProperty.bodyStatements) {
-            symbolables.addAll(visit(s));
-        }
-        return listify(new Scope("Function", "", symbolables));
-    }
-
-    public static List<Symbolable> visit(EllipsisProperty ellipsisProperty,Object ...args) {
-        if (ellipsisProperty.value instanceof ObjectLiteral) {
-            return visit((ObjectLiteral) ellipsisProperty.value);
-        } else if (ellipsisProperty.value instanceof IdentifierExpression) {
-            Symbolable symbolable = Symbol.make("EllipsisProperty", ((IdentifierExpression) ellipsisProperty.value).name, "Calculated in runtime");
-            return listify(symbolable);
-        } else {
-//            System.out.println("In EllipsisProperty visit, found unknown type");
-            return new ArrayList<>();
-        }
-    }
-
-    public static List<Symbolable> visit(ClassMethodDefinition classMethodDefinition,Object ...args) {
-        List<Symbolable> symbolables = new ArrayList<>();
-        for (Pair<Assignable, Expression> parameter : classMethodDefinition.parameters.values) {
-            symbolables.add(Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : null));
-        }
-        for (Statement statement : classMethodDefinition.body) {
-            symbolables.addAll(visit(statement));
-        }
-        Scope methodScope = new Scope(Scope.MTHD, classMethodDefinition.propertyName.toString(), symbolables);
-        return listify(methodScope);
-    }
-
-    public static List<Symbolable> visit(ForLoop loop,Object ...args) {
-        List<Symbolable> symbolables = new ArrayList<>();
-        HashMap<String, Pair<String, String>> myMap = initializeHashMap();
-
-        List<Symbolable> childSymbolables = visit(loop.firstPart, cloneHashMap(getMapFromArgs(args)));
-        addNewSymbolsToMap(myMap, childSymbolables);
-        symbolables.addAll(childSymbolables);
-        symbolables.addAll(visit(loop.statement, cloneHashMap(myMap), cloneHashMap(getMapFromArgs(args))));
-        return listify(new Scope("ForLoop", "", symbolables));
-    }
-
-    public static List<Symbolable> visit(ForInLoop forInLoop,Object ...args) {
-        List<Symbolable> symbolables = new ArrayList<>();
-        symbolables.addAll(visit(forInLoop.firstPart));
-        symbolables.addAll(visit(forInLoop.statement));
-        return listify(new Scope("ForInLoop", "", symbolables));
-    }
-
-    public static List<Symbolable> visit(ForOfLoop forInLoop,Object ...args) {
-        List<Symbolable> symbolables = new ArrayList<>();
-        symbolables.addAll(visit(forInLoop.firstPart));
-        symbolables.addAll(visit(forInLoop.statement));
-        return listify(new Scope("ForOfLoop", "", symbolables));
-    }
-
-    public static List<Symbolable> visit(WhileLoop forInLoop,Object ...args) {
-        List<Symbolable> symbolables = new ArrayList<>();
-        symbolables.addAll(visit(forInLoop.statement));
-        return listify(new Scope("WhileLoop", "", symbolables));
-    }
-
-    public static List<Symbolable> visit(DoWhileLoop forInLoop,Object ...args) {
-        List<Symbolable> symbolables = new ArrayList<>();
-        symbolables.addAll(visit(forInLoop.statement));
-        return listify(new Scope("DoWhileLoop", "", symbolables));
     }
 
     public static List<Symbolable> visit(FunctionDeclaration functionDeclaration,Object ...args) {
@@ -636,22 +455,187 @@ public class SymbolTableVisitor {
         //checking the right expression for errors
         visit(e.rightExpression, fatherMap, grandMap, getIsInComponentFromArgs(args));
 
-        //checking for incorrect hooks uses
-        if (e.rightExpression instanceof UseStateFunction us && !getIsInComponentFromArgs(args))
-        {
-            Error.hookError(us.context, "UseState");
-        }
-        else if (e.rightExpression instanceof UseEffectFunction uf && !getIsInComponentFromArgs(args))
-        {
-            Error.hookError(uf.context, "UseEffect");
-        }
-        else if (e.rightExpression instanceof UseRefFunction ur && !getIsInComponentFromArgs(args))
-        {
-            Error.hookError(ur.context, "UseRef");
-        }
-
         return new ArrayList<>();
     }
+
+    public static List<Symbolable> visit(TryStatement ts,Object ...args) {
+        List<Symbolable> symbArray = new ArrayList<>();
+        Scope block = (Scope) visit(ts.block).get(0);
+        block.type = "tryBlock";
+        symbArray.add(block);
+        Scope catchBlock;
+        if (ts.catchProduction != null) {
+            catchBlock = (Scope) visit(ts.catchProduction).get(0);
+            symbArray.add(catchBlock);
+        }
+        Scope finBlock;
+        if (ts.finallyProduction != null) {
+            finBlock = (Scope) visit(ts.finallyProduction).get(0);
+            symbArray.add(finBlock);
+        }
+        return symbArray;
+    }
+
+    public static List<Symbolable> visit(CatchProduction cp,Object ...args) {
+
+        Scope block = (Scope) visit(cp.block).get(0);
+        block.type = "catchBlock";
+        block.symbolables.add(cp.exception);
+        return listify(block);
+    }
+
+    public static List<Symbolable> visit(FinallyProduction fp,Object ...args) {
+
+        Scope block = (Scope) visit(fp.block).get(0);
+        block.type = "finallyBlock";
+        return listify(block);
+    }
+
+    public static List<Symbolable> visit(ClassDeclaration classDeclaration,Object ...args) {
+        ArrayList<Symbolable> symbArray = new ArrayList();
+        Scope classBlock;
+        for (ClassElement element : classDeclaration.elements) {
+            symbArray.addAll(visit(element));
+        }
+        classBlock = new Scope("class", classDeclaration.id, symbArray);
+        return listify(classBlock);
+    }
+
+    public static List<Symbolable> visit(ClassElement classElement,Object ...args) {
+        if (classElement instanceof ClassFieldDefinition) {
+            return visit((ClassFieldDefinition) classElement);
+        } else if (classElement instanceof ClassMethodDefinition) {
+            return visit((ClassMethodDefinition) classElement);
+        } else {
+//            System.out.println("found null in symbol table visitor , ClassElement");
+            return new ArrayList<>();
+        }
+    }
+
+    public static List<Symbolable> visit(ClassFieldDefinition classFieldDefinition,Object ...args) {
+        Symbolable field = Symbol.make(Symbol.ATRIB, classFieldDefinition.propertyName.toString(), classFieldDefinition.propertyValue != null ? classFieldDefinition.propertyValue : null);
+        return listify(field);
+    }
+
+    public static List<Symbolable> visit(ObjectLiteral ol,Object ...args) {
+        List<Symbolable> symbArray = new ArrayList<>();
+        for (Property p : ol.objectProperties) {
+            symbArray.addAll(visit(p));
+        }
+        return symbArray;
+    }
+
+    public static List<Symbolable> visit(Property p,Object ...args) {
+
+        if (p instanceof NormalProperty) return visit((NormalProperty) p);
+
+        if (p instanceof ComputedProperty) return visit((ComputedProperty) p);
+
+        if (p instanceof FunctionProperty) return visit((FunctionProperty) p);
+
+        return visit((EllipsisProperty) p);
+    }
+
+    public static List<Symbolable> visit(NormalProperty np,Object ...args) {
+        Symbolable symb;
+        PropertyName prop = np.key;
+        if (prop instanceof PropertyByName) {
+            symb = Symbol.make(Symbol.PROP, ((PropertyByName) prop).id, np.value);
+        } else if (prop instanceof PropertyByExpression) {
+            symb = Symbol.make(Symbol.PROP, ((PropertyByExpression) prop).value.toString(), np.value);
+        } else//propertyByString
+        {
+            symb = Symbol.make(Symbol.PROP, "\"" + ((PropertyByString) prop).value + "\"", np.value);
+        }
+
+        return listify(symb);
+    }
+
+    public static List<Symbolable> visit(ComputedProperty np,Object ...args) {
+        Symbolable symb = Symbol.make(Symbol.PROP, np.key.toString(), np.value);
+        return listify(symb);
+    }
+
+    public static List<Symbolable> visit(FunctionProperty functionProperty,Object ...args) {
+        List<Symbolable> symbolables = new ArrayList<>();
+        //add parameters
+        for (Assignable name : functionProperty.parameters.keySet()) {
+            Expression value = functionProperty.parameters.get(name);
+            symbolables.add(Symbol.make(Symbol.PARAM, name.toString(), value));
+        }
+        //spread parameter
+        symbolables.add(Symbol.make("Spread Param", "", functionProperty.spreadParameter));
+        //visit the body
+        for (Statement s : functionProperty.bodyStatements) {
+            symbolables.addAll(visit(s));
+        }
+        return listify(new Scope("Function", "", symbolables));
+    }
+
+    public static List<Symbolable> visit(EllipsisProperty ellipsisProperty,Object ...args) {
+        if (ellipsisProperty.value instanceof ObjectLiteral) {
+            return visit((ObjectLiteral) ellipsisProperty.value);
+        } else if (ellipsisProperty.value instanceof IdentifierExpression) {
+            Symbolable symbolable = Symbol.make("EllipsisProperty", ((IdentifierExpression) ellipsisProperty.value).name, "Calculated in runtime");
+            return listify(symbolable);
+        } else {
+//            System.out.println("In EllipsisProperty visit, found unknown type");
+            return new ArrayList<>();
+        }
+    }
+
+    public static List<Symbolable> visit(ClassMethodDefinition classMethodDefinition,Object ...args) {
+        List<Symbolable> symbolables = new ArrayList<>();
+        for (Pair<Assignable, Expression> parameter : classMethodDefinition.parameters.values) {
+            symbolables.add(Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : null));
+        }
+        for (Statement statement : classMethodDefinition.body) {
+            symbolables.addAll(visit(statement));
+        }
+        Scope methodScope = new Scope(Scope.MTHD, classMethodDefinition.propertyName.toString(), symbolables);
+        return listify(methodScope);
+    }
+
+    public static List<Symbolable> visit(ForLoop loop,Object ...args) {
+        List<Symbolable> symbolables = new ArrayList<>();
+        HashMap<String, Pair<String, String>> myMap = initializeHashMap();
+
+        List<Symbolable> childSymbolables = visit(loop.firstPart, cloneHashMap(getMapFromArgs(args)));
+        addNewSymbolsToMap(myMap, childSymbolables);
+        symbolables.addAll(childSymbolables);
+        symbolables.addAll(visit(loop.statement, cloneHashMap(myMap), cloneHashMap(getMapFromArgs(args))));
+        return listify(new Scope("ForLoop", "", symbolables));
+    }
+
+    public static List<Symbolable> visit(ForInLoop forInLoop,Object ...args) {
+        List<Symbolable> symbolables = new ArrayList<>();
+        symbolables.addAll(visit(forInLoop.firstPart));
+        symbolables.addAll(visit(forInLoop.statement));
+        return listify(new Scope("ForInLoop", "", symbolables));
+    }
+
+    public static List<Symbolable> visit(ForOfLoop forInLoop,Object ...args) {
+        List<Symbolable> symbolables = new ArrayList<>();
+        symbolables.addAll(visit(forInLoop.firstPart));
+        symbolables.addAll(visit(forInLoop.statement));
+        return listify(new Scope("ForOfLoop", "", symbolables));
+    }
+
+    public static List<Symbolable> visit(WhileLoop forInLoop,Object ...args) {
+        List<Symbolable> symbolables = new ArrayList<>();
+        symbolables.addAll(visit(forInLoop.statement));
+        return listify(new Scope("WhileLoop", "", symbolables));
+    }
+
+    public static List<Symbolable> visit(DoWhileLoop forInLoop,Object ...args) {
+        List<Symbolable> symbolables = new ArrayList<>();
+        symbolables.addAll(visit(forInLoop.statement));
+        return listify(new Scope("DoWhileLoop", "", symbolables));
+    }
+
+
+
+
 
     private static HashMap<String,Pair<String,String>> initializeHashMap(){
         return new HashMap<>();
@@ -692,7 +676,6 @@ public class SymbolTableVisitor {
     private static boolean isComponent(Function function, Object ...args){
         if (function instanceof FunctionDeclaration)
             return isComponent(((FunctionDeclaration) function).Identifier);
-//        else if (function instanceof ArrowFunction)
         else
             return getIsInComponentFromArgs(args);
     }
@@ -703,5 +686,11 @@ public class SymbolTableVisitor {
 
     private static boolean isaHook(Expression hook){
         return hook instanceof UseStateFunction || hook instanceof UseEffectFunction || hook instanceof UseRefFunction;
+    }
+
+    public static List<Symbolable> listify(Symbolable s,Object ...args) {
+        ArrayList symbArray = new ArrayList<>();
+        symbArray.add(s);
+        return symbArray;
     }
 }

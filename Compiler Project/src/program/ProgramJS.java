@@ -3,7 +3,6 @@ package program;
 import antlrJS.JSLexer;
 import antlrJS.JSParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import js.statements.Function.FunctionDeclaration;
 import js.visitors.AntlrToProgram;
 import js.visitors.models.JsProgram;
 import org.antlr.v4.runtime.CharStream;
@@ -26,17 +25,13 @@ public class ProgramJS {
     public static List<String> errors = new ArrayList<>();
 
     public static void main(String[] args) throws IOException, IllegalAccessException {
-        if (args.length != 1) {
+        if (args.length == 0) {
             System.err.println("Please Select A File.");
-        } else {
+        } else if (args.length == 1) {
             JSParser parser = getParser(args[0]);
             ParseTree antlrAST = parser.program();
             AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
             JsProgram doc = progVisitor.visit(antlrAST);
-//            doc.statements.set(0, CodeGeneration.FunctionToClass((FunctionDeclaration) doc.statements.get(0)));
-            // IMPORTANT
-            // Don't Delete This Line, Comment It Instead
-//            System.out.println("class Component {\n" + "    constructor(props) {\n" + "        this.props = props || {};\n" + "        this.state = {};\n" + "\n" + "        this.componentWillMount();\n" + "    }\n" + "\n" + "    setState(newState) {\n" + "        this.state = { ...this.state, ...newState };\n" + "        this.updateComponent();\n" + "    }\n" + "\n" + "    updateComponent() {\n" + "        const nextProps = this.props;\n" + "        const nextState = this.state;\n" + "\n" + "        this.componentWillUpdate(nextProps, nextState);\n" + "        this.render();\n" + "        this.componentDidUpdate(this.props, this.state);\n" + "    }\n" + "\n" + "    componentWillMount() {}\n" + "    componentDidMount() {}\n" + "    componentWillUpdate(nextProps, nextState) {}\n" + "    componentDidUpdate(prevProps, prevState) {}\n" + "    componentWillUnmount() {}\n" + "\n" + "    render() {\n" + "        throw new Error('Component.render must be implemented');\n" + "    }\n" + "\n" + "    mount() {\n" + "        this.componentWillMount();\n" + "        this.render();\n" + "        this.componentDidMount();\n" + "    }\n" + "\n" + "    unmount() {\n" + "        this.componentWillUnmount();\n" + "    }\n" + "}\n" + doc);
             saveAstInFile(doc);
             saveSymbolTableInFile(doc);
             VsCode.openAstTree();
@@ -47,12 +42,45 @@ public class ProgramJS {
                     System.err.println(s);
                 }
             }
-            System.out.println("class Component {\n" + "    constructor(props) {\n" + "        this.props = props || {};\n" + "        this.state = {};\n" + "\n" + "        this.componentWillMount();\n" + "    }\n" + "\n" + "    setState(newState) {\n" + "        this.state = { ...this.state, ...newState };\n" + "        this.updateComponent();\n" + "    }\n" + "\n" + "    updateComponent() {\n" + "        const nextProps = this.props;\n" + "        const nextState = this.state;\n" + "\n" + "        this.componentWillUpdate(nextProps, nextState);\n" + "        this.render();\n" + "        this.componentDidUpdate(this.props, this.state);\n" + "    }\n" + "\n" + "    componentWillMount() {}\n" + "    componentDidMount() {}\n" + "    componentWillUpdate(nextProps, nextState) {}\n" + "    componentDidUpdate(prevProps, prevState) {}\n" + "    componentWillUnmount() {}\n" + "\n" + "    render() {\n" + "        throw new Error('Component.render must be implemented');\n" + "    }\n" + "\n" + "    mount() {\n" + "        this.componentWillMount();\n" + "        this.render();\n" + "        this.componentDidMount();\n" + "    }\n" + "\n" + "    unmount() {\n" + "        this.componentWillUnmount();\n" + "    }\n" + "}\n" + doc);
+        } else if (args.length == 2) {
+            JSParser parser = getParser(args[0]);
+            String outputDir = args[1];
+            ParseTree antlrAST = parser.program();
+            AntlrToProgram progVisitor = new AntlrToProgram(args[0]);
+            JsProgram doc = progVisitor.visit(antlrAST);
+            if (!errors.isEmpty()) {
+                System.err.println("Found " + errors.size() + " errors:");
+                for (String s : errors) {
+                    System.err.println(s);
+                }
+            } else {
+                saveAstInFile(doc, outputDir);
+                saveSymbolTableInFile(doc, outputDir);
+                saveGeneratedCodeInFile("function createRoot(root) {\n" + "  document.getElementById(\"root\").innerHTML = root;\n" + "}\nfunction createElement(type, props = {}, ...children) {\n" + "    const element = document.createElement(type);\n" + "\n" + "    for (let [key, value] of Object.entries(props)) {\n" + "        if (key === \"style\" && typeof value === \"object\") {\n" + "            Object.assign(element.style, value);\n" + "        } else if (key.startsWith(\"on\") && typeof value === \"function\") {\n" + "            const event = key.slice(2).toLowerCase();\n" + "            element.addEventListener(event, value);\n" + "        } else {\n" + "            element.setAttribute(key, value);\n" + "        }\n" + "    }\n" + "\n" + "    children.forEach(child => {\n" + "        if (typeof child === \"string\" || typeof child === \"number\") {\n" + "            element.appendChild(document.createTextNode(child));\n" + "        } else if (child instanceof Node) {\n" + "            element.appendChild(child);\n" + "        }\n" + "    });\n" + "\n" + "    return element;\n" + "}\nclass Component {\n" + "    constructor(props) {\n" + "        this.props = props || {};\n" + "        this.state = {};\n" + "\n" + "        this.componentWillMount();\n" + "    }\n" + "\n" + "    setState(newState) {\n" + "        this.state = { ...this.state, ...newState };\n" + "        this.updateComponent();\n" + "    }\n" + "\n" + "    updateComponent() {\n" + "        const nextProps = this.props;\n" + "        const nextState = this.state;\n" + "\n" + "        this.componentWillUpdate(nextProps, nextState);\n" + "        this.render();\n" + "        this.componentDidUpdate(this.props, this.state);\n" + "    }\n" + "\n" + "    componentWillMount() {}\n" + "    componentDidMount() {}\n" + "    componentWillUpdate(nextProps, nextState) {}\n" + "    componentDidUpdate(prevProps, prevState) {}\n" + "    componentWillUnmount() {}\n" + "\n" + "    render() {\n" + "        throw new Error('Component.render must be implemented');\n" + "    }\n" + "\n" + "    mount() {\n" + "        this.componentWillMount();\n" + "        this.render();\n" + "        this.componentDidMount();\n" + "    }\n" + "\n" + "    unmount() {\n" + "        this.componentWillUnmount();\n" + "    }\n" + "}\n" + doc, outputDir);
+            }
         }
     }
 
     private static void saveAstInFile(JsProgram doc) throws IOException, IllegalAccessException {
         File file = new File(AST_FILE_NAME);
+        FileWriter fw = new FileWriter(file);
+
+        String json = "{" + print(doc) + "}";
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Object jsonObject = objectMapper.readValue(json, Object.class);
+        json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject);
+
+//        System.out.println("AST :");
+//        System.out.println(json);
+//        System.out.println();
+
+        fw.write(json);
+        fw.close();
+    }
+
+    private static void saveAstInFile(JsProgram doc, String outputDir) throws IOException, IllegalAccessException {
+        File file = new File(outputDir + "\\" + AST_FILE_NAME);
         FileWriter fw = new FileWriter(file);
 
         String json = "{" + print(doc) + "}";
@@ -85,6 +113,30 @@ public class ProgramJS {
 
         fw.write(json);
         fw.close();
+    }
+
+    private static void saveSymbolTableInFile(JsProgram doc, String outputDir) throws IOException, IllegalAccessException {
+        File file = new File(outputDir + "\\" + SYMB_FILE_NAME);
+        FileWriter fw = new FileWriter(file);
+
+        String json = "{" + print(SymbolTableVisitor.visit(doc)) + "}";
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Object jsonObject = objectMapper.readValue(json.replace("\n", "\\n"), Object.class);
+        json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonObject);
+
+//        System.out.println("Symbol Table :");
+//        System.out.println(json);
+//        System.out.println();
+
+        fw.write(json);
+        fw.close();
+    }
+
+    private static void saveGeneratedCodeInFile(String code, String outputDir) throws IOException {
+        FileWriter fileWriter = new FileWriter(outputDir + "\\index.js");
+        fileWriter.write(code);
+        fileWriter.close();
     }
 
     private static JSParser getParser(String filename) {

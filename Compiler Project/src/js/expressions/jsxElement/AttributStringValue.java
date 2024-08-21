@@ -1,11 +1,11 @@
 package js.expressions.jsxElement;
 
-import js.visitors.models.JSXContent;
+import js.visitors.models.AttributeValue;
 
-public class    JSXText implements JSXContent {
+public class AttributStringValue implements AttributeValue {
     public String value;
 
-    public JSXText(String value) {
+    public AttributStringValue(String value) {
         this.value = value;
     }
 

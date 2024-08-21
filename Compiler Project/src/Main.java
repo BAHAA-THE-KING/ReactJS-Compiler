@@ -1,5 +1,7 @@
+import program.ProgramHTML;
 import program.ProgramJS;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -20,7 +22,14 @@ public class Main {
             System.err.println("Missing Index.html");
             return;
         }
-        String[] s = {indexJS.getPath()};
-        ProgramJS.main(s);
+        File output = new File(root.getPath() + "\\result");
+        if (output.exists()) output.delete();
+        output.mkdir();
+        String[] jsPaths = {indexJS.getPath(), output.getPath()};
+        ProgramJS.main(jsPaths);
+        String[] htmlPaths = {indexHTML.getPath(), output.getPath()};
+        ProgramHTML.main(htmlPaths);
+        Desktop desktop = Desktop.getDesktop();
+        desktop.browse(indexHTML.toURI());
     }
 }

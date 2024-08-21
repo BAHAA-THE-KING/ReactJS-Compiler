@@ -177,6 +177,7 @@ public class SymbolTableVisitor {
 
                     syms.addAll(childSymbolables);
                 }
+                continue;
             }
 
             else {
@@ -206,14 +207,14 @@ public class SymbolTableVisitor {
 
                         syms.addAll(childSymbolables);
                     }
-
                 }
+
                     //identifierExpression
-                else if (var.name instanceof IdentifierExpression){
+                else if (var.name instanceof IdentifierExpression id){
                     if(fatherMap.containsKey(var.name.toString())) {
                         //already exists
                         Error.variableAlreadyDefined(
-                                model.context,
+                                id.context,
                                 var.name.toString()
                         );
                         continue;
@@ -222,32 +223,19 @@ public class SymbolTableVisitor {
                     //naming is good, lets check the value
                     String definitionType = var.modifier.equals("const")?Symbol.CONST:Symbol.VAR;
 
-                    if (var.value instanceof ArrowFunction af && var.name instanceof IdentifierExpression id){
-                        visit(af,cloneHashMap(fatherMap), cloneHashMap(grandMap), getGrandMapFromArgs(args), isComponent(id.name));
+                    if (var.value instanceof ArrowFunction af ){
+                        visit(af,cloneHashMap(fatherMap), cloneHashMap(grandMap), isComponent(id.name));
                     }
-                    else if (var.value instanceof IdentifierExpression identifierExpression) {
-                        visit(var.value,cloneHashMap(fatherMap), cloneHashMap(grandMap), getGrandMapFromArgs(args));
+                    else{
+                        visit(var.value,cloneHashMap(fatherMap), cloneHashMap(grandMap), getIsInComponentFromArgs(args));
                     }
 
                     syms.add(Symbol.make(definitionType, var.name.toString(), var.value));
                     fatherMap.put(var.name.toString(),new Pair<>(definitionType,var.value==null?"":var.value.toString()));
                 }
 
-                //checking for incorrect hooks uses
-                if (var.value instanceof UseStateFunction us && !getIsInComponentFromArgs(args))
-                {
-                    Error.hookError(us.context, "UseState");
-                }
-                else if (var.value instanceof UseEffectFunction uf && !getIsInComponentFromArgs(args))
-                {
-                    Error.hookError(uf.context, "UseEffect");
-                }
-                else if (var.value instanceof UseRefFunction ur && !getIsInComponentFromArgs(args))
-                {
-                    Error.hookError(ur.context, "UseRef");
-                }
-
             }
+
         }
         return syms;
     }
@@ -475,7 +463,6 @@ public class SymbolTableVisitor {
         if (spreadParameter != null) {
             Symbol paramSymbol = (Symbol) Symbol.make(Symbol.PARAM, "spreadParameter", spreadParameter);
             symbolables.add(paramSymbol);
-            symbolables.add(paramSymbol);
         }
 
         //adding symbols of the function body to symbol table
@@ -494,8 +481,13 @@ public class SymbolTableVisitor {
 
     public static List<Symbolable> visit(AnonymousFunction functionDeclaration,Object ...args) {
         List<Symbolable> symbolables = new ArrayList<>();
+        HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
+        HashMap<String,Pair<String,String>> myMap = initializeHashMap();
+
         for (Pair<Assignable, Expression> parameter : functionDeclaration.parameters.values) {
-            symbolables.add(Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : null));
+            Symbol paramSymbol = (Symbol) Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : "ToBeDetermined");
+            symbolables.add(paramSymbol);
+            myMap.put(paramSymbol.name, new Pair<>(paramSymbol.type, "ToBeDetermined"));
         }
         Expression spreadParameter = functionDeclaration.parameters.spreadParameter;
         if (spreadParameter != null) {
@@ -503,7 +495,11 @@ public class SymbolTableVisitor {
         }
 
         for (Statement statement : functionDeclaration.body) {
-            symbolables.addAll(visit(statement));
+            List<Symbolable> childSymbolables = visit(statement, cloneHashMap(myMap), cloneHashMap(fatherMap), getIsInComponentFromArgs(args));
+
+            addNewSymbolsToMap(myMap, childSymbolables);
+
+            symbolables.addAll(childSymbolables);
         }
         Scope funcScope = new Scope(Scope.MTHD, "", symbolables);
 
@@ -513,16 +509,26 @@ public class SymbolTableVisitor {
 
     public static List<Symbolable> visit(ArrowFunction functionDeclaration,Object ...args) {
         List<Symbolable> symbolables = new ArrayList<>();
+        HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
+        HashMap<String,Pair<String,String>> myMap = initializeHashMap();
+
         for (Pair<Assignable, Expression> parameter : functionDeclaration.parameters.values) {
-            symbolables.add(Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : null));
+            Symbol paramSymbol = (Symbol) Symbol.make(Symbol.PARAM, parameter.a.toString(), parameter.b != null ? parameter.b : "ToBeDetermined");
+            symbolables.add(paramSymbol);
+            myMap.put(paramSymbol.name, new Pair<>(paramSymbol.type, "ToBeDetermined"));
         }
+
         Expression spreadParameter = functionDeclaration.parameters.spreadParameter;
         if (spreadParameter != null) {
             symbolables.add(Symbol.make(Symbol.PARAM, "spreadParameter", spreadParameter));
         }
 
         for (Statement statement : functionDeclaration.body) {
-            symbolables.addAll(visit(statement, initializeHashMap(), initializeHashMap(), args[3]));
+            List<Symbolable> childSymbolables = visit(statement, cloneHashMap(myMap), cloneHashMap(fatherMap), getIsInComponentFromArgs(args));
+
+            addNewSymbolsToMap(myMap, childSymbolables);
+
+            symbolables.addAll(childSymbolables);
         }
         Scope funcScope = new Scope(Scope.MTHD, "", symbolables);
 
@@ -548,38 +554,56 @@ public class SymbolTableVisitor {
     public static List<Symbolable> visit(ExpressionSequence e, Object ...args) {
         for (Expression exp : e.list) {
             if (exp instanceof AssignmentExpression ae) {
-                visit(ae,getMapFromArgs(args), getGrandMapFromArgs(args), getIsInComponentFromArgs(args));
+                visit(ae,cloneHashMap(getMapFromArgs(args)), cloneHashMap(getGrandMapFromArgs(args)), getIsInComponentFromArgs(args));
             }
             if (exp instanceof RelationalExpression re){
-                visit(re.leftExpression , getMapFromArgs(args), getGrandMapFromArgs(args), getIsInComponentFromArgs(args));
-                visit(re.rightExpression , getMapFromArgs(args), getGrandMapFromArgs(args), getIsInComponentFromArgs(args));
+                visit(re.leftExpression ,cloneHashMap(getMapFromArgs(args)), cloneHashMap(getGrandMapFromArgs(args)), getIsInComponentFromArgs(args));
+                visit(re.rightExpression ,cloneHashMap(getMapFromArgs(args)), cloneHashMap(getGrandMapFromArgs(args)), getIsInComponentFromArgs(args));
             }
-//            if (exp instanceof AssignmentOperatorExpression aoe){
-//
-//            }
+            if (exp instanceof UseStateFunction us){
+                visit(us,cloneHashMap(getMapFromArgs(args)), cloneHashMap(getGrandMapFromArgs(args)), getIsInComponentFromArgs(args));
+            }
+            if (exp instanceof UseEffectFunction ue){
+                visit(ue,cloneHashMap(getMapFromArgs(args)), cloneHashMap(getGrandMapFromArgs(args)), getIsInComponentFromArgs(args));
+            }
+            if (exp instanceof UseRefFunction ur){
+                visit(ur,cloneHashMap(getMapFromArgs(args)), cloneHashMap(getGrandMapFromArgs(args)), getIsInComponentFromArgs(args));
+            }
         }
         return new ArrayList<>();
     }
 
     public static List<Symbolable> visit(Expression e,Object ...args) {
-        HashMap<String,Pair<String,String>> fatherMap = getMapFromArgs(args);
-        HashMap<String,Pair<String,String>> grandMap = getGrandMapFromArgs(args);
+        HashMap<String,Pair<String,String>> fatherMap = cloneHashMap(getMapFromArgs(args));
+        HashMap<String,Pair<String,String>> grandMap = cloneHashMap(getGrandMapFromArgs(args));
 
         if(e instanceof VariableDeclarationStatement vds){
-            return visit(vds,fatherMap, grandMap);
+            return visit(vds,fatherMap, grandMap, getIsInComponentFromArgs(args));
         }
         if(e instanceof IdentifierExpression ie){
-            return visit(ie,fatherMap, grandMap);
+            return visit(ie,fatherMap, grandMap, getIsInComponentFromArgs(args));
         }
         if (e instanceof ArrowFunction af){
-            return visit(af, fatherMap, grandMap);
+            return visit(af, fatherMap, grandMap, getIsInComponentFromArgs(args));
         }
         if (e instanceof AnonymousFunction af){
-            return visit(af, fatherMap, grandMap);
+            return visit(af, fatherMap, grandMap, getIsInComponentFromArgs(args));
         }
         if (e instanceof MathmaticalExpression me){
-            visit(me.firstExpression, fatherMap, grandMap);
-            return visit(me.secondExpression, fatherMap, grandMap);
+            visit(me.firstExpression, fatherMap, grandMap, getIsInComponentFromArgs(args));
+            return visit(me.secondExpression, fatherMap, grandMap, getIsInComponentFromArgs(args));
+        }
+        if (e instanceof UseStateFunction us){
+            if (!getIsInComponentFromArgs(args))
+                Error.hookError(us.context, us.toString());
+        }
+        if (e instanceof UseEffectFunction ue){
+            if (!getIsInComponentFromArgs(args))
+                Error.hookError(ue.context, ue.toString());
+        }
+        if (e instanceof UseRefFunction ur){
+            if (!getIsInComponentFromArgs(args))
+                Error.hookError(ur.context, ur.toString());
         }
         return new ArrayList<>();
     }
@@ -664,12 +688,13 @@ public class SymbolTableVisitor {
     private static boolean getIsInComponentFromArgs(Object[] args){
         return args.length >= 3 && (boolean) args[2];
     }
+
     private static boolean isComponent(Function function, Object ...args){
         if (function instanceof FunctionDeclaration)
             return isComponent(((FunctionDeclaration) function).Identifier);
 //        else if (function instanceof ArrowFunction)
         else
-            return (boolean) args[0];
+            return getIsInComponentFromArgs(args);
     }
 
     private static boolean isComponent(String name){

@@ -9,6 +9,7 @@ import program.SymbolTableVisitor;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class Symbol implements Symbolable {
@@ -79,7 +80,7 @@ public class Symbol implements Symbolable {
             return new Scope(
                     "AnonymousFunction",
                     name,
-                    SymbolTableVisitor.visit(function)
+                    SymbolTableVisitor.visit(function, new HashMap<>(), new HashMap<>(), true)
             );
         }
         if (value instanceof ObjectLiteral literal) {

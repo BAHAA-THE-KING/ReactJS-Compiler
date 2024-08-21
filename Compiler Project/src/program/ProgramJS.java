@@ -23,6 +23,7 @@ import java.util.StringJoiner;
 public class ProgramJS {
     public static final String AST_FILE_NAME = "ast.json", SYMB_FILE_NAME = "symbolTable.json";
     public static List<String> errors = new ArrayList<>();
+    public static List<String> InjectPaths = new ArrayList<>();
 
     public static void main(String[] args) throws IOException, IllegalAccessException {
         if (args.length == 0) {
@@ -56,7 +57,7 @@ public class ProgramJS {
             } else {
                 saveAstInFile(doc, outputDir);
                 saveSymbolTableInFile(doc, outputDir);
-                saveGeneratedCodeInFile("function createRoot(root) {\n" + "  document.getElementById(\"root\").innerHTML = root;\n" + "}\nfunction createElement(type, props = {}, ...children) {\n" + "    const element = document.createElement(type);\n" + "\n" + "    for (let [key, value] of Object.entries(props)) {\n" + "        if (key === \"style\" && typeof value === \"object\") {\n" + "            Object.assign(element.style, value);\n" + "        } else if (key.startsWith(\"on\") && typeof value === \"function\") {\n" + "            const event = key.slice(2).toLowerCase();\n" + "            element.addEventListener(event, value);\n" + "        } else {\n" + "            element.setAttribute(key, value);\n" + "        }\n" + "    }\n" + "\n" + "    children.forEach(child => {\n" + "        if (typeof child === \"string\" || typeof child === \"number\") {\n" + "            element.appendChild(document.createTextNode(child));\n" + "        } else if (child instanceof Node) {\n" + "            element.appendChild(child);\n" + "        }\n" + "    });\n" + "\n" + "    return element;\n" + "}\nclass Component {\n" + "    constructor(props) {\n" + "        this.props = props || {};\n" + "        this.state = {};\n" + "\n" + "        this.componentWillMount();\n" + "    }\n" + "\n" + "    setState(newState) {\n" + "        this.state = { ...this.state, ...newState };\n" + "        this.updateComponent();\n" + "    }\n" + "\n" + "    updateComponent() {\n" + "        const nextProps = this.props;\n" + "        const nextState = this.state;\n" + "\n" + "        this.componentWillUpdate(nextProps, nextState);\n" + "        this.render();\n" + "        this.componentDidUpdate(this.props, this.state);\n" + "    }\n" + "\n" + "    componentWillMount() {}\n" + "    componentDidMount() {}\n" + "    componentWillUpdate(nextProps, nextState) {}\n" + "    componentDidUpdate(prevProps, prevState) {}\n" + "    componentWillUnmount() {}\n" + "\n" + "    render() {\n" + "        throw new Error('Component.render must be implemented');\n" + "    }\n" + "\n" + "    mount() {\n" + "        this.componentWillMount();\n" + "        this.render();\n" + "        this.componentDidMount();\n" + "    }\n" + "\n" + "    unmount() {\n" + "        this.componentWillUnmount();\n" + "    }\n" + "}\n" + doc, outputDir);
+                saveGeneratedCodeInFile("function createRoot(root) {\n" + "  document.getElementById(\"root\").append(root);\n" + "}\n" + "function createElement(type, props = {}, children) {\n" + "  const element = document.createElement(type);\n" + "\n" + "  for (let [key, value] of Object.entries(props)) {\n" + "    if (key === \"style\" && typeof value === \"object\") {\n" + "      Object.assign(element.style, value);\n" + "    } else if (key.startsWith(\"on\") && typeof value === \"function\") {\n" + "      const event = key.slice(2).toLowerCase();\n" + "      element.addEventListener(event, value);\n" + "    } else {\n" + "      element.setAttribute(key, value);\n" + "    }\n" + "  }\n" + "\n" + "  function parseChilds(children) {\n" + "    children.forEach((child) => {\n" + "      if (typeof child === \"string\" || typeof child === \"number\") {\n" + "        element.appendChild(document.createTextNode(child));\n" + "      } else if (child instanceof Node) {\n" + "        element.appendChild(child);\n" + "      } else if (Array.isArray(child)) {\n" + "        parseChilds(child);\n" + "      }\n" + "    });\n" + "  }\n" + "  parseChilds(children);\n" + "\n" + "  return element;\n" + "}class Component {\n" + "  constructor(props) {\n" + "    this.props = props || {};\n" + "    this.state = {};\n" + "    this._rootElement = null;\n" + "    this.componentWillMount();\n" + "  }\n" + "\n" + "  setState(newState) {\n" + "    this.state = { ...this.state, ...newState };\n" + "    this.updateComponent();\n" + "  }\n" + "\n" + "  updateComponent() {\n" + "    const newElement = this.render();\n" + "    if (this._rootElement && this._rootElement.parentNode) {\n" + "      this._rootElement.parentNode.replaceChild(newElement, this._rootElement);\n" + "    }\n" + "    this._rootElement = newElement;\n" + "    this.componentDidUpdate(this.props, this.state);\n" + "  }\n" + "\n" + "  componentWillMount() {}\n" + "  componentDidMount() {}\n" + "  componentWillUpdate(nextProps, nextState) {}\n" + "  componentDidUpdate(prevProps, prevState) {}\n" + "  componentWillUnmount() {}\n" + "\n" + "  render() {\n" + "    throw new Error(\"Component.render must be implemented\");\n" + "  }\n" + "\n" + "  mount() {\n" + "    this._rootElement = this.render();\n" + "    this.componentDidMount();\n" + "    return this._rootElement;\n" + "  }\n" + "\n" + "  unmount() {\n" + "    this.componentWillUnmount();\n" + "  }\n" + "}\n" + doc, outputDir);
             }
         }
     }
@@ -180,14 +181,14 @@ public class ProgramJS {
                     if (string.equals("")) continue;
                     value = "{" + string + "}";
                 }
-            } else if (value instanceof String) {
-                if (((String) value).startsWith("'") || ((String) value).startsWith("\"")) {
-                    value = ((String) value).substring(1);
+            } else if (value instanceof String st) {
+                if ((st.startsWith("\"") || st.startsWith("\'")) && ((st.endsWith("\"") || st.endsWith("\'")))) {
+                    value = st;
+                } else {
+                    value = "\"" + st + "\"";
+//            System.out.println(value);
                 }
-                if (((String) value).endsWith("'") || ((String) value).endsWith("\"")) {
-                    value = ((String) value).substring(0, ((String) value).length() - 1);
-                }
-                value = "\"" + value + "\"";
+                value = value;
             } else {
                 value = value.toString();
             }

@@ -3,6 +3,7 @@ package js.statements.ImportStatement;
 import js.statements.VariableDeclarationStatement.VariableDeclarationStatement;
 import org.antlr.v4.runtime.misc.Pair;
 import program.CodeGeneration;
+import program.ProgramJS;
 
 public class DefaultAsImportBlock extends ImportStatement {
     public String packageName;
@@ -17,6 +18,7 @@ public class DefaultAsImportBlock extends ImportStatement {
     public String toString() {
         VariableDeclarationStatement declaration = CodeGeneration.ImportToDecl(this);
         if (declaration != null) {
+            ProgramJS.InjectPaths.add(packageName);
             return declaration.toString();
         }
         return "import " + defaultImport.a + (defaultImport.b != null ? " as " + defaultImport.b : "") + " from " + packageName + "";
